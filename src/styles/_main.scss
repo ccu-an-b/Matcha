@@ -1,3 +1,33 @@
 @import 'variables.scss';
 @import 'header/header.scss';
 @import 'landing/landing.scss';
+@import 'form/form.scss';
+
+
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0px !important;
+    -webkit-appearance:none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    outline:none;
+}
+
+input {
+    border-top: none !important;
+    border-right: none !important;
+    border-left:none !important;
+    border-bottom: 1px solid #b2b2b2;
+
+}

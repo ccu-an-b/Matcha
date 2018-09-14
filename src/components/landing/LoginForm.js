@@ -8,7 +8,7 @@ import { required, isEmail } from 'components/shared/form/validators';
 const LoginForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors} = props
     return (
-        <form onSubmit={handleSubmit((submitCb))}>
+        <form className='form' onSubmit={handleSubmit((submitCb))}>
             <BwmResError errors={errors} />
             <Field
                 name="mail"

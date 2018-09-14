@@ -26,3 +26,44 @@
       flex-wrap: wrap;
       justify-content: center;
       border-bottom-color: #ff6b4a !important; }
+    .landing-body .landing-content .card-body {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; }
+
+.form {
+  width: 90%; }
+  .form .form-group .input-group .form-control {
+    font-family: Poppins-Regular;
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    background: transparent;
+    padding: 0 5px;
+    border-radius: 0 !important; }
+
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active {
+  outline: 0px !important;
+  -webkit-appearance: none !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none; }
+
+input {
+  border-top: none !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-bottom: 1px solid #b2b2b2; }

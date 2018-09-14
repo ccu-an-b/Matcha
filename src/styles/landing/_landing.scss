@@ -26,5 +26,10 @@
             justify-content: center;
             border-bottom-color: $main-dark-orange !important;
         }
+        .card-body{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 }

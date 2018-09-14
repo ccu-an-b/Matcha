@@ -9,7 +9,6 @@ export const BwmInput = ({
     meta: { touched, error, warning }
   }) => (
         <div className='form-group'>
-            <label>{label}</label>
             <div className='input-group'>
             {
                 symbol && 
@@ -18,6 +17,7 @@ export const BwmInput = ({
                 </div>
             }
                 <input {...input} placeholder={label} type={type} className={className} />
+                <span className='focus-input'></span>
             </div>
             {touched &&
                 ((error && <div className='alert alert-danger'>{error}</div>))}
