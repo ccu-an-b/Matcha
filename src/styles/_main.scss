@@ -20,8 +20,8 @@ label:focus,
     outline:0px !important;
     -webkit-appearance:none !important;
     -webkit-box-shadow: none;
-    box-shadow: none;
-    outline:none;
+    box-shadow: none !important;
+    outline:none !important;
 }
 
 input {

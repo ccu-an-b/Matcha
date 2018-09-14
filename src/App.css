@@ -43,6 +43,8 @@
     background: transparent;
     padding: 0 5px;
     border-radius: 0 !important; }
+    .form .form-group .input-group .form-control:focus {
+      border-bottom-color: #ffab4a; }
 
 textarea:hover,
 input:hover,
@@ -59,8 +61,8 @@ label:focus,
   outline: 0px !important;
   -webkit-appearance: none !important;
   -webkit-box-shadow: none;
-  box-shadow: none;
-  outline: none; }
+  box-shadow: none !important;
+  outline: none !important; }
 
 input {
   border-top: none !important;

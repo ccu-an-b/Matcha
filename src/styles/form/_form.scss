@@ -13,7 +13,9 @@
                 padding: 0 5px;
                 border-radius: 0 !important;
                 
-                
+                &:focus{
+                    border-bottom-color: $main-light-orange;
+                }
             }
 
         }

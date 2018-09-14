@@ -16,7 +16,7 @@ const LoginForm = props => {
                 label="Email"
                 className='form-control'
                 component={BwmInput}
-                validate={[required, isEmail]}
+                validate={[isEmail]}
             />
             <Field
                 name="password"
