@@ -42,7 +42,8 @@
     width: 100%;
     background: transparent;
     padding: 0 5px;
-    border-radius: 0 !important; }
+    border-radius: 0 !important;
+    transition: all 1s; }
     .form .form-group .input-group .form-control:focus {
       border-bottom-color: #ffab4a; }
 
