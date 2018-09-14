@@ -1,2 +1,28 @@
 .navbar nav a {
   color: #3a3a3a !important; }
+
+.landing-body {
+  height: 100vh;
+  background-image: url(https://images.unsplash.com/photo-1456348830699-7fb83b2d26b9?ixlib=rb-0.3.5&s=8e50da0952f86a1bc830926534bd7ed2&auto=format&fit=crop&w=1650&q=80);
+  background-position: center center;
+  background-size: cover; }
+  .landing-body .landing-shade {
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; }
+  .landing-body .landing-content {
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 20px !important; }
+    .landing-body .landing-content .card-header {
+      background: transparent !important;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      border-bottom-color: #ff6b4a !important; }
