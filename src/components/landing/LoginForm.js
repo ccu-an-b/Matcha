@@ -9,7 +9,7 @@ const LoginForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
-            <BwmResError errors={errors} />
+            <BwmResError errors={errors} />                                   
             <Field
                 name="mail"
                 type="text"
@@ -27,10 +27,10 @@ const LoginForm = props => {
                 validate={[required]}
             />
             <div className="form-submit">
-            <button className='btn' type="submit" disabled={!valid || pristine || submitting}>
-                LOG IN
-            </button>
-            <a>Forgot Password ?</a>
+                <button className='btn' type="submit" disabled={!valid || pristine || submitting}>
+                    LOG IN
+                </button>
+                <a className="a-submit">Forgot Password ?</a>
             </div>
         </form>
     )

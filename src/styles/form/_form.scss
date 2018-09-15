@@ -1,6 +1,16 @@
 .form {
     width: 80%;
     font-family: $form-font !important;
+    
+    .alert-danger-matcha{
+        background-color: rgba(255, 74,74, 0.8) !important;
+        text-align: center !important;
+        border-radius: 0;
+
+        p {
+            margin-bottom: 0;
+        }
+    }
 
     .btn {
         border-radius: 0 !important;
@@ -25,7 +35,7 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        a {
+        .a-submit {
             margin-left: 20px;
             opacity: 0.5;
             color: $main-dark-grey !important;
@@ -65,4 +75,9 @@
 
         }
     }
+}
+
+@media screen and (max-width: 320px)
+{
+    .form .form-submit .a-submit {margin-left: 0px ;margin-top: 7px}
 }

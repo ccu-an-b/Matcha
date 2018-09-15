@@ -2,14 +2,14 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmResError } from 'components/shared/form/BwmResError';
-import { required, isEmail } from 'components/shared/form/validators';
+import { required, isEmail, minLength8, checkNumber, checkUpper } from 'components/shared/form/validators';
 
 
 const RegisterForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
-             <BwmResError errors={errors} />
+            <BwmResError errors={errors} />
             <Field
                 name="name"
                 type="text"
@@ -18,7 +18,6 @@ const RegisterForm = props => {
                 component={BwmInput}
                 validate={[required]}
             />
-             <BwmResError errors={errors} />
             <Field
                 name="first_name"
                 type="text"
@@ -27,16 +26,6 @@ const RegisterForm = props => {
                 component={BwmInput}
                 validate={[required]}
             />
-             <BwmResError errors={errors} />
-            <Field
-                name="username"
-                type="text"
-                label="Email"
-                className='form-control'
-                component={BwmInput}
-                validate={[required]}
-            />
-            <BwmResError errors={errors} />
             <Field
                 name="mail"
                 type="text"
@@ -46,12 +35,20 @@ const RegisterForm = props => {
                 validate={[required, isEmail]}
             />
             <Field
+                name="username"
+                type="text"
+                label="Username"
+                className='form-control'
+                component={BwmInput}
+                validate={[required]}
+            />
+            <Field
                 name="password"
                 type="password"
                 label="Password"
                 className='form-control'
                 component={BwmInput}
-                validate={[required]}
+                validate={[required, minLength8, checkNumber, checkUpper]}
             />
             <Field
                 name="password_conf"

@@ -6,19 +6,22 @@
   width: 100%;
   background-image: url(https://images.unsplash.com/photo-1456348830699-7fb83b2d26b9?ixlib=rb-0.3.5&s=8e50da0952f86a1bc830926534bd7ed2&auto=format&fit=crop&w=1650&q=80);
   background-position: center center;
-  background-size: cover; }
+  background-size: cover;
+  background-attachment: fixed;
+  position: fixed; }
   .landing-body .landing-shade {
     background-color: rgba(255, 255, 255, 0.2);
     height: 100%;
     width: 100%;
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    padding-top: 70px; }
   .landing-body .nav {
-    background-color: transparent;
     position: fixed;
+    background-color: transparent;
     top: 10px;
     right: 30px; }
     .landing-body .nav a {
@@ -32,7 +35,7 @@
     width: 90%;
     position: relative;
     background-color: rgba(255, 255, 255, 0.9) !important;
-    border-radius: 15px !important; }
+    border-radius: 7px !important; }
     .landing-body .landing-content .card-header {
       background: transparent !important;
       display: flex;
@@ -44,9 +47,19 @@
       flex-wrap: wrap;
       justify-content: center; }
 
+@media screen and (max-height: 600px) {
+  .landing-shade {
+    overflow-y: scroll; } }
+
 .form {
   width: 80%;
   font-family: "Abel" !important; }
+  .form .alert-danger-matcha {
+    background-color: rgba(255, 74, 74, 0.8) !important;
+    text-align: center !important;
+    border-radius: 0; }
+    .form .alert-danger-matcha p {
+      margin-bottom: 0; }
   .form .btn {
     border-radius: 0 !important;
     color: #ff954a;
@@ -65,12 +78,12 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center; }
-    .form .form-submit a {
+    .form .form-submit .a-submit {
       margin-left: 20px;
       opacity: 0.5;
       color: #3a3a3a !important;
       text-decoration: underline !important; }
-      .form .form-submit a:hover {
+      .form .form-submit .a-submit:hover {
         opacity: 1;
         color: #ff6b4a !important; }
   .form .form-group .input-group .form-control {
@@ -90,6 +103,11 @@
     margin-bottom: 1rem;
     font-size: 13px;
     color: #ff6b4a; }
+
+@media screen and (max-width: 320px) {
+  .form .form-submit .a-submit {
+    margin-left: 0px;
+    margin-top: 7px; } }
 
 textarea:hover,
 input:hover,

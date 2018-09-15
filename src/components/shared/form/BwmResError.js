@@ -5,8 +5,8 @@ export function BwmResError(props) {
 
     return (
         errors.length > 0 &&
-        <div className='alert alert-danger bwm-res-errors'>
-            {errors.map((error, index) => <p key={index}> {error.detail}</p>)}
+        <div className='alert  alert-danger-matcha'>
+            {errors.map((error, index) => <p key={index}>{error.detail}</p>)}
         </div>
     )
 }
