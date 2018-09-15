@@ -2,14 +2,19 @@
     width: 80%;
     font-family: $form-font !important;
     
-    .alert-danger-matcha{
-        background-color: rgba(255, 74,74, 0.8) !important;
+    .alert{
         text-align: center !important;
         border-radius: 0;
 
         p {
             margin-bottom: 0;
         }
+    }
+    .alert-danger-matcha{
+        background-color: rgba(255, 74,74, 0.8) !important;
+    }
+    .alert-success-matcha{
+        background-color: $main-light-orange !important;
     }
 
     .btn {

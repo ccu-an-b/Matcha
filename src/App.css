@@ -27,7 +27,8 @@
     .landing-body .nav a {
       color: #3a3a3a !important;
       font-family: "Raleway";
-      opacity: 0.65; }
+      opacity: 0.65;
+      font-size: 18px; }
       .landing-body .nav a:hover {
         opacity: 1; }
   .landing-body .landing-content {
@@ -54,12 +55,15 @@
 .form {
   width: 80%;
   font-family: "Abel" !important; }
-  .form .alert-danger-matcha {
-    background-color: rgba(255, 74, 74, 0.8) !important;
+  .form .alert {
     text-align: center !important;
     border-radius: 0; }
-    .form .alert-danger-matcha p {
+    .form .alert p {
       margin-bottom: 0; }
+  .form .alert-danger-matcha {
+    background-color: rgba(255, 74, 74, 0.8) !important; }
+  .form .alert-success-matcha {
+    background-color: #ffab4a !important; }
   .form .btn {
     border-radius: 0 !important;
     color: #ff954a;

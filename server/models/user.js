@@ -21,32 +21,34 @@ function user_select_one(key, value, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT mail, id, login FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+        client.query(`SELECT mail, id, username FROM users WHERE ${key}=$1 `, [value], function (err, result) {
             done();
             return callback(err, result.rows);
         });
     });
 }
 
-function user_new(login, mail, password, cb) {
+function user_new(req, res) {
 
-    user_select_one('login', login, function (err, result) {
+    const { name, last_name, username, mail, password} = req.body;
+
+    user_select_one('username', username, function (err, result) {
         if (result.length != 0)
-            return cb(false);
+            return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] })
         else {
             user_select_one('mail', mail, function (err, result) {
                 if (result.length != 0) {
-                    return cb(false);
+                    return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used' }] })
                 }
                 else {
                     let hash = bcrypt.hashSync(password, 10);
                     pool.connect(function (err, client, done) {
                         if (err) {
-                            return console.error('error fetching client from pool', err);
+                            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
                         }
-                        client.query('INSERT INTO users (login, mail, password) VALUES($1, $2 ,$3)', [login, mail, hash]);
+                        client.query('INSERT INTO users (name, last_name, username, mail, password) VALUES($1, $2 ,$3, $4, $5)', [name, last_name, username, mail, hash]);
                         done();
-                        return cb(true);
+                        return res.status(200).send({ success: [{title: 'Rental created', detail: 'You created a new rental'}] });
                     });
                 }
             });

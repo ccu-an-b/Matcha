@@ -10,3 +10,5 @@ export const required = value => (value ? undefined : '* Required')
 export const checkNumber = value => (/\d/i.test(value) ? undefined : 'Password must contain at least one number')
 
 export const checkUpper = value => (/[A-Z]/g.test(value) ? undefined : 'Password must contain at least one uppercase')
+
+export const checkLetter = value => (/[a-z]/g.test(value) ? undefined : 'Password must contain at least one letter')

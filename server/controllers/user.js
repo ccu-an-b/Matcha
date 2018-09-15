@@ -30,15 +30,8 @@ exports.auth = function (req, res) {
 }
 
 exports.register = function (req, res, next) {
-    const { login, mail, password, password_conf } = req.body;
 
-    User.user_new(login, mail, password, function (result) {
-        if (result === true)
-            return res.json({ 'registered': true });
-        else {
-            return res.status(422).send({ errors: [{ title: 'User exists', detail: 'User already exists' }] });
-        }
-    });
+    User.user_new(req, res);
 
 }
 

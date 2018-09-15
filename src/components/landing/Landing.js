@@ -60,7 +60,7 @@ export class Landing extends React.Component {
                                 <img src={process.env.PUBLIC_URL + '/matcha_logo_3.png'} alt="landing-background"/>
                             </div>
                             <div className="card-body">
-                                { this.state.isSignIn ? <LoginForm submitCb={this.logInUser} errors={errors} /> : <RegisterForm submitCb={this.registerUser} errors={this.state.errors} /> }                           
+                                { this.state.isSignIn ? <LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success}/> : <RegisterForm submitCb={this.registerUser} errors={this.state.errors} /> }                           
                             </div>
                         </div>
                 </div>

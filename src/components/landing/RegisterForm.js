@@ -2,14 +2,14 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmResError } from 'components/shared/form/BwmResError';
-import { required, isEmail, minLength8, checkNumber, checkUpper } from 'components/shared/form/validators';
+import { required, isEmail, minLength8, checkNumber, checkUpper, checkLetter } from 'components/shared/form/validators';
 
 
 const RegisterForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
-            <BwmResError errors={errors} />
+            <BwmResError errors={errors}/>
             <Field
                 name="name"
                 type="text"
@@ -19,9 +19,9 @@ const RegisterForm = props => {
                 validate={[required]}
             />
             <Field
-                name="first_name"
+                name="last_name"
                 type="text"
-                label="First Name"
+                label="Last Name"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
@@ -48,7 +48,7 @@ const RegisterForm = props => {
                 label="Password"
                 className='form-control'
                 component={BwmInput}
-                validate={[required, minLength8, checkNumber, checkUpper]}
+                validate={[required, minLength8, checkNumber,checkLetter, checkUpper]}
             />
             <Field
                 name="password_conf"
