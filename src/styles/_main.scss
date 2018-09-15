@@ -28,6 +28,14 @@ input {
     border-top: none !important;
     border-right: none !important;
     border-left:none !important;
-    border-bottom: 1px solid #b2b2b2;
+    border-bottom: 2px solid #b2b2b2;
 
+}
+
+body {
+    color: $main-dark-grey !important;
+}
+
+a {
+    cursor: pointer;
 }

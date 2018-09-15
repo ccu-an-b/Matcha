@@ -20,6 +20,6 @@ export const BwmInput = ({
                 <span className='focus-input'></span>
             </div>
             {touched &&
-                ((error && <div className='alert alert-danger'>{error}</div>))}
+                ((error && <div className='alert-input'>{error}</div>))}
         </div>
     )

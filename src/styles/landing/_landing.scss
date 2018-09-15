@@ -1,24 +1,44 @@
 .landing-body {
     height: 100vh;
+    width:100%;
     background-image: url(https://images.unsplash.com/photo-1456348830699-7fb83b2d26b9?ixlib=rb-0.3.5&s=8e50da0952f86a1bc830926534bd7ed2&auto=format&fit=crop&w=1650&q=80);
     background-position: center center;
     background-size: cover;
     .landing-shade{
-       // background-color: rgba(255,255,255,0.2);
-       background-color: rgba(0,0,0,0.2);
+        background-color: rgba(255,255,255,0.2);
+       //background-color: rgba(0,0,0,0.2);
         height: 100%;
         width: 100%;
+        position: absolute;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
     }
+
+    .nav {
+        background-color: transparent;
+        position: fixed;
+        top: 10px;
+        right:30px;
+
+        a {
+            color: $main-dark-grey !important;
+            font-family: "Raleway";
+            opacity: 0.65;
+
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }
+
     .landing-content{
         max-width: 500px;
         width:90%;
         position: relative;
-        background-color: rgba(255,255,255,0.8) !important;
-        border-radius: 20px !important;
+        background-color: rgba(255,255,255,0.9) !important;
+        border-radius: 15px !important;
         .card-header{
             background: transparent !important;
             display: flex;
@@ -32,4 +52,5 @@
             justify-content: center;
         }
     }
+
 }

@@ -16,7 +16,7 @@ const LoginForm = props => {
                 label="Email"
                 className='form-control'
                 component={BwmInput}
-                validate={[isEmail]}
+                validate={[required,isEmail]}
             />
             <Field
                 name="password"
@@ -26,9 +26,12 @@ const LoginForm = props => {
                 component={BwmInput}
                 validate={[required]}
             />
-            <button className='btn btn-bwm' type="submit" disabled={!valid || pristine || submitting}>
-                Log In
+            <div className="form-submit">
+            <button className='btn' type="submit" disabled={!valid || pristine || submitting}>
+                LOG IN
             </button>
+            <a>Forgot Password ?</a>
+            </div>
         </form>
     )
 }
