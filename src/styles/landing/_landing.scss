@@ -1,10 +1,7 @@
 .landing-body {
     height: 100vh;
     width:100%;
-    background-image: url(https://images.unsplash.com/photo-1456348830699-7fb83b2d26b9?ixlib=rb-0.3.5&s=8e50da0952f86a1bc830926534bd7ed2&auto=format&fit=crop&w=1650&q=80);
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+    background: url('/img/index_pattern.png'),linear-gradient(to top,$main-light-orange,$main-red);
     position: fixed;
     
     .landing-shade{
@@ -43,7 +40,8 @@
         width:90%;
         position: relative;
         background-color: rgba(255,255,255,0.9) !important;
-        border-radius: 7px !important;
+        border-radius: 0.2rem;
+        border:none;
         .card-header{
             background: transparent !important;
             display: flex;
