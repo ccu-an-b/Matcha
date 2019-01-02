@@ -1,26 +1,45 @@
+.navbar .my-0 {
+  width: 150px; }
+
 .navbar nav a {
-  color: #3a3a3a !important; }
+  color: #3a3a3a !important;
+  font-family: "Raleway"; }
+
+.landing-nav {
+  position: fixed;
+  z-index: 10; }
+  .landing-nav .my-0 {
+    width: 150px; }
 
 .landing-body {
   height: 100vh;
   width: 100%;
-  background: url("/img/index_pattern.png"), linear-gradient(to top, #ffab4a, #ff4a4a);
-  position: fixed; }
+  background-image: url("https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+  position: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
   .landing-body .landing-shade {
-    background-color: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(160deg, #000000 0%, white 100%);
+    opacity: 0.3;
     height: 100%;
     width: 100%;
     position: fixed;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    padding-top: 70px; }
+    align-items: center; }
   .landing-body .nav {
     position: fixed;
     background-color: transparent;
-    top: 10px;
-    right: 30px; }
+    top: 0;
+    right: 30px;
+    height: 80px;
+    display: flex;
+    align-items: center; }
     .landing-body .nav a {
       color: #3a3a3a !important;
       font-family: "Raleway";
@@ -28,27 +47,47 @@
       font-size: 18px; }
       .landing-body .nav a:hover {
         opacity: 1; }
-  .landing-body .landing-content {
+  .landing-body .landing-form {
+    display: none;
     max-width: 500px;
     width: 90%;
     position: relative;
     background-color: rgba(255, 255, 255, 0.9) !important;
     border-radius: 0.2rem;
     border: none; }
-    .landing-body .landing-content .card-header {
+    .landing-body .landing-form .card-header {
       background: transparent !important;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       border-bottom-color: #ff6b4a !important; }
-    .landing-body .landing-content .card-body {
+    .landing-body .landing-form .card-body {
       display: flex;
       flex-wrap: wrap;
       justify-content: center; }
+  .landing-body .landing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    position: relative;
+    border-radius: 0.2rem;
+    border: none; }
+    .landing-body .landing-content h1 {
+      color: white;
+      font-size: 4rem; }
 
-@media screen and (max-height: 600px) {
-  .landing-shade {
-    overflow-y: scroll; } }
+.button.sign_up {
+  background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
+  letter-spacing: 1.5px;
+  height: 60px;
+  padding: 0 50px;
+  color: white;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27);
+  transition: all 0.3s;
+  font-size: 16px; }
+  .button.sign_up:hover {
+    background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%); }
 
 .form {
   width: 80%;
@@ -111,6 +150,20 @@
     margin-left: 0px;
     margin-top: 7px; } }
 
+.modal {
+  background-color: rgba(0, 0, 0, 0.4); }
+  .modal .modal-content {
+    border: none;
+    border-radius: 0.25rem; }
+
+.modal.display-block {
+  display: block !important;
+  opacity: 1 !important; }
+
+.modal.display-none {
+  display: block !important;
+  opacity: 1 !important; }
+
 textarea:hover,
 input:hover,
 textarea:active,
@@ -140,3 +193,27 @@ body {
 
 a {
   cursor: pointer; }
+
+.button {
+  box-sizing: border-box;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0 20px;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.4s; }
+
+.button.cl-d-ppl {
+  color: #493548; }
+
+.button.cl-org {
+  color: #e94f37; }
+  .button.cl-org:hover {
+    background-color: #e94f37;
+    color: white; }

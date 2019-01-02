@@ -1,0 +1,20 @@
+.modal {
+    background-color: rgba(0,0,0,0.4);
+    // display:block !important;
+    // opacity: 1 !important;
+
+    .modal-content {
+        border: none;
+        border-radius: 0.25rem;
+    }
+}
+
+.modal.display-block {
+    display:block !important;
+    opacity: 1 !important;
+}
+
+.modal.display-none{
+    display:block !important;
+    opacity: 1 !important;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link , Redirect, withRouter} from 'react-router-dom';
 import LoginForm from './LoginForm';
+import Modal from '../shared/modal/Modal';
 import RegisterForm from './RegisterForm';
 import { connect } from 'react-redux';
 import * as actions from 'actions';
@@ -11,12 +12,15 @@ export class Landing extends React.Component {
         super();
         this.state = {
             isSignIn: false,
+            isSignUp: false,
             errors:[],
             redirect: false,
             success: [],
+            show:false,
         }
         this.logInUser = this.logInUser.bind(this);
         this.registerUser = this.registerUser.bind(this);
+
     }
 
     navigate() {
@@ -25,7 +29,23 @@ export class Landing extends React.Component {
             isSignIn: !this.state.isSignIn
         })
     }
-
+    showModal(formType) {
+        this.setState({ show: true });
+        // if (formType == "signIn")
+        // {
+        //     this.setState({isSignIn: true });
+        // }
+        {formType == "signIn" ? this.setState({isSignIn: true }) : this.setState({isSignUp: true }); } 
+    }
+    
+    hideModal(hide) {
+        this.setState({
+            show: false ,
+            isSignIn: false,
+            isSignUp: false,
+        })
+    }
+    
     registerUser(userData){
         actions.register(userData).then(
             (registered) => this.setState({isSignIn: true, success: "Welcome to Matcha !"}),
@@ -52,19 +72,48 @@ export class Landing extends React.Component {
             
             <div className="landing-body">
                <div className="landing-shade">
-               <nav className="nav">
-                    <a onClick={() => { this.navigate()}} className="nav-link">{ this.state.isSignIn ? "SIGN UP" : 'SIGN IN'}</a>  
-                </nav>
-                        <div className="card text-white landing-content mb-3" >
-                            <div className="card-header">
-                                <img src={process.env.PUBLIC_URL + '/matcha_logo_3.png'} alt="landing-background"/>
-                            </div>
-                            <div className="card-body">
-                                { this.state.isSignIn ? <LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success}/> : <RegisterForm submitCb={this.registerUser} errors={this.state.errors} /> }                           
-                            </div>
-                        </div>
                 </div>
+                <nav className="nav">
+                    <div className="button cl-org" onClick={() => { this.showModal('signIn')}}>SIGN IN</div>  
+                </nav>
+                {/* <div className="card text-white landing-content mb-3" >
+                </div>*/}
+                <div className="landing-content">
+                    <h1>Match me if you can...</h1>
+                    <div className="button sign_up" onClick={() => { this.showModal('signUp')}}>Sign up</div>
+                </div>
+               
+                {/* <div className="landing-form">
+                    <div className="card-header">
+                        <img src={process.env.PUBLIC_URL + '/icons/matcha_logo.svg'} alt="landing-background"/>
+                    </div>
+                    <div className="card-body">
+                        { this.state.isSignIn ? <LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success}/> : <RegisterForm submitCb={this.registerUser} errors={this.state.errors} /> }                           
+                    </div>
+                </div> */}
+                {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                    </div>
+                </div>
+                </div> */}
+               { this.state.isSignIn ? <Modal show={this.state.show} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} />} /> : "" } 
+               { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={this.state.errors} />} /> : "" } 
             </div>
+            
         )
     }
 }

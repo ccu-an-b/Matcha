@@ -1,7 +1,19 @@
 .navbar {
+    .my-0 {
+        width: 150px;
+    }
     nav {
         a{
             color:$main-dark-grey !important;
+            font-family: "Raleway";
         }
+    }
+}
+
+.landing-nav {
+    position: fixed;
+    z-index: 10;
+    .my-0 {
+        width: 150px;
     }
 }

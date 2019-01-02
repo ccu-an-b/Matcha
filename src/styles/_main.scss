@@ -2,7 +2,7 @@
 @import 'header/header.scss';
 @import 'landing/landing.scss';
 @import 'form/form.scss';
-
+@import 'modal/modal.scss';
 
 textarea:hover, 
 input:hover, 
@@ -38,4 +38,32 @@ body {
 
 a {
     cursor: pointer;
+}
+
+.button {
+    box-sizing: border-box;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 0 20px;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-size:14px;
+    transition:all 0.4s;
+}
+
+.button.cl-d-ppl{
+    color: $main-dark-purple;
+}
+
+.button.cl-org{
+    color: $main-orange;
+    &:hover {
+        background-color: $main-orange;
+        color:white;
+    }
 }
