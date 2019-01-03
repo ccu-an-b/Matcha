@@ -20,25 +20,18 @@ export class Landing extends React.Component {
         }
         this.logInUser = this.logInUser.bind(this);
         this.registerUser = this.registerUser.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+    
 
     }
 
-    navigate() {
-        this.setState({
-            errors:[],
-            isSignIn: !this.state.isSignIn
-        })
-    }
     showModal(formType) {
         this.setState({ show: true });
-        // if (formType == "signIn")
-        // {
-        //     this.setState({isSignIn: true });
-        // }
         {formType == "signIn" ? this.setState({isSignIn: true }) : this.setState({isSignUp: true }); } 
     }
     
-    hideModal(hide) {
+    hideModal() {
         this.setState({
             show: false ,
             isSignIn: false,
@@ -110,8 +103,8 @@ export class Landing extends React.Component {
                     </div>
                 </div>
                 </div> */}
-               { this.state.isSignIn ? <Modal show={this.state.show} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} />} /> : "" } 
-               { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={this.state.errors} />} /> : "" } 
+               { this.state.isSignIn ? <Modal show={this.state.show} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} />} modalType={"form"}/> : "" } 
+               { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={this.state.errors}  />}  modalType={"form"} /> : "" } 
             </div>
             
         )

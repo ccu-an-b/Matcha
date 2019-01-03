@@ -3,6 +3,9 @@ import './App.css';
 import {Provider} from 'react-redux';
 import Header  from 'components/shared/Header' ;
 import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import * as actions from 'actions';
 
@@ -41,3 +44,4 @@ class App extends Component {
 }
 
 export default App;
+library.add(faTimes);

@@ -155,14 +155,34 @@
   .modal .modal-content {
     border: none;
     border-radius: 0.25rem; }
+  .modal #form.modal-main {
+    width: 400px;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.25rem;
+    position: relative;
+    cursor: pointer; }
+  .modal .modal-close {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    color: white;
+    font-size: 18px; }
 
 .modal.display-block {
-  display: block !important;
-  opacity: 1 !important; }
+  display: flex !important;
+  opacity: 1 !important;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
 
 .modal.display-none {
-  display: block !important;
-  opacity: 1 !important; }
+  display: none !important;
+  opacity: 0 !important; }
 
 textarea:hover,
 input:hover,
