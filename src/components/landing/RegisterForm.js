@@ -9,6 +9,10 @@ const RegisterForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
+            <div className='form-header'>
+                <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
+                <h2>Let&rsquo;s get started !</h2>
+            </div>
             <BwmResError errors={errors}/>
             <Field
                 name="name"
@@ -59,7 +63,7 @@ const RegisterForm = props => {
                 validate={[required]}
             />
             <div className="form-submit">
-                <button className='btn btn-bwm' type="submit" disabled={!valid || pristine || submitting}>
+                <button className='btn button full' type="submit" disabled={!valid || pristine || submitting}>
                     SIGN UP
                 </button>
             </div>

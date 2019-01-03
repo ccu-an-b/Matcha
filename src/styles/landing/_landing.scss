@@ -83,17 +83,12 @@
 }
 
 .button.sign_up{
-    background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
-    letter-spacing: 1.5px;
     height: 60px;
     padding: 0 50px;
     color:white;
     box-shadow:0 1px 6px 0 rgba(0,0,0,.27);
     transition: all 0.3s;
     font-size:16px;
-    &:hover{
-        background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%);
-    }
 }
 
 @media screen and (max-height: 600px)

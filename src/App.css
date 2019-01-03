@@ -78,55 +78,61 @@
       font-size: 4rem; }
 
 .button.sign_up {
-  background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
-  letter-spacing: 1.5px;
   height: 60px;
   padding: 0 50px;
   color: white;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.27);
   transition: all 0.3s;
   font-size: 16px; }
-  .button.sign_up:hover {
-    background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%); }
 
 .form {
-  width: 80%;
+  width: 100%;
   font-family: "Abel" !important; }
+  .form .form-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90px;
+    justify-content: space-around;
+    margin: 10px 0; }
+    .form .form-header img {
+      width: 40px; }
+    .form .form-header h2 {
+      font-size: 25px;
+      letter-spacing: 1px;
+      color: #4b4e6d; }
   .form .alert {
     text-align: center !important;
     border-radius: 0; }
     .form .alert p {
       margin-bottom: 0; }
   .form .alert-danger-matcha {
-    background-color: rgba(255, 74, 74, 0.8) !important; }
+    margin-bottom: 20px;
+    color: #e94f37 !important;
+    letter-spacing: 0.5px; }
   .form .alert-success-matcha {
     background-color: #ffab4a !important; }
   .form .btn {
-    border-radius: 0 !important;
-    color: #ff954a;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 2px solid #ffab4a; }
+    border: none; }
     .form .btn:hover {
       background-color: #ffab4a;
       color: white; }
-    .form .btn:disabled:hover {
-      background-color: transparent;
-      color: #3a3a3a;
-      border-color: #3a3a3a; }
   .form .form-submit {
     margin: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    margin-bottom: 10px; }
     .form .form-submit .a-submit {
       margin-left: 20px;
       opacity: 0.5;
-      color: #3a3a3a !important;
-      text-decoration: underline !important; }
+      color: #493548 !important;
+      padding-bottom: 0.5px;
+      border-bottom: 1px solid; }
       .form .form-submit .a-submit:hover {
-        opacity: 1;
-        color: #ff6b4a !important; }
+        opacity: 1; }
   .form .form-group .input-group .form-control {
     font-size: 15px;
     color: #555555;
@@ -138,12 +144,12 @@
     border-radius: 0 !important;
     transition: all 1s; }
     .form .form-group .input-group .form-control:focus {
-      border-bottom-color: #ffab4a; }
+      border-bottom-color: #e94f37; }
   .form .form-group .alert-input {
     position: relative;
     margin-bottom: 1rem;
     font-size: 13px;
-    color: #ff6b4a; }
+    color: #e94f37; }
 
 @media screen and (max-width: 320px) {
   .form .form-submit .a-submit {
@@ -156,22 +162,23 @@
     border: none;
     border-radius: 0.25rem; }
   .modal #form.modal-main {
-    width: 400px;
+    width: 380px;
     background-color: white;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 10px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 0.25rem;
     position: relative;
-    cursor: pointer; }
+    cursor: default; }
   .modal .modal-close {
     position: absolute;
     top: -30px;
     right: -20px;
     color: white;
-    font-size: 18px; }
+    font-size: 18px;
+    cursor: pointer; }
 
 .modal.display-block {
   display: flex !important;
@@ -209,10 +216,17 @@ input {
   border-bottom: 2px solid #b2b2b2; }
 
 body {
-  color: #3a3a3a !important; }
+  color: #393e41; }
 
 a {
   cursor: pointer; }
+
+h1, h2, h3, h4 {
+  cursor: default;
+  color: #393e41; }
+
+* {
+  box-sizing: border-box; }
 
 .button {
   box-sizing: border-box;
@@ -237,3 +251,21 @@ a {
   .button.cl-org:hover {
     background-color: #e94f37;
     color: white; }
+
+.button.full {
+  background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
+  color: white;
+  border-radius: 30px;
+  padding: 0 30px;
+  letter-spacing: 1.5px; }
+  .button.full:disabled {
+    opacity: 0.5;
+    background: none;
+    background-color: #4b4e6d;
+    cursor: default; }
+  .button.full:disabled:hover {
+    opacity: 0.5;
+    background: none;
+    background-color: #4b4e6d; }
+  .button.full:hover {
+    background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%); }

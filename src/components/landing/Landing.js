@@ -22,8 +22,6 @@ export class Landing extends React.Component {
         this.registerUser = this.registerUser.bind(this);
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
-    
-
     }
 
     showModal(formType) {
@@ -31,12 +29,15 @@ export class Landing extends React.Component {
         {formType == "signIn" ? this.setState({isSignIn: true }) : this.setState({isSignUp: true }); } 
     }
     
-    hideModal() {
-        this.setState({
-            show: false ,
-            isSignIn: false,
-            isSignUp: false,
-        })
+    hideModal(event) {
+        if(event.target.id.includes('closeModal') ||event.target.nodeName == 'path' || event.target.nodeName =='svg')
+        {
+            this.setState({
+                show: false ,
+                isSignIn: false,
+                isSignUp: false,
+            })
+        }
     }
     
     registerUser(userData){
@@ -73,7 +74,7 @@ export class Landing extends React.Component {
                 </div>*/}
                 <div className="landing-content">
                     <h1>Match me if you can...</h1>
-                    <div className="button sign_up" onClick={() => { this.showModal('signUp')}}>Sign up</div>
+                    <div className="button sign_up full" onClick={() => { this.showModal('signUp')}}>Sign up</div>
                 </div>
                
                 {/* <div className="landing-form">

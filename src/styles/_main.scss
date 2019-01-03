@@ -33,13 +33,21 @@ input {
 }
 
 body {
-    color: $main-dark-grey !important;
+    color:  $main-black;
 }
 
 a {
     cursor: pointer;
 }
 
+h1,h2, h3,h4 {
+    cursor: default;
+    color: $main-black;
+}
+
+*{
+    box-sizing: border-box;
+}
 .button {
     box-sizing: border-box;
     height: 40px;
@@ -65,5 +73,27 @@ a {
     &:hover {
         background-color: $main-orange;
         color:white;
+    }
+}
+
+.button.full{
+    background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
+    color: white;
+    border-radius: 30px;
+    padding: 0 30px; 
+    letter-spacing: 1.5px;
+    &:disabled {
+        opacity: 0.5;
+        background: none;
+        background-color: #4b4e6d;
+        cursor: default;
+    }
+    &:disabled:hover {
+        opacity: 0.5;
+        background: none;
+        background-color: #4b4e6d;
+    }
+    &:hover{
+        background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%);
     }
 }

@@ -1,7 +1,25 @@
 .form {
-    width: 80%;
+    width: 100%;
     font-family: $form-font !important;
     
+    .form-header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 90px;
+        justify-content: space-around;
+        margin: 10px 0;
+        img {
+            width: 40px;
+        }
+
+        h2 {
+            font-size: 25px;
+            letter-spacing: 1px;
+            color: $main-light-purple;
+        }
+    }
     .alert{
         text-align: center !important;
         border-radius: 0;
@@ -11,26 +29,19 @@
         }
     }
     .alert-danger-matcha{
-        background-color: rgba(255, 74,74, 0.8) !important;
+        margin-bottom: 20px;
+        color: $main-orange!important;
+        letter-spacing: 0.5px;
     }
     .alert-success-matcha{
         background-color: $main-light-orange !important;
     }
 
     .btn {
-        border-radius: 0 !important;
-        color: $main-medium-orange;
-        background-color: rgba(255,255,255,0.9);
-        border: 2px solid $main-light-orange;
+        border:none;
         &:hover {
             background-color: $main-light-orange;
             color:white;
-        }
-
-        &:disabled:hover {
-            background-color: transparent;
-            color:$main-dark-grey;
-            border-color: $main-dark-grey;
         }
     }
 
@@ -40,15 +51,17 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        margin-bottom: 10px;
         .a-submit {
             margin-left: 20px;
             opacity: 0.5;
-            color: $main-dark-grey !important;
-            text-decoration: underline !important;
+            color: $main-dark-purple  !important;
+            // text-decoration: underline !important;
+            padding-bottom: 0.5px;
+            border-bottom: 1px solid;
 
             &:hover{
                 opacity: 1;
-                color: $main-dark-orange !important;
             }
         }
     }
@@ -66,17 +79,16 @@
                 transition: all 1s;
 
                 &:focus{
-                    border-bottom-color: $main-light-orange;
+                    border-bottom-color: $main-orange;
                 }
             }
-
         }
 
         .alert-input{
             position: relative;
             margin-bottom: 1rem;
             font-size: 13px;
-            color: $main-dark-orange; 
+            color: $main-orange; 
 
         }
     }

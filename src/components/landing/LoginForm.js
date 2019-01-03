@@ -10,6 +10,10 @@ const LoginForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
+            <div className='form-header'>
+                <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
+                <h2>Welcome back !</h2>
+            </div>
             <BwmResError errors={errors} />
             <BwmResSuccess success={success} />                                  
             <Field
@@ -29,7 +33,7 @@ const LoginForm = props => {
                 validate={[required]}
             />
             <div className="form-submit">
-                <button className='btn' type="submit" disabled={!valid || pristine || submitting}>
+                <button className='btn button full' type="submit" disabled={!valid || pristine || submitting}>
                     LOG IN
                 </button>
                 <a className="a-submit">Forgot Password ?</a>
