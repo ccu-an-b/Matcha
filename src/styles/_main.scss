@@ -3,6 +3,7 @@
 @import 'landing/landing.scss';
 @import 'form/form.scss';
 @import 'modal/modal.scss';
+@import './animations.scss';
 
 textarea:hover, 
 input:hover, 
@@ -77,7 +78,7 @@ h1,h2, h3,h4 {
 }
 
 .button.full{
-    background: linear-gradient(332deg, #4b4e6d 0%, #e94f37 100%);
+    background: linear-gradient(332deg, $main-dark-purple 0%, $main-orange 100%);
     color: white;
     border-radius: 30px;
     padding: 0 30px; 
@@ -94,6 +95,7 @@ h1,h2, h3,h4 {
         background-color: #4b4e6d;
     }
     &:hover{
-        background: linear-gradient(152deg, #e94f37 0%, #e94f37 100%);
+        background: linear-gradient(152deg, $main-orange 0%, $main-orange 100%);
     }
 }
+

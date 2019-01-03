@@ -2,7 +2,7 @@
     background-color: rgba(0,0,0,0.4);
     // display:block !important;
     // opacity: 1 !important;
-
+    animation:fadein 0.5s;
     .modal-content {
         border: none;
         border-radius: 0.25rem;
@@ -18,6 +18,7 @@
         border-radius: 0.25rem;
         position: relative;
         cursor: default;
+        animation:fadein 0.8s;
     }
     .modal-close {
         position: absolute;
@@ -41,3 +42,4 @@
     display: none !important;
     opacity: 0 !important;
 }
+

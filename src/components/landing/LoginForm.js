@@ -12,7 +12,7 @@ const LoginForm = props => {
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <div className='form-header'>
                 <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
-                <h2>Welcome back !</h2>
+                <h2>ready set match</h2>
             </div>
             <BwmResError errors={errors} />
             <BwmResSuccess success={success} />                                  

@@ -4,7 +4,7 @@
     }
     nav {
         a{
-            color:$main-dark-grey !important;
+            color:$main-black;
             font-family: "Raleway";
         }
     }
@@ -15,5 +15,22 @@
     z-index: 10;
     .my-0 {
         width: 150px;
+    }
+}
+
+.navbar.connected{
+    padding: 0.3rem 1rem;
+    .my-0{
+        width: 130px;
+    }
+    nav {
+        a{
+            transition:border-bottom 0.5s;
+            &:hover{
+                color:$main-orange;
+                text-decoration: none;
+                border-bottom:1px solid;
+            }
+        }
     }
 }

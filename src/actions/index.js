@@ -1,13 +1,9 @@
 import axios from 'axios';
-import axiosService from 'services/axios-service';
 import authService from 'services/auth-service';
 
 import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
           LOGOUT } from './types';
-
-const axiosInstance = axiosService.getInstance();
-
 
 // AUTH ACTIONS
 export const register = (userData) => {

@@ -3,13 +3,19 @@ import './App.css';
 import {Provider} from 'react-redux';
 import Header  from 'components/shared/Header' ;
 import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+
+import { ProtectedRoute } from 'components/shared/auth/ProtectedRoute' ;
+import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
+
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+
 import * as actions from 'actions';
 
 import Landing  from 'components/landing/Landing' ;
+import Dashboard  from 'components/dashboard/Dashboard' ;
 
 const store = require('./reducers').init();
 
@@ -33,7 +39,8 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header />
-          <Route exact path='/' component={Landing} />
+            <LoggedInRoute exact path="/" component={Landing} />
+            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
           {/* <Switch> */}
           {/* </Switch> */}
         </div>

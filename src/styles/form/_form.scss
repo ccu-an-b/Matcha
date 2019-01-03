@@ -15,9 +15,10 @@
         }
 
         h2 {
-            font-size: 25px;
+            font-size: 22px;
             letter-spacing: 1px;
-            color: $main-light-purple;
+            color:$main-light-purple;
+            text-transform: uppercase;
         }
     }
     .alert{
@@ -34,7 +35,9 @@
         letter-spacing: 0.5px;
     }
     .alert-success-matcha{
-        background-color: $main-light-orange !important;
+        margin-bottom: 20px;
+        color: $main-orange!important;
+        letter-spacing: 0.5px;
     }
 
     .btn {

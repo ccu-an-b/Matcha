@@ -36,10 +36,12 @@ export class Landing extends React.Component {
                 show: false ,
                 isSignIn: false,
                 isSignUp: false,
+                errors:[],
             })
+
         }
     }
-    
+
     registerUser(userData){
         actions.register(userData).then(
             (registered) => this.setState({isSignIn: true, success: "Welcome to Matcha !"}),
@@ -55,11 +57,15 @@ export class Landing extends React.Component {
         const { isAuth, errors} = this.props.auth;
         const { successRegister } = this.props.location.state || false;
         
-        const { redirect } = this.state;
+        // const { redirect } = this.state;
         
-        if (redirect){
-            // return <Redirect to={{pathname: '/', state: { isSignIn: true, redirect:false}}} />
-            return 
+        // if (redirect){
+        //     return <Redirect to={{pathname: '/dashboard', state: { isSignIn: true, redirect:false}}} />
+        //     // return 
+        // }
+
+        if (isAuth){
+            return <Redirect to={{pathname: '/dashboard'}} />
         }
 
         return (
@@ -105,7 +111,7 @@ export class Landing extends React.Component {
                 </div>
                 </div> */}
                { this.state.isSignIn ? <Modal show={this.state.show} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} />} modalType={"form"}/> : "" } 
-               { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={this.state.errors}  />}  modalType={"form"} /> : "" } 
+               { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={errors}  />}  modalType={"form"} /> : "" } 
             </div>
             
         )
