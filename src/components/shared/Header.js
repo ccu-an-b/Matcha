@@ -18,7 +18,7 @@ class Header extends React.Component {
 
     render() {
 
-        const {userMail} = this.props.auth;
+        const {username} = this.props.auth;
         console.log(this.props.auth)
         if (authService.isAuthentificated())
         {
@@ -26,7 +26,7 @@ class Header extends React.Component {
                 <div className="navbar d-flex flex-column flex-md-row align-items-center px-md-4 bg-white border-bottom connected shadow-sm">
                     <Link to='/dashboard'><img width="auto" height="60" className="d-inline-block my-0 mr-md-auto" src={process.env.PUBLIC_URL + '/matcha_logo.svg'} /></Link>
                     <nav className="my-2 my-md-0 mr-md-3">
-                        <a className="p-2" href="#">{userMail}</a>
+                        <a className="p-2" href="/dashboard">{username}</a>
                         <a className="p-2" href="#">Browse</a>
                         <a className="p-2" href="#">Notifications</a>
                         <a className="p-2" href="#">Messages</a>

@@ -17,12 +17,12 @@ const LoginForm = props => {
             <BwmResError errors={errors} />
             <BwmResSuccess success={success} />                                  
             <Field
-                name="mail"
+                name="username"
                 type="text"
-                label="Email"
+                label="Username"
                 className='form-control'
                 component={BwmInput}
-                validate={[required,isEmail]}
+                validate={[required]}
             />
             <Field
                 name="password"

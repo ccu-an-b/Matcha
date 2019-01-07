@@ -82,34 +82,7 @@ export class Landing extends React.Component {
                     <h1>Match me if you can...</h1>
                     <div className="button sign_up full" onClick={() => { this.showModal('signUp')}}>Sign up</div>
                 </div>
-               
-                {/* <div className="landing-form">
-                    <div className="card-header">
-                        <img src={process.env.PUBLIC_URL + '/icons/matcha_logo.svg'} alt="landing-background"/>
-                    </div>
-                    <div className="card-body">
-                        { this.state.isSignIn ? <LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success}/> : <RegisterForm submitCb={this.registerUser} errors={this.state.errors} /> }                           
-                    </div>
-                </div> */}
-                {/* <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                    </div>
-                </div>
-                </div> */}
+
                { this.state.isSignIn ? <Modal show={this.state.show} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} />} modalType={"form"}/> : "" } 
                { this.state.isSignUp ? <Modal show={this.state.show} handleClose={this.hideModal} children={<RegisterForm submitCb={this.registerUser} errors={errors}  />}  modalType={"form"} /> : "" } 
             </div>

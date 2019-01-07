@@ -4,14 +4,14 @@ const User = require('../models/user'),
     jwt = require('jsonwebtoken');
 
 exports.auth = function (req, res) {
-    const { mail, password } = req.body;
-
-    if (!password || !mail) {
-        return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide email and password' }] });
+    const { username, password } = req.body;
+    username;
+    if (!password || !username) {
+        return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide email and username' }] });
     }
-    User.user_select_one('mail', mail, function (req, result) {
+    User.user_select_one('username', username, function (req, result) {
         if (result.length == 0) {
-            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Provided email doesn\'t exist ' }] });
+            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Provided username doesn\'t exist ' }] });
         }
         else {
             User.user_password_check(result[0].id, password, function (cb_result) {
@@ -20,8 +20,7 @@ exports.auth = function (req, res) {
                 }
                 return res.json(jwt.sign({
                     userId: result[0].id,
-                    username : result[0].login,
-                    userMail: result[0].mail
+                    username : result[0].username,
                 }, config.SECRET, { expiresIn: '1h' }));
             });
         }
