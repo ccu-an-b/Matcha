@@ -15,10 +15,11 @@ export const register = (userData) => {
 
 const loginSuccess = () => {
   const username = authService.getUsername();
-
+  const userMail = authService.getUsermail();
   return {
     type: LOGIN_SUCCESS,
-    username
+    username,
+    userMail
   }
 }
 

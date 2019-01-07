@@ -38,11 +38,13 @@ class App extends Component {
       <Provider store={store}>
       <BrowserRouter>
         <div className="App">
-          <Header />
-            <LoggedInRoute exact path="/" component={Landing} />
-            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          {/* <Switch> */}
-          {/* </Switch> */}
+          <Header logout={this.logout}/>
+          <div className="app-container">
+            <Switch>
+              <LoggedInRoute exact path="/" component={Landing} />
+              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
+          </div>
         </div>
       </BrowserRouter>
       </Provider>

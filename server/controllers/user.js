@@ -20,7 +20,7 @@ exports.auth = function (req, res) {
                 }
                 return res.json(jwt.sign({
                     userId: result[0].id,
-                    username: result[0].login,
+                    username : result[0].login,
                     userMail: result[0].mail
                 }, config.SECRET, { expiresIn: '1h' }));
             });
