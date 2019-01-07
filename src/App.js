@@ -11,7 +11,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-
 import * as actions from 'actions';
 
 import Landing  from 'components/landing/Landing' ;
@@ -36,17 +35,18 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-      <BrowserRouter>
-        <div className="App">
-          <Header logout={this.logout}/>
-          <div className="app-container">
-            <Switch>
-              <LoggedInRoute exact path="/" component={Landing} />
-              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            </Switch>
+        <BrowserRouter>
+          <div className="App">
+            <Header logout={this.logout}/>
+            <div className="app-container">
+              <Switch>
+                <LoggedInRoute exact path="/" component={Landing} />
+                <LoggedInRoute exact path="/:key" component={Landing} />
+                <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+              </Switch>
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
       </Provider>
     );
   }

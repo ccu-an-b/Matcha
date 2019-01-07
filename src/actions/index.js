@@ -5,7 +5,7 @@ import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
           LOGOUT } from './types';
 
-// AUTH ACTIONS
+// REGISTER ACTIONS
 export const register = (userData) => {
   return axios.post(`/api/v1/users/register`, {...userData}).then(
     res => res.data,
@@ -13,6 +13,7 @@ export const register = (userData) => {
   );
 }
 
+// AUTH ACTIONS
 const loginSuccess = () => {
   const username = authService.getUsername();
   const userMail = authService.getUsermail();

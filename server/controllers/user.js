@@ -30,8 +30,8 @@ exports.auth = function (req, res) {
 
 exports.register = function (req, res, next) {
 
-    User.user_new(req, res);
-
+    return User.user_new(req, res);
+    
 }
 
 exports.authMiddleware = function (req, res, next) {

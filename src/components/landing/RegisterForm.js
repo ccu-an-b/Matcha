@@ -10,7 +10,7 @@ const RegisterForm = props => {
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <div className='form-header'>
-                <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
+                <img alt="logo" src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
                 <h2>Get started</h2>
             </div>
             <BwmResError errors={errors}/>
