@@ -2,7 +2,7 @@ const   nodemailer = require('nodemailer');
 
 function activation_mail(username, email, key){
 
-    var link = "http://localhost:3000/"+key;
+    var link = "http://localhost:3000/activate/"+key;
     var subject = "Welcome to Matcha";
     var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
                     '<tr><td align="center" valign="top">' +
@@ -29,7 +29,7 @@ function send_mail(email, subject, body){
                 '<tr><td>' +
                     '<table width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;border-spacing:0;font-family:Helvetica,Arial,sans-serif;letter-spacing:0;table-layout:fixed"><tbody>' +
                         '<tr><td>' +
-                            '<table bgcolor="#ffffff" align="center" class="content" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:20px 0 10px 0"><tbody>' +
+                            '<table bgcolor="#ffffff" align="center" class="content" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:20px 0"><tbody>' +
                                 '<tr><td align="center" valign="top" width:"100%">' +
                                     '<img align="center" class="CToWUd" src="https://lh3.googleusercontent.com/h40SguQrtL9NUSBqLpiDYdSSlkoU6MnDlt6yTFb3rzz6-E-WbxE_NB6X6F_JsswBA7UaskaqJ2i1lK3WG7a9Lmm6cI8qzHc4KBpnAGKPs5SOowfPep395h6I8b4LfOSFK6hFZVyNvIft618EPxKzJ5pmaXzTVB-FSjebAD1SV8--oC-l-1hSnZeu1buABZQ_mWOkmdLon1W7b62frBB68K1MlsvghqAyLv7MeukKk5oC_CI7clbj5KlLcKRamLqxaSq5wKL5DOidU79-wSjPXADhW16dhgeuJFkJqqhDcarzrwNVPlsvd-JqAHgxod6nf1GW1VHRnaChWw1tBqgYX3r1i7O--nWrJyWhri3nxcgq9GPU_TstNQR0wDJosjF8He3kyqh7mz39DKQmtnRA9g85FtJp80YPKv767nS_FCqTWP4VO2a1FMkXDBwhwmh7aIw6XTsoprPMpoxEpRe8ZavvWCYwrGwh5v_PK1RAs_MJ3X7kKmwlvrpqeYHNoA8t6LwjdDEh_g5skO3CMQ90ZUQEuSukt2Ydym5MOQ2xO2d28i97gX8IrPboQ2kuihnjWJ37vNFDBXqS6zp2F7hVyeha9Qv3fwBMBMt1csbpzhygsH3PQDjJ-wvbn-kcqrny1Bp3oNzxsU36WWpdsZo-7AGPDiq8637XQv7w_JwJGzDWev26JtZPq78qiUOzqZYDtlpJl6FVhiStMAqNkw=w1346-h369-no" style="height:40px; margin: auto">' +
                                 '</td></tr>' + 

@@ -24,7 +24,7 @@ function user_select_one(key, value, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT mail, id, username FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+        client.query(`SELECT mail, id, username,active FROM users WHERE ${key}=$1 `, [value], function (err, result) {
             done();
             return callback(err, result.rows);
         });

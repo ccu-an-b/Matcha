@@ -3,7 +3,9 @@ import authService from 'services/auth-service';
 
 import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
-          LOGOUT } from './types';
+          LOGOUT,
+          FETCH_USER_BY_KEY_INIT,
+          FETCH_USER_BY_KEY_SUCCESS } from './types';
 
 // REGISTER ACTIONS
 export const register = (userData) => {
@@ -11,6 +13,31 @@ export const register = (userData) => {
     res => res.data,
     err => Promise.reject(err.response.data.errors) 
   );
+}
+
+const fetchUserByKeyInit = () => {
+  
+  return {
+    type: FETCH_USER_BY_KEY_INIT,
+  }
+}
+
+const fetchUserByKeySuccess = (user) => {
+  
+  return {
+    type: FETCH_USER_BY_KEY_SUCCESS,
+    user
+  }
+}
+export const fetchUserByKey = (userKey) => {
+
+  return function(dispatch) {
+    dispatch(fetchUserByKeyInit());
+    
+    axios.get(`/api/v1/users/activate/${userKey}`).then((user) => {
+      dispatch(fetchUserByKeySuccess(user.data[0]));
+    });
+  }
 }
 
 // AUTH ACTIONS
@@ -59,3 +86,4 @@ export const logout = () => {
     type: LOGOUT
   }
 }
+

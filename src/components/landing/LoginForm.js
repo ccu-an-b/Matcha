@@ -7,7 +7,7 @@ import { required} from 'components/shared/form/validators';
 
 
 const LoginForm = props => {
-    const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success} = props
+    const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success, activate} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <div className='form-header'>
@@ -15,6 +15,7 @@ const LoginForm = props => {
                 <h2>ready set match</h2>
             </div>
             <BwmResError errors={errors} />
+            { activate ? <div className='alert  alert-danger-matcha'>Congrats, your account is now activated !</div> : ""}
             <BwmResSuccess success={success} />                                  
             <Field
                 name="username"

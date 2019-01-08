@@ -1,7 +1,20 @@
-const User = require('../models/user'),
-    config = require('../config/dev'),
-    bcrypt = require('bcrypt'),
-    jwt = require('jsonwebtoken');
+const   User = require('../models/user'),
+        config = require('../config/dev'),
+        jwt = require('jsonwebtoken');
+
+exports.register = function (req, res) {
+    return User.user_new(req, res);
+}
+
+exports.activate = function (req, res){
+    const userKey= req.params.key;
+    User.user_select_one('key', userKey, function(err, result){
+        if (err){
+            return res.status(422).send({errors: [{title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...'}]})
+        }
+        return res.json(result);
+    });
+}
 
 exports.auth = function (req, res) {
     const { username, password } = req.body;
@@ -10,8 +23,11 @@ exports.auth = function (req, res) {
         return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide email and username' }] });
     }
     User.user_select_one('username', username, function (req, result) {
-        if (result.length == 0) {
-            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Provided username doesn\'t exist ' }] });
+        if (result.length == 0 ) {
+            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'The provided username doesn\'t exist ' }] });
+        }
+        else if (result[0].active == '0' ) {
+            return res.status(422).send({ errors: [{ title: 'Account non active', detail: 'Your account hasn\'t been activated yet. Please check your email.' }] });
         }
         else {
             User.user_password_check(result[0].id, password, function (cb_result) {
@@ -26,12 +42,6 @@ exports.auth = function (req, res) {
         }
     });
 
-}
-
-exports.register = function (req, res, next) {
-
-    return User.user_new(req, res);
-    
 }
 
 exports.authMiddleware = function (req, res, next) {
