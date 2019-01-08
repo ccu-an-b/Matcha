@@ -31,6 +31,7 @@ function user_select_one(key, value, callback) {
     });
 }
 
+// REGISTER FUNCTIONS
 function user_new_tables(user_id){
     pool.connect(function (err, client, done) {
         if (err) {
@@ -74,6 +75,18 @@ function user_new(req, res) {
     });
 }
 
+function user_set_active(user_id){
+    var key = base64url(crypto.randomBytes(40));
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
+        }
+    client.query('UPDATE users SET active = 1, key = $1 WHERE id = $2', [key,user_id]);
+        done();
+    });
+}
+
+// AUTH FUNCTIONS
 function user_password_check(id, password, cb) {
     pool.connect(function (err, client, done) {
         if (err) {
@@ -92,5 +105,6 @@ function user_password_check(id, password, cb) {
 module.exports = {
     user_select_one,
     user_new,
-    user_password_check
+    user_password_check,
+    user_set_active,
 }

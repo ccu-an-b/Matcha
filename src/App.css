@@ -120,11 +120,11 @@
     .form .alert p {
       margin-bottom: 0; }
   .form .alert-danger-matcha {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     color: #E83114 !important;
     letter-spacing: 0.5px; }
   .form .alert-success-matcha {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     color: #E83114 !important;
     letter-spacing: 0.5px; }
   .form .btn {

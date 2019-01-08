@@ -14,7 +14,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as actions from 'actions';
 
 import Landing  from 'components/landing/Landing' ;
-import Activate  from 'components/activate/Activate';
 import Dashboard  from 'components/dashboard/Dashboard' ;
 
 const store = require('./reducers').init();
@@ -43,7 +42,6 @@ class App extends Component {
               <Switch>
                 <LoggedInRoute exact path="/" component={Landing} />
                 <LoggedInRoute exact path="/:key" component={Landing} />
-                {/* <LoggedInRoute exact path="/activate/:key" component={Activate} /> */}
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
             </div>

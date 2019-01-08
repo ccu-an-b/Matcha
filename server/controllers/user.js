@@ -12,6 +12,10 @@ exports.activate = function (req, res){
         if (err){
             return res.status(422).send({errors: [{title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...'}]})
         }
+        if (result.length)
+        {
+            User.user_set_active(result[0].id)
+        }
         return res.json(result);
     });
 }
