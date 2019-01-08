@@ -98,10 +98,6 @@ export class Landing extends React.Component {
                 
             )
         }
-        else if(this.props.match.params.key )
-        {
-            return <Redirect to={{pathname: '/'}} />
-        }
         else
         {
             return (

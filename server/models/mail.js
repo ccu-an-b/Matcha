@@ -2,7 +2,7 @@ const   nodemailer = require('nodemailer');
 
 function activation_mail(username, email, key){
 
-    var link = "http://localhost:3000/activate/"+key;
+    var link = "http://localhost:3000/"+key;
     var subject = "Welcome to Matcha";
     var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
                     '<tr><td align="center" valign="top">' +
