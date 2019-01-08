@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const   nodemailer = require('nodemailer');
 
 function activation_mail(username, email, key){
 
@@ -8,7 +8,7 @@ function activation_mail(username, email, key){
                     '<tr><td align="center" valign="top">' +
                         '<table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateContainerMiddle" style="margin-bottom:30px"> <tbody>'+
                             '<tr><td valign="top" class="bodyContent" mc:edit="body_content" style="color:#3f3c3b; text-align:center">'+
-                                '<h3 style="color:#3f3c3b ;margin-bottom: 0px; margin-top: 20px;">Hi '+username+',</h3>'+
+                                '<h3 style="color:#3f3c3b ;margin-bottom: 0px; margin-top: 20px; text-transform: capitalize;">Hi '+username+',</h3>'+
                                 '<p style="color:#3f3c3b;margin-top: 10px;margin-bottom: 30px;"><span style="color:#3f3c3b">You&apos;re now one step away from your perfect match !</span> <br><span style="color:#3f3c3b"> Click on the link below to complete your registration.</span></p>'+
                                 '<a href="'+link+'" style="background: linear-gradient(332deg, #363B6D 0%, #E83114 100%);padding: 10px 20px;color: white;border-radius: 0.25rem;letter-spacing: 1px;text-decoration: none;text-transform: uppercase;margin-top: 0p;">Confirm your email</a>' +
                             '</td></tr>'+

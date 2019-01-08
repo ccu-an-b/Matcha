@@ -1,10 +1,11 @@
-const pg = require('pg'),
-    bcrypt = require('bcrypt'),
-    crypto = require('crypto'),
-    base64url = require('base64url'),
-    config = require('../config/dev'),
-    mail = require('./mail');
-const pool = new pg.Pool(config.db);
+const   pg = require('pg'),
+        bcrypt = require('bcrypt'),
+        crypto = require('crypto'),
+        base64url = require('base64url'),
+        config = require('../config/dev'),
+        Mail = require('./mail');
+
+const   pool = new pg.Pool(config.db);
 
 function user_select_all(callback) {
     pool.connect(function (err, client, done) {
@@ -46,41 +47,31 @@ function user_new_tables(user_id){
 
 function user_new(req, res) {
 
-    // const { name, last_name, username, mail, password} = req.body;
+    const { name, last_name, username, mail, password} = req.body;
 
-    // user_select_one('username', username, function (err, result) {
-    //     if (result.length != 0)
-    //         return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] })
-    //     else {
-    //         user_select_one('mail', mail, function (err, result) {
-    //             if (result.length != 0) {
-    //                 return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used ' }] })
-    //             }
-    //             else {
-    //                 let hash = bcrypt.hashSync(password, 10);
-    //                 let key = base64url(crypto.randomBytes(40));
-    //                 pool.connect(function (err, client, done) {
-    //                     if (err) {
-    //                         return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
-    //                     }
-    //                     // client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key]);
-    //                     // done();
-    //                     client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key], function(err, result){
-    //                         done();
-    //                         mail.activation_mail();
-    //                         user_new_tables(result.rows[0].id);
-    //                         return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
-    //                     });
-    //                     // client.query('ALTER TABLE matchs ADD COLUMN ' + username + ' integer DEFAULT 0');                     
-    //                     // done();
-    //                     // return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
-    //                 });
-    //             }
-    //         });
-    //     }
-    // });
-    mail.activation_mail("Chloe", "ccu-an-b@student.42.fr", "");
-    return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
+    user_select_one('username', username, function (err, result) {
+        if (result.length != 0)
+            return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] });
+    });
+
+    user_select_one('mail', mail, function (err, result) {
+        if (result.length != 0) 
+            return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used ' }] });
+    });
+
+    let hash = bcrypt.hashSync(password, 10);
+    var key = base64url(crypto.randomBytes(40));
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
+        }
+        client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key], function(err, result){
+            done();
+            Mail.activation_mail(username, mail, key); 
+            user_new_tables(result.rows[0].id);           
+            return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
+        });
+    });
 }
 
 function user_password_check(id, password, cb) {
