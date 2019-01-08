@@ -54,14 +54,14 @@ const RegisterForm = props => {
                 component={BwmInput}
                 validate={[required, minLength8, checkNumber,checkLetter, checkUpper]}
             />
-            <Field
+            {/* <Field
                 name="password_conf"
                 type="password"
                 label="Password Confirmation"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
-            />
+            /> */}
             <div className="form-submit">
                 <button className='btn button full' type="submit" disabled={!valid || pristine || submitting}>
                     SIGN UP
