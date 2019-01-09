@@ -16,7 +16,7 @@ export const BwmInput = ({
                     <div className="input-group-text">{symbol}</div>
                 </div>
             }
-                <input {...input} placeholder={label} type={type} className={className} />
+                <input {...input} placeholder={label} type={type} className={className}/>
                 <span className='focus-input'></span>
             </div>
             {touched &&

@@ -24,6 +24,7 @@ const LoginForm = props => {
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
+                data-parse='lowercase'
             />
             <Field
                 name="password"

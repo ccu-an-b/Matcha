@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top:350px;
+    margin-top:300px;
     
     .landing-shade{
         // background-color: rgba(255,255,255,0.2);
@@ -24,6 +24,7 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        left:0;
     }
 
     .nav {

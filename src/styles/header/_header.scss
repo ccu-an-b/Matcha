@@ -13,7 +13,7 @@
 .landing-nav {
     position: fixed;
     z-index: 10;
-    margin-top: 350px;
+    margin-top: 300px;
     position: absolute;
     left: 10px;
     .my-0 {
@@ -46,7 +46,7 @@ header {
     width: 100%;
     transition: transform .4s;
     top: -80px;
-     margin-bottom:200px;
+    margin-bottom:150px;
   .my-toggler{
     background-color: #E83114;
     border-radius: 50%;
@@ -67,11 +67,25 @@ header {
         outline:none;
     }
     i:first-child{
+        transition: all .4s;
       margin-top:5px;
+      transform: rotate(-40deg) skewX(0deg);
      } 
     i {
-      margin-top: -19px
+        transition: all .4s;
+      margin-top: -25px;
+      transform: rotate(40deg) skewX(0deg);
     }
+  }
+  .my-toggler.collapsed{
+    i:first-child{
+        margin-top:5px;
+        transform: rotate(0deg) skewX(0deg);
+       } 
+      i {
+        margin-top: -19px;
+        transform: rotate(0deg) skewX(0deg);
+      }
   }
     img {
         height: 50px;
@@ -112,9 +126,12 @@ header {
         justify-content: space-between;
         background-color:white;
         height:100%;
-        border-radius:4px
-        
+        border-radius:4px;        
       }
+      .my-collapse.collapsing{
+          overflow: initial;
+      }
+      
       ul.my-ul{
         margin-left:20px;
         width:650px;
@@ -190,7 +207,10 @@ header {
     width:100%;
   }
   header{
-    
+    margin-bottom: 250px;
+    img {
+        height:35px;   
+    }
     .my-toggler{
       display:flex
     }
@@ -202,6 +222,10 @@ header {
         .profile {
           margin:auto;
           justify-content:center;
+          img {
+              margin:0;
+              margin-right:10px;
+          }
         }
       .my-collapse {
         width: 100%;
@@ -221,22 +245,27 @@ header {
           button.search{
             color:white;  
           }
-          &:after{
-            content: "";
-            position: absolute;
-            top:170px;
-            left: 0;
-            background-color:#E83114;
-            padding-bottom: 160px;
-            width: 160%;
-            margin-left:-30%;
-            transform-origin: 0 0;
-            opacity:1;
-            border-bottom-left-radius: 50% 150px;
-            border-bottom-right-radius: 50% 150px;
-            z-index:-1;
-            box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.05);
+          
         }
+        
+        .my-collapse.show {
+            &:after{
+                content: "";
+                position: absolute;
+                top:170px;
+                left: 0;
+                background-color:#E83114;
+                padding-bottom: 160px;
+                width: 160%;
+                margin-left:-30%;
+                transform-origin: 0 0;
+                opacity:1;
+                border-bottom-left-radius: 50% 150px;
+                border-bottom-right-radius: 50% 150px;
+                z-index:-1;
+                box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.05);
+                }
+             
         }
     }
   }
