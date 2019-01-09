@@ -34,7 +34,16 @@ input {
 }
 
 body {
+    background-color: rgb(250,250,250);
+    overflow-x:hidden;
     color:  $main-black;
+}
+
+.app-container {
+    width: 1000px;
+    margin:auto;
+    margin-top:-300px;
+    min-height: 100vh
 }
 
 a {
@@ -99,3 +108,9 @@ h1,h2, h3,h4 {
     }
 }
 
+@media screen and (max-width: 1000px)
+{
+    .app-container {
+        width:100%;
+    }
+}

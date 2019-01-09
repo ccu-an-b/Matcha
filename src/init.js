@@ -73,6 +73,47 @@ CREATE TABLE tags \
 WITH ( \
     OIDS = FALSE \
 ) \
+TABLESPACE pg_default;\
+CREATE TABLE notifications\
+(\
+    id integer NOT NULL DEFAULT nextval('id_notif_seq'::regclass),\
+    user_id integer,\
+    user_from_id integer,\
+    type integer,\
+    date timestamp without time zone NOT NULL DEFAULT now(),\
+    read integer DEFAULT 0,\
+    CONSTRAINT notifications_pkey PRIMARY KEY (id)\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+CREATE TABLE notifications_messages\
+(\
+    id integer NOT NULL DEFAULT nextval('id_notif_msg_seq'::regclass),\
+    user_id integer,\
+    user_from_id integer,\
+    last_msg character varying(254) COLLATE pg_catalog."default",\
+    date timestamp without time zone NOT NULL DEFAULT now(),\
+    read integer DEFAULT 0,\
+    CONSTRAINT notifications_messages_pkey PRIMARY KEY (id)\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+CREATE TABLE public.messages\
+(\
+    id integer NOT NULL DEFAULT nextval('id_msg_seq'::regclass),\
+    user_from_id integer,\
+    user_for_id integer,\
+    content character varying(254) COLLATE pg_catalog."default",\
+    read integer DEFAULT 0,\
+    CONSTRAINT messages_pkey PRIMARY KEY (id)\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
 TABLESPACE pg_default;", (err, res) => {
     console.log(err, res);
     pool.end();

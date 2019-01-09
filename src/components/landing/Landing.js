@@ -6,6 +6,7 @@ import RegisterForm from './RegisterForm';
 import { connect } from 'react-redux';
 import * as actions from 'actions';
 
+
 export class Landing extends React.Component {
 
     
@@ -81,7 +82,6 @@ export class Landing extends React.Component {
         else if(user && this.props.match.params.key ) 
         {
             return (
-            
                 <div className="landing-body">
                    <div className="landing-shade">
                     </div>
