@@ -10,7 +10,7 @@ const RegisterForm = props => {
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <div className='form-header'>
-                <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
+                <img alt="logo" src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
                 <h2>Get started</h2>
             </div>
             <BwmResError errors={errors}/>
@@ -54,14 +54,14 @@ const RegisterForm = props => {
                 component={BwmInput}
                 validate={[required, minLength8, checkNumber,checkLetter, checkUpper]}
             />
-            <Field
+            {/* <Field
                 name="password_conf"
                 type="password"
                 label="Password Confirmation"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
-            />
+            /> */}
             <div className="form-submit">
                 <button className='btn button full' type="submit" disabled={!valid || pristine || submitting}>
                     SIGN UP

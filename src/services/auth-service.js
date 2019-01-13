@@ -31,6 +31,10 @@ class AuthService {
         return this.decode(this.getToken()).username;
     }
 
+    getUsermail() {
+        return this.decode(this.getToken()).userMail;
+    }
+
     isValid(token){
         return moment().isBefore(this.getExpiration(token));
     }

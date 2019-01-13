@@ -3,26 +3,28 @@ import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmResError } from 'components/shared/form/BwmResError';
 import { BwmResSuccess } from 'components/shared/form/BwmResSuccess';
-import { required, isEmail } from 'components/shared/form/validators';
+import { required} from 'components/shared/form/validators';
 
 
 const LoginForm = props => {
-    const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success} = props
+    const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success, activate} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <div className='form-header'>
-                <img src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
+                <img alt="logo" src={process.env.PUBLIC_URL + '/matcha_icon.svg'}></img>
                 <h2>ready set match</h2>
             </div>
             <BwmResError errors={errors} />
+            { activate ? <div className='alert  alert-danger-matcha'>Congrats, your account is now activated !</div> : ""}
             <BwmResSuccess success={success} />                                  
             <Field
-                name="mail"
+                name="username"
                 type="text"
-                label="Email"
+                label="Username"
                 className='form-control'
                 component={BwmInput}
-                validate={[required,isEmail]}
+                validate={[required]}
+                data-parse='lowercase'
             />
             <Field
                 name="password"

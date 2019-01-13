@@ -1,6 +1,4 @@
 const   express     = require('express'),
-        config      = require('./config/dev'),
-        pg          = require('pg'),
         bodyParser  = require('body-parser');
 
 const userRoutes = require('./routes/users');

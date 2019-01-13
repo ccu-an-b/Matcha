@@ -7,4 +7,6 @@ router.post('/auth',  UserCtrl.auth)
 
 router.post('/register', UserCtrl.register)
 
+router.get('/activate/:key', UserCtrl.activate)
+
 module.exports = router;

@@ -3,9 +3,11 @@ import authService from 'services/auth-service';
 
 import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
-          LOGOUT } from './types';
+          LOGOUT,
+          FETCH_USER_BY_KEY_INIT,
+          FETCH_USER_BY_KEY_SUCCESS } from './types';
 
-// AUTH ACTIONS
+// REGISTER ACTIONS
 export const register = (userData) => {
   return axios.post(`/api/v1/users/register`, {...userData}).then(
     res => res.data,
@@ -13,12 +15,39 @@ export const register = (userData) => {
   );
 }
 
+const fetchUserByKeyInit = () => {
+  
+  return {
+    type: FETCH_USER_BY_KEY_INIT,
+  }
+}
+
+const fetchUserByKeySuccess = (user) => {
+  
+  return {
+    type: FETCH_USER_BY_KEY_SUCCESS,
+    user
+  }
+}
+export const fetchUserByKey = (userKey) => {
+
+  return function(dispatch) {
+    dispatch(fetchUserByKeyInit());
+    
+    axios.get(`/api/v1/users/activate/${userKey}`).then((user) => {
+      dispatch(fetchUserByKeySuccess(user.data[0]));
+    });
+  }
+}
+
+// AUTH ACTIONS
 const loginSuccess = () => {
   const username = authService.getUsername();
-
+  const userMail = authService.getUsermail();
   return {
     type: LOGIN_SUCCESS,
-    username
+    username,
+    userMail
   }
 }
 
@@ -57,3 +86,4 @@ export const logout = () => {
     type: LOGOUT
   }
 }
+

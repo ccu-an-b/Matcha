@@ -1,17 +1,37 @@
-const User = require('../models/user'),
-    config = require('../config/dev'),
-    bcrypt = require('bcrypt'),
-    jwt = require('jsonwebtoken');
+const   User = require('../models/user'),
+        config = require('../config/dev'),
+        jwt = require('jsonwebtoken');
+
+exports.register = function (req, res) {
+    return User.user_new(req, res);
+}
+
+exports.activate = function (req, res){
+    const userKey= req.params.key;
+    User.user_select_one('key', userKey, function(err, result){
+        if (err){
+            return res.status(422).send({errors: [{title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...'}]})
+        }
+        if (result.length)
+        {
+            User.user_set_active(result[0].id)
+        }
+        return res.json(result);
+    });
+}
 
 exports.auth = function (req, res) {
-    const { mail, password } = req.body;
-
-    if (!password || !mail) {
-        return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide email and password' }] });
+    const { username, password } = req.body;
+    username;
+    if (!password || !username) {
+        return res.status(422).send({ errors: [{ title: 'Data missing', detail: 'Provide email and username' }] });
     }
-    User.user_select_one('mail', mail, function (req, result) {
-        if (result.length == 0) {
-            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Provided email doesn\'t exist ' }] });
+    User.user_select_one('username', username, function (req, result) {
+        if (result.length == 0 ) {
+            return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'The provided username doesn\'t exist ' }] });
+        }
+        else if (result[0].active == '0' ) {
+            return res.status(422).send({ errors: [{ title: 'Account non active', detail: 'Your account hasn\'t been activated yet. Please check your email.' }] });
         }
         else {
             User.user_password_check(result[0].id, password, function (cb_result) {
@@ -20,18 +40,11 @@ exports.auth = function (req, res) {
                 }
                 return res.json(jwt.sign({
                     userId: result[0].id,
-                    username: result[0].login,
-                    userMail: result[0].mail
+                    username : result[0].username,
                 }, config.SECRET, { expiresIn: '1h' }));
             });
         }
     });
-
-}
-
-exports.register = function (req, res, next) {
-
-    User.user_new(req, res);
 
 }
 
