@@ -3,6 +3,7 @@ import { Link , withRouter} from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize} from 'helpers';
+import  Navbar from './Navbar';
 
 class Header extends React.Component {
     constructor() {
@@ -28,31 +29,7 @@ class Header extends React.Component {
                         <i class="fas fa-grip-lines"></i>
                         <i class="fas fa-grip-lines"></i>
                     </button>
-                    <nav class="navbar navbar-expand-lg navbar-light my-nav">
-                        <div class="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
-                            <div class="profile">
-                                <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"/>
-                                <a class="navbar-brand " href="/dashboard"> {toCapitalize(username)}</a>
-                            </div>
-                            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
-                            <li class="nav-item my-li">
-                                <a class="nav-link active" href="#">Browse <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" href="#">Notifications</a>
-                            </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" href="#">Messages</a>
-                            </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" onClick={this.handleLogout}>Logout</a>
-                            </li>
-                            </ul>
-                            <form class="form-inline my-2 my-lg-0">
-                            <button class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button>
-                            </form>
-                        </div>
-                    </nav>
+                    <Navbar />
                 </header>
             )
 

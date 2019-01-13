@@ -107,9 +107,27 @@ header {
         height:65px;
         display: flex;
         align-items:center;
-        background-color:#E83114;
+        background-color: $main-orange;
         color: white;
         width:250px;
+        img {
+          border-radius:50%;
+          height:40px;
+          width:40px;
+          object-fit:cover;
+          margin:0 10px 0 30px;
+        }
+        a {
+          padding:0;
+          color:white;
+        }
+      }
+      .right-buttons {
+        height:65px;
+        display: flex;
+        align-items:center;
+        background-color: $main-orange;
+        color: white;
         img {
           border-radius:50%;
           height:40px;
@@ -134,10 +152,11 @@ header {
       
       ul.my-ul{
         margin-left:20px;
-        width:650px;
+        width: 100%;
         margin-right:initial !important;
         display: flex;
         justify-content: space-evenly;
+        align-items: center;
       }
       .my-li{
         padding: 0 20px;
@@ -219,6 +238,7 @@ header {
         overflow: initial;
         position: fixed;
         top: -30px;
+        align-items: center;
         .profile {
           margin:auto;
           justify-content:center;
