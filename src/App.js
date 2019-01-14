@@ -7,10 +7,6 @@ import { BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import { ProtectedRoute } from 'components/shared/auth/ProtectedRoute' ;
 import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-
 import * as actions from 'actions';
 
 import Landing  from 'components/landing/Landing' ;
@@ -55,4 +51,3 @@ class App extends Component {
 }
 
 export default App;
-library.add(faTimes);

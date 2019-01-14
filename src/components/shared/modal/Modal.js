@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Modal = ({ handleClose, show, children , modalType}) => {
     const showHideClassName = show ? 'modal display-block' : 'modal display-none';
@@ -8,7 +7,7 @@ const Modal = ({ handleClose, show, children , modalType}) => {
       <div className={showHideClassName} onClick={handleClose} id="closeModal">
         <section className='modal-main' id={modalType}>        
           <div className="modal-close" onClick={handleClose} >
-            <FontAwesomeIcon icon="times" id="closeModal"/>
+            <i class="fas fa-times" id="closeModal"></i>
           </div>
           {children}
         </section>
