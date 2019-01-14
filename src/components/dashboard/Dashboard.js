@@ -14,7 +14,7 @@ export class Dashboard extends React.Component {
 
     render(){
 
-        if(!authService.getUserProfileStatus())
+        if(authService.getUserProfileStatus())
         {
             return (
                 <div class="dashboard">

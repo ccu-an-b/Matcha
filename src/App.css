@@ -29,11 +29,10 @@ header {
   text-align: center;
   position: sticky;
   z-index: 20;
-  top: 0;
   width: 100%;
   transition: transform .4s;
   top: -80px;
-  margin-bottom: 150px; }
+  margin-bottom: 200px; }
   header .my-toggler {
     background-color: #E83114;
     border-radius: 50%;
@@ -94,21 +93,6 @@ header {
         object-fit: cover;
         margin: 0 10px 0 30px; }
       header nav.my-nav .profile a {
-        padding: 0;
-        color: white; }
-    header nav.my-nav .right-buttons {
-      height: 65px;
-      display: flex;
-      align-items: center;
-      background-color: #E83114;
-      color: white; }
-      header nav.my-nav .right-buttons img {
-        border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        object-fit: cover;
-        margin: 0 10px 0 30px; }
-      header nav.my-nav .right-buttons a {
         padding: 0;
         color: white; }
     header nav.my-nav .my-collapse {
@@ -181,7 +165,7 @@ header {
   .body-container {
     width: 100%; }
   header {
-    margin-bottom: 150px; }
+    margin-bottom: 300px; }
     header img {
       height: 35px; }
     header .my-toggler {
@@ -190,35 +174,34 @@ header {
       box-shadow: none;
       overflow: initial;
       position: fixed;
-      top: -30px;
-      align-items: center; }
+      top: -30px; }
       header nav.my-nav .profile {
         margin: auto;
         justify-content: center; }
         header nav.my-nav .profile img {
           margin: 0;
           margin-right: 10px; }
-    header .my-collapse {
-      width: 100%;
-      border-radius: 0px;
-      background-color: #E83114;
-      border-bottom-left-radius: 200% 250px;
-      border-bottom-right-radius: 200% 250px;
-      margin-left: -50px;
-      margin-right: -50px;
-      padding: 0 50px;
-      transition: all .4s; }
-      header .my-collapse ul.my-ul {
-        width: 200px;
-        margin: auto !important; }
-      header .my-collapse .my-li a.nav-link {
-        color: white; }
-      header .my-collapse form {
-        justify-content: flex-end;
-        margin-top: 0 !important;
-        margin-bottom: 50px !important; }
-      header .my-collapse button.search {
-        color: white; }
+      header nav.my-nav .my-collapse {
+        width: 100%;
+        border-radius: 0px;
+        background-color: #E83114;
+        border-bottom-left-radius: 200% 250px;
+        border-bottom-right-radius: 200% 250px;
+        margin-left: -50px;
+        margin-right: -50px;
+        padding: 0 50px;
+        transition: all .4s; }
+        header nav.my-nav .my-collapse ul.my-ul {
+          width: 200px;
+          margin: auto !important; }
+        header nav.my-nav .my-collapse .my-li a.nav-link {
+          color: white; }
+        header nav.my-nav .my-collapse form {
+          justify-content: flex-end;
+          margin-top: 0 !important;
+          margin-bottom: 50px !important; }
+        header nav.my-nav .my-collapse button.search {
+          color: white; }
   #background-header {
     height: 200px; }
     #background-header:before {
@@ -236,7 +219,8 @@ header {
   background-size: cover;
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  top: 0; }
   .landing-body .landing-shade {
     background: linear-gradient(160deg, #000000 0%, white 100%);
     opacity: 0.3;
@@ -965,10 +949,8 @@ body.my-body {
   width: 1000px;
   margin: auto;
   margin-top: -300px;
+  height: auto;
   min-height: 100vh; }
-
-.App {
-  overflow-x: hidden; }
 
 a {
   cursor: pointer; }
@@ -982,7 +964,9 @@ h1, h2, h3, h4 {
 
 @media screen and (max-width: 1000px) {
   .app-container {
-    margin-top: -200px; } }
+    margin-top: -200px; }
+  .App {
+    overflow-x: hidden; } }
 
 .button {
   box-sizing: border-box;

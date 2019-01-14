@@ -36,7 +36,7 @@ class Header extends React.Component {
                             </div>
                             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
                             <li class="nav-item my-li">
-                                <a class="nav-link active" href="#">Browse <span class="sr-only">(current)</span></a>
+                                <a class="nav-link active" href="/browse">Browse <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item my-li">
                                 <a class="nav-link" href="#">Notifications</a>
