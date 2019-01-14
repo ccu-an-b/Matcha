@@ -49,7 +49,7 @@ class Header extends React.Component {
                             </li>
                             </ul>
                             <form class="form-inline my-2 my-lg-0">
-                            <button class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button>
+                                <button class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button>
                             </form>
                         </div>
                     </nav>

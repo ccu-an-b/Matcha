@@ -33,7 +33,7 @@ input {
 
 }
 
-body {
+body.my-body {
     background-color: rgb(250,250,250);
     overflow-x:hidden;
     color:  $main-black;
@@ -61,6 +61,15 @@ h1,h2, h3,h4 {
 *{
     box-sizing: border-box;
 }
+
+@media screen and (max-width: 1000px){
+    .app-container{
+        margin-top:-200px;
+    }
+
+}
+
+
 .button {
     box-sizing: border-box;
     height: 40px;
