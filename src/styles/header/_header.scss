@@ -86,6 +86,7 @@ header {
       margin-top: -19px;
       transform: rotate(0deg) skewX(0deg);
     }
+<<<<<<< HEAD
   }
   img {
     height: 50px;
@@ -120,6 +121,74 @@ header {
       a {
         padding:0;
         color:white;
+=======
+    nav.my-nav {
+      width: 100%;
+      margin: auto;
+      margin-top: 30px;
+      min-height:65px;
+      transition: transform .4s;
+      box-shadow: 6px 6px 5px rgba(0,0,0,0.05);
+      border-radius: 4px;
+     
+      padding: 0;
+      box-sizing: border-box;
+      overflow:hidden;
+      .profile {
+        height:65px;
+        display: flex;
+        align-items:center;
+        background-color: $main-orange;
+        color: white;
+        width:250px;
+        img {
+          border-radius:50%;
+          height:40px;
+          width:40px;
+          object-fit:cover;
+          margin:0 10px 0 30px;
+        }
+        a {
+          padding:0;
+          color:white;
+        }
+      }
+      .right-buttons {
+        height:65px;
+        display: flex;
+        align-items:center;
+        background-color: $main-orange;
+        color: white;
+        img {
+          border-radius:50%;
+          height:40px;
+          width:40px;
+          object-fit:cover;
+          margin:0 10px 0 30px;
+        }
+        a {
+          padding:0;
+          color:white;
+        }
+      }
+      .my-collapse {
+        justify-content: space-between;
+        background-color:white;
+        height:100%;
+        border-radius:4px;        
+      }
+      .my-collapse.collapsing{
+          overflow: initial;
+      }
+      
+      ul.my-ul{
+        margin-left:20px;
+        width: 100%;
+        margin-right:initial !important;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+>>>>>>> e4c6c1df3e0e84d50c5a13fd0f4b0499678c828a
       }
     }
     .my-collapse {
@@ -214,6 +283,7 @@ header {
     .my-toggler{
       display:flex
     }
+<<<<<<< HEAD
     nav.my-nav{
       box-shadow: none;
       overflow: initial;
@@ -225,6 +295,21 @@ header {
         img {
           margin:0;
           margin-right:10px;
+=======
+      nav.my-nav{
+        box-shadow: none;
+        overflow: initial;
+        position: fixed;
+        top: -30px;
+        align-items: center;
+        .profile {
+          margin:auto;
+          justify-content:center;
+          img {
+              margin:0;
+              margin-right:10px;
+          }
+>>>>>>> e4c6c1df3e0e84d50c5a13fd0f4b0499678c828a
         }
       }
       .my-collapse {

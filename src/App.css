@@ -96,6 +96,21 @@ header {
       header nav.my-nav .profile a {
         padding: 0;
         color: white; }
+    header nav.my-nav .right-buttons {
+      height: 65px;
+      display: flex;
+      align-items: center;
+      background-color: #E83114;
+      color: white; }
+      header nav.my-nav .right-buttons img {
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        object-fit: cover;
+        margin: 0 10px 0 30px; }
+      header nav.my-nav .right-buttons a {
+        padding: 0;
+        color: white; }
     header nav.my-nav .my-collapse {
       justify-content: space-between;
       background-color: white;
@@ -105,10 +120,11 @@ header {
       overflow: initial; }
     header nav.my-nav ul.my-ul {
       margin-left: 20px;
-      width: 650px;
+      width: 100%;
       margin-right: initial !important;
       display: flex;
-      justify-content: space-evenly; }
+      justify-content: space-evenly;
+      align-items: center; }
     header nav.my-nav .my-li {
       padding: 0 20px;
       color: 3F3C3B; }
@@ -175,7 +191,8 @@ header {
       box-shadow: none;
       overflow: initial;
       position: fixed;
-      top: -30px; }
+      top: -30px;
+      align-items: center; }
       header nav.my-nav .profile {
         margin: auto;
         justify-content: center; }
