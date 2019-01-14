@@ -43,11 +43,13 @@ export const fetchUserByKey = (userKey) => {
 // AUTH ACTIONS
 const loginSuccess = () => {
   const username = authService.getUsername();
-  const userMail = authService.getUsermail();
+  const userId = authService.getUserId();
+  const userProfileStatus = authService.getUserProfileStatus();
   return {
     type: LOGIN_SUCCESS,
     username,
-    userMail
+    userId,
+    userProfileStatus
   }
 }
 

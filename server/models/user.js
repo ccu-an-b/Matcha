@@ -105,9 +105,24 @@ function user_password_check(id, password, cb) {
     })
 }
 
+function user_check_profile_status(id, cb){
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT age, location, bio, gender, img_1 from profiles where user_id = $1', [id], function (err, result) {
+            done()
+            var hasNullValue = Object.values(result.rows[0]).some(function(value) {
+                return value === null;
+            });
+            return cb(!hasNullValue);
+        })
+    })
+}
 module.exports = {
     user_select_one,
     user_new,
     user_password_check,
+    user_check_profile_status,
     user_set_active,
 }

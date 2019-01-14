@@ -38,10 +38,16 @@ exports.auth = function (req, res) {
                 if (cb_result == false) {
                     return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Wrong password' }] });
                 }
-                return res.json(jwt.sign({
-                    userId: result[0].id,
-                    username : result[0].username,
-                }, config.SECRET, { expiresIn: '1h' }));
+                else {
+                    User.user_check_profile_status(result[0].id, function (complete)
+                    {
+                        return res.json(jwt.sign({
+                            userId: result[0].id,
+                            username : result[0].username,
+                            userProfileStatus : complete,
+                        }, config.SECRET, { expiresIn: '1h' }));
+                    })
+                }
             });
         }
     });

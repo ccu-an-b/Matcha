@@ -12,7 +12,6 @@ export const selectedUserReducer = (state = INITIAL_STATE.user, action) => {
         case FETCH_USER_BY_KEY_INIT:
             return {...state, data: {}};
         case FETCH_USER_BY_KEY_SUCCESS:
-            // ou return Object.assign({}, state, {data:action.rental});
             return {...state, data: action.user}
         default:
             return state;
