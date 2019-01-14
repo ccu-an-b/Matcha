@@ -63,7 +63,6 @@ export class Landing extends React.Component {
     
     logInUser(userData){
         this.props.dispatch(actions.login(userData));
-
     }
 
     render() {

@@ -1,14 +1,7 @@
-.navbar .my-0 {
-  width: 150px; }
-
-.navbar nav a {
-  color: #3F3C3B;
-  font-family: "Raleway"; }
-
 .landing-nav {
   position: fixed;
   z-index: 10;
-  margin-top: 300px;
+  margin-top: 250px;
   position: absolute;
   left: 10px; }
   .landing-nav .my-0 {
@@ -32,7 +25,7 @@ header {
   width: 100%;
   transition: transform .4s;
   top: -80px;
-  margin-bottom: 200px; }
+  margin-bottom: 100px; }
   header .my-toggler {
     background-color: #E83114;
     border-radius: 50%;
@@ -69,6 +62,7 @@ header {
     height: 50px;
     margin-top: 30px; }
   header nav.my-nav {
+    font-family: "Raleway";
     width: 100%;
     margin: auto;
     margin-top: 30px;
@@ -126,7 +120,7 @@ header {
   position: relative;
   z-index: 0;
   width: 160%;
-  height: 300px;
+  height: 250px;
   margin-left: -30%;
   border-bottom-left-radius: 50% 150px;
   border-bottom-right-radius: 50% 150px;
@@ -241,7 +235,7 @@ header {
     display: flex;
     align-items: center; }
     .landing-body .nav a {
-      color: #3a3a3a !important;
+      color: #615F5E !important;
       font-family: "Raleway";
       opacity: 0.65;
       font-size: 18px; }
@@ -259,8 +253,7 @@ header {
       background: transparent !important;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      border-bottom-color: #ff6b4a !important; }
+      justify-content: center; }
     .landing-body .landing-form .card-body {
       display: flex;
       flex-wrap: wrap;
@@ -747,6 +740,51 @@ header {
       .dashboard .grid-container .profiles-display .one-profile.online h4 {
         color: #72C17C; }
 
+.profile-not-completed {
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  background-color: white;
+  -webkit-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  text-align: center; }
+  .profile-not-completed h1 {
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 10px;
+    font-weight: 100;
+    letter-spacing: 0.5px;
+    z-index: 3;
+    position: absolute;
+    width: 100%; }
+  .profile-not-completed .header {
+    width: 100%;
+    position: relative;
+    margin-bottom: 40px; }
+    .profile-not-completed .header:after {
+      background-color: #363B6D;
+      width: 110%;
+      transform: rotate(4deg) skewX(0deg);
+      content: "";
+      position: absolute;
+      top: -135px;
+      left: -5px;
+      height: 200px;
+      border-radius: 400px 0px 239px 0px / 123px 0px 121px 0px; }
+  .profile-not-completed p {
+    margin-top: 90px; }
+    .profile-not-completed p a {
+      color: #E83114; }
+      .profile-not-completed p a:visited {
+        color: #E83114; }
+      .profile-not-completed p a:hover {
+        color: #363B6D; }
+
 @media screen and (max-width: 1000px) {
   .body-container {
     width: 100%;
@@ -799,6 +837,17 @@ header {
     top: 80%;
     height: 50%; } }
 
+.profile-form {
+  width: 90%;
+  background-color: white;
+  margin: auto;
+  background-color: white;
+  -webkit-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 0.25rem; }
+
 .form {
   width: 100%;
   font-family: "Abel" !important; }
@@ -833,7 +882,7 @@ header {
   .form .btn {
     border: none; }
     .form .btn:hover {
-      background-color: #ffab4a;
+      background-color: #E83114;
       color: white; }
   .form .form-submit {
     margin: auto;
@@ -943,12 +992,13 @@ input {
 body.my-body {
   background-color: #fafafa;
   overflow-x: hidden;
-  color: #3F3C3B; }
+  color: #615F5E;
+  font-family: Roboto; }
 
 .app-container {
   width: 1000px;
   margin: auto;
-  margin-top: -300px;
+  margin-top: -250px;
   height: auto;
   min-height: 100vh; }
 
@@ -957,7 +1007,7 @@ a {
 
 h1, h2, h3, h4 {
   cursor: default;
-  color: #3F3C3B; }
+  color: #615F5E; }
 
 * {
   box-sizing: border-box; }

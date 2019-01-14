@@ -14,6 +14,6 @@ export const BwmTextarea = ({
                 <textarea {...input} type={type} rows={rows} placeholder={label} className={className} ></textarea>
             </div>
             {touched &&
-                ((error && <div className='alert alert-danger'>{error}</div>))}
+                ((error && <div className='alert-input'>{error}</div>))}
         </div>
 )

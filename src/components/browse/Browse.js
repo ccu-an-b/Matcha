@@ -9,13 +9,18 @@ export class Browse extends React.Component {
         if(authService.getUserProfileStatus())
         {
             return (
-                <div>ok 1</div>
+                <div>Ok: ready for browsing</div>
             )
         }
         else
         {   
             return (
-                <div>not complete 1</div>
+                <div class="profile-not-completed">
+                    <div class="header">
+                        <h1>Can't wait for your next date ?</h1>
+                    </div>
+                        <p>Before you start looking for new matchs you have to complete your profile information. <a href="/dashboard">Complete it here</a></p>
+                </div>
             )
         }
        
