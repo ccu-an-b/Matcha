@@ -3,6 +3,7 @@ import { Link , withRouter} from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize} from 'helpers';
+import Navbar from "./Navbar";
 
 class Header extends React.Component {
     constructor() {

@@ -2,31 +2,50 @@ import axios from 'axios';
 import authService from 'services/auth-service';
 import axiosService from 'services/axios-service';
 
-import {  LOGIN_FAILURE,
-          LOGIN_SUCCESS,
-          LOGOUT,
-          FETCH_USER_BY_KEY_INIT,
-          FETCH_USER_BY_KEY_SUCCESS } from './types';
+import {
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  FETCH_USER_BY_KEY_INIT,
+  FETCH_USER_BY_KEY_SUCCESS,
+  FETCH_USER_PUBLIC_INFO_INIT,
+  FETCH_USER_PUBLIC_INFO_SUCCESS
+} from './types';
 
 const axiosInstance = axiosService.getInstance();
 
 // REGISTER ACTIONS
 export const register = (userData) => {
-  return axios.post(`/api/v1/users/register`, {...userData}).then(
+  return axios.post(`/api/v1/users/register`, { ...userData }).then(
     res => res.data,
-    err => Promise.reject(err.response.data.errors) 
+    err => Promise.reject(err.response.data.errors)
   );
 }
 
 const fetchUserByKeyInit = () => {
-  
+
   return {
     type: FETCH_USER_BY_KEY_INIT,
   }
 }
 
+const fetchPublicDataInit = () => {
+
+  return {
+    type: FETCH_USER_PUBLIC_INFO_INIT,
+  }
+}
+
+const fetchPublicInfoSuccess = (publicData) => {
+
+  return {
+    type: FETCH_USER_PUBLIC_INFO_SUCCESS,
+    publicData
+  }
+}
+
 const fetchUserByKeySuccess = (user) => {
-  
+
   return {
     type: FETCH_USER_BY_KEY_SUCCESS,
     user
@@ -34,9 +53,9 @@ const fetchUserByKeySuccess = (user) => {
 }
 export const fetchUserByKey = (userKey) => {
 
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch(fetchUserByKeyInit());
-    
+
     axios.get(`/api/v1/users/activate/${userKey}`).then((user) => {
       dispatch(fetchUserByKeySuccess(user.data[0]));
     });
@@ -46,7 +65,7 @@ export const fetchUserByKey = (userKey) => {
 export const completeProfile = (profileData) => {
   return axiosInstance.post(`/users/profileComplete`, profileData).then(
     res => res.data,
-    err => Promise.reject(err.response.data.errors) 
+    err => Promise.reject(err.response.data.errors)
   );
 }
 
@@ -79,15 +98,23 @@ export const checkAuthState = () => {
   }
 }
 
+export const fetchPublicData = () => {
+  return dispatch => {
+    if (authService.isAuthentificated()) {
+      dispatch(fetchAllPublicData());
+    }
+  }
+}
+
 export const login = (userData) => {
   return dispatch => {
-    return axios.post('/api/v1/users/auth', {...userData})
+    return axios.post('/api/v1/users/auth', { ...userData })
       .then(res => res.data)
-      .then(token =>{
+      .then(token => {
         authService.saveToken(token);
         dispatch(loginSuccess(token));
       })
-      .catch(({response}) => {
+      .catch(({ response }) => {
         dispatch(loginFailure(response.data.errors))
       })
   }
@@ -109,5 +136,16 @@ export const uploadImage = image => {
     .then(json => {
       return json.data.imageUrl;
     })
-    .catch(({response}) => Promise.reject(response.data.errors[0]))
+    .catch(({ response }) => Promise.reject(response.data.errors[0]))
+}
+
+// FETCH ALL PUBLIC DATA
+const fetchAllPublicData = () => {
+  return function (dispatch) {
+    dispatch(fetchPublicDataInit());
+
+    axios.post('/api/v1/users/fetch-users').then((res) => {
+      dispatch(fetchPublicInfoSuccess(res.data));
+    }).catch(({ response }) => Promise.reject(response.data.errors[0]))
+  }
 }

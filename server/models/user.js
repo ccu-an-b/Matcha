@@ -14,7 +14,7 @@ function user_select_all(callback) {
         }
         client.query('SELECT mail, id, login FROM users', function (err, result) {
             done();
-            return callback(err, result);
+            return callback(err, result.rows);
         });
     });
 }
@@ -25,6 +25,20 @@ function user_select_one(key, value, callback) {
             return console.error('error fetching client from pool', err);
         }
         client.query(`SELECT mail, id, username,active FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+            done();
+            return callback(err, result.rows);
+        });
+    });
+}
+
+///////////////////////////
+// Public Data to be defined
+function user_select_all_public_data(key, value, callback) {
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(`SELECT mail, id, username, active FROM users`, function (err, result) {
             done();
             return callback(err, result.rows);
         });
@@ -165,5 +179,6 @@ module.exports = {
     user_check_profile_status,
     user_set_active,
     user_set_online,
-    user_set_offline
+    user_set_offline,
+    user_select_all_public_data
 }

@@ -14,4 +14,6 @@ router.post('/profileComplete', UserCtrl.authMiddleware, UserMod.user_profile_up
 
 router.get('/activate/:key', UserCtrl.activate)
 
+router.post('/fetch-users', UserCtrl.fetchAllUsersData)
+
 module.exports = router;

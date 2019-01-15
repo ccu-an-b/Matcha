@@ -22,11 +22,17 @@ class App extends Component {
 
   componentWillMount(){
     this.checkAuthState();
+    this.fetchPublicData();
   }
 
   checkAuthState(){
     store.dispatch(actions.checkAuthState());
   }
+
+  fetchPublicData() {
+    store.dispatch(actions.fetchPublicData());
+  }
+
   logout(){
     store.dispatch(actions.logout());
   }
