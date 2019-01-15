@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     }
 }
 
-export const selectedUserReducer = (state = INITIAL_STATE.user, action) => {
+export const selectedUserKeyReducer = (state = INITIAL_STATE.user, action) => {
     switch(action.type) {
         case FETCH_USER_BY_KEY_INIT:
             return {...state, data: {}};

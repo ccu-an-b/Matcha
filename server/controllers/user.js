@@ -39,6 +39,7 @@ exports.auth = function (req, res) {
                     return res.status(422).send({ errors: [{ title: 'Wrong identification', detail: 'Wrong password' }] });
                 }
                 else {
+                    User.user_set_online('1',result[0].id)
                     User.user_check_profile_status(result[0].id, function (complete)
                     {
                         return res.json(jwt.sign({

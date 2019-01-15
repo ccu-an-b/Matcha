@@ -10,6 +10,7 @@ CREATE SEQUENCE users_id_seq; \
 CREATE SEQUENCE id_notif_seq; \
 CREATE SEQUENCE id_notif_msg_seq; \
 CREATE SEQUENCE id_msg_seq; \
+CREATE SEQUENCE id_images_seq;\
     CREATE TABLE users ( \
     id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass), \
     username character varying(128) COLLATE pg_catalog.\"default\", \
@@ -19,7 +20,6 @@ CREATE SEQUENCE id_msg_seq; \
     password character varying(128) COLLATE pg_catalog.\"default\", \
     key character varying(128) COLLATE pg_catalog.\"default\", \
     active integer DEFAULT 0, \
-    profile_picture character varying(128) COLLATE pg_catalog.\"default\", \
     online integer DEFAULT 0, \
     last_connexion timestamp(6) without time zone DEFAULT now(), \
     CONSTRAINT users_pkey PRIMARY KEY (id) \
@@ -36,11 +36,7 @@ CREATE TABLE profiles \
     bio character varying(128) COLLATE pg_catalog.\"default\", \
     gender integer, \
     orientation integer DEFAULT 0, \
-    img_1 character varying(128) COLLATE pg_catalog.\"default\", \
-    img_2 character varying(128) COLLATE pg_catalog.\"default\", \
-    img_3 character varying(128) COLLATE pg_catalog.\"default\", \
-    img_4 character varying(128) COLLATE pg_catalog.\"default\", \
-    img_5 character varying(128) COLLATE pg_catalog.\"default\" \
+    profile_img character varying(128) COLLATE pg_catalog.\"default\", \
 ) \
 WITH ( \
     OIDS = FALSE \
@@ -76,6 +72,17 @@ CREATE TABLE tags \
 WITH ( \
     OIDS = FALSE \
 ) \
+TABLESPACE pg_default;\
+CREATE TABLE public.images\
+(\
+    id integer NOT NULL DEFAULT nextval('id_images_seq'::regclass),\
+    user_id integer,\
+    path character varying(128) COLLATE pg_catalog.'default',\
+    CONSTRAINT images_pkey PRIMARY KEY (id)\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
 TABLESPACE pg_default;\
 CREATE TABLE notifications\
 (\

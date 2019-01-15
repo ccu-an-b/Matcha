@@ -31,7 +31,7 @@ class Header extends React.Component {
                     <nav class="navbar navbar-expand-lg navbar-light my-nav">
                         <div class="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
                             <div class="profile">
-                                <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"/>
+                                <img src={process.env.PUBLIC_URL + '/profile_default.svg'}/>
                                 <a class="navbar-brand " href="/dashboard"> {toCapitalize(username)}</a>
                             </div>
                             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">

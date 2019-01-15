@@ -100,7 +100,7 @@ function user_profile_update(req, res)
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
-    client.query('UPDATE profiles SET bio = $1, age = $2, img_1 = $3 WHERE user_id = $4', [bio, age, image, user.userId], function (err, result) {
+    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3 WHERE user_id = $4', [bio, age, image, user.userId], function (err, result) {
         done();
         return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
     });
@@ -130,7 +130,7 @@ function user_check_profile_status(id, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT age, location, bio, gender, img_1 from profiles where user_id = $1', [id], function (err, result) {
+        client.query('SELECT age, location, bio, gender, profile_img from profiles where user_id = $1', [id], function (err, result) {
             done()
             var hasNullValue = Object.values(result.rows[0]).some(function(value) {
                 return value === null;
@@ -139,6 +139,24 @@ function user_check_profile_status(id, cb){
         })
     })
 }
+
+function user_set_online(isOnline, userId){
+    var date = Date.now()
+    pool.connect(function (err, client, done) {   
+        client.query('UPDATE users SET online = $1, connexion = $2 WHERE id = $3', [isOnline,date, userId], function () {
+            done();
+            console.log(Date.now())
+        });
+    })
+}
+
+function user_set_offline(req, res){
+    const user = res.locals.user; 
+    user_set_online('0', '77');
+    return res.status(200).send({ success: [{title: 'Logout', detail: 'Success logout'}] });
+
+}
+
 module.exports = {
     user_select_one,
     user_new,
@@ -146,4 +164,6 @@ module.exports = {
     user_password_check,
     user_check_profile_status,
     user_set_active,
+    user_set_online,
+    user_set_offline
 }

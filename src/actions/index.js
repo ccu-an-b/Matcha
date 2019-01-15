@@ -94,7 +94,7 @@ export const login = (userData) => {
 }
 
 export const logout = () => {
-  authService.deleteToken();
+  authService.deleteToken()
   return {
     type: LOGOUT
   }
