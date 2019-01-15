@@ -29,7 +29,7 @@ const fetchUserByKeyInit = () => {
   }
 }
 
-const fetchPublicDataInit = () => {
+const fetchPublicInfoInit = () => {
 
   return {
     type: FETCH_USER_PUBLIC_INFO_INIT,
@@ -142,10 +142,11 @@ export const uploadImage = image => {
 // FETCH ALL PUBLIC DATA
 const fetchAllPublicData = () => {
   return function (dispatch) {
-    dispatch(fetchPublicDataInit());
+    dispatch(fetchPublicInfoInit());
 
     axios.post('/api/v1/users/fetch-users').then((res) => {
       dispatch(fetchPublicInfoSuccess(res.data));
+      console.log(res);
     }).catch(({ response }) => Promise.reject(response.data.errors[0]))
   }
 }

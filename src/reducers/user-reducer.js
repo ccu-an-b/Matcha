@@ -1,18 +1,20 @@
-import {    FETCH_USER_BY_KEY_INIT,
-            FETCH_USER_BY_KEY_SUCCESS} from 'actions/types';
+import {
+    FETCH_USER_BY_KEY_INIT,
+    FETCH_USER_BY_KEY_SUCCESS,
+} from 'actions/types';
 
 const INITIAL_STATE = {
     user: {
-        data:{},
+        data: {},
     }
 }
 
 export const selectedUserKeyReducer = (state = INITIAL_STATE.user, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case FETCH_USER_BY_KEY_INIT:
-            return {...state, data: {}};
+            return { ...state, data: {} };
         case FETCH_USER_BY_KEY_SUCCESS:
-            return {...state, data: action.user}
+            return { ...state, data: action.user }
         default:
             return state;
     }
