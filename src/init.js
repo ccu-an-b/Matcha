@@ -6,7 +6,10 @@ const pool = new pg.Pool(config.db);
 
 
 pool.query(" \
-    CREATE SEQUENCE users_id_seq; \
+CREATE SEQUENCE users_id_seq; \
+CREATE SEQUENCE id_notif_seq; \
+CREATE SEQUENCE id_notif_msg_seq; \
+CREATE SEQUENCE id_msg_seq; \
     CREATE TABLE users ( \
     id integer NOT NULL DEFAULT nextval('users_id_seq'::regclass), \
     username character varying(128) COLLATE pg_catalog.\"default\", \

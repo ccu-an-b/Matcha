@@ -31,8 +31,12 @@ class AuthService {
         return this.decode(this.getToken()).username;
     }
 
-    getUsermail() {
-        return this.decode(this.getToken()).userMail;
+    getUserId() {
+        return this.decode(this.getToken()).userId;
+    }
+
+    getUserProfileStatus() {
+        return this.decode(this.getToken()).userProfileStatus;
     }
 
     isValid(token){
@@ -44,6 +48,7 @@ class AuthService {
 
         return (token && this.isValid(token)) ? true: false ;
     }
+
 }
 
 export default new AuthService();

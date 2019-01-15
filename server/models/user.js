@@ -89,6 +89,24 @@ function user_set_active(user_id){
     });
 }
 
+function user_profile_update(req, res)
+{
+   const { bio , age} = req.body;
+   const user = res.locals.user; 
+
+   pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
+        }
+    client.query('UPDATE profiles SET bio = $1, age = $2 WHERE user_id = $3', [bio, age,user.userId], function (err, result) {
+        done();
+        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
+    });
+        
+});
+
+}
+
 // AUTH FUNCTIONS
 function user_password_check(id, password, cb) {
     pool.connect(function (err, client, done) {
@@ -105,9 +123,25 @@ function user_password_check(id, password, cb) {
     })
 }
 
+function user_check_profile_status(id, cb){
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT age, location, bio, gender, img_1 from profiles where user_id = $1', [id], function (err, result) {
+            done()
+            var hasNullValue = Object.values(result.rows[0]).some(function(value) {
+                return value === null;
+            });
+            return cb(!hasNullValue);
+        })
+    })
+}
 module.exports = {
     user_select_one,
     user_new,
+    user_profile_update,
     user_password_check,
+    user_check_profile_status,
     user_set_active,
 }

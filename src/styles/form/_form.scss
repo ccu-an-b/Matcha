@@ -43,7 +43,7 @@
     .btn {
         border:none;
         &:hover {
-            background-color: $main-light-orange;
+            background-color: $main-orange;
             color:white;
         }
     }
@@ -96,6 +96,42 @@
         }
     }
 }
+
+
+.img-upload-container {
+    margin-bottom: 20px;
+    position: relative;
+
+    .img-preview-container {
+        background-color: #f7f7f7;
+    }
+
+    .img-preview {
+        background: center center no-repeat;
+        background-size: cover;
+        height:150px;
+        width:150px;
+    }
+
+    .img-upload {
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .upload-text {
+        font-size: 17px;
+        margin: 0 10px 0 0;
+    }
+
+    input {
+        display: none;
+    }
+
+    .alert {
+        margin-top: 10px;
+    }
+}
+
 
 @media screen and (max-width: 320px)
 {

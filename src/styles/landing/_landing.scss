@@ -9,7 +9,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top:300px;
+    top:0;
+    
     
     .landing-shade{
         // background-color: rgba(255,255,255,0.2);
@@ -36,7 +37,7 @@
         display: flex;
         align-items: center;
         a {
-            color: $main-dark-grey !important;
+            color: $main-black !important;
             font-family: "Raleway";
             opacity: 0.65;
             font-size: 18px;
@@ -60,7 +61,6 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            border-bottom-color: $main-dark-orange !important;
         }
         .card-body{
             display: flex;

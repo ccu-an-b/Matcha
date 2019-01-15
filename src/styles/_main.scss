@@ -1,6 +1,8 @@
 @import 'variables.scss';
 @import 'header/header.scss';
 @import 'landing/landing.scss';
+@import 'dashboard/dashboard.scss';
+@import 'dashboard/profile_form.scss';
 @import 'form/form.scss';
 @import 'modal/modal.scss';
 @import './animations.scss';
@@ -33,22 +35,22 @@ input {
 
 }
 
-body {
+body.my-body {
     background-color: rgb(250,250,250);
     overflow-x:hidden;
     color:  $main-black;
+    font-family: Roboto;
 }
 
 .app-container {
     width: 1000px;
     margin:auto;
-    margin-top:-300px;
-    min-height: 100vh
+    margin-top:-250px;
+    height:auto;
+    min-height: 100vh;
 }
 
-.App {
-    overflow-x:hidden
-}
+
 a {
     cursor: pointer;
 }
@@ -61,6 +63,18 @@ h1,h2, h3,h4 {
 *{
     box-sizing: border-box;
 }
+
+@media screen and (max-width: 1000px){
+    .app-container{
+        margin-top:-200px;
+    }
+    .App {
+        overflow-x:hidden
+    }
+
+}
+
+
 .button {
     box-sizing: border-box;
     height: 40px;
