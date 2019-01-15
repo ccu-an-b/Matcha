@@ -91,14 +91,16 @@ function user_set_active(user_id){
 
 function user_profile_update(req, res)
 {
-   const { bio , age} = req.body;
+   const { bio , age, image} = req.body;
    const user = res.locals.user; 
+
+//    let img_path='public/img/'+image;
 
    pool.connect(function (err, client, done) {
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
-    client.query('UPDATE profiles SET bio = $1, age = $2 WHERE user_id = $3', [bio, age,user.userId], function (err, result) {
+    client.query('UPDATE profiles SET bio = $1, age = $2, img_1 = $3 WHERE user_id = $4', [bio, age, image, user.userId], function (err, result) {
         done();
         return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
     });
