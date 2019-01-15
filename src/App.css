@@ -917,6 +917,27 @@ header {
     font-size: 13px;
     color: #E83114; }
 
+.img-upload-container {
+  margin-bottom: 20px;
+  position: relative; }
+  .img-upload-container .img-preview-container {
+    background-color: #f7f7f7; }
+  .img-upload-container .img-preview {
+    background: center center no-repeat;
+    background-size: cover;
+    height: 150px;
+    width: 150px; }
+  .img-upload-container .img-upload {
+    margin-right: 20px;
+    margin-bottom: 0; }
+  .img-upload-container .upload-text {
+    font-size: 17px;
+    margin: 0 10px 0 0; }
+  .img-upload-container input {
+    display: none; }
+  .img-upload-container .alert {
+    margin-top: 10px; }
+
 @media screen and (max-width: 320px) {
   .form .form-submit .a-submit {
     margin-left: 0px;

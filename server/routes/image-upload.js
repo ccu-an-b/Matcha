@@ -5,7 +5,6 @@ const   express   = require('express'),
 
 
 const fileFilter = (req, file, cb) => {
-    console.log("ok")
     if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/gif'  )
         cb(null, true);
     else
@@ -14,11 +13,9 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("ok 1")
       cb(null, '../public/img/')
     },
     filename: (req, file, cb) => {
-        console.log("ok 2")
         const ext = file.mimetype.split('/')[1];
         cb(null, file.fieldname + '-' + Date.now()+ '.'+ext)
     }
@@ -33,7 +30,7 @@ router.post('/image-upload', UserCtrl.authMiddleware, function(req, res){
     {
         return res.status(422).send({errors: [{title: 'Invalid file type', detail: err.message}]})
     }
-    return res.json({'message': 'File uploaded successfully'});
+    return res.json({'imageUrl': req.file.filename});
     });
 });
 

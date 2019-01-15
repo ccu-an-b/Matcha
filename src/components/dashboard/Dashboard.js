@@ -19,6 +19,7 @@ export class Dashboard extends React.Component {
     }
 
     completeProfile(profileData){
+        debugger;
         actions.completeProfile(profileData).then(
             () => this.setState({redirect: true}),
             (errors) => this.setState({errors})

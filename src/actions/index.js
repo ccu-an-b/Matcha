@@ -100,3 +100,15 @@ export const logout = () => {
   }
 }
 
+// UPLOAD ACTIONS 
+export const uploadImage = image => {
+  const formData = new FormData();
+  formData.append('image', image);
+
+  return axiosInstance.post('upload/image-upload', formData)
+    .then(json => {
+      debugger;
+      return json.data.imageUrl;
+    })
+    .catch(({response}) => Promise.reject(response.data.errors[0]))
+}

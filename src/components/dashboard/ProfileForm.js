@@ -13,12 +13,12 @@ const ProfileForm = props => {
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             {/* <BwmResError errors={errors} />
             <BwmResSuccess success={success} /> */}
-            {/* <Field
-                name="img_1"
+            <Field
+                name="image"
                 label="Profile Picture"
                 component={BwmFileUpload}
-                validate={[required]}
-            /> */}
+                
+            />
             <Field
                 name="age"
                 type="number"
