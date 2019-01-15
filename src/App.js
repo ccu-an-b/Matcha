@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import {Provider} from 'react-redux';
-import Header  from 'components/shared/Header' ;
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import { ProtectedRoute } from 'components/shared/auth/ProtectedRoute' ;
@@ -9,6 +8,8 @@ import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
 
 import * as actions from 'actions';
 
+import Header  from 'components/shared/Header' ;
+import Navbar from 'components/shared/Navbar' ;
 import Landing  from 'components/landing/Landing' ;
 import Activation from 'components/activation/Activation' ;
 import Background from 'components/shared/Background';
@@ -38,10 +39,10 @@ class App extends Component {
           <div className="App">
           <LoggedInRoute exact path="/" component={Landing} />
           <Route exact path="/activation/:key" component={Activation} />
-          {/* <ProtectedRoute path="/" component={Background} /> */}
           <Background/>
           <div className="app-container">
             <Header logout={this.logout}/>
+            {/* <Navbar logout={this.logout}/> */}
               <Switch>
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                 <ProtectedRoute exact path="/browse" component={Browse} />

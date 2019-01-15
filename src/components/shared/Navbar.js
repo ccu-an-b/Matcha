@@ -19,11 +19,13 @@ class Navbar extends React.Component {
         this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal = () => {
-        this.setState({ show: false, });
+    hideModal = (event) => {
+        if(event.target.id.includes('closeModal') ||event.target.nodeName === 'path')
+            this.setState({ show: false, });
     }
 
     showModal = () => {
+        debugger;
         this.setState({ show: true, });
     }
 
