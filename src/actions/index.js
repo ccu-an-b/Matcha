@@ -101,13 +101,25 @@ export const logout = () => {
 }
 
 // UPLOAD ACTIONS 
-export const uploadImage = image => {
+export const uploadProfile = image => {
   const formData = new FormData();
-  formData.append('image', image);
+  formData.append('profile', image);
 
-  return axiosInstance.post('upload/image-upload', formData)
+  return axiosInstance.post('upload/profile-upload', formData)
     .then(json => {
       return json.data.imageUrl;
+    })
+    .catch(({response}) => Promise.reject(response.data.errors[0]))
+}
+
+export const uploadImage = image => {
+  const formData = new FormData();
+  for (var i =0; i < image.length ; i++)
+    formData.append('image', image[i]);
+    
+  return axiosInstance.post('upload/image-upload', formData)
+    .then(json => {
+      return json.data;
     })
     .catch(({response}) => Promise.reject(response.data.errors[0]))
 }

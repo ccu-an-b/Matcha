@@ -2,7 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmTextarea } from 'components/shared/form/BwmTextarea';
-import { BwmFileUpload } from 'components/shared/form/BwmFileUpload';
+import { BwmProfileUpload } from 'components/shared/form/BwmProfileUpload';
+import { BwmImageUpload } from 'components/shared/form/BwmImageUpload';
 import { BwmResError } from 'components/shared/form/BwmResError';
 import { BwmResSuccess } from 'components/shared/form/BwmResSuccess';
 import { required} from 'components/shared/form/validators';
@@ -14,10 +15,10 @@ const ProfileForm = props => {
             {/* <BwmResError errors={errors} />
             <BwmResSuccess success={success} /> */}
             <Field
-                name="image"
+                name="profile"
                 label="Profile Picture"
-                component={BwmFileUpload}
-                
+                component={BwmProfileUpload}
+                // validate={[required]}
             />
             <Field
                 name="age"
@@ -25,7 +26,7 @@ const ProfileForm = props => {
                 label="Age"
                 className='form-control'
                 component={BwmInput}
-                validate={[required]}
+                // validate={[required]}
                 data-parse='lowercase'
             />
             <Field
@@ -34,8 +35,13 @@ const ProfileForm = props => {
                 label="Bio"
                 className='form-control'
                 component={BwmTextarea}
-                validate={[required]}
+                // validate={[required]}
                 data-parse='lowercase'
+            />
+             <Field
+                name="image"
+                label="Pictures"
+                component={BwmImageUpload}
             />
             <div className="form-submit">
                 <button className='btn button full' type="submit" disabled={!valid || pristine || submitting}>

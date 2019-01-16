@@ -91,7 +91,7 @@ function user_set_active(user_id){
 
 function user_profile_update(req, res)
 {
-   const { bio , age, image} = req.body;
+   const { bio , age, profile, image} = req.body;
    const user = res.locals.user; 
 
 //    let img_path='public/img/'+image;
@@ -100,10 +100,12 @@ function user_profile_update(req, res)
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
-    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3 WHERE user_id = $4', [bio, age, image, user.userId], function (err, result) {
-        done();
-        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
-    });
+    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3 WHERE user_id = $4', [bio, age, profile, user.userId])
+    for ( var i = 0 ; i < image.length; i++)
+    {
+        client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
+    }
+    return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
         
 });
 

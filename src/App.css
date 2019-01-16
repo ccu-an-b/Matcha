@@ -921,6 +921,55 @@ header {
     font-size: 13px;
     color: #E83114; }
 
+.img-upload-display {
+  display: flex;
+  width: 100%;
+  padding-right: 10px;
+  clear: both;
+  flex-wrap: wrap;
+  margin-bottom: 20px; }
+  .img-upload-display .img-preview-div {
+    display: flex; }
+  .img-upload-display .img-preview-container {
+    margin-right: 20px;
+    overflow: hidden;
+    border-radius: 0.25rem; }
+    .img-upload-display .img-preview-container .img-preview {
+      height: 150px;
+      width: 150px;
+      background-size: cover;
+      background-position: center;
+      position: relative; }
+      .img-upload-display .img-preview-container .img-preview .hover {
+        position: absolute;
+        width: 100%;
+        background-color: rgba(75, 78, 109, 0.8);
+        bottom: 0px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .4s;
+        font-size: 18px;
+        letter-spacing: 1px;
+        height: 0;
+        opacity: 0;
+        cursor: pointer; }
+      .img-upload-display .img-preview-container .img-preview:hover .hover {
+        height: 100%;
+        opacity: 1; }
+
+.img-upload-container.display-none {
+  display: none; }
+
+.img-upload-container.img {
+  border-radius: 0.25rem;
+  float: initial;
+  margin-bottom: 0; }
+  .img-upload-container.img label {
+    color: white;
+    font-size: 30px; }
+
 .img-upload-container {
   margin-bottom: 20px;
   position: relative;

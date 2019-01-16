@@ -21,6 +21,7 @@ const RegisterForm = props => {
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
+                data-parse='lowercase'
             />
             <Field
                 name="last_name"
@@ -29,6 +30,7 @@ const RegisterForm = props => {
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
+                data-parse='lowercase'
             />
             <Field
                 name="mail"
@@ -37,6 +39,7 @@ const RegisterForm = props => {
                 className='form-control'
                 component={BwmInput}
                 validate={[required, isEmail]}
+                data-parse='lowercase'
             />
             <Field
                 name="username"
@@ -45,6 +48,7 @@ const RegisterForm = props => {
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
+                data-parse='lowercase'
             />
             <Field
                 name="password"
