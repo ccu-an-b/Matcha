@@ -901,7 +901,8 @@ header {
     color: #363B6D; }
     .profile-form .profile-name .form-group {
       margin-right: 20px;
-      margin-top: 80px; }
+      margin-top: 80px;
+      position: relative; }
       .profile-form .profile-name .form-group label {
         font-size: 15px;
         color: #363B6D;
@@ -917,6 +918,11 @@ header {
           font-size: 2.5rem; }
           .profile-form .profile-name .form-group .input-group .form-control::placeholder {
             color: #363B6D; }
+      .profile-form .profile-name .form-group .alert-input {
+        position: absolute;
+        bottom: 10px;
+        margin-bottom: 0;
+        right: 0; }
   .profile-form .form .form-group .input-group textarea.form-control {
     border-radius: 0.25rem !important;
     border-color: #CED4DD;

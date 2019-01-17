@@ -19,10 +19,26 @@ export class Dashboard extends React.Component {
     }
 
     completeProfile(profileData){
-        actions.completeProfile(profileData).then(
-            () => this.setState({redirect: true}),
-            (errors) => this.setState({errors})
-        )
+
+        if (profileData.image)
+        {
+            actions.uploadImage(profileData.image.slice()).then(
+                (uploadedImage) => {
+                    profileData.image = uploadedImage
+                }).then(
+                    setTimeout(()=>{actions.completeProfile(profileData).then(
+                        () => this.setState({redirect: true}),
+                        (errors) => this.setState({errors})
+                    )}, 1000)
+                )
+        }
+        else
+        {
+            actions.completeProfile(profileData).then(
+                () => this.setState({redirect: true}),
+                (errors) => this.setState({errors})
+            );
+        }
     }
 
     render(){

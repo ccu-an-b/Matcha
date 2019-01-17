@@ -67,6 +67,7 @@
         .form-group {
             margin-right:20px; 
             margin-top: 80px;
+            position: relative;
             label{
                 font-size:15px;
                 color: #363B6D;
@@ -85,6 +86,12 @@
                         color: $main-dark-purple;
                     }
                 }
+            }
+            .alert-input{
+                position: absolute;
+                bottom: 10px;
+                margin-bottom: 0;
+                right: 0;
             }
         }
     }

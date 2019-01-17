@@ -15,8 +15,8 @@ export class Browse extends React.Component {
         else
         {   
             return (
-                <div class="profile-not-completed">
-                    <div class="header">
+                <div className="profile-not-completed">
+                    <div className="header">
                         <h1>Can't wait for your next date ?</h1>
                     </div>
                         <p>Before you start looking for new matchs you have to complete your profile information.<br/> <a href="/dashboard">Complete your profile</a></p>

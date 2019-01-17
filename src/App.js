@@ -41,7 +41,6 @@ class App extends Component {
           <Background/>
           <div className="app-container">
             <Header logout={this.logout}/>
-            {/* <Navbar logout={this.logout}/> */}
               <Switch>
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                 <ProtectedRoute exact path="/browse" component={Browse} />

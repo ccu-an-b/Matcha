@@ -69,7 +69,7 @@ const ProfileForm = props => {
                     placeholder="99"
                     className='form-control'
                     component={BwmInput}
-                    validate={[required]}
+                    // validate={[required]}
                     data-parse='lowercase'
                 />
                 <Field
@@ -88,7 +88,7 @@ const ProfileForm = props => {
                     placeholder="The Moon"
                     className='form-control'
                     component={BwmInput}
-                    validate={[required]}
+                    // validate={[required]}
                     data-parse='lowercase'
                 />
             </div>

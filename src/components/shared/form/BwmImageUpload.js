@@ -47,16 +47,6 @@ export class BwmImageUpload extends React.Component {
         onChange(uploadedImage);
     }
 
-    uploadImage() {
-        const selectedFiles  = this.state.selectedFiles.slice();
-        
-        if (selectedFiles){
-            actions.uploadImage(selectedFiles).then(
-                (uploadedImage) => { this.onSucces(uploadedImage)},
-                (error) => { this.onError(error)})
-        }
-    }
-
     updateArrayState(index, item){
         let newArray = this.state.files.slice()
         if (item === 'delete')
@@ -75,7 +65,8 @@ export class BwmImageUpload extends React.Component {
                 img_nb: this.state.img_nb+1
             })
         }
-        this.uploadImage()
+        if (this.state.selectedFiles.slice())
+            this.onSucces(this.state.selectedFiles.slice())
     }
 
     updateArraySelectedFiles(index, item){
