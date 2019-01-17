@@ -38,7 +38,7 @@ export class BwmProfileUpload extends React.Component {
     }
 
     onError(error){
-
+        console.log(error)
     }
 
     onSucces(uploadedImage){

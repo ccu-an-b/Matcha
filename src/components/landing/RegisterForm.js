@@ -17,7 +17,7 @@ const RegisterForm = props => {
             <Field
                 name="name"
                 type="text"
-                label="Name"
+                placeholder="Name"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
@@ -26,7 +26,7 @@ const RegisterForm = props => {
             <Field
                 name="last_name"
                 type="text"
-                label="Last Name"
+                placeholder="Last Name"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
@@ -35,7 +35,7 @@ const RegisterForm = props => {
             <Field
                 name="mail"
                 type="text"
-                label="Email"
+                placeholder="Email"
                 className='form-control'
                 component={BwmInput}
                 validate={[required, isEmail]}
@@ -44,7 +44,7 @@ const RegisterForm = props => {
             <Field
                 name="username"
                 type="text"
-                label="Username"
+                placeholder="Username"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
@@ -53,7 +53,7 @@ const RegisterForm = props => {
             <Field
                 name="password"
                 type="password"
-                label="Password"
+                placeholder="Password"
                 className='form-control'
                 component={BwmInput}
                 validate={[required, minLength8, checkNumber,checkLetter, checkUpper]}

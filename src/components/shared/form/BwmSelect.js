@@ -1,28 +1,48 @@
-import React from 'react'
+import React from 'react';
+import Select from 'react-select';
 
-export const BwmSelect = ({
-    input,
-    options,
-    label,
-    className,
-    meta: { touched, error, warning }
-}) => {
-
-    function renderOptions() {
-        return options.map((option, index) => {
-            return <option key={index} value={option}>{option}</option>
-        });
+export class BwmSelect extends React.Component {
+    
+    constructor() {
+        super();
+        this.state = {
+          value: "",
+        }
+        this.onChange = this.onChange.bind(this);
     }
-    return (
-        <div className='form-group'>
-            <label>{label}</label>
-            <div className='input-group'>
-                <select {...input} className={className} >
-                    {renderOptions()}
-                </select>
-            </div>
-            {touched &&
-                ((error && <div className='alert alert-danger'>{error}</div>))}
-        </div>
-    )
+    
+    onChange = (value) => {
+        this.setState({ value })
+        this.onSucces(value)
+    }
+
+    onSucces(value){
+        const {input: {onChange}} = this.props;
+        onChange(value);
+    }
+
+    render() {
+
+        return (<div  className = {this.props.className} >
+
+            { this.props.labelUp &&
+                <label>
+                    {this.props.labelUp}
+                </label>
+            }
+            <Select
+                allowCreate={true}
+                options={this.props.options}
+                onChange={this.onChange}
+                value ={this.state.value}
+                id="Element"
+                multi 
+           />
+           </div>
+        )
+    }
 }
+
+
+
+

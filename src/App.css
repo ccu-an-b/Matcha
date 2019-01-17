@@ -163,7 +163,7 @@ header {
   .body-container {
     width: 100%; }
   header {
-    margin-bottom: 300px; }
+    margin-bottom: 150px; }
     header img {
       height: 35px; }
     header .my-toggler {
@@ -452,7 +452,8 @@ header {
         color: white;
         position: relative;
         margin-bottom: 20px;
-        width: 60%; }
+        width: 60%;
+        min-width: 400px; }
         .dashboard .grid-container .edit-profile .header h1 {
           color: white;
           text-align: center;
@@ -745,8 +746,8 @@ header {
         color: #72C17C; }
 
 .profile-not-completed {
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 700px;
   margin: auto;
   background-color: white;
   -webkit-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
@@ -842,7 +843,8 @@ header {
     height: 50%; } }
 
 .profile-form {
-  width: 90%;
+  width: 100%;
+  max-width: 700px;
   background-color: white;
   margin: auto;
   background-color: white;
@@ -850,7 +852,203 @@ header {
   -moz-box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 0.25rem; }
+  padding-top: 0;
+  border-radius: 0.25rem;
+  margin-bottom: 50px;
+  overflow: hidden; }
+  .profile-form h3 {
+    font-size: 20px;
+    color: #363B6D;
+    display: flex;
+    font-family: Roboto; }
+  .profile-form .header {
+    color: white;
+    position: relative;
+    margin-bottom: 20px;
+    width: 60%;
+    min-width: 450px; }
+    .profile-form .header h1 {
+      color: white;
+      text-align: center;
+      font-size: 19px;
+      padding: 20px 10px;
+      padding-left: 0px;
+      font-weight: 100;
+      letter-spacing: 0.5px;
+      z-index: 3;
+      position: absolute;
+      margin-top: 0; }
+    .profile-form .header:after {
+      z-index: 2;
+      background-color: #363B6D;
+      width: 110%;
+      transform: rotate(-20deg) skewX(0deg);
+      opacity: 1;
+      content: "";
+      position: absolute;
+      top: -170px;
+      left: -60px;
+      height: 200px;
+      border-radius: 100px 283px 383px 319px / 132px 1px 24px 117px; }
+  .profile-form .form .form-submit {
+    margin-bottom: 0; }
+  .profile-form .form-group {
+    width: fit-content;
+    font-family: Roboto; }
+  .profile-form .profile-name {
+    width: 50%;
+    display: flex;
+    color: #363B6D; }
+    .profile-form .profile-name .form-group {
+      margin-right: 20px;
+      margin-top: 80px; }
+      .profile-form .profile-name .form-group label {
+        font-size: 15px;
+        color: #363B6D;
+        opacity: 0.5; }
+      .profile-form .profile-name .form-group .input-group {
+        width: 220px; }
+        .profile-form .profile-name .form-group .input-group .form-control {
+          padding-left: 0 !important;
+          font-family: inherit;
+          font-weight: 500;
+          line-height: 1.2;
+          color: #363B6D;
+          font-size: 2.5rem; }
+          .profile-form .profile-name .form-group .input-group .form-control::placeholder {
+            color: #363B6D; }
+  .profile-form .form .form-group .input-group textarea.form-control {
+    border-radius: 0.25rem !important;
+    border-color: #CED4DD;
+    padding: 10px;
+    width: 400px;
+    font-family: Abel;
+    height: 80px; }
+    .profile-form .form .form-group .input-group textarea.form-control:focus {
+      border-color: #E83114; }
+  .profile-form .perso-information {
+    display: flex; }
+    .profile-form .perso-information .form-group {
+      width: 120px;
+      margin-right: 30px;
+      position: relative; }
+      .profile-form .perso-information .form-group .input-group {
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        .profile-form .perso-information .form-group .input-group label {
+          margin-bottom: 0px;
+          font-size: 15px;
+          color: #363B6D;
+          opacity: 0.5; }
+        .profile-form .perso-information .form-group .input-group .form-control {
+          text-align: center;
+          border: none;
+          font-size: 18px;
+          color: #363B6D;
+          font-weight: normal;
+          height: 30px; }
+          .profile-form .perso-information .form-group .input-group .form-control::placeholder {
+            color: #363B6D;
+            opacity: 0.7; }
+      .profile-form .perso-information .form-group .alert-input {
+        position: absolute;
+        margin-bottom: 1rem;
+        font-size: 13px;
+        color: #E83114;
+        top: 0;
+        right: 10px;
+        width: 10px;
+        height: 10px;
+        overflow: hidden; }
+    .profile-form .perso-information .my-select {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 120px;
+      margin-right: 30px; }
+      .profile-form .perso-information .my-select label {
+        font-size: 15px;
+        opacity: 0.5;
+        margin-bottom: 0; }
+      .profile-form .perso-information .my-select .css-10nd86i {
+        width: 100%;
+        margin-top: -3px; }
+      .profile-form .perso-information .my-select .css-1hwfws3 {
+        padding-left: 8px; }
+
+.my-select {
+  width: 200px; }
+  .my-select .css-vj8t7z {
+    border-radius: 0.25rem;
+    border-color: #CED4DD; }
+    .my-select .css-vj8t7z:hover, .my-select .css-vj8t7z:focus {
+      border-color: #CED4DD; }
+  .my-select .css-2o5izw {
+    border-color: #CED4DD;
+    box-shadow: none; }
+    .my-select .css-2o5izw:hover, .my-select .css-2o5izw:focus {
+      border-color: #CED4DD;
+      box-shadow: none; }
+
+.selected-tags {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap; }
+  .selected-tags .tags {
+    padding: 5px 10px;
+    background-color: #363B6D;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 0.25rem;
+    color: white;
+    cursor: pointer;
+    position: relative; }
+    .selected-tags .tags:after {
+      position: absolute;
+      right: -5px;
+      top: -5px;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      content: "x";
+      background-color: #E83114;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      font-family: raleway;
+      font-size: 16px;
+      transition: all .3s; }
+    .selected-tags .tags:hover:after {
+      opacity: 1; }
+
+.my-select.no-border {
+  font-family: Roboto;
+  color: #363B6D;
+  font-size: 18px; }
+  .my-select.no-border .css-1hwfws3 {
+    padding-left: 0; }
+  .my-select.no-border .css-vj8t7z {
+    border: none; }
+  .my-select.no-border .css-2o5izw {
+    border: none; }
+    .my-select.no-border .css-2o5izw:hover, .my-select.no-border .css-2o5izw:focus {
+      border: none; }
+  .my-select.no-border .css-d8oujb {
+    display: none; }
+  .my-select.no-border .css-1492t68 {
+    color: #363B6D;
+    opacity: 0.7; }
+  .my-select.no-border .css-xp4uvy {
+    color: #363B6D; }
+  .my-select.no-border .css-10nd86i {
+    margin-top: -5px;
+    margin-bottom: 10px; }
+  .my-select.no-border .css-15k3avv {
+    font-size: 16px !important;
+    margin-top: 5px; }
 
 .form {
   width: 100%;
@@ -912,9 +1110,14 @@ header {
     background: transparent;
     padding: 0 5px;
     border-radius: 0 !important;
-    transition: all 1s; }
+    transition: all 1s;
+    resize: none; }
     .form .form-group .input-group .form-control:focus {
       border-bottom-color: #E83114; }
+  .form .form-group .input-group input[type=number]::-webkit-inner-spin-button,
+  .form .form-group .input-group input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; }
   .form .form-group .alert-input {
     position: relative;
     margin-bottom: 1rem;
@@ -989,7 +1192,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px; }
+    font-size: 17px;
+    color: white; }
   .img-upload-container .img-preview-container {
     background-color: #f7f7f7;
     position: absolute; }
@@ -1023,18 +1227,6 @@ header {
     display: none; }
   .img-upload-container .alert {
     margin-top: 10px; }
-
-.selected-tags {
-  display: flex;
-  margin-top: 10px;
-  margin-bottom: 20px; }
-  .selected-tags .tags {
-    padding: 5px 10px;
-    background-color: #363B6D;
-    margin-right: 10px;
-    border-radius: 0.25rem;
-    color: white;
-    cursor: pointer; }
 
 @media screen and (max-width: 320px) {
   .form .form-submit .a-submit {

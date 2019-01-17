@@ -20,7 +20,7 @@ const LoginForm = props => {
             <Field
                 name="username"
                 type="text"
-                label="Username"
+                placeholder="Username"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}
@@ -29,7 +29,7 @@ const LoginForm = props => {
             <Field
                 name="password"
                 type="password"
-                label="Password"
+                placeholder="Password"
                 className='form-control'
                 component={BwmInput}
                 validate={[required]}

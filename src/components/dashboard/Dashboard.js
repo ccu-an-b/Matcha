@@ -50,6 +50,9 @@ export class Dashboard extends React.Component {
                             <p>Before you start looking for new matchs you have to complete your profile information.</p>
                     </div>
                     <div className="profile-form">
+                        <div className="header">
+                            <h1>Create your profile</h1>
+                        </div>
                     <ProfileForm  submitCb={this.completeProfile}       
                         />
                     </div>

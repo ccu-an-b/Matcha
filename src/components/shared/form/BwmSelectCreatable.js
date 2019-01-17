@@ -59,6 +59,7 @@ export class BwmSelectCreatable extends React.Component {
                 value =""
                 id="Element"
                 multi
+                className="my-select"
                 
            />
            <div className="selected-tags">

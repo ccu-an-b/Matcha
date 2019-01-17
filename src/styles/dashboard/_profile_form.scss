@@ -1,5 +1,6 @@
 .profile-form{
-    width: 90%;
+    width: 100%;
+    max-width: 700px;
     background-color: white;
     margin:auto;
     background-color: white;
@@ -7,5 +8,253 @@
     -moz-box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
     box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
     padding:20px;
+    padding-top:0;
     border-radius:0.25rem;
+    margin-bottom: 50px;
+    overflow:hidden;
+
+    h3 {
+        font-size: 20px;
+        color: $main-dark-purple;
+        display: flex;
+        font-family: Roboto;
+    }
+    .header{
+        color: white;
+        position: relative;
+        margin-bottom: 20px;
+        width: 60%;
+        min-width: 450px;
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 19px;
+            padding: 20px 10px;
+            padding-left:0px;
+            font-weight: 100;
+            letter-spacing: 0.5px;
+            z-index: 3;
+            position: absolute;
+            margin-top: 0;
+        }
+
+        &:after{
+            z-index: 2;
+            background-color: $main-dark-purple;
+            width: 110%;
+            transform: rotate(-20deg) skewX(0deg);
+            opacity: 1;
+            content: "";
+            position: absolute;
+            top: -170px;
+            left: -60px;
+            height: 200px;
+            border-radius: 100px 283px 383px 319px / 132px 1px 24px 117px;
+        }
+    }
+    .form .form-submit {
+        margin-bottom: 0;
+    }
+    .form-group{
+        width:fit-content;
+        font-family: Roboto;
+    }
+    .profile-name{
+        width: 50%;
+        display: flex;
+        color: $main-dark-purple;
+
+        .form-group {
+            margin-right:20px; 
+            margin-top: 80px;
+            label{
+                font-size:15px;
+                color: #363B6D;
+                opacity: 0.5;
+            }
+            .input-group{
+                width:220px;
+                .form-control{
+                    padding-left:0 !important;
+                    font-family: inherit;
+                    font-weight: 500;
+                    line-height: 1.2;
+                    color: $main-dark-purple;
+                    font-size:2.5rem;
+                    &::placeholder{
+                        color: $main-dark-purple;
+                    }
+                }
+            }
+        }
+    }
+    .form .form-group .input-group textarea.form-control{
+        border-radius: 0.25rem !important;
+        border-color:#CED4DD;
+        padding: 10px;
+        width:400px;
+        font-family: Abel;
+        height: 80px;
+        &:focus {
+            border-color:$main-orange;
+        }
+    }
+    .perso-information {
+        display: flex;
+
+        .form-group{
+            width: 120px;
+            margin-right: 30px;
+            position: relative;
+            .input-group{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                label{
+                    margin-bottom: 0px;
+                    font-size:15px;
+                    color: #363B6D;
+                    opacity: 0.5;
+                }
+                .form-control{
+                    text-align: center;
+                    border: none;
+                    font-size: 18px;
+                    color: #363B6D;
+                    font-weight: normal;
+                    height: 30px;
+                    &::placeholder{
+                        color: #363B6D;
+                        opacity: 0.7;
+                    }
+                }
+            }
+            .alert-input{
+                position: absolute;
+                margin-bottom: 1rem;
+                font-size: 13px;
+                color: #E83114;
+                top: 0;
+                right: 10px;
+                width: 10px;
+                height: 10px;
+                overflow: hidden;
+            }
+        }
+
+        .my-select {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            margin-right: 30px;
+            label{
+                font-size:15px;
+                opacity: 0.5;
+                margin-bottom: 0;
+            }
+            .css-10nd86i{
+                width: 100%;
+                margin-top: -3px;
+            }
+            .css-1hwfws3 {
+                padding-left:8px;
+            }
+        }
+    }
+}
+
+//SELECT TAGS
+.my-select{
+    width:200px;
+
+    .css-vj8t7z{
+        border-radius:0.25rem;
+        border-color:#CED4DD;
+        &:hover, &:focus{
+            border-color:#CED4DD;
+        }
+    }
+    .css-2o5izw{
+        border-color:#CED4DD;
+        box-shadow: none;
+        &:hover, &:focus{
+            border-color:#CED4DD;
+            box-shadow: none;
+        }
+    }
+}
+.selected-tags{
+    display:flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    flex-wrap:wrap;
+    .tags{
+        padding: 5px 10px;
+        background-color: $main-dark-purple;
+        margin-right: 10px;
+        margin-bottom:10px;
+        border-radius: 0.25rem;
+        color: white;
+        cursor: pointer;
+        position: relative;
+
+        &:after{
+            position: absolute;
+            right:-5px;
+            top:-5px;
+            height: 20px;
+            width: 20px;
+            border-radius:50%;
+            content: "x";
+            background-color: $main-orange;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            font-family: raleway;
+            font-size: 16px;
+            transition: all .3s;
+        }
+        &:hover:after{
+            opacity: 1;
+ 
+        }
+    }
+}
+
+.my-select.no-border {
+    font-family: Roboto;
+    color: #363B6D;
+    font-size: 18px;
+    .css-1hwfws3 {
+        padding-left:0;
+    }
+    .css-vj8t7z{
+        border:none;
+    }
+    .css-2o5izw {
+        border:none;
+        &:hover, &:focus{
+            border:none;
+        }
+    }
+    .css-d8oujb {
+        display:none;
+    }
+    .css-1492t68 {
+        color: #363B6D;
+        opacity: 0.7;
+    }
+    .css-xp4uvy{
+        color: #363B6D;
+    }
+    .css-10nd86i{
+        margin-top: -5px;
+        margin-bottom: 10px;
+    }
+    .css-15k3avv{
+        font-size: 16px !important;
+        margin-top: 5px;
+    }
 }

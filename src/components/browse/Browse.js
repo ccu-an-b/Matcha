@@ -19,7 +19,7 @@ export class Browse extends React.Component {
                     <div class="header">
                         <h1>Can't wait for your next date ?</h1>
                     </div>
-                        <p>Before you start looking for new matchs you have to complete your profile information. <a href="/dashboard">Complete your profile</a></p>
+                        <p>Before you start looking for new matchs you have to complete your profile information.<br/> <a href="/dashboard">Complete your profile</a></p>
                 </div>
             )
         }
