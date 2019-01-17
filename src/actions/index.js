@@ -44,6 +44,7 @@ export const fetchUserByKey = (userKey) => {
 }
 
 export const completeProfile = (profileData) => {
+  debugger;
   return axiosInstance.post(`/users/profileComplete`, profileData).then(
     res => res.data,
     err => Promise.reject(err.response.data.errors) 

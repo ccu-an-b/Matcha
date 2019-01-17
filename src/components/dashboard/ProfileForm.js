@@ -4,22 +4,21 @@ import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmTextarea } from 'components/shared/form/BwmTextarea';
 import { BwmProfileUpload } from 'components/shared/form/BwmProfileUpload';
 import { BwmImageUpload } from 'components/shared/form/BwmImageUpload';
-import { BwmSelectTags } from 'components/shared/form/BwmSelectTags';
-import { BwmResError } from 'components/shared/form/BwmResError';
-import { BwmResSuccess } from 'components/shared/form/BwmResSuccess';
+import { BwmSelectCreatable} from 'components/shared/form/BwmSelectCreatable';
 import { required} from 'components/shared/form/validators';
 
-var option = [
-        { label: 'Basic customer support', value: 'basic', color: '#E31864', id: 1 },
-        { label: 'Premium customer support', value: 'premium', color: '#6216A3', id: 2 },
-        { label: 'Pro customer support', value: 'pro', id: 3}
-    ];
+var options = [
+    { value: 'vanilla', label: 'Bagarreur' },
+    { value: 'chocolate', label: 'Sportif' },
+    { value: 'strawberry', label: 'Alcoolique' },
+    { value: 'salted-caramel', label: 'Raciste' },
+];
+
+
 const ProfileForm = props => {
-    const { handleSubmit, pristine,  submitting, submitCb, valid, errors, success} = props
+    const { handleSubmit, pristine,  submitting, submitCb, valid} = props
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
-            {/* <BwmResError errors={errors} />
-            <BwmResSuccess success={success} /> */}
             <Field
                 name="profile"
                 label="Profile Picture"
@@ -32,7 +31,7 @@ const ProfileForm = props => {
                 label="Age"
                 className='form-control'
                 component={BwmInput}
-                // validate={[required]}
+                validate={[required]}
                 data-parse='lowercase'
             />
             <Field
@@ -45,11 +44,12 @@ const ProfileForm = props => {
                 data-parse='lowercase'
             />
            <Field
-                  component={BwmSelectTags}
-                  name='client'
-                  options={option}
-                  
-                  />
+                name='tags'
+                type="select"
+                option = {options}
+                // validate={[required]}
+                component={BwmSelectCreatable} 
+            />
              <Field
                 name="image"
                 label="Pictures"

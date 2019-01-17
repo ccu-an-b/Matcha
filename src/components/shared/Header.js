@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link , withRouter} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize} from 'helpers';
@@ -23,33 +23,33 @@ class Header extends React.Component {
         {
             return(
                 <header>
-                    <img src={process.env.PUBLIC_URL + '/matcha_logo_white.svg'}/>
-                    <button class="navbar-toggler my-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-grip-lines"></i>
-                        <i class="fas fa-grip-lines"></i>
+                    <img src={process.env.PUBLIC_URL + '/matcha_logo_white.svg'} alt="logo"/>
+                    <button className="navbar-toggler my-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <i className="fas fa-grip-lines"></i>
+                        <i className="fas fa-grip-lines"></i>
                     </button>
-                    <nav class="navbar navbar-expand-lg navbar-light my-nav">
-                        <div class="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
-                            <div class="profile">
-                                <img src={process.env.PUBLIC_URL + '/profile_default.svg'}/>
-                                <a class="navbar-brand " href="/dashboard"> {toCapitalize(username)}</a>
+                    <nav className="navbar navbar-expand-lg navbar-light my-nav">
+                        <div className="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
+                            <div className="profile">
+                                <img src={process.env.PUBLIC_URL + '/profile_default.svg'} alt="profile_img"/>
+                                <a className="navbar-brand " href="/dashboard"> {toCapitalize(username)}</a>
                             </div>
-                            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
-                            <li class="nav-item my-li">
-                                <a class="nav-link active" href="/browse">Browse <span class="sr-only">(current)</span></a>
+                            <ul className="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
+                            <li className="nav-item my-li">
+                                <a className="nav-link active" href="/browse">Browse <span className="sr-only">(current)</span></a>
                             </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" href="#">Notifications</a>
+                            <li className="nav-item my-li">
+                                <a className="nav-link">Notifications</a>
                             </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" href="#">Messages</a>
+                            <li className="nav-item my-li">
+                                <a className="nav-link" >Messages</a>
                             </li>
-                            <li class="nav-item my-li">
-                                <a class="nav-link" onClick={this.handleLogout}>Logout</a>
+                            <li className="nav-item my-li">
+                                <a className="nav-link" onClick={this.handleLogout}>Logout</a>
                             </li>
                             </ul>
-                            <form class="form-inline my-2 my-lg-0">
-                                <button class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button>
+                            <form className="form-inline my-2 my-lg-0">
+                                <button className="btn my-2 my-sm-0 search" ><i className="fas fa-search"></i></button>
                             </form>
                         </div>
                     </nav>

@@ -9,7 +9,6 @@ import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
 import * as actions from 'actions';
 
 import Header  from 'components/shared/Header' ;
-import Navbar from 'components/shared/Navbar' ;
 import Landing  from 'components/landing/Landing' ;
 import Activation from 'components/activation/Activation' ;
 import Background from 'components/shared/Background';

@@ -109,7 +109,7 @@ export class BwmImageUpload extends React.Component {
 
     render() {
         const { meta: {touched, error}} = this.props;
-        const { selectedFile, show, img_nb } = this.state;
+        const { show, img_nb } = this.state;
         const showHideClassName = show ? 'img-upload-container img display-block' : 'img-upload-container img display-none';
 
         return (
@@ -120,7 +120,7 @@ export class BwmImageUpload extends React.Component {
 
                { img_nb < 4 && <div className={showHideClassName} >
                     <label className="img-upload btn btn-bwm">
-                        <i class="fas fa-plus"></i>
+                        <i className="fas fa-plus"></i>
                         <input type='file'
                                 accept='.jpg, .png, .jpeg, .gif'
                                 onChange={this.onChange}

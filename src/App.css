@@ -1024,6 +1024,18 @@ header {
   .img-upload-container .alert {
     margin-top: 10px; }
 
+.selected-tags {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px; }
+  .selected-tags .tags {
+    padding: 5px 10px;
+    background-color: #363B6D;
+    margin-right: 10px;
+    border-radius: 0.25rem;
+    color: white;
+    cursor: pointer; }
+
 @media screen and (max-width: 320px) {
   .form .form-submit .a-submit {
     margin-left: 0px;

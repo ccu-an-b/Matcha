@@ -34,7 +34,7 @@ export class Dashboard extends React.Component {
         if(authService.getUserProfileStatus())
         {
             return (
-                <div class="dashboard">
+                <div className="dashboard">
                     <ProfileGrid/>
                 </div>
             )
@@ -42,16 +42,16 @@ export class Dashboard extends React.Component {
         else
         {   
             return (
-                <div class="dashboard">
-                    <div class="profile-not-completed">
-                        <div class="header">
+                <div className="dashboard">
+                    <div className="profile-not-completed">
+                        <div className="header">
                             <h1>Can't wait for your next date ?</h1>
                         </div>
                             <p>Before you start looking for new matchs you have to complete your profile information.</p>
                     </div>
-                    <div class="profile-form">
+                    <div className="profile-form">
                     <ProfileForm  submitCb={this.completeProfile}       
-                                    errors={this.state.errors}/>
+                        />
                     </div>
                 </div>
             )

@@ -48,7 +48,7 @@ export class BwmProfileUpload extends React.Component {
     
     render() {
         const {label, meta: {touched, error}} = this.props;
-        const { selectedFile, imageBase64 } = this.state;
+        const { imageBase64 } = this.state;
 
         return (
             <div className='img-upload-container' >

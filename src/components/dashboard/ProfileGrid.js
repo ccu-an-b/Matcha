@@ -9,7 +9,7 @@ export class ProfileGrid extends React.Component {
                 <div class="profile grid-area">
                     <div class="img">
                     {/* <i class="fas fa-ellipsis-v"></i>  */}
-                        <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"/>
+                        <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" alt="profile_img"/>
                         <h3>Chloe</h3>
                         <h5 class="online">Online</h5>
                         <div class="button"><i class="fas fa-sliders-h"></i></div>
@@ -37,32 +37,32 @@ export class ProfileGrid extends React.Component {
             <div class="profiles-display">
                 <div class="one-profile online">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>Alicia</h4>
                 </div>
                 <div class="one-profile">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80"/>
+                <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80" alt="profile_img"/>
                 </div>
                 <h4>Dan</h4>
                 </div>
                 <div class="one-profile online">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>Lea</h4>
                 </div>
                 
                 <div class="one-profile">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>John</h4>
                 </div>
                 <div class="one-profile">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>Christopher</h4>
                 </div>
@@ -75,13 +75,13 @@ export class ProfileGrid extends React.Component {
                 <div class="profiles-display">
                 <div class="one-profile online">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>Lea</h4>
                 </div>
                 <div class="one-profile">
                 <div class="img">
-                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                 </div>
                 <h4>Christopher</h4>
                 </div>
@@ -93,7 +93,7 @@ export class ProfileGrid extends React.Component {
                 <h1>Edit your profile</h1>
                 </div>
             <div class="profile-picture">
-                <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=934&amp;q=80"/>
+                <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=934&amp;q=80" alt="profile_img"/>
             </div>
             <h1>Chloe C</h1>
             <div class="edit-infos">
@@ -127,13 +127,13 @@ export class ProfileGrid extends React.Component {
             </div>
             <div class="edit-picture">
                 <div class="picture">
-                <img src="https://images.unsplash.com/photo-1540218660726-95c6764dd7ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"/>
+                <img src="https://images.unsplash.com/photo-1540218660726-95c6764dd7ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" alt="profile_img"/>
                 </div>
                 <div class="picture">
-                    <img src="https://images.unsplash.com/photo-1467020421390-2fb2647a413e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1235&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1467020421390-2fb2647a413e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1235&q=80" alt="profile_img"/>
                 </div>
                 <div class="picture">
-                    <img src="https://images.unsplash.com/photo-1488751045188-3c55bbf9a3fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1488751045188-3c55bbf9a3fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="profile_img"/>
                 </div>
                 <div class="picture-add">
                 <i class="fas fa-plus"></i>
@@ -149,7 +149,7 @@ export class ProfileGrid extends React.Component {
                 <div class="display-matchs">
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>John, 30</h4>
                         <h5>Last seen 2d ago</h5>
@@ -158,7 +158,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>Alicia, 23</h4>
                         <h5 class="online">Online</h5>
@@ -167,7 +167,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>Dan, 49</h4>
                         <h5 >Last seen 15h ago</h5>
@@ -176,7 +176,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                         <div class="match-info">
                         <h4>Christopher, 27</h4>
                         <h5 >Last seen 1w ago</h5>
@@ -185,7 +185,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img" />
                     <div class="match-info">
                     <h4>Lea, 25</h4>
                         <h5 class="online">Online</h5>
@@ -194,7 +194,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                 <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>John, 30</h4>
                         <h5>Last seen 2d ago</h5>
@@ -203,7 +203,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>Alicia, 23</h4>
                         <h5 class="online">Online</h5>
@@ -212,7 +212,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>Dan, 49</h4>
                         <h5 >Last seen 15h ago</h5>
@@ -221,7 +221,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                         <div class="match-info">
                         <h4>Christopher, 27</h4>
                         <h5 >Last seen 1w ago</h5>
@@ -230,7 +230,7 @@ export class ProfileGrid extends React.Component {
                 </div>
                 <div class="one-match">
                     <div class="one-match-content">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"/>
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
                     <div class="match-info">
                     <h4>Lea, 25</h4>
                         <h5 class="online">Online</h5>

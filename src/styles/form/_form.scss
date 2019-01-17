@@ -97,6 +97,7 @@
     }
 }
 
+//IMG UPLOAD
 .img-upload-display{
     display: flex;
     width: 100%;
@@ -219,6 +220,22 @@
 
     .alert {
         margin-top: 10px;
+    }
+}
+
+
+//SELECT TAGS
+.selected-tags{
+    display:flex;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    .tags{
+        padding: 5px 10px;
+        background-color: #363B6D;
+        margin-right: 10px;
+        border-radius: 0.25rem;
+        color: white;
+        cursor: pointer;
     }
 }
 

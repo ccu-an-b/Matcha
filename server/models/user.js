@@ -101,9 +101,12 @@ function user_profile_update(req, res)
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
     client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3 WHERE user_id = $4', [bio, age, profile, user.userId])
-    for ( var i = 0 ; i < image.length; i++)
+    if(image)
     {
-        client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
+        for ( var i = 0 ; i < image.length; i++)
+        {
+            client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
+        }
     }
     return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
         
