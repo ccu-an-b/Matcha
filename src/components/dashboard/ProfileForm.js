@@ -34,7 +34,7 @@ const ProfileForm = props => {
                 name="profile"
                 label="Profile Picture"
                 component={BwmProfileUpload}
-                // validate={[required]}
+                validate={[required]}
             />
             <div className="profile-name">
                 <Field
@@ -45,7 +45,7 @@ const ProfileForm = props => {
                     value="Chloe"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 /> 
                 <Field
@@ -56,7 +56,7 @@ const ProfileForm = props => {
                     value="Cu an binh"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 /> 
             </div>
@@ -69,7 +69,7 @@ const ProfileForm = props => {
                     placeholder="99"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 />
                 <Field
@@ -78,7 +78,7 @@ const ProfileForm = props => {
                     labelUp = "Gender"
                     className = "my-select no-border" 
                     options = {optionsGender}
-                    // validate={[required]}
+                    validate={[required]}
                     component={BwmSelect} 
                 />
                 <Field
@@ -88,7 +88,7 @@ const ProfileForm = props => {
                     placeholder="The Moon"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 />
             </div>
@@ -98,7 +98,7 @@ const ProfileForm = props => {
                     type="select"
                     className = "my-select no-border" 
                     options = {optionsOrientation}
-                    // validate={[required]}
+                    validate={[required]}
                     component={BwmSelect} 
             />
             <h3>Bio</h3>
@@ -108,7 +108,7 @@ const ProfileForm = props => {
                 placeholder="Tell us more about you ..."
                 className='form-control'
                 component={BwmTextarea}
-                // validate={[required]}
+                validate={[required]}
                 data-parse='lowercase'
             />
             <h3>Your interests</h3>
@@ -116,7 +116,7 @@ const ProfileForm = props => {
                 name='tags'
                 type="select"
                 option = {optionsTags}
-                // validate={[required]}
+                validate={[required]}
                 component={BwmSelectCreatable} 
             />
              <Field
