@@ -18,6 +18,11 @@ export class Dashboard extends React.Component {
         this.completeProfile = this.completeProfile.bind(this);
     }
 
+    componentWillMount(){
+        const userUsername = 'chloe' ;
+        this.props.dispatch(actions.fetchUserProfile(userUsername));
+    }
+
     completeProfile(profileData){
         if (profileData.image)
         {
@@ -40,6 +45,8 @@ export class Dashboard extends React.Component {
     }
 
     render(){
+
+        const userData = this.props.user
 
         if (this.state.redirect) {
             return <Redirect to={{pathname:'/'}}/>
@@ -67,7 +74,7 @@ export class Dashboard extends React.Component {
                         <div className="header">
                             <h1>Create your profile</h1>
                         </div>
-                    <ProfileForm  submitCb={this.completeProfile} />
+                    <ProfileForm  submitCb={this.completeProfile} userData={userData}/>
                     </div>
                 </div>
             )
@@ -78,7 +85,8 @@ export class Dashboard extends React.Component {
 function mapStateToProps(state) {
     return{
         auth: state.auth,
-        dashboard: state.dashboard
+        dashboard: state.dashboard,
+        user: state.user.data
     }
 }
 

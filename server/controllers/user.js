@@ -79,3 +79,15 @@ function parseToken(token) {
 function notAuthorized(res) {
     return res.status(401).send({ errors: [{ title: 'Not authorized', detail: 'You need to log in' }] });
 }
+
+exports.getProfile = function(req, res) {
+    const username = req.params.username ;
+   
+    User.user_get_profile(username, function (req, result) {
+        User.get_tags(result, function(req, tagRes){
+            User.user_get_tags(tagRes, function(req, finalResult){
+                return res.json(finalResult)
+            })
+        })
+    })
+}

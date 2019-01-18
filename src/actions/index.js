@@ -6,7 +6,9 @@ import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
           LOGOUT,
           FETCH_USER_BY_KEY_INIT,
-          FETCH_USER_BY_KEY_SUCCESS } from './types';
+          FETCH_USER_BY_KEY_SUCCESS,
+          FETCH_USER_PROFILE_INIT,
+          FETCH_USER_PROFILE_SUCCESS } from './types';
 
 const axiosInstance = axiosService.getInstance();
 
@@ -123,4 +125,32 @@ export const uploadImage = image => {
       return json.data;
     })
     .catch(({response}) => Promise.reject(response.data.errors[0]))
+}
+
+
+//PROFILE ACTIONS
+const fetchUserProfileInit = () => {
+  
+  return {
+    type: FETCH_USER_PROFILE_INIT,
+  }
+}
+
+const fetchUserProfileSuccess = (user) => {
+  
+  return {
+    type: FETCH_USER_PROFILE_SUCCESS,
+    user
+  }
+
+}
+export const fetchUserProfile = (username) => {
+
+  return function(dispatch) {
+    dispatch(fetchUserProfileInit());
+    
+      axios.get(`/api/v1/users/profile/${username}`).then((user) => {
+      dispatch(fetchUserProfileSuccess(user.data));
+    });
+  }
 }

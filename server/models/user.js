@@ -24,7 +24,7 @@ function user_select_one(key, value, callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT mail, id, username,active FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+        client.query(`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `, [value], function (err, result) {
             done();
             return callback(err, result.rows);
         });
@@ -223,10 +223,81 @@ function test_user(req, res){
     console.log(req.body)
 }
 
+//GET USER PROFILE
+function user_get_profile(username, cb){
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(`SELECT id, first_name, last_name , age, location, gender, bio, orientation, profile_img from users 
+        JOIN profiles ON profiles.user_id = users.id 
+        WHERE username = $1`, [username], function (err, result) {
+            done();
+            return cb(err, result.rows);
+        });
+    })
+}
+
+function get_tags(userdata, cb){
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(`SELECT attname  AS col
+        FROM   pg_attribute
+        WHERE  attrelid = 'tags'::regclass 
+        AND    attnum > 0
+        AND    NOT attisdropped
+        ORDER  BY attnum;`, function(err, res){
+            var allTags = []
+            for (var i = 0 ; i < res.rows.length ; i++)
+            {
+                allTags.push(res.rows[i].col)
+            } 
+            var newRes = userdata
+            newRes.push(allTags)
+            return cb(err, newRes)
+        });
+    })
+}
+
+function user_get_tags(userdata, cb){
+    const userId = userdata[0].id
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+    
+        client.query(`SELECT * FROM tags WHERE user_id = $1`, [userId], function (err, result) {
+            done();
+          
+            var tags = []
+            const allTags = userdata[1]
+            {
+                for (i= 0; i <allTags.length; i ++)
+                {
+                    const tag = allTags[i]
+                    if (result.rows[0][tag] === 1)
+                    {
+                        tags.push(tag)
+                    }
+                }
+            }
+            var newRes = userdata
+            newRes.splice(newRes.indexOf(1), 1)
+            newRes.push(tags)
+            return cb(err, newRes);
+        });
+    })
+}
 module.exports = {
     user_select_one,
     user_new,
     user_profile_update,
+    user_get_profile,
+    user_get_tags,
+    get_tags,
     user_tags_update,
     user_tags_update,
     user_password_check,
