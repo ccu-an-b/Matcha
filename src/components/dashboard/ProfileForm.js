@@ -7,56 +7,65 @@ import { BwmImageUpload } from 'components/shared/form/BwmImageUpload';
 import { BwmSelect } from 'components/shared/form/BwmSelect';
 import { BwmSelectCreatable} from 'components/shared/form/BwmSelectCreatable';
 import { required} from 'components/shared/form/validators';
+import { Reducer } from 'redux';
 
 var optionsTags = [
-    { value: 'vanilla', label: 'Bagarreur' },
-    { value: 'chocolate', label: 'Sportif' },
+    { value: 'sport', label: 'sport' },
+    { value: 'travel', label: 'travel' },
     { value: 'strawberry', label: 'Alcoolique' },
     { value: 'salted-caramel', label: 'Raciste' },
 ];
 
 var optionsGender = [
-    { value: '1', label: 'Woman' },
     { value: '0', label: 'Man' },
+    { value: '1', label: 'Woman' }
 ];
 
 var optionsOrientation = [
-    { value: '3', label: 'Women' },
+    { value: '0', label: 'Women and Men'},
     { value: '1', label: 'Men' },
-    { value: '0', label: 'Women and Men'}
+    { value: '2', label: 'Women' }
 ];
+
+const data = {
+    first_name: 'Jane',
+    last_name: 'Doe',
+    age: '42',
+    gender:'1' ,
+    orientation: '1',
+    location: "Paris",
+    bio: 'Born to write amazing Redux code.',
+    tags: ['travel', 'sport', 'strawberry']
+  }
 
 const ProfileForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid} = props
+
     return (
         <form className='form' onSubmit={handleSubmit((submitCb))}>
             <Field
                 name="profile"
                 label="Profile Picture"
                 component={BwmProfileUpload}
-                validate={[required]}
+                // validate={[required]}
             />
             <div className="profile-name">
                 <Field
                     name="first_name"
                     type="text"
                     label="First Name"
-                    placeholder="Chloe"
-                    value="Chloe"
                     className='form-control'
                     component={BwmInput}
-                    validate={[required]}
+                    // validate={[required]}
                     data-parse='lowercase'
                 /> 
                 <Field
                     name="last_name"
                     type="text"
                     label="Last Name"
-                    placeholder="Cu an binh"
-                    value="Cu an binh"
                     className='form-control'
                     component={BwmInput}
-                    validate={[required]}
+                    // validate={[required]}
                     data-parse='lowercase'
                 /> 
             </div>
@@ -76,9 +85,11 @@ const ProfileForm = props => {
                     name='gender'
                     type="select"
                     labelUp = "Gender"
+                    valueStart = ""
+                    defaultValue = {data.gender}
                     className = "my-select no-border" 
                     options = {optionsGender}
-                    validate={[required]}
+                    // validate={[required]}
                     component={BwmSelect} 
                 />
                 <Field
@@ -88,7 +99,7 @@ const ProfileForm = props => {
                     placeholder="The Moon"
                     className='form-control'
                     component={BwmInput}
-                    validate={[required]}
+                    // validate={[required]}
                     data-parse='lowercase'
                 />
             </div>
@@ -96,9 +107,11 @@ const ProfileForm = props => {
             <Field
                     name='orientation'
                     type="select"
+                    valueStart = "0"
+                    defaultValue = {data.orientation}
                     className = "my-select no-border" 
                     options = {optionsOrientation}
-                    validate={[required]}
+                    // validate={[required]}
                     component={BwmSelect} 
             />
             <h3>Bio</h3>
@@ -108,15 +121,17 @@ const ProfileForm = props => {
                 placeholder="Tell us more about you ..."
                 className='form-control'
                 component={BwmTextarea}
-                validate={[required]}
+                // validate={[required]}
                 data-parse='lowercase'
             />
             <h3>Your interests</h3>
            <Field
                 name='tags'
                 type="select"
+                value = ""
                 option = {optionsTags}
-                validate={[required]}
+                defaultValue = {data.tags}
+                // validate={[required]}
                 component={BwmSelectCreatable} 
             />
              <Field
@@ -134,5 +149,6 @@ const ProfileForm = props => {
 }
 
 export default reduxForm({
-    form: 'profileForm'
+    form: 'profileForm',
+    initialValues: data
 })(ProfileForm)

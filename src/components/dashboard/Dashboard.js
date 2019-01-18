@@ -19,17 +19,15 @@ export class Dashboard extends React.Component {
     }
 
     completeProfile(profileData){
-
         if (profileData.image)
         {
             actions.uploadImage(profileData.image.slice()).then(
                 (uploadedImage) => {
-                    profileData.image = uploadedImage
-                }).then(
-                    setTimeout(()=>{actions.completeProfile(profileData).then(
+                    profileData.image = uploadedImage;
+                    actions.completeProfile(profileData).then(
                         () => this.setState({redirect: true}),
                         (errors) => this.setState({errors})
-                    )}, 1000)
+                    )}
                 )
         }
         else
@@ -69,8 +67,7 @@ export class Dashboard extends React.Component {
                         <div className="header">
                             <h1>Create your profile</h1>
                         </div>
-                    <ProfileForm  submitCb={this.completeProfile}       
-                        />
+                    <ProfileForm  submitCb={this.completeProfile} />
                     </div>
                 </div>
             )

@@ -7,7 +7,7 @@ export class BwmSelectCreatable extends React.Component {
         super();
         this.state = {
           value: [],
-        //   option: options,
+          start: true
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -51,10 +51,24 @@ export class BwmSelectCreatable extends React.Component {
     }
 
     render() {
+
+        const { defaultValue, option } = this.props
+
+        setTimeout(() => {
+            if (defaultValue && this.state.start){
+                for (var i = 0; i < defaultValue.length ; i++)
+                {
+                    const resultat = option.find( key => key.value === defaultValue[i]);
+                    this.onChange(resultat)
+                }
+                this.setState({ start: false })
+            }
+        }, 100)
+    
         return (<div>
             <Creatable
                 allowCreate={true}
-                options={this.props.option}
+                options={option}
                 onChange={this.onChange}
                 value =""
                 id="Element"

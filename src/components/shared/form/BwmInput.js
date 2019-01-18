@@ -7,7 +7,6 @@ export const BwmInput = ({
     className,
     symbol,
     placeholder,
-    value,
     labelUp,
     meta: { touched, error, warning }
   }) => (
@@ -25,7 +24,7 @@ export const BwmInput = ({
                     {labelUp}
                 </label>
             }
-                <input {...input} placeholder={placeholder} type={type} className={className} value={value} />
+                <input {...input} placeholder={placeholder} type={type} className={className} />
                 <span className='focus-input'></span>
             {
                 label &&

@@ -1133,7 +1133,6 @@ header {
 .img-upload-display {
   display: flex;
   width: 100%;
-  padding-right: 10px;
   clear: both;
   flex-wrap: wrap;
   margin-bottom: 20px; }

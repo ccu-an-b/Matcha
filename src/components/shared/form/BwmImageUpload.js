@@ -1,5 +1,4 @@
 import React from 'react';
-import * as actions from 'actions';
 
 export class BwmImageUpload extends React.Component {
     
@@ -122,16 +121,6 @@ export class BwmImageUpload extends React.Component {
                     }
                 </div>
                 }
-
-                {/* { selectedFile &&
-                    <button className ='btn btn-success btn-upload'
-                            type = 'button'
-                            disabled={!selectedFile}
-                            onClick={() =>this.uploadImage()}>
-                        Upload Image
-                    </button>
-
-                } */}
             </div>
         ) 
     }

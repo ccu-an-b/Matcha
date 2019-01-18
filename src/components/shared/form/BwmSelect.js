@@ -7,6 +7,7 @@ export class BwmSelect extends React.Component {
         super();
         this.state = {
           value: "",
+          start: true
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -23,16 +24,29 @@ export class BwmSelect extends React.Component {
 
     render() {
 
-        return (<div  className = {this.props.className} >
+        const { options, defaultValue, labelUp , className, valueStart } = this.props
+        
+        setTimeout(() => {
+            if (defaultValue && this.state.start){
+                this.onChange(options[defaultValue])
+                this.setState({start: false})
+            }
+            else if (this.state.start) {
+                this.onChange(options[valueStart])
+                this.setState({start: false})
+            }
+        }, 100)
+        
+        return (<div  className = {className} >
 
-            { this.props.labelUp &&
+            { labelUp &&
                 <label>
-                    {this.props.labelUp}
+                    {labelUp}
                 </label>
             }
             <Select
                 allowCreate={true}
-                options={this.props.options}
+                options={options}
                 onChange={this.onChange}
                 value ={this.state.value}
                 id="Element"

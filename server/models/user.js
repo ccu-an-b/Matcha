@@ -42,7 +42,7 @@ function user_new_tables(user_id){
         client.query('INSERT INTO scores (user_id) VALUES($1)', [user_id]);
         client.query('INSERT INTO profiles (user_id) VALUES($1)', [user_id]);
         client.query('INSERT INTO tags (user_id) VALUES($1)', [user_id]);
-        done();
+        done(); 
     });
 }
 
@@ -89,10 +89,11 @@ function user_set_active(user_id){
     });
 }
 
-function user_profile_update(req, res)
+function user_profile_update(req, res, callback)
 {
-   const { bio , age, profile, image} = req.body;
-   const user = res.locals.user; 
+    const { bio , age, profile, gender, orientation, location, tags ,image} = req.body;
+//  const { bio , age,tags, image} = req.body;
+    const user = res.locals.user; 
 
 //    let img_path='public/img/'+image;
 
@@ -100,18 +101,74 @@ function user_profile_update(req, res)
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
-    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3 WHERE user_id = $4', [bio, age, profile, user.userId])
-    if(image)
-    {
-        for ( var i = 0 ; i < image.length; i++)
+    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender.value, orientation.value, location, user.userId])
+    // client.query('UPDATE profiles SET bio = $1, age = $2 WHERE user_id = $3', [bio, age, user.userId])
+        if(image)
         {
-            client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
+            for ( var i = 0 ; i < image.length; i++)
+            {
+                client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
+            }
         }
-    }
-    return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
-        
-});
+        done();
+        return callback(res, tags, user.userId)
+    });
+}
 
+function isInArray(value, array) {
+    if( array.indexOf(value) > -1)
+        return 1;
+    else
+        return 0;
+}
+
+function user_tags_update(res, tags, userId){
+
+   
+    //Separate created tags from existing one
+    var newArray =[[],[]]
+    for (var i =0; i < tags.length ; i++)
+    {
+        if (tags[i]['__isNew__'])
+        {
+            newArray[0].push(tags[i])
+        }
+        else
+            newArray[1].push(tags[i])
+    }
+
+    // //Create array with only the tags value
+    var arrTagsNew = Object.keys(newArray[0]).map(key => (newArray[0][key].value));
+    var arrTagsExist = Object.keys(newArray[1]).map(key => (newArray[1][key].value));
+
+    // //Transform array value to lowercase
+    arrTagsNew = arrTagsNew.map(value => value.toLowerCase());
+    arrTagsExist = arrTagsExist.map(value => value.toLowerCase());
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
+        }
+        client.query(`SELECT attname  AS col
+            FROM   pg_attribute
+            WHERE  attrelid = 'tags'::regclass 
+            AND    attnum > 0
+            AND    NOT attisdropped
+            ORDER  BY attnum;`, function(err, res){
+            for (var i = 1 ; i < res.rows.length ; i++)
+            {
+                const value = isInArray(res.rows[i].col, arrTagsExist)
+
+                client.query(`UPDATE tags SET ${res.rows[i].col} =  $1 WHERE user_id = $2`, [value,userId])
+            } 
+        });
+        for (var i = 0; i <arrTagsNew.length ; i++){
+           client.query(`ALTER TABLE tags ADD COLUMN ${arrTagsNew[i]} integer DEFAULT 0`)
+           client.query(`UPDATE tags SET ${arrTagsNew[i]} = 1 WHERE user_id = $1`, [userId]) 
+        }
+        done();
+        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
+    });
 }
 
 // AUTH FUNCTIONS
@@ -162,13 +219,20 @@ function user_set_offline(req, res){
 
 }
 
+function test_user(req, res){
+    console.log(req.body)
+}
+
 module.exports = {
     user_select_one,
     user_new,
     user_profile_update,
+    user_tags_update,
+    user_tags_update,
     user_password_check,
     user_check_profile_status,
     user_set_active,
     user_set_online,
-    user_set_offline
+    user_set_offline,
+    test_user
 }
