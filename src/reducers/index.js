@@ -4,6 +4,7 @@ import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 
 import { authReducer} from './auth-reducer';
 import { selectedUserReducer, activateUserReducer} from './user-reducer';
+import { getTagsReducer } from './tags-reducer';
 
 export const init = () => {
     const reducer = combineReducers({
@@ -11,6 +12,7 @@ export const init = () => {
         auth: authReducer,
         user: selectedUserReducer,
         userActivate: activateUserReducer,
+        tags: getTagsReducer,
     });
 
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

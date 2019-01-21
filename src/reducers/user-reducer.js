@@ -14,10 +14,6 @@ const INITIAL_STATE = {
 
 export const selectedUserReducer = (state = INITIAL_STATE.user, action) => {
     switch(action.type) {
-        case FETCH_USER_BY_KEY_INIT:
-            return {...state, data: {}};
-        case FETCH_USER_BY_KEY_SUCCESS:
-            return {...state, data: action.user}
         case FETCH_USER_PROFILE_INIT:
             return {...state, data: {}};
         case FETCH_USER_PROFILE_SUCCESS:

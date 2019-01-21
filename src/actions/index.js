@@ -8,7 +8,9 @@ import {  LOGIN_FAILURE,
           FETCH_USER_BY_KEY_INIT,
           FETCH_USER_BY_KEY_SUCCESS,
           FETCH_USER_PROFILE_INIT,
-          FETCH_USER_PROFILE_SUCCESS } from './types';
+          FETCH_USER_PROFILE_SUCCESS,
+          FETCH_TAGS_INIT,
+          FETCH_TAGS_SUCCESS} from './types';
 
 const axiosInstance = axiosService.getInstance();
 
@@ -151,6 +153,33 @@ export const fetchUserProfile = (username) => {
     
       axios.get(`/api/v1/users/profile/${username}`).then((user) => {
       dispatch(fetchUserProfileSuccess(user.data));
+    });
+  }
+}
+
+//TAGS ACTIONS
+const fetchTagsInit = () => {
+  
+  return {
+    type: FETCH_TAGS_INIT,
+  }
+}
+
+const fetchTagsSuccess = (tags) => {
+  
+  return {
+    type: FETCH_TAGS_SUCCESS,
+    tags
+  }
+
+}
+export const fetchTags = () => {
+
+  return function(dispatch) {
+    dispatch(fetchTagsInit());
+    
+      axios.get(`/api/v1/users/profile/`).then((tags) => {
+      dispatch(fetchTagsSuccess(tags.data));
     });
   }
 }
