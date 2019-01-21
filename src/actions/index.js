@@ -27,11 +27,11 @@ const fetchUserByKeyInit = () => {
   }
 }
 
-const fetchUserByKeySuccess = (user) => {
+const fetchUserByKeySuccess = (userActivate) => {
   
   return {
     type: FETCH_USER_BY_KEY_SUCCESS,
-    user
+    userActivate
   }
 }
 export const fetchUserByKey = (userKey) => {

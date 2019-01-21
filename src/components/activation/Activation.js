@@ -28,13 +28,13 @@ export class Activation extends React.Component {
 
     render() {
         const { isAuth, errors} = this.props.auth;
-        const user = this.props.user;
+        const userActivate = this.props.userActivate;
 
         if (isAuth){
             return <Redirect to={{pathname: '/dashboard'}} />
         }
     
-        else if(user && this.props.match.params.key ) 
+        else if(userActivate && this.props.match.params.key ) 
         {
             return (
                 <div className="landing-body">
@@ -64,7 +64,7 @@ export class Activation extends React.Component {
 function mapStateToProps(state){
     return {
         auth: state.auth,
-        user: state.user.data
+        userActivate: state.userActivate.data
     }
 }
 export default connect(mapStateToProps)(Activation);
