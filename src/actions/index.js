@@ -9,6 +9,7 @@ import {  LOGIN_FAILURE,
           FETCH_USER_BY_KEY_SUCCESS,
           FETCH_USER_PROFILE_INIT,
           FETCH_USER_PROFILE_SUCCESS,
+          FETCH_USER_PROFILE_FAIL,
           FETCH_TAGS_INIT,
           FETCH_TAGS_SUCCESS} from './types';
 
@@ -146,14 +147,21 @@ const fetchUserProfileSuccess = (user) => {
   }
 
 }
+
+const fetchUserProfileFail = (errors) => {
+  return {
+    type: FETCH_USER_PROFILE_FAIL,
+    errors
+  }
+}
 export const fetchUserProfile = (username) => {
 
   return function(dispatch) {
     dispatch(fetchUserProfileInit());
     
-      axios.get(`/api/v1/users/profile/${username}`).then((user) => {
-      dispatch(fetchUserProfileSuccess(user.data));
-    });
+      axios.get(`/api/v1/users/profile/${username}`)
+        .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
+        .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
   }
 }
 
@@ -178,7 +186,7 @@ export const fetchTags = () => {
   return function(dispatch) {
     dispatch(fetchTagsInit());
     
-      axios.get(`/api/v1/users/profile/`).then((tags) => {
+      axios.get(`/api/v1/tools/tags`).then((tags) => {
       dispatch(fetchTagsSuccess(tags.data));
     });
   }

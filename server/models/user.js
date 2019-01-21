@@ -249,6 +249,7 @@ function get_tags(userdata, cb){
         AND    attnum > 0
         AND    NOT attisdropped
         ORDER  BY attnum;`, function(err, res){
+            done();
             var allTags = []
             for (var i = 0 ; i < res.rows.length ; i++)
             {
@@ -271,7 +272,6 @@ function user_get_tags(userdata, cb){
     
         client.query(`SELECT * FROM tags WHERE user_id = $1`, [userId], function (err, result) {
             done();
-          
             var tags = []
             const allTags = userdata[1]
             {

@@ -10,9 +10,9 @@ const INITIAL_STATE = {
 export const getTagsReducer = (state = INITIAL_STATE.tags, action) => {
     switch(action.type) {
         case FETCH_TAGS_INIT:
-            return {...state, data: {}};
+            return Object.assign({...state, data: {}});
         case FETCH_TAGS_SUCCESS:
-            return {...state, data: action.tags}
+            return Object.assign({...state, data: action.tags})
         default:
             return state;
     }

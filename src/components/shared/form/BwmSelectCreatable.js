@@ -16,20 +16,22 @@ export class BwmSelectCreatable extends React.Component {
         let newVal = value
         let stateVal = this.state.value.slice()
 
-        if (value.value[0] === '#')
-        {
-            newVal.value = newVal.value.replace("#", "") ; 
-            newVal.label = newVal.label.replace("#", "")
-        } 
+        if (value){
+            if (value.value[0] === '#')
+            {
+                newVal.value = newVal.value.replace("#", "") ; 
+                newVal.label = newVal.label.replace("#", "")
+            } 
 
-        stateVal.indexOf(newVal) === -1
-        ? stateVal.push(newVal)
-        : stateVal.length === 1
-            ? (stateVal = [])
-            : stateVal.splice(stateVal.indexOf(newVal), 1)
-    
-        this.setState({ value: stateVal })
-        this.onSucces(stateVal)
+            stateVal.indexOf(newVal) === -1
+            ? stateVal.push(newVal)
+            : stateVal.length === 1
+                ? (stateVal = [])
+                : stateVal.splice(stateVal.indexOf(newVal), 1)
+        
+            this.setState({ value: stateVal })
+            this.onSucces(stateVal)   
+        }
     }
 
     onSucces(value){
@@ -50,6 +52,9 @@ export class BwmSelectCreatable extends React.Component {
         return div
     }
 
+    findArray(array, value){
+        return array.find( key => key.value === value) 
+    }
     render() {
 
         const { defaultValue, option } = this.props
@@ -58,29 +63,34 @@ export class BwmSelectCreatable extends React.Component {
             if (defaultValue && this.state.start){
                 for (var i = 0; i < defaultValue.length ; i++)
                 {
-                    const resultat = option.find( key => key.value === defaultValue[i]);
+                    // const resultat = option.find( key => key.value === defaultValue[i]);
+                    const resultat = this.findArray(option,defaultValue[i] )
                     this.onChange(resultat)
                 }
                 this.setState({ start: false })
             }
         }, 100)
     
-        return (<div>
-            <Creatable
-                allowCreate={true}
-                options={option}
-                onChange={this.onChange}
-                value =""
-                id="Element"
-                multi
-                className="my-select"
-                
-           />
-           <div className="selected-tags">
-           {this.previewTags()}
-           </div>
-           </div>
+        if (option.length > 1)
+        {
+            return (<div>
+                <Creatable
+                    allowCreate={true}
+                    options={option}
+                    onChange={this.onChange}
+                    value =""
+                    id="Element"
+                    multi
+                    className="my-select"
+                    
+               />
+               <div className="selected-tags">
+               {this.previewTags()}
+               </div>
+               </div>
+    
         )
+            }
     }
 }
 

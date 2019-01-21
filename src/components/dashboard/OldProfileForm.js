@@ -81,7 +81,7 @@ let ProfileForm = props => {
                     labelUp = "Gender"
                     valueStart = ""
                     defaultValue = {userData[0].gender}
-                   //defaultValue = {userData.gender}
+                   // defaultValue = {userData[0].gender}
                     className = "my-select no-border" 
                     options = {optionsGender}
                     // validate={[required]}
@@ -103,8 +103,7 @@ let ProfileForm = props => {
                     name='orientation'
                     type="select"
                     valueStart = "0"
-                   defaultValue = {userData[0].orientation}
-                   // defaultValue = {userData.orientation}
+                    defaultValue = {userData[0].orientation}
                     className = "my-select no-border" 
                     options = {optionsOrientation}
                     // validate={[required]}
@@ -126,8 +125,7 @@ let ProfileForm = props => {
                 type="select"
                 value = ""
                 option = {optionsTags}
-               defaultValue = {userData[1]}
-                //defaultValue = {userData.tags}
+                defaultValue = {userData[1]}
                 // validate={[required]}
                 component={BwmSelectCreatable} 
             />

@@ -14,10 +14,12 @@ function get_tags(cb){
         AND    attnum > 0
         AND    NOT attisdropped
         ORDER  BY attnum;`, function(err, res){
+            done();
             var allTags = []
             for (var i = 1 ; i < res.rows.length ; i++)
             {
-                allTags.push(res.rows[i].col)
+                var oneTag = { value: res.rows[i].col, label: res.rows[i].col }
+                allTags.push(oneTag)
             } 
             return cb(allTags)
         });

@@ -86,7 +86,7 @@ exports.getProfile = function(req, res) {
     User.user_get_profile(username, function (req, result) {
         User.get_tags(result, function(req, tagRes){
             User.user_get_tags(tagRes, function(req, finalResult){
-                return res.json(finalResult)
+                res.json(finalResult)
             })
         })
     })

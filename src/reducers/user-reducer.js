@@ -1,11 +1,13 @@
 import {    FETCH_USER_BY_KEY_INIT,
             FETCH_USER_BY_KEY_SUCCESS,
             FETCH_USER_PROFILE_INIT,
-            FETCH_USER_PROFILE_SUCCESS} from 'actions/types';
+            FETCH_USER_PROFILE_SUCCESS,
+            FETCH_USER_PROFILE_FAIL} from 'actions/types';
 
 const INITIAL_STATE = {
     user: {
         data:{},
+        error: [],
     },
     userActivate: {
         data:{},
@@ -15,9 +17,11 @@ const INITIAL_STATE = {
 export const selectedUserReducer = (state = INITIAL_STATE.user, action) => {
     switch(action.type) {
         case FETCH_USER_PROFILE_INIT:
-            return {...state, data: {}};
+            return Object.assign({...state, data: {}});
         case FETCH_USER_PROFILE_SUCCESS:
-            return {...state, data: action.user}
+            return Object.assign({...state, data: action.user})
+        case FETCH_USER_PROFILE_FAIL:
+            return Object.assign({...state, error: action.user})
         default:
             return state;
     }
@@ -26,9 +30,9 @@ export const selectedUserReducer = (state = INITIAL_STATE.user, action) => {
 export const activateUserReducer = (state = INITIAL_STATE.userActivate, action) => {
     switch(action.type) {
         case FETCH_USER_BY_KEY_INIT:
-            return {...state, data: {}};
+            return Object.assign({...state, data: {}});
         case FETCH_USER_BY_KEY_SUCCESS:
-            return {...state, data: action.userActivate}
+            return Object.assign({...state, data: action.userActivate})
         default:
             return state;
     }

@@ -28,7 +28,6 @@ export class Browse extends React.Component {
 }
 function mapStateToProps(state) {
     return{
-        auth: state.auth,
     }
 }
 

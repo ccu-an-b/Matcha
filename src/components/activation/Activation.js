@@ -64,7 +64,7 @@ export class Activation extends React.Component {
 function mapStateToProps(state){
     return {
         auth: state.auth,
-        userActivate: state.userActivate.data
+        userActivate: state.userActivate.data,
     }
 }
 export default connect(mapStateToProps)(Activation);

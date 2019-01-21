@@ -9,18 +9,20 @@ import ProfileForm from './ProfileForm';
 
 
 export class Dashboard extends React.Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state ={
             errors:[],
-            redirect: false
+            redirect: false,
         }
         this.completeProfile = this.completeProfile.bind(this);
+        this.componentWillMounte = this.componentWillMount.bind(this);
     }
 
     componentWillMount(){
-        const userUsername = 'chloe' ;
-        this.props.dispatch(actions.fetchUserProfile(userUsername));
+        const userUsername = authService.getUsername() ;
+        this.props.dispatch(actions.fetchUserProfile(userUsername))
+        this.props.dispatch(actions.fetchTags());
     }
 
     completeProfile(profileData){
@@ -38,25 +40,29 @@ export class Dashboard extends React.Component {
         else
         {
             actions.completeProfile(profileData).then(
-                () => this.setState({redirect: true}),
+                () =>{ this.setState({redirect: true})},
                 (errors) => this.setState({errors})
             );
         }
     }
 
-    render(){
 
+    render(){
         const userData = this.props.user
+        const optionTags = this.props.tags
 
         if (this.state.redirect) {
             return <Redirect to={{pathname:'/'}}/>
         }
 
-        if(authService.getUserProfileStatus())
+        else if(!authService.getUserProfileStatus())
         {
             return (
                 <div className="dashboard">
-                    <ProfileGrid/>
+                {userData.length > 1 &&
+
+                    <ProfileGrid userData ={userData} />
+                }
                 </div>
             )
         }
@@ -74,7 +80,10 @@ export class Dashboard extends React.Component {
                         <div className="header">
                             <h1>Create your profile</h1>
                         </div>
-                    <ProfileForm  submitCb={this.completeProfile} userData={userData}/>
+
+                {optionTags.length > 1  && userData.length > 1 &&
+                    <ProfileForm  submitCb={this.completeProfile} userData={userData}  optionsTags={optionTags}/>
+                }        
                     </div>
                 </div>
             )
@@ -84,9 +93,9 @@ export class Dashboard extends React.Component {
 }
 function mapStateToProps(state) {
     return{
-        auth: state.auth,
         dashboard: state.dashboard,
-        user: state.user.data
+        user: state.user.data,
+        tags: state.tags.data
     }
 }
 
