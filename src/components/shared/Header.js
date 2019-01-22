@@ -62,7 +62,6 @@ class Header extends React.Component {
                 <div className="landing-nav d-flex flex-column flex-md-row align-items-center px-md-4">
                     <img alt="logo" width="auto" height="60" className="d-inline-block my-0 mr-md-auto" src={process.env.PUBLIC_URL + '/matcha_logo_white.svg'} />
                 </div>
-    
             )
         }
     }

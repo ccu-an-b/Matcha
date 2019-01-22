@@ -1,3 +1,4 @@
+@import url("https://unpkg.com/leaflet@1.4.0/dist/leaflet.css");
 .landing-nav {
   position: fixed;
   z-index: 10;
@@ -1334,6 +1335,10 @@ h1, h2, h3, h4 {
     margin-top: -200px; }
   .App {
     overflow-x: hidden; } }
+
+.leaflet-container {
+  height: 600px;
+  width: 100%; }
 
 .button {
   box-sizing: border-box;
