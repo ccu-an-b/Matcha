@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Creatable } from 'react-select';
 
 export class BwmSelectCreatable extends React.Component {
     
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
           value: [],
           start: true
@@ -30,6 +31,7 @@ export class BwmSelectCreatable extends React.Component {
                 : stateVal.splice(stateVal.indexOf(newVal), 1)
         
             this.setState({ value: stateVal })
+            this.setState({ start: false })
             this.onSucces(stateVal)   
         }
     }
@@ -52,25 +54,26 @@ export class BwmSelectCreatable extends React.Component {
         return div
     }
 
+    initializeValue(defaultValue, option){
+        for (var i = 0; i < defaultValue.length ; i++)
+            {
+                const resultat = this.findArray(option,defaultValue[i] )
+                this.onChange(resultat)
+            }
+    }
+
     findArray(array, value){
         return array.find( key => key.value === value) 
     }
     render() {
 
         const { defaultValue, option } = this.props
-
-        setTimeout(() => {
-            if (defaultValue && this.state.start){
-                for (var i = 0; i < defaultValue.length ; i++)
-                {
-                    // const resultat = option.find( key => key.value === defaultValue[i]);
-                    const resultat = this.findArray(option,defaultValue[i] )
-                    this.onChange(resultat)
-                }
-                this.setState({ start: false })
+        setTimeout( () => {
+            if (defaultValue && defaultValue.length > 1 && this.state.start){
+                this.initializeValue(defaultValue, option)
             }
         }, 100)
-    
+
         if (option.length > 1)
         {
             return (<div>
@@ -94,6 +97,11 @@ export class BwmSelectCreatable extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return{
+        bwmSelectCreatable: state.bwmSelectCreatable,
+    }
+}
 
-
+export default connect(mapStateToProps)(BwmSelectCreatable)
 

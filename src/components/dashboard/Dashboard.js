@@ -16,13 +16,6 @@ export class Dashboard extends React.Component {
             redirect: false,
         }
         this.completeProfile = this.completeProfile.bind(this);
-        this.componentWillMounte = this.componentWillMount.bind(this);
-    }
-
-    componentWillMount(){
-        const userUsername = authService.getUsername() ;
-        this.props.dispatch(actions.fetchUserProfile(userUsername))
-        this.props.dispatch(actions.fetchTags());
     }
 
     completeProfile(profileData){
@@ -55,11 +48,11 @@ export class Dashboard extends React.Component {
             return <Redirect to={{pathname:'/'}}/>
         }
 
-        else if(!authService.getUserProfileStatus())
+        else if(authService.getUserProfileStatus())
         {
             return (
                 <div className="dashboard">
-                {userData.length > 1 &&
+                {userData.length > 1 && userData[0].id === this.props.auth.userId  &&
 
                     <ProfileGrid userData ={userData} />
                 }
@@ -81,21 +74,21 @@ export class Dashboard extends React.Component {
                             <h1>Create your profile</h1>
                         </div>
 
-                {optionTags.length > 1  && userData.length > 1 &&
+                {optionTags.length > 1  && userData.length > 1 && userData[0].id === this.props.auth.userId &&
                     <ProfileForm  submitCb={this.completeProfile} userData={userData}  optionsTags={optionTags}/>
                 }        
                     </div>
                 </div>
             )
         }
-       
     }
 }
 function mapStateToProps(state) {
     return{
         dashboard: state.dashboard,
         user: state.user.data,
-        tags: state.tags.data
+        tags: state.tags.data,
+        auth: state.auth
     }
 }
 

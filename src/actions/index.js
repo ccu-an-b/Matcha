@@ -2,6 +2,7 @@ import axios from 'axios';
 import authService from 'services/auth-service';
 import axiosService from 'services/axios-service';
 
+
 import {  LOGIN_FAILURE,
           LOGIN_SUCCESS,
           LOGOUT,
@@ -14,7 +15,7 @@ import {  LOGIN_FAILURE,
           FETCH_TAGS_SUCCESS} from './types';
 
 const axiosInstance = axiosService.getInstance();
-
+const store = require('../reducers').init();
 // REGISTER ACTIONS
 export const register = (userData) => {
   return axios.post(`/api/v1/users/register`, {...userData}).then(
@@ -62,6 +63,8 @@ const loginSuccess = () => {
   const username = authService.getUsername();
   const userId = authService.getUserId();
   const userProfileStatus = authService.getUserProfileStatus();
+  store.dispatch(fetchUserProfile(username))
+  store.dispatch(fetchTags())
   return {
     type: LOGIN_SUCCESS,
     username,
@@ -93,6 +96,10 @@ export const login = (userData) => {
         authService.saveToken(token);
         dispatch(loginSuccess(token));
       })
+      .then(()=> {
+        dispatch(fetchUserProfile(userData.username))
+        dispatch(fetchTags())
+      })
       .catch(({response}) => {
         dispatch(loginFailure(response.data.errors))
       })
@@ -100,6 +107,8 @@ export const login = (userData) => {
 }
 
 export const logout = () => {
+  store.dispatch(fetchUserProfileInit())
+  store.dispatch(fetchTagsInit())
   authService.deleteToken()
   return {
     type: LOGOUT

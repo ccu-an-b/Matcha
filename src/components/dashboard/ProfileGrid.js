@@ -1,41 +1,16 @@
 import React from 'react';
 import { ProfileInfo } from './ProfileInfo';
-
+import { ProfilePreview } from './ProfilePreview';
 
 export class ProfileGrid extends React.Component {
 
     render (){
 
         const { userData } = this.props
-        console.log(userData)
+      
         return(
             <div className="grid-container">
-                <div className="profile grid-area">
-                    <div className="img">
-                    {/* <i className="fas fa-ellipsis-v"></i>  */}
-                        <img src="https://images.unsplash.com/photo-1502292754603-a0891e807332?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" alt="profile_img"/>
-                        <h3>Chloe</h3>
-                        <h5 className="online">Online</h5>
-                        <div className="button"><i className="fas fa-sliders-h"></i></div>
-                    </div>
-                    <div className="profile-data">
-                        <div className="data-details">
-                        <h5>Age</h5>
-                        <h4>24</h4>
-                        </div>
-                        <div className="data-details">
-                        <h5>Location</h5>
-                        <h4>Paris</h4>
-                        </div>
-                        <div className="data-details">
-                        <h5>Score</h5>
-                        <h4>150</h4>
-                        </div>
-                    </div>
-                    <div className="profile-more">
-                    <h5>Show more</h5>
-                    </div>
-                </div>
+                <ProfilePreview userData= { userData }/>
             <div className="last-view grid-area">
             <h2>Your latest visits.</h2>
             <div className="profiles-display">

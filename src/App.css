@@ -483,7 +483,7 @@ header {
         height: 150px;
         width: 150px;
         float: right;
-        cursor: pointer;
+        cursor: default;
         position: relative;
         overflow: hidden;
         background-color: rgba(75, 78, 109, 0.3); }
@@ -492,36 +492,28 @@ header {
           height: 100%;
           border-radius: 50%;
           object-fit: cover; }
-        .dashboard .grid-container .edit-profile .profile-picture:after {
-          z-index: 2;
-          background-color: #363B6D;
-          width: 100%;
-          opacity: 0.8;
-          content: "";
-          position: absolute;
-          bottom: 0px;
-          height: 50px;
-          color: white;
-          content: "Edit";
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all .4s;
-          font-size: 18px;
-          letter-spacing: 1px; }
-        .dashboard .grid-container .edit-profile .profile-picture:hover:after {
-          opacity: 1;
-          height: 100%; }
       .dashboard .grid-container .edit-profile .edit-interest {
         width: auto;
         clear: both;
         margin: 20px;
         color: #615F5E; }
         .dashboard .grid-container .edit-profile .edit-interest p {
-          height: 90px;
+          min-height: 35px;
           word-wrap: break-word; }
         .dashboard .grid-container .edit-profile .edit-interest p.p-small {
           height: 24px; }
+        .dashboard .grid-container .edit-profile .edit-interest .display-tags {
+          display: flex;
+          flex-wrap: wrap; }
+          .dashboard .grid-container .edit-profile .edit-interest .display-tags .tags {
+            padding: 5px 10px;
+            background-color: #363B6D;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 0.25rem;
+            color: white;
+            font-family: "Abel";
+            cursor: default; }
       .dashboard .grid-container .edit-profile .edit-infos {
         margin: 20px;
         width: 100%; }
@@ -552,27 +544,13 @@ header {
           margin-top: 10px;
           border-radius: 0.25rem;
           overflow: hidden;
-          cursor: pointer;
+          cursor: default;
           position: relative; }
           .dashboard .grid-container .edit-profile .edit-picture div img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             z-index: -1; }
-        .dashboard .grid-container .edit-profile .edit-picture div.picture:hover:after {
-          position: absolute;
-          width: 100%;
-          background-color: rgba(75, 78, 109, 0.8);
-          bottom: 0px;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all .4s;
-          font-size: 18px;
-          letter-spacing: 1px;
-          content: "Delete";
-          height: 100%; }
         .dashboard .grid-container .edit-profile .edit-picture div.picture-add {
           background-color: rgba(75, 78, 109, 0.3);
           display: flex;
@@ -986,6 +964,8 @@ header {
 
 .my-select {
   width: 200px; }
+  .my-select * {
+    max-height: 220px !important; }
   .my-select .css-vj8t7z {
     border-radius: 0.25rem;
     border-color: #CED4DD; }

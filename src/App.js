@@ -7,7 +7,7 @@ import { ProtectedRoute } from 'components/shared/auth/ProtectedRoute' ;
 import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
 
 import * as actions from 'actions';
-
+import authService from 'services/auth-service';
 import Header  from 'components/shared/Header' ;
 import Landing  from 'components/landing/Landing' ;
 import Activation from 'components/activation/Activation' ;
@@ -21,13 +21,22 @@ class App extends Component {
 
   componentWillMount(){
     this.checkAuthState();
+    if (authService.isAuthentificated()){
+      this.initStore()
+    }
   }
 
   checkAuthState(){
     store.dispatch(actions.checkAuthState());
   }
+
   logout(){
     store.dispatch(actions.logout());
+  }
+
+  initStore(){
+    store.dispatch(actions.fetchUserProfile(authService.getUsername()))
+    store.dispatch(actions.fetchTags())
   }
 
   render() {
