@@ -22,9 +22,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage: storage, fileFilter: fileFilter});
-const singleUpload = upload.single('image');
+const singleUpload = upload.single('profile');
 
-router.post('/image-upload', UserCtrl.authMiddleware, function(req, res){
+
+router.post('/profile-upload', UserCtrl.authMiddleware, function(req, res){
     singleUpload(req, res, function(err){
     if (err)
     {
@@ -34,4 +35,7 @@ router.post('/image-upload', UserCtrl.authMiddleware, function(req, res){
     });
 });
 
+router.post('/image-upload', UserCtrl.authMiddleware, upload.any(), function(req, res, err){
+    res.send(req.files);
+})
 module.exports = router;

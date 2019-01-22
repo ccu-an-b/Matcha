@@ -4,7 +4,7 @@ export function BwmResSuccess(props) {
     const success = props.success
 
     return (
-        success.length > 0 &&
+        success  &&
         <div className='alert  alert-success-matcha'>
             {success}
         </div>

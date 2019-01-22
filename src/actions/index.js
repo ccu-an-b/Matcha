@@ -9,8 +9,12 @@ import {
   FETCH_USER_BY_KEY_INIT,
   FETCH_USER_BY_KEY_SUCCESS,
   FETCH_USER_PUBLIC_INFO_INIT,
-  FETCH_USER_PUBLIC_INFO_SUCCESS
-} from './types';
+  FETCH_USER_PUBLIC_INFO_SUCCESS,
+  FETCH_USER_PROFILE_INIT,
+  FETCH_USER_PROFILE_SUCCESS,
+  FETCH_USER_PROFILE_FAIL,
+  FETCH_TAGS_INIT,
+  FETCH_TAGS_SUCCESS} from './types';
 
 const axiosInstance = axiosService.getInstance();
 
@@ -37,18 +41,17 @@ const fetchPublicInfoInit = () => {
 }
 
 const fetchPublicInfoSuccess = (publicData) => {
-
   return {
     type: FETCH_USER_PUBLIC_INFO_SUCCESS,
     publicData
   }
 }
 
-const fetchUserByKeySuccess = (user) => {
-
+const fetchUserByKeySuccess = (userActivate) => {
+  
   return {
     type: FETCH_USER_BY_KEY_SUCCESS,
-    user
+    userActivate
   }
 }
 export const fetchUserByKey = (userKey) => {
@@ -63,6 +66,7 @@ export const fetchUserByKey = (userKey) => {
 }
 
 export const completeProfile = (profileData) => {
+  debugger;
   return axiosInstance.post(`/users/profileComplete`, profileData).then(
     res => res.data,
     err => Promise.reject(err.response.data.errors)
@@ -128,11 +132,11 @@ export const logout = () => {
 }
 
 // UPLOAD ACTIONS 
-export const uploadImage = image => {
+export const uploadProfile = image => {
   const formData = new FormData();
-  formData.append('image', image);
+  formData.append('profile', image);
 
-  return axiosInstance.post('upload/image-upload', formData)
+  return axiosInstance.post('upload/profile-upload', formData)
     .then(json => {
       return json.data.imageUrl;
     })
@@ -147,6 +151,80 @@ const fetchAllPublicData = () => {
     axios.post('/api/v1/users/fetch-users').then((res) => {
       dispatch(fetchPublicInfoSuccess(res.data));
       console.log(res);
-    }).catch(({ response }) => Promise.reject(response.data.errors[0]))
+    }).catch(({ response }) => Promise.reject(response.data))
+  }
+}
+
+export const uploadImage = image => {
+  const formData = new FormData();
+  for (var i =0; i < image.length ; i++)
+    formData.append('image', image[i]);
+    
+  return axiosInstance.post('upload/image-upload', formData)
+    .then(json => {
+      return json.data;
+    })
+    .catch(({response}) => Promise.reject(response.data.errors[0]))
+}
+
+
+//PROFILE ACTIONS
+const fetchUserProfileInit = () => {
+  
+  return {
+    type: FETCH_USER_PROFILE_INIT,
+  }
+}
+
+const fetchUserProfileSuccess = (user) => {
+  
+  return {
+    type: FETCH_USER_PROFILE_SUCCESS,
+    user
+  }
+
+}
+
+const fetchUserProfileFail = (errors) => {
+  return {
+    type: FETCH_USER_PROFILE_FAIL,
+    errors
+  }
+}
+export const fetchUserProfile = (username) => {
+
+  return function(dispatch) {
+    dispatch(fetchUserProfileInit());
+    
+      axios.get(`/api/v1/users/profile/${username}`)
+        .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
+        .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
+  }
+}
+
+//TAGS ACTIONS
+const fetchTagsInit = () => {
+  
+  return {
+    type: FETCH_TAGS_INIT,
+  }
+}
+
+const fetchTagsSuccess = (tags) => {
+  
+  return {
+    type: FETCH_TAGS_SUCCESS,
+    tags
+  }
+
+}
+export const fetchTags = () => {
+
+  return function(dispatch) {
+    dispatch(fetchTagsInit());
+    
+      axios.get(`/api/v1/tools/tags`).then((tags) => {
+      dispatch(fetchTagsSuccess(tags.data));
+    });
   }
 }

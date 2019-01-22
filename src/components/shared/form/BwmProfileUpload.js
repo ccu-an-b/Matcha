@@ -1,7 +1,7 @@
 import React from 'react';
 import * as actions from 'actions';
 
-export class BwmFileUpload extends React.Component {
+export class BwmProfileUpload extends React.Component {
     
     constructor(){
         super();
@@ -31,34 +31,24 @@ export class BwmFileUpload extends React.Component {
                 selectedFile
             });
             this.reader.readAsDataURL(selectedFile);
-            actions.uploadImage(selectedFile).then(
+            actions.uploadProfile(selectedFile).then(
                 (uploadedImage) => { this.onSucces(uploadedImage)},
                 (error) => { this.onError(error)})
         }
     }
 
     onError(error){
-
+        console.log(error)
     }
 
     onSucces(uploadedImage){
         const {input: {onChange}} = this.props;
         onChange(uploadedImage);
     }
-
-    uploadImage() {
-        const { selectedFile } = this.state;
-
-        if (selectedFile){
-            actions.uploadImage(selectedFile).then(
-                (uploadedImage) => { this.onSucces(uploadedImage)},
-                (error) => { this.onError(error)})
-        }
-    }
-
+    
     render() {
         const {label, meta: {touched, error}} = this.props;
-        const { selectedFile, imageBase64 } = this.state;
+        const { imageBase64 } = this.state;
 
         return (
             <div className='img-upload-container' >

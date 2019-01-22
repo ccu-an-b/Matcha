@@ -80,10 +80,16 @@
                 padding: 0 5px;
                 border-radius: 0 !important;
                 transition: all 1s;
+                resize: none;
 
                 &:focus{
                     border-bottom-color: $main-orange;
                 }
+            }
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
             }
         }
 
@@ -97,7 +103,62 @@
     }
 }
 
+//IMG UPLOAD
+.img-upload-display{
+    display: flex;
+    width: 100%;
+    clear: both;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    .img-preview-div{
+        display:flex;
+    }
+    .img-preview-container{
+        margin-right: 20px;
+        overflow: hidden;
+        border-radius: 0.25rem;
+        .img-preview{
+            height: 150px;
+            width: 150px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            .hover{
+                position:absolute;
+                width:100%;
+                background-color:rgba(75,78,109,0.8);
+                bottom: 0px;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all .4s;
+                font-size: 18px;
+                letter-spacing: 1px;
+                height: 0;
+                opacity: 0;
+                cursor: pointer;
+            }
+            &:hover .hover{
+                height: 100%;
+                opacity: 1;
+            }
+        }
+    }
+}
+.img-upload-container.display-none{
+    display:none;
+}
 
+.img-upload-container.img{
+    border-radius:0.25rem;
+    float: initial;
+    margin-bottom: 0;
+    label{
+        color: white;
+        font-size: 30px;
+    }
+}
 .img-upload-container {
     margin-bottom: 20px;
     position: relative;
@@ -107,7 +168,7 @@
     float: right;
     cursor: pointer;
     overflow: hidden;
-    background-color: rgba(75, 78, 109, 0.3);
+    background-color: $main-dark-purple-03;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,6 +180,7 @@
         align-items: center;
         justify-content: center;
         font-size:17px;
+        color:white
     }
     .img-preview-container {
         background-color: #f7f7f7;
@@ -126,7 +188,7 @@
 
         .hover{
             z-index: 2;
-            background-color: #363B6D;
+            background-color: $main-dark-purple;
             width: 100%;
             opacity: 0.8;
             position: absolute;
@@ -166,6 +228,7 @@
         margin-top: 10px;
     }
 }
+
 
 
 @media screen and (max-width: 320px)

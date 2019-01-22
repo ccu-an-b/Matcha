@@ -89,9 +89,23 @@ function notAuthorized(res) {
 }
 
 exports.fetchAllUsersData = function (req, res, next) {
-
     // Public Data to be defined
-    User.user_select_all_public_data(function (err, cb) {
-        return res.status(200).send(cb);
+    User.user_select_all_public_data(function (err, result) {
+        if (err) {
+            return res.status(422).send({ errors: errorMessages.dataMissing })
+        }
+        return res.status(200).send(result);
     });
+}
+
+exports.getProfile = function(req, res) {
+    const username = req.params.username ;
+   
+    User.user_get_profile(username, function (req, result) {
+        User.get_tags(result, function(req, tagRes){
+            User.user_get_tags(tagRes, function(req, finalResult){
+                res.json(finalResult)
+            })
+        })
+    })
 }

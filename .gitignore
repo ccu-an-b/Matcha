@@ -7,7 +7,9 @@
 # production
 /build
 
+/server/config/dev.js
 /server/config
+/public/img
 
 # misc
 .DS_Store

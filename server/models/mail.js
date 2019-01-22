@@ -20,7 +20,6 @@ function activation_mail(username, email, key){
 
 function send_mail(email, subject, body){
     let transporter = nodemailer.createTransport();
-   
     var mailOptions = {
     from: 'matcha@no-reply.com',
     to: email,
