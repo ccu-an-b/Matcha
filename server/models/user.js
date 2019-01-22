@@ -106,17 +106,14 @@ function user_set_active(user_id){
 function user_profile_update(req, res, callback)
 {
     const { bio , age, profile, gender, orientation, location, tags ,image} = req.body;
-//  const { bio , age,tags, image} = req.body;
-    const user = res.locals.user; 
 
-//    let img_path='public/img/'+image;
+    const user = res.locals.user; 
 
    pool.connect(function (err, client, done) {
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
     client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender.value, orientation.value, location, user.userId])
-    // client.query('UPDATE profiles SET bio = $1, age = $2 WHERE user_id = $3', [bio, age, user.userId])
         if(image)
         {
             for ( var i = 0 ; i < image.length; i++)
@@ -206,10 +203,10 @@ function user_check_profile_status(id, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT age, location, bio, gender, profile_img from profiles where user_id = $1', [id], function (err, result) {
+        client.query('SELECT age, location, bio, gender, profile_img, orientation from profiles where user_id = $1', [id], function (err, result) {
             done()
             var hasNullValue = Object.values(result.rows[0]).some(function(value) {
-                return value === null;
+                return value === null || value === "";
             });
             return cb(!hasNullValue);
         })
@@ -305,12 +302,31 @@ function user_get_tags(userdata, cb){
         });
     })
 }
+
+function user_get_images(userdata, cb){
+    const userId = userdata[0].id
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+    
+        client.query(`SELECT * FROM images WHERE user_id = $1`, [userId], function (err, result) {
+            done();
+            var newRes = userdata
+            newRes.push(result.rows)
+            return cb(err, newRes)
+        });
+    });
+}
+
 module.exports = {
     user_select_one,
     user_new,
     user_profile_update,
     user_get_profile,
     user_get_tags,
+    user_get_images,
     get_tags,
     user_tags_update,
     user_tags_update,

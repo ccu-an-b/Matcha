@@ -102,9 +102,11 @@ exports.getProfile = function(req, res) {
     const username = req.params.username ;
    
     User.user_get_profile(username, function (req, result) {
-        User.get_tags(result, function(req, tagRes){
-            User.user_get_tags(tagRes, function(req, finalResult){
-                res.json(finalResult)
+        User.get_tags(result, function(req, tags){
+            User.user_get_tags(tags, function(req, userTags){
+                User.user_get_images(userTags, function(req, finalResult){
+                    res.json(finalResult)
+                })
             })
         })
     })

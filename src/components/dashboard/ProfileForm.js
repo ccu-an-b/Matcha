@@ -7,6 +7,7 @@ import { BwmImageUpload } from 'components/shared/form/BwmImageUpload';
 import { BwmSelect } from 'components/shared/form/BwmSelect';
 import { BwmSelectCreatable} from 'components/shared/form/BwmSelectCreatable';
 import { required} from 'components/shared/form/validators';
+import {connect} from 'react-redux';
 
 var optionsGender = [
     { value: '0', label: 'Man' },
@@ -19,17 +20,6 @@ var optionsOrientation = [
     { value: '2', label: 'Women' }
 ];
 
-const data = {
-    first_name: 'Jane',
-    last_name: 'Doe',
-    age: '42',
-    gender:'0' ,
-    orientation: '1',
-    location: "Paris",
-    bio: 'Born to write amazing Redux code.',
-    tags: ['love', 'fashion', 'strawberry']
-}
-
 let ProfileForm = props => {
     const { handleSubmit, pristine,  submitting, submitCb, valid, optionsTags, userData} = props
 
@@ -39,7 +29,7 @@ let ProfileForm = props => {
                 name="profile"
                 label="Profile Picture"
                 component={BwmProfileUpload}
-                // validate={[required]}
+                validate={[required]}
             />
             <div className="profile-name">
                 <Field
@@ -48,7 +38,7 @@ let ProfileForm = props => {
                     label="First Name"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 /> 
                 <Field
@@ -57,7 +47,7 @@ let ProfileForm = props => {
                     label="Last Name"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 /> 
             </div>
@@ -79,10 +69,9 @@ let ProfileForm = props => {
                     labelUp = "Gender"
                     valueStart = ""
                     defaultValue = {userData[0].gender}
-                   //defaultValue = {userData.gender}
                     className = "my-select no-border" 
                     options = {optionsGender}
-                    // validate={[required]}
+                    validate={[required]}
                     component={BwmSelect} 
                 />
                 <Field
@@ -92,7 +81,7 @@ let ProfileForm = props => {
                     placeholder="The Moon"
                     className='form-control'
                     component={BwmInput}
-                    // validate={[required]}
+                    validate={[required]}
                     data-parse='lowercase'
                 />
             </div>
@@ -101,11 +90,10 @@ let ProfileForm = props => {
                     name='orientation'
                     type="select"
                     valueStart = "0"
-                   defaultValue = {userData[0].orientation}
-                   // defaultValue = {userData.orientation}
+                    defaultValue = {userData[0].orientation}
                     className = "my-select no-border" 
                     options = {optionsOrientation}
-                    // validate={[required]}
+                    validate={[required]}
                     component={BwmSelect} 
             />
             <h3>Bio</h3>
@@ -115,7 +103,7 @@ let ProfileForm = props => {
                 placeholder="Tell us more about you ..."
                 className='form-control'
                 component={BwmTextarea}
-                // validate={[required]}
+                validate={[required]}
                 data-parse='lowercase'
             />
             <h3>Your interests</h3>
@@ -124,9 +112,8 @@ let ProfileForm = props => {
                 type="select"
                 value = ""
                 option = {optionsTags}
-               defaultValue = {userData[1]}
-                //defaultValue = {userData.tags}
-                // validate={[required]}
+                defaultValue = {userData[1]}
+                validate={[required]}
                 component={BwmSelectCreatable} 
             />
              <Field
@@ -144,22 +131,14 @@ let ProfileForm = props => {
 }
 
 
-export default reduxForm({
-    form: 'profileForm',
-    initialValues: data
-})(ProfileForm)
+ProfileForm = reduxForm({
+    form: 'profileForm'
+  })(ProfileForm)
 
-
-// // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
-// ProfileForm = reduxForm({
-//     form: 'profileForm'
-//   })(ProfileForm)
+ProfileForm= connect(
+    store => ({
+        initialValues: store.user.data[0]
+    }),
+  )(ProfileForm)
   
-//   // You have to connect() to any reducers that you wish to connect to yourself
-// ProfileForm= connect(
-//     state => ({
-//         initialValues: state.user.data// pull initial values from account reducer
-//     }),
-//   )(ProfileForm)
-  
-//   export default ProfileForm
+  export default ProfileForm

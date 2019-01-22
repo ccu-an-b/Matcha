@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize} from 'helpers';
+// import { isBuffer } from 'util';
 
 class Header extends React.Component {
     constructor() {
@@ -16,9 +17,18 @@ class Header extends React.Component {
         this.props.history.push('/');
     }
 
+    getProfileImage(userData){
+        if (userData.length > 1 && userData[0].profile_img)
+            return process.env.PUBLIC_URL + '/img/' +userData[0].profile_img ;
+        else
+            return process.env.PUBLIC_URL + '/profile_default.svg';
+    }
+
     render() {
 
         const {username} = this.props.auth;
+        const userData = this.props.user
+
         if (authService.isAuthentificated())
         {
             return(
@@ -31,12 +41,12 @@ class Header extends React.Component {
                     <nav className="navbar navbar-expand-lg navbar-light my-nav">
                         <div className="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
                             <div className="profile">
-                                <img src={process.env.PUBLIC_URL + '/profile_default.svg'} alt="profile_img"/>
-                                <a className="navbar-brand " href="/dashboard"> {toCapitalize(username)}</a>
+                                <img src={this.getProfileImage(userData)} alt="profile_img"/>
+                                <Link className="navbar-brand " to="/dashboard"> {toCapitalize(username)}</Link>
                             </div>
                             <ul className="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
                             <li className="nav-item my-li">
-                                <a className="nav-link active" href="/browse">Browse <span className="sr-only">(current)</span></a>
+                                <Link className="nav-link active" to="/browse">Browse <span className="sr-only">(current)</span></Link>
                             </li>
                             <li className="nav-item my-li">
                                 <a className="nav-link">Notifications</a>
@@ -70,6 +80,7 @@ class Header extends React.Component {
 function mapStateToProps(state) {
     return {
         auth: state.auth,
+        user: state.user.data,
     }
 }
 
