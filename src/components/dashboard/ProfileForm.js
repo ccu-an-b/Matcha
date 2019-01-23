@@ -28,6 +28,7 @@ let ProfileForm = props => {
             <Field
                 name="profile"
                 label="Profile Picture"
+                defaultValue = {userData[0].profile_img}
                 component={BwmProfileUpload}
                 validate={[required]}
             />
