@@ -1,3 +1,4 @@
+
 const   pg = require('pg'),
         bcrypt = require('bcrypt'),
         crypto = require('crypto'),
@@ -14,7 +15,7 @@ function user_select_all(callback) {
         }
         client.query('SELECT mail, id, login FROM users', function (err, result) {
             done();
-            return callback(err, result);
+            return callback(err, result.rows);
         });
     });
 }
@@ -25,6 +26,20 @@ function user_select_one(key, value, callback) {
             return console.error('error fetching client from pool', err);
         }
         client.query(`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+            done();
+            return callback(err, result.rows);
+        });
+    });
+}
+
+// PUBLIC DATA
+// TO BE UPDATED WITH: TAGS / USER POSITION
+function user_select_all_public_data(callback) {
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT username FROM users', function (err, result) {
             done();
             return callback(err, result.rows);
         });
@@ -209,6 +224,15 @@ function user_set_online(isOnline, userId){
     })
 }
 
+function user_set_ip(ipData, userId){
+    pool.connect(function (err, client, done) {   
+        client.query('UPDATE users SET ip = $1, geoloc = $2 WHERE id = $3', [ipData.ip, ipData.loc, userId], function () {
+            done();
+            console.log('User info : ', ipData);
+        });
+    })
+}
+
 function user_set_offline(req, res){
     const user = res.locals.user; 
     user_set_online('0', '77');
@@ -320,6 +344,8 @@ module.exports = {
     user_check_profile_status,
     user_set_active,
     user_set_online,
+    user_set_ip,
     user_set_offline,
+    user_select_all_public_data,
     test_user
 }

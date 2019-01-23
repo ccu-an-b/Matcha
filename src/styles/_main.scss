@@ -6,6 +6,7 @@
 @import 'form/form.scss';
 @import 'modal/modal.scss';
 @import './animations.scss';
+@import url('https://unpkg.com/leaflet@1.4.0/dist/leaflet.css');
 
 textarea:hover, 
 input:hover, 
@@ -74,6 +75,10 @@ h1,h2, h3,h4 {
 
 }
 
+.leaflet-container {
+    height: 600px;
+    width: 100%;
+  }
 
 .button {
     box-sizing: border-box;

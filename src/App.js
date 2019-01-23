@@ -21,13 +21,18 @@ class App extends Component {
 
   componentWillMount(){
     this.checkAuthState();
-    // if (authService.isAuthentificated()){
-    //   this.initStore()
-    // }
+    this.fetchPublicData();
+    if (authService.isAuthentificated()){
+      this.initStore()
+    }
   }
 
   checkAuthState(){
     store.dispatch(actions.checkAuthState());
+  }
+
+  fetchPublicData() {
+    store.dispatch(actions.fetchPublicData());
   }
 
   logout(){

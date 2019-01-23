@@ -17,6 +17,7 @@ router.post('/profileComplete', UserCtrl.authMiddleware,function(req, res){
 
 router.get('/activate/:key', UserCtrl.activate)
 
+router.post('/fetch-users', UserCtrl.fetchAllUsersData)
 router.get('/profile/:username', UserCtrl.getProfile)
 
 module.exports = router;
