@@ -36,7 +36,7 @@
     .grid-container {
       display: grid;
       grid-template-columns: 1.3fr 1fr 1.2fr;
-      grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: 280px 280px 1fr 1fr 1fr;
       grid-template-areas: "profile last-view last-view" "profile last-like last-like" "edit-profile edit-profile matchs" "edit-profile edit-profile matchs" "edit-profile edit-profile matchs";
       grid-gap: 0 20px;
       .grid-area{
@@ -51,6 +51,7 @@
       
       .profile { 
         grid-area: profile;
+        height: 540px;
         .img {
           position:relative;
           overflow:hidden;
@@ -216,6 +217,10 @@
               position:absolute;
               width:50%;
               margin-top: 0;
+              i {
+                 cursor:pointer;
+                 font-size:17px; margin-left: 5px;
+              }
             }
             &:after{
               z-index: 2;
@@ -484,6 +489,7 @@
       .last-view, .last-like{
         padding:20px;
         overflow:hidden;
+        height: 260px;
         img {
           width:120px;
           height:120px;
@@ -710,5 +716,14 @@
         width:200%;
         top:80%;
         height:50%;
+    }
+  }
+
+  .dashboard.loading{
+    display:flex;
+    justify-content: center;
+    img {
+      width: 100px;
+      height: 100px;
     }
   }

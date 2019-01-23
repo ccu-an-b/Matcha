@@ -1,12 +1,23 @@
 import React from 'react';
 import { ProfileInfo } from './ProfileInfo';
 import { ProfilePreview } from './ProfilePreview';
+import ProfileForm from './ProfileForm';
 
 export class ProfileGrid extends React.Component {
+    constructor(){
+        super()
+        this.state ={
+           showEdit: false,
+        }
+        this.showEdit = this.showEdit.bind(this);
+    }
 
+    showEdit(){
+        this.setState({showEdit: !this.state.showEdit})
+    }
     render (){
 
-        const { userData } = this.props
+        const { userData, editProfile , optionsTags} = this.props
       
         return(
             <div className="grid-container">
@@ -67,8 +78,13 @@ export class ProfileGrid extends React.Component {
             </div>
             </div>
             
-            
-            <ProfileInfo userData= { userData } />
+            {this.state.showEdit ?  <div className="edit-profile grid-area edit">
+                                        <div className="profile-form">
+                                        <div className="header">
+                                            <h1>Edit your profile <i className="fas fa-times" onClick={this.showEdit}></i></h1>
+                                        </div>
+                                        <ProfileForm  submitCb={editProfile} userData={userData}  optionsTags={optionsTags}/>
+                                    </div></div> :  <ProfileInfo userData= { userData } handleClick = {this.showEdit}/> }
            
             <div className="matchs grid-area">
                 <div className="header">

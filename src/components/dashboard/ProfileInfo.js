@@ -40,12 +40,12 @@ export class ProfileInfo extends React.Component {
 
     }
     render (){
-        const { userData } =this.props
+        const { userData, handleClick } =this.props
         
         return(
             <div className="edit-profile grid-area">
                 <div className="header">
-                    <h1>Edit your profile <i className="fas fa-pen"></i></h1>
+                    <h1>Edit your profile <i className="fas fa-pen" onClick={handleClick}></i></h1>
                 </div>
                 <div className="profile-picture">
                     <img src={process.env.PUBLIC_URL+'img/'+userData[0].profile_img} alt="profile_img"/>

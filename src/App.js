@@ -21,7 +21,6 @@ class App extends Component {
 
   componentWillMount(){
     this.checkAuthState();
-    this.fetchPublicData();
     if (authService.isAuthentificated()){
       this.initStore()
     }
@@ -31,15 +30,12 @@ class App extends Component {
     store.dispatch(actions.checkAuthState());
   }
 
-  fetchPublicData() {
-    store.dispatch(actions.fetchPublicData());
-  }
-
   logout(){
     store.dispatch(actions.logout());
   }
 
   initStore(){
+    store.dispatch(actions.fetchPublicData());
     store.dispatch(actions.fetchUserProfile(authService.getUsername()))
     store.dispatch(actions.fetchTags())
   }

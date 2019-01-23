@@ -18,6 +18,7 @@ import {
 
 const axiosInstance = axiosService.getInstance();
 const store = require('../reducers').init();
+
 // REGISTER ACTIONS
 export const register = (userData) => {
   return axios.post(`/api/v1/users/register`, { ...userData }).then(
@@ -66,9 +67,8 @@ export const fetchUserByKey = (userKey) => {
 }
 
 export const completeProfile = (profileData) => {
-  debugger;
   return axiosInstance.post(`/users/profileComplete`, profileData).then(
-    res => res.data,
+    res => {store.dispatch(fetchUserProfile(res.data['success'][0].username))},
     err => Promise.reject(err.response.data.errors)
   );
 }
@@ -78,14 +78,12 @@ export const completeProfile = (profileData) => {
 const loginSuccess = () => {
   const username = authService.getUsername();
   const userId = authService.getUserId();
-  const userProfileStatus = authService.getUserProfileStatus();
   store.dispatch(fetchUserProfile(username))
   store.dispatch(fetchTags())
   return {
     type: LOGIN_SUCCESS,
     username,
     userId,
-    userProfileStatus
   }
 }
 
@@ -100,14 +98,6 @@ export const checkAuthState = () => {
   return dispatch => {
     if (authService.isAuthentificated()) {
       dispatch(loginSuccess());
-    }
-  }
-}
-
-export const fetchPublicData = () => {
-  return dispatch => {
-    if (authService.isAuthentificated()) {
-      dispatch(fetchAllPublicData());
     }
   }
 }
@@ -131,8 +121,8 @@ export const login = (userData) => {
 }
 
 export const logout = () => {
-  store.dispatch(fetchUserProfileInit())
-  store.dispatch(fetchTagsInit())
+  // store.dispatch(fetchUserProfileInit())
+  // store.dispatch(fetchTagsInit())
   authService.deleteToken()
   return {
     type: LOGOUT
@@ -151,18 +141,6 @@ export const uploadProfile = image => {
     .catch(({ response }) => Promise.reject(response.data.errors[0]))
 }
 
-// FETCH ALL PUBLIC DATA
-const fetchAllPublicData = () => {
-  return function (dispatch) {
-    dispatch(fetchPublicInfoInit());
-
-    axios.post('/api/v1/users/fetch-users').then((res) => {
-      dispatch(fetchPublicInfoSuccess(res.data));
-      console.log(res);
-    }).catch(({ response }) => Promise.reject(response.data))
-  }
-}
-
 export const uploadImage = image => {
   const formData = new FormData();
   for (var i =0; i < image.length ; i++)
@@ -175,6 +153,28 @@ export const uploadImage = image => {
     .catch(({response}) => Promise.reject(response.data.errors[0]))
 }
 
+export const deleteImage = image =>{
+  return axiosInstance.get(`users/deleteImage/${image}`)
+}
+// FETCH ALL PUBLIC DATA
+export const fetchPublicData = () => {
+  return dispatch => {
+    if (authService.isAuthentificated()) {
+      dispatch(fetchAllPublicData());
+    }
+  }
+}
+
+
+const fetchAllPublicData = () => {
+  return function (dispatch) {
+    dispatch(fetchPublicInfoInit());
+
+    axios.post('/api/v1/users/fetch-users').then((res) => {
+      dispatch(fetchPublicInfoSuccess(res.data));
+    }).catch(({ response }) => Promise.reject(response.data))
+  }
+}
 
 //PROFILE ACTIONS
 const fetchUserProfileInit = () => {
@@ -186,7 +186,7 @@ const fetchUserProfileInit = () => {
 
 const fetchUserProfileSuccess = (user) => {
   
-  return {
+  return {  
     type: FETCH_USER_PROFILE_SUCCESS,
     user
   }
@@ -200,7 +200,6 @@ const fetchUserProfileFail = (errors) => {
   }
 }
 export const fetchUserProfile = (username) => {
-
   return function(dispatch) {
     dispatch(fetchUserProfileInit());
     

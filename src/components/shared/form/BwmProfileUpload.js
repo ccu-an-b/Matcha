@@ -10,7 +10,7 @@ export class BwmProfileUpload extends React.Component {
 
         this.state = {
             selectedFile: undefined,
-            imageBase64: ''
+            imageBase64: '',
         }
 
         this.onChange = this.onChange.bind(this);
@@ -47,7 +47,7 @@ export class BwmProfileUpload extends React.Component {
     }
     
     render() {
-        const {label, meta: {touched, error}} = this.props;
+        const {defaultValue, meta: {touched, error}} = this.props;
         const { imageBase64 } = this.state;
 
         return (
@@ -59,15 +59,6 @@ export class BwmProfileUpload extends React.Component {
                             onChange={this.onChange}
                             ref={input => this.inputUpload = input} />
                 </label>
-                {/* { selectedFile &&
-                    <button className ='btn btn-success btn-upload'
-                            type = 'button'
-                            disabled={!selectedFile}
-                            onClick={() =>this.uploadImage()}>
-                        Upload Image
-                    </button>
-
-                } */}
 
                 { touched &&
                     ((error && <div className='alert alert-danger'>{error}</div>))
@@ -76,6 +67,15 @@ export class BwmProfileUpload extends React.Component {
                 { imageBase64 &&
                     <div className='img-preview-container'>
                         <div className='img-preview' style={{'backgroundImage' : 'url(' + imageBase64 + ')'}}>
+                        </div>
+                        <div onClick={() => this.inputUpload.click()}  className="hover">
+                            Edit
+                        </div>
+                    </div>
+                }
+                {defaultValue && !imageBase64 &&
+                    <div className='img-preview-container'>
+                        <div className='img-preview' style={{'backgroundImage' : 'url(' + process.env.PUBLIC_URL+'img/'+defaultValue + ')'}}>
                         </div>
                         <div onClick={() => this.inputUpload.click()}  className="hover">
                             Edit

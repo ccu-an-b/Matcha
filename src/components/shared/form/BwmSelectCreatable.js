@@ -56,10 +56,10 @@ export class BwmSelectCreatable extends React.Component {
 
     initializeValue(defaultValue, option){
         for (var i = 0; i < defaultValue.length ; i++)
-            {
-                const resultat = this.findArray(option,defaultValue[i] )
-                this.onChange(resultat)
-            }
+        {
+            const resultat = this.findArray(option,defaultValue[i] )
+            this.onChange(resultat)
+        }
     }
 
     findArray(array, value){
@@ -72,11 +72,11 @@ export class BwmSelectCreatable extends React.Component {
             if (defaultValue && defaultValue.length > 1 && this.state.start){
                 this.initializeValue(defaultValue, option)
             }
-        }, 100)
+        }, 300)
 
         if (option.length > 1)
         {
-            return (<div>
+            return (<div className="tags-div">
                 <Creatable
                     allowCreate={true}
                     options={option}

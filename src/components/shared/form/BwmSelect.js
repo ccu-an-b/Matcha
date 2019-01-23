@@ -21,6 +21,7 @@ export class BwmSelect extends React.Component {
         const {input: {onChange}} = this.props;
         onChange(value);
     }
+    
     initializeValue(){
         const { options, defaultValue, valueStart } = this.props
 
@@ -33,6 +34,7 @@ export class BwmSelect extends React.Component {
             this.setState({start: false})
         }
     }
+
     render() {
 
         const { options, labelUp , className } = this.props

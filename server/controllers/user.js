@@ -11,7 +11,7 @@ const errorMessages = {
     "dataMissing": [{ title: 'Data missing', detail: 'Provide email and username' }],
     "wrongIdentification": [{ title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...' }],
     "accountNotActive": [{ title: 'Account non active', detail: 'Your account hasn\'t been activated yet. Please check your email.' }],
-    "wrongIdentification": [{ title: 'Wrong identification', detail: 'Wrong password' }],
+    "wrongPassword": [{ title: 'Wrong identification', detail: 'Wrong password' }],
     "notAuthorized": [{ title: 'Not authorized', detail: 'You need to log in' }],
     "linkInvalid": [{title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...'}]
 
@@ -46,7 +46,7 @@ exports.auth = function (req, res) {
         else {
             User.user_password_check(result[0].id, password, function (cb_result) {
                 if (cb_result === false) {
-                    return res.status(422).send({ errors: errorMessages.wrongIdentification });
+                    return res.status(422).send({ errors: errorMessages.wrongPassword });
                 }
                 else {
                     const userId = result[0].id;
@@ -55,13 +55,10 @@ exports.auth = function (req, res) {
                         User.user_set_ip(result.data, userId);
                     }).catch((e) => console.log(e))
                     User.user_set_online('1', result[0].id)
-                    User.user_check_profile_status(result[0].id, function (complete) {
-                        return res.json(jwt.sign({
-                            userId: result[0].id,
-                            username: result[0].username,
-                            userProfileStatus: complete,
-                        }, config.SECRET, { expiresIn: '1h' }));
-                    })
+                    return res.json(jwt.sign({
+                        userId: result[0].id,
+                        username: result[0].username
+                    }, config.SECRET, { expiresIn: '1h' }));
                 }
             });
         }

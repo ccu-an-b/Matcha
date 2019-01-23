@@ -268,3 +268,18 @@
         margin-top: 5px;
     }
 }
+
+.dashboard .grid-container .edit-profile.edit{
+    height: auto;
+    .profile-form{
+        padding: 0;
+        box-shadow: none;
+        h3{margin-left: 20px}
+        .img-upload-display .img-preview-container {margin-right: 10px}
+        .img-upload-container {margin-right: 20px}
+        .profile-name{margin-left: 20px}
+        .my-select.no-border{margin-left: 20px}
+        .tags-div, textarea{margin-left: 20px}
+        .img-upload-display{margin-left: 10px}
+    }
+} 

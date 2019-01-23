@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import authService from 'services/auth-service';
 import * as actions from 'actions'; 
 
 import { Redirect } from 'react-router-dom';
 import { ProfileGrid } from './ProfileGrid';
 import ProfileForm from './ProfileForm';
 
-
 export class Dashboard extends React.Component {
-    constructor(props){
-        super(props)
+    constructor(){
+        super()
         this.state ={
             errors:[],
             redirect: false,
@@ -33,33 +31,32 @@ export class Dashboard extends React.Component {
         else
         {
             actions.completeProfile(profileData).then(
-                () =>{ this.setState({redirect: true})},
+                () => {this.setState({redirect: true})},
                 (errors) => this.setState({errors})
-            );
+            )
         }
     }
-
 
     render(){
         const userData = this.props.user
         const optionTags = this.props.tags
-
+        
         if (this.state.redirect) {
             return <Redirect to={{pathname:'/'}}/>
         }
 
-        else if(authService.getUserProfileStatus())
+        else if(userData.length > 1 && userData[0].complete === 1)
         {
             return (
                 <div className="dashboard">
                 {userData.length > 1 && userData[0].id === this.props.auth.userId  &&
 
-                    <ProfileGrid userData ={userData} />
+                    <ProfileGrid userData ={userData} editProfile={this.completeProfile} optionsTags={optionTags}/>
                 }
                 </div>
             )
         }
-        else
+        else if(userData.length > 1 && userData[0].complete === 0)
         {   
             return (
                 <div className="dashboard">
@@ -78,6 +75,13 @@ export class Dashboard extends React.Component {
                     <ProfileForm  submitCb={this.completeProfile} userData={userData}  optionsTags={optionTags}/>
                 }        
                     </div>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div className="dashboard loading">
+                   <img src={process.env.PUBLIC_URL+'loading.gif'} alt="loading_gif"  />
                 </div>
             )
         }

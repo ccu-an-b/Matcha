@@ -35,10 +35,6 @@ class AuthService {
         return this.decode(this.getToken()).userId;
     }
 
-    getUserProfileStatus() {
-        return this.decode(this.getToken()).userProfileStatus;
-    }
-
     isValid(token){
         return moment().isBefore(this.getExpiration(token));
     }

@@ -106,7 +106,7 @@ function user_set_active(user_id){
 
 function user_profile_update(req, res, callback)
 {
-    const { bio , age, profile, gender, orientation, location, tags ,image} = req.body;
+    const { bio , age, profile, gender, orientation, location, tags ,image, first_name, last_name} = req.body;
 
     const user = res.locals.user; 
 
@@ -114,16 +114,25 @@ function user_profile_update(req, res, callback)
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
-    client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender.value, orientation.value, location, user.userId])
+        if (profile)
+            client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender.value, orientation.value, location, user.userId])
+        else 
+            client.query('UPDATE profiles SET bio = $1, age = $2, gender = $3, orientation = $4, location = $5 WHERE user_id = $6', [bio, age, gender.value, orientation.value, location, user.userId])
+
         if(image)
         {
+            console.log(image)
             for ( var i = 0 ; i < image.length; i++)
             {
                 client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
             }
         }
+        var isComplete = user_is_complete_status(user.userId)
+        isComplete ? isComplete = 0 : isComplete = 1;
+        
+        client.query('UPDATE users SET first_name = $1, last_name = $2, complete = $3 WHERE id = $4', [first_name, last_name, isComplete, user.userId])
         done();
-        return callback(res, tags, user.userId)
+        return callback(res, tags, user.userId, user.username)
     });
 }
 
@@ -134,7 +143,7 @@ function isInArray(value, array) {
         return 0;
 }
 
-function user_tags_update(res, tags, userId){
+function user_tags_update(res, tags, userId, username){
 
    
     //Separate created tags from existing one
@@ -179,8 +188,23 @@ function user_tags_update(res, tags, userId){
            client.query(`UPDATE tags SET ${arrTagsNew[i]} = 1 WHERE user_id = $1`, [userId]) 
         }
         done();
-        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update'}] });
+        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update', username: username}] });
     });
+}
+
+function user_delete_image(req, res){
+    const userId = res.locals.user.userId;
+    const path = req.params.image;
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('DELETE FROM images WHERE user_id = $1 AND path = $2', [userId, path], function (err, result) {
+            done()
+            return res.status(200).send({ success: [{title: 'Image delete', detail: 'Your image has been delete'}] });
+        })
+    })
 }
 
 // AUTH FUNCTIONS
@@ -199,7 +223,7 @@ function user_password_check(id, password, cb) {
     })
 }
 
-function user_check_profile_status(id, cb){
+function user_is_complete_status(id){
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -209,7 +233,6 @@ function user_check_profile_status(id, cb){
             var hasNullValue = Object.values(result.rows[0]).some(function(value) {
                 return value === null || value === "";
             });
-            return cb(!hasNullValue);
         })
     })
 }
@@ -250,7 +273,7 @@ function user_get_profile(username, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT id, first_name, last_name , age, location, gender, bio, orientation, profile_img from users 
+        client.query(`SELECT id, first_name, last_name , username, complete, age, location, gender, bio, orientation, profile_img from users 
         JOIN profiles ON profiles.user_id = users.id 
         WHERE username = $1`, [username], function (err, result) {
             done();
@@ -337,11 +360,11 @@ module.exports = {
     user_get_profile,
     user_get_tags,
     user_get_images,
+    user_delete_image,
     get_tags,
     user_tags_update,
     user_tags_update,
     user_password_check,
-    user_check_profile_status,
     user_set_active,
     user_set_online,
     user_set_ip,

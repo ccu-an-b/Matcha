@@ -1,4 +1,5 @@
 import React from 'react';
+import * as actions from 'actions';
 
 export class BwmImageUpload extends React.Component {
     
@@ -13,6 +14,8 @@ export class BwmImageUpload extends React.Component {
             img_nb: 0,
             files: [],
             selectedFiles: [],
+            start: true,
+            deletedFiles:[],
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -41,7 +44,7 @@ export class BwmImageUpload extends React.Component {
         console.log(error)
     }
 
-    onSucces(uploadedImage){
+    onSuccess(uploadedImage){
         const {input: {onChange}} = this.props;
         onChange(uploadedImage);
     }
@@ -65,17 +68,42 @@ export class BwmImageUpload extends React.Component {
             })
         }
         if (this.state.selectedFiles.slice())
-            this.onSucces(this.state.selectedFiles.slice())
+            this.onSuccess(this.state.selectedFiles.slice())
     }
 
     updateArraySelectedFiles(index, item){
         let newFilesSelected = this.state.selectedFiles.slice()
         if (item === 'delete')
-            newFilesSelected.splice(index, 1);
+        {
+            if (newFilesSelected[index])
+                newFilesSelected.splice(index, 1);
+            else
+            {
+                actions.deleteImage(this.state.files[index].replace("img/", ""))
+                // var newDelete = this.state.deletedFiles
+                // newDelete.push(this.state.files[index])
+                // this.setState({deletedFiles: newDelete})
+
+            }
+        }
+            
         else
             newFilesSelected[index] = item;
         this.setState({
             selectedFiles: newFilesSelected,
+        })
+    }
+
+    initializeValue(images){
+
+        var newArray = [];
+        for (var i = 0; i < images.length ; i++){
+            newArray[i] = process.env.PUBLIC_URL+'img/'+images[i].path
+        }
+        this.setState({
+            img_nb: images.length,
+            files: newArray,
+            start: false
         })
     }
 
@@ -98,8 +126,15 @@ export class BwmImageUpload extends React.Component {
     }
 
     render() {
-        const { meta: {touched, error}} = this.props;
+        const {defaultValue, meta: {touched, error}} = this.props;
+
+   
         const { show, img_nb } = this.state;
+        setTimeout( () => {
+            if (defaultValue && defaultValue.length > 0 && this.state.start){
+                this.initializeValue(defaultValue)
+            }
+        }, 300)
         const showHideClassName = show ? 'img-upload-container img display-block' : 'img-upload-container img display-none';
 
         return (
