@@ -21,9 +21,9 @@ class App extends Component {
 
   componentWillMount(){
     this.checkAuthState();
-    if (authService.isAuthentificated()){
-      this.initStore()
-    }
+    // if (authService.isAuthentificated()){
+    //   this.initStore()
+    // }
   }
 
   checkAuthState(){
