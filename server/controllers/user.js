@@ -1,6 +1,7 @@
 const User = require('../models/user'),
     config = require('../config/dev'),
     jwt = require('jsonwebtoken');
+    axios = require('axios');
 
 exports.register = function (req, res) {
     return User.user_new(req, res);
@@ -44,10 +45,15 @@ exports.auth = function (req, res) {
         }
         else {
             User.user_password_check(result[0].id, password, function (cb_result) {
-                if (cb_result == false) {
+                if (cb_result === false) {
                     return res.status(422).send({ errors: errorMessages.wrongIdentification });
                 }
                 else {
+                    const userId = result[0].id;
+                    axios.get(`https://ipinfo.io/json`).then((result) => {
+                        result.json;
+                        User.user_set_ip(result.data, userId);
+                    }).catch((e) => console.log(e))
                     User.user_set_online('1', result[0].id)
                     User.user_check_profile_status(result[0].id, function (complete) {
                         return res.json(jwt.sign({

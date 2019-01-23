@@ -19,6 +19,8 @@ last_name character varying(128) COLLATE pg_catalog."default", \
 mail character varying(128) COLLATE pg_catalog."default", \
 password character varying(128) COLLATE pg_catalog."default", \
 key character varying(128) COLLATE pg_catalog."default", \
+ip character varying(128) COLLATE pg_catalog."default", \
+geoloc character varying(128) COLLATE pg_catalog."default", \
 active integer DEFAULT 0, \
 online integer DEFAULT 0, \
 complete integer DEFAULT 0, \
