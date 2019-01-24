@@ -31,7 +31,8 @@ exports.activate = function (req, res) {
 }
 
 exports.auth = function (req, res) {
-    const { username, password } = req.body;
+    const {  password } = req.body;
+    const username = req.body.username.toLowerCase() ;
     username;
     if (!password || !username) {
         return res.status(422).send({ errors: errorMessages.dataMissing });

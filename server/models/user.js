@@ -60,10 +60,18 @@ function user_new_tables(user_id){
         done(); 
     });
 }
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
 
 function user_new(req, res) {
 
-    const { name, last_name, username, mail, password} = req.body;
+    const { password } = req.body;
+
+    const name = req.body.name.capitalize();
+    const last_name = req.body.last_name.capitalize();
+    const mail = req.body.mail.toLowerCase();
+    const username = req.body.username.toLowerCase();
 
     user_select_one('username', username, function (err, result) {
         if (result.length != 0)

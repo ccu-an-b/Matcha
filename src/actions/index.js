@@ -122,8 +122,8 @@ export const login = (userData) => {
 
 export const logout = () => {
   authService.deleteToken()
-  store.dispatch(fetchUserProfileInit())
-  store.dispatch(fetchTagsInit())
+  // store.dispatch(fetchUserProfileInit())
+  // store.dispatch(fetchTagsInit())
   // authService.deleteToken()
   return {
     type: LOGOUT
@@ -208,7 +208,7 @@ export const fetchUserProfile = (username) => {
   return function(dispatch) {
     dispatch(fetchUserProfileInit());
     
-      axios.get(`/api/v1/users/profile/${username}`)
+      axios.get(`/api/v1/users/profile/${username.toLowerCase()}`)
         .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
         .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
   }
