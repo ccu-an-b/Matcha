@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions'; 
+import authService from 'services/auth-service';
 
 import { Redirect } from 'react-router-dom';
 import { ProfileGrid } from './ProfileGrid';
@@ -14,6 +15,11 @@ export class Dashboard extends React.Component {
             redirect: false,
         }
         this.completeProfile = this.completeProfile.bind(this);
+    }
+
+    componentWillMount(){
+        this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
+        this.props.dispatch(actions.fetchTags())
     }
 
     completeProfile(profileData){

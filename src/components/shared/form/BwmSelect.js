@@ -1,17 +1,19 @@
 import React from 'react';
 import Select from 'react-select';
-import { connect } from 'react-redux';
+
 export class BwmSelect extends React.Component {
     
     constructor() {
         super();
         this.state = {
           value: "",
-          start: true
         }
         this.onChange = this.onChange.bind(this);
     }
-    
+    componentDidMount(){
+        this.initializeValue()
+    }
+
     onChange = (value) => {
         this.setState({ value })
         this.onSucces(value)
@@ -25,21 +27,17 @@ export class BwmSelect extends React.Component {
     initializeValue(){
         const { options, defaultValue, valueStart } = this.props
 
-        if (defaultValue && this.state.start){
+        if (defaultValue || defaultValue === 0 ){
             this.onChange(options[defaultValue])
-            this.setState({start: false})
         }
-        else if (this.state.start) {
+        else {
             this.onChange(options[valueStart])
-            this.setState({start: false})
         }
     }
 
     render() {
 
         const { options, labelUp , className } = this.props
-
-        setTimeout( () => this.initializeValue(), 300)
   
         return (<div  className = {className} >
 
@@ -48,7 +46,7 @@ export class BwmSelect extends React.Component {
                     {labelUp}
                 </label>
             }
-            <Select
+         <Select
                 allowCreate={true}
                 options={options}
                 onChange={this.onChange}
@@ -61,13 +59,3 @@ export class BwmSelect extends React.Component {
         
     }
 }
-
-function mapStateToProps(state) {
-    return{
-       select: state.select,
-    }
-}
-
-export default connect(mapStateToProps)(Select)
-
-

@@ -237,10 +237,10 @@ function user_is_complete_status(id){
     })
 }
 
-function user_set_online(isOnline, userId){
+function user_set_online(isOnline, username){
     var date = Date.now()
     pool.connect(function (err, client, done) {   
-        client.query('UPDATE users SET online = $1, connexion = $2 WHERE id = $3', [isOnline,date, userId], function () {
+        client.query('UPDATE users SET online = $1, connexion = $2 WHERE username = $3', [isOnline,date, username], function () {
             done();
             console.log(Date.now())
         });
@@ -257,8 +257,9 @@ function user_set_ip(ipData, userId){
 }
 
 function user_set_offline(req, res){
-    const user = res.locals.user; 
-    user_set_online('0', '77');
+    const user = req.params.user; 
+    console.log(user)
+    user_set_online('0', user);
     return res.status(200).send({ success: [{title: 'Logout', detail: 'Success logout'}] });
 
 }
@@ -273,7 +274,7 @@ function user_get_profile(username, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT id, first_name, last_name , username, complete, age, location, gender, bio, orientation, profile_img from users 
+        client.query(`SELECT id, first_name, last_name , username, complete, online, age, location, gender, bio, orientation, profile_img from users 
         JOIN profiles ON profiles.user_id = users.id 
         WHERE username = $1`, [username], function (err, result) {
             done();

@@ -11,7 +11,7 @@ export class ProfilePreview extends React.Component {
             {/* <i className="fas fa-ellipsis-v"></i>  */}
                 <img src={process.env.PUBLIC_URL+'img/'+userData[0].profile_img} alt="profile_img"/>
                 <h3>{userData[0].first_name}</h3>
-                <h5 className="online">Online</h5>
+                <h5 className={userData[0].online === 1 ? 'online' : '' }>{userData[0].online === 1 ? 'Online' : 'Offline' }</h5>
                 <div className="button"><i className="fas fa-sliders-h"></i></div>
             </div>
             <div className="profile-data">

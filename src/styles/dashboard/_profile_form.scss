@@ -271,9 +271,11 @@
 
 .dashboard .grid-container .edit-profile.edit{
     height: auto;
+    padding-bottom: 0px;
     .profile-form{
         padding: 0;
         box-shadow: none;
+        margin-bottom:20px;
         h3{margin-left: 20px}
         .img-upload-display .img-preview-container {margin-right: 10px}
         .img-upload-container {margin-right: 20px}

@@ -84,7 +84,8 @@ export class ProfileGrid extends React.Component {
                                             <h1>Edit your profile <i className="fas fa-times" onClick={this.showEdit}></i></h1>
                                         </div>
                                         <ProfileForm  submitCb={editProfile} userData={userData}  optionsTags={optionsTags}/>
-                                    </div></div> :  <ProfileInfo userData= { userData } handleClick = {this.showEdit}/> }
+                                    </div></div> :  <ProfileInfo userData= { userData } handleClick = {this.showEdit}/> 
+            }
            
             <div className="matchs grid-area">
                 <div className="header">

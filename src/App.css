@@ -470,7 +470,11 @@ header {
           .dashboard .grid-container .edit-profile .header h1 i {
             cursor: pointer;
             font-size: 17px;
-            margin-left: 5px; }
+            margin-left: 5px;
+            transition: all .2s; }
+            .dashboard .grid-container .edit-profile .header h1 i:hover {
+              transform: scale(1.3);
+              color: #E83114 !important; }
         .dashboard .grid-container .edit-profile .header:after {
           z-index: 2;
           background-color: #363B6D;
@@ -1052,10 +1056,12 @@ header {
     margin-top: 5px; }
 
 .dashboard .grid-container .edit-profile.edit {
-  height: auto; }
+  height: auto;
+  padding-bottom: 0px; }
   .dashboard .grid-container .edit-profile.edit .profile-form {
     padding: 0;
-    box-shadow: none; }
+    box-shadow: none;
+    margin-bottom: 20px; }
     .dashboard .grid-container .edit-profile.edit .profile-form h3 {
       margin-left: 20px; }
     .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-display .img-preview-container {

@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize} from 'helpers';
+import * as actions from 'actions';
 // import { isBuffer } from 'util';
 
 class Header extends React.Component {
@@ -13,6 +14,7 @@ class Header extends React.Component {
     }
 
     handleLogout() {
+        actions.logoutOffline(authService.getUsername())
         this.props.logout();
         this.props.history.push('/');
     }

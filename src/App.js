@@ -14,6 +14,7 @@ import Activation from 'components/activation/Activation' ;
 import Background from 'components/shared/Background';
 import Dashboard  from 'components/dashboard/Dashboard' ;
 import Browse from 'components/browse/Browse' ;
+
 const store = require('./reducers').init();
 
 
@@ -30,9 +31,18 @@ class App extends Component {
     store.dispatch(actions.checkAuthState());
   }
 
+  // logout(){
+  //   actions.logoutOffline(authService.getUsername()).then(
+  //     () =>  store.dispatch(actions.logout())
+  //   ).then(
+  //     () => <Redirect to={{pathname:'/'}}/>
+  //   )
+  // }
+
   logout(){
-    store.dispatch(actions.logout());
+    store.dispatch(actions.logout())
   }
+
 
   initStore(){
     store.dispatch(actions.fetchPublicData());

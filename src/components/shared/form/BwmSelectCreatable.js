@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Creatable } from 'react-select';
 
 export class BwmSelectCreatable extends React.Component {
@@ -8,14 +7,20 @@ export class BwmSelectCreatable extends React.Component {
         super(props);
         this.state = {
           value: [],
-          start: true
         }
         this.onChange = this.onChange.bind(this);
+    }
+
+    componentDidMount(){
+        const { defaultValue, option } = this.props
+        if (defaultValue.length > 0 ){
+            this.initializeValue(defaultValue, option)
+        }
     }
     
     onChange = (value) => {
         let newVal = value
-        let stateVal = this.state.value.slice()
+        let stateVal = this.state.value
 
         if (value){
             if (value.value[0] === '#')
@@ -29,21 +34,21 @@ export class BwmSelectCreatable extends React.Component {
             : stateVal.length === 1
                 ? (stateVal = [])
                 : stateVal.splice(stateVal.indexOf(newVal), 1)
-        
+
             this.setState({ value: stateVal })
-            this.setState({ start: false })
-            this.onSucces(stateVal)   
+            this.onSuccess(stateVal)   
+            
         }
     }
 
-    onSucces(value){
+    onSuccess(value){
         const {input: {onChange}} = this.props;
         onChange(value);
     }
     previewTags() {
         let div = []
         const { value } = this.state;
-    
+   
         for (let i = 0; i < value.length; i++) {
             div.push(
                 <div  key={i} onClick={() => this.onChange(value[i])} className="tags">
@@ -67,41 +72,29 @@ export class BwmSelectCreatable extends React.Component {
     }
     render() {
 
-        const { defaultValue, option } = this.props
-        setTimeout( () => {
-            if (defaultValue && defaultValue.length > 1 && this.state.start){
-                this.initializeValue(defaultValue, option)
-            }
-        }, 300)
+        const { option } = this.props
 
         if (option.length > 1)
         {
-            return (<div className="tags-div">
-                <Creatable
-                    allowCreate={true}
-                    options={option}
-                    onChange={this.onChange}
-                    value =""
-                    id="Element"
-                    multi
-                    className="my-select"
-                    
-               />
-               <div className="selected-tags">
-               {this.previewTags()}
-               </div>
-               </div>
-    
-        )
-            }
+            return (
+                <div className="tags-div">
+                    <Creatable
+                        allowCreate={true}
+                        options={option}
+                        onChange={this.onChange}
+                        value =""
+                        id="Element"
+                        multi
+                        className="my-select"
+                        
+                    />
+                    <div className="selected-tags">
+                        {this.previewTags()}
+                    </div>
+                </div>
+        
+            )
+        }
     }
 }
-
-function mapStateToProps(state) {
-    return{
-        bwmSelectCreatable: state.bwmSelectCreatable,
-    }
-}
-
-export default connect(mapStateToProps)(BwmSelectCreatable)
 

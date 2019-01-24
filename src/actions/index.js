@@ -121,12 +121,17 @@ export const login = (userData) => {
 }
 
 export const logout = () => {
-  // store.dispatch(fetchUserProfileInit())
-  // store.dispatch(fetchTagsInit())
   authService.deleteToken()
+  store.dispatch(fetchUserProfileInit())
+  store.dispatch(fetchTagsInit())
+  // authService.deleteToken()
   return {
     type: LOGOUT
   }
+}
+
+export const logoutOffline = (user) => {
+  return axios.get(`/api/v1/users/logout/${user}`)
 }
 
 // UPLOAD ACTIONS 

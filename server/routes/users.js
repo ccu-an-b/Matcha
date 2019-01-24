@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/auth',  UserCtrl.auth)
 
-router.get('/logout',  UserCtrl.authMiddleware, UserMod.user_set_offline)
+router.get('/logout/:user',  UserMod.user_set_offline)
 
 router.post('/register', UserCtrl.register)
 

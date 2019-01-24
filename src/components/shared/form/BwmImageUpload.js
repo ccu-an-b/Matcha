@@ -14,10 +14,14 @@ export class BwmImageUpload extends React.Component {
             img_nb: 0,
             files: [],
             selectedFiles: [],
-            start: true,
             deletedFiles:[],
         }
         this.onChange = this.onChange.bind(this);
+    }
+
+    componentDidMount(){
+        const {defaultValue} = this.props;
+        this.initializeValue(defaultValue)
     }
 
     setupReader(){
@@ -80,15 +84,11 @@ export class BwmImageUpload extends React.Component {
             else
             {
                 actions.deleteImage(this.state.files[index].replace("img/", ""))
-                // var newDelete = this.state.deletedFiles
-                // newDelete.push(this.state.files[index])
-                // this.setState({deletedFiles: newDelete})
-
             }
-        }
-            
+        }  
         else
             newFilesSelected[index] = item;
+
         this.setState({
             selectedFiles: newFilesSelected,
         })
@@ -102,8 +102,7 @@ export class BwmImageUpload extends React.Component {
         }
         this.setState({
             img_nb: images.length,
-            files: newArray,
-            start: false
+            files: newArray
         })
     }
 
@@ -126,15 +125,9 @@ export class BwmImageUpload extends React.Component {
     }
 
     render() {
-        const {defaultValue, meta: {touched, error}} = this.props;
-
-   
+        const {meta: {touched, error}} = this.props;
         const { show, img_nb } = this.state;
-        setTimeout( () => {
-            if (defaultValue && defaultValue.length > 0 && this.state.start){
-                this.initializeValue(defaultValue)
-            }
-        }, 300)
+       
         const showHideClassName = show ? 'img-upload-container img display-block' : 'img-upload-container img display-none';
 
         return (

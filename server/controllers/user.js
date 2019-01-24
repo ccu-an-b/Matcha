@@ -54,7 +54,7 @@ exports.auth = function (req, res) {
                         result.json;
                         User.user_set_ip(result.data, userId);
                     }).catch((e) => console.log(e))
-                    User.user_set_online('1', result[0].id)
+                    User.user_set_online('1', result[0].username)
                     return res.json(jwt.sign({
                         userId: result[0].id,
                         username: result[0].username

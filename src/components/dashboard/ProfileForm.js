@@ -87,7 +87,6 @@ let ProfileForm = props => {
                         name='gender'
                         type="select"
                         labelUp = "Gender"
-                        valueStart = ""
                         defaultValue = {userData[0].gender}
                         className = "my-select no-border" 
                         options = {optionsGender}
