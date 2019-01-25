@@ -1,0 +1,111 @@
+.browse{
+    width: 100%;
+    scroll-behavior: smooth;
+    .type-display{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom:20px;
+        .btn.button.full{
+            border-radius: 0.25rem;
+            font-family: "Abel";
+            display: flex;
+            background-size: contain;
+            background-position:center;
+            &:hover{
+                color:white;
+            }  
+        }
+    }
+    .browse-listing{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        .profile {
+            width: 357px;
+            height: 540px;
+            background-color: white;
+            -webkit-box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
+            -moz-box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
+            box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
+            margin-bottom:0px;
+            border-radius:0.25rem;
+            overflow:hidden;
+
+            h5{
+                bottom: 0;
+                right: 20px;
+                z-index: 1;
+                color: #363B6D;
+                font-size: 15px;
+                margin-bottom: 0 !important;
+                time{
+                    position: absolute;
+                    bottom: 0;
+                    right: 20px;
+                    z-index: 2;
+                    color: $main-dark-purple-03
+                }
+            }
+            h5.online{
+                position: absolute;
+                bottom: 0;
+                right: 20px;
+                z-index: 2;
+                color:$main-online;
+            }
+            .profile-data, .profile-more{
+                h5{
+                    opacity: 0.5;
+                }
+            }
+        }
+ 
+        .one-profile-more{
+            width: 700px;
+            
+            .edit-profile{
+                height: auto;
+                overflow: hidden;
+                background-color: white;
+                margin-bottom: 20px;
+                width: 100%;
+                box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+                border-radius: 0.25rem;
+            }
+        }
+        .coverflow__container__1P-xE{
+            background-color: $body-color;
+            padding-right: 100px;
+        }
+        .coverflow__coverflow__53z9A{
+            background-color: $body-color;
+        }
+        .coverflow__figure__3bk_C{
+            box-shadow: none;
+        }
+        .coverflow__stage__14oqC{
+            perspective:900px
+        }
+    }
+}
+
+@media screen and (max-width: 550px){
+    .browse{
+        .browse-listing{
+
+            .profile {
+                width: 280px;
+                height: 424px;
+            }
+            .coverflow__container__1P-xE{
+                max-height: 450px;
+            }
+            .coverflow__container__1P-xE{
+                padding-right: 80px;
+            }
+        }
+    }
+}

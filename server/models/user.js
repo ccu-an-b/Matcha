@@ -138,7 +138,7 @@ function user_profile_update(req, res, callback)
         var isComplete = user_is_complete_status(user.userId)
         isComplete ? isComplete = 0 : isComplete = 1;
         
-        client.query('UPDATE users SET first_name = $1, last_name = $2, complete = $3 WHERE id = $4', [first_name, last_name, isComplete, user.userId])
+        client.query('UPDATE users SET first_name = $1, last_name = $2, complete = $3 WHERE id = $4', [first_name.capitalize(), last_name.capitalize(), isComplete, user.userId])
         done();
         return callback(res, tags, user.userId, user.username)
     });
@@ -282,7 +282,7 @@ function user_get_profile(username, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT id, first_name, last_name , username, complete, online, age, location, gender, bio, orientation, profile_img from users 
+        client.query(`SELECT id, first_name, last_name , username, complete, online, connexion, age, location, gender, bio, orientation, profile_img from users 
         JOIN profiles ON profiles.user_id = users.id 
         WHERE username = $1`, [username], function (err, result) {
             done();
@@ -327,7 +327,7 @@ function user_get_tags(userdata, cb){
             done();
             var tags = []
             const allTags = userdata[1]
-            {
+            if (allTags){
                 for (i= 0; i <allTags.length; i ++)
                 {
                     const tag = allTags[i]

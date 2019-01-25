@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions'; 
 import authService from 'services/auth-service';
-import TimeAgo from 'react-timeago'
 
 import { Redirect } from 'react-router-dom';
 import { ProfileGrid } from './ProfileGrid';
@@ -17,6 +16,8 @@ export class Dashboard extends React.Component {
         }
         this.completeProfile = this.completeProfile.bind(this);
     }
+
+      
 
     componentWillMount(){
         this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
@@ -60,7 +61,6 @@ export class Dashboard extends React.Component {
 
                     <ProfileGrid userData ={userData} editProfile={this.completeProfile} optionsTags={optionTags}/>
                 }
-                 <TimeAgo date={Date.now()} />
                 </div>
             )
         }
@@ -88,7 +88,7 @@ export class Dashboard extends React.Component {
         }
         else {
             return (
-                <div className="dashboard loading">
+                <div className="page loading">
                    <img src={process.env.PUBLIC_URL+'loading.gif'} alt="loading_gif"  />
                 </div>
             )

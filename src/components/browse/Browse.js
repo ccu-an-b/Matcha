@@ -1,15 +1,102 @@
 import React from "react";
-import { connect } from "react-redux";
 import MapView from './Map';
+import authService from 'services/auth-service';
+import { connect } from "react-redux";
+import * as actions from 'actions'; 
+//import { format } from "url";
+
+import { ProfilePreview } from '../dashboard/ProfilePreview';
+import { ProfileInfo } from '../dashboard/ProfileInfo';
+var Coverflow = require('react-coverflow');
 
 export class Browse extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      showMap: true,
+      oneProfile: []
+    }
+    this.myRef = React.createRef()
+    this.switchDisplay = this.switchDisplay.bind(this);
+    this.profileShowMore = this.profileShowMore.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.dispatch(actions.fetchSuggestedProfiles(authService.getUserId()));
+  }
+  switchDisplay(){
+    this.setState({showMap: !this.state.showMap})
+  }
+
+  profileShowMore(event){
+    if (event.target.className === 'fas fa-plus' || event.target.className === 'button' )
+    {
+      this.props.dispatch(actions.fetchOneProfile(event.target.id));
+      setTimeout(() => this.setState({oneProfile: this.props.oneProfile }), 100)
+      // setTimeout(() => window.scrollTo(0, this.myRef.current.offsetTop, "smooth"), 200)
+      setTimeout(() => this.myRef.current.scrollIntoView({behavior: 'smooth'}), 200)
+    }
+  }
+
+  renderProfiles() {
+    return this.props.profilesSuggested.map((profile, index) => {
+        return(
+             <ProfilePreview  key={index}
+                              user = {this.props.user[0].username}
+                              userData={profile}
+                              handleClick={this.profileShowMore} />    
+        )
+    });
+  }
   render() {
     const userData = this.props.user
 
     if (userData.length > 1 && userData[0].complete === 1) {
-      return <div id="leaflet-map"><MapView /></div>;
+      return (
+        <div className="browse">
+          <div className="type-display"> 
+              <div className='btn button full' onClick={this.switchDisplay}>Show {this.state.showMap ? 'List' : 'Map'}</div>
+          </div>
+
+          {this.state.showMap &&
+            <div id="leaflet-map"><MapView /></div>
+          }
+          {!this.state.showMap &&
+            <div className="browse-listing"> 
+              <Coverflow
+                width='100%'
+                height={600}
+                displayQuantityOfSide={8}
+                navigation={false}
+                enableHeading={false}
+                infiniteScroll={false}
+                background-color="transparent"
+                otherFigureScale = {0.8}
+                currentFigureScale = {1}
+              >
+                <div
+                  onClick={() => this.fn()}
+                  onKeyDown={() => this.fn()}
+                  role="menuitem"
+                  tabIndex="0"
+                >
+                </div>
+                {this.renderProfiles() }
+                {this.renderProfiles() }
+                {this.renderProfiles() }
+              </Coverflow>
+              {this.state.oneProfile.length >1 &&
+                <div ref={this.myRef}className="one-profile-more">
+                  <ProfileInfo userData= {this.state.oneProfile }/>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      )
     } 
-    else {
+    else if (userData.length > 1 && userData[0].complete === 0) {
       return (
         <div className="profile-not-completed">
           <div className="header">
@@ -25,11 +112,22 @@ export class Browse extends React.Component {
         </div>
       );
     }
+    else {
+      return (
+          <div className="page loading">
+             <img src={process.env.PUBLIC_URL+'loading.gif'} alt="loading_gif"  />
+          </div>
+      )
+    }
   }
 }
 function mapStateToProps(state) {
   return {
+    browse: state.browse,
     user: state.user.data,
+    auth: state.auth,
+    profilesSuggested: state.profilesSuggested.data,
+    oneProfile: state.oneProfile.data
   };
 }
 

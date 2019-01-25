@@ -5,6 +5,7 @@
 @import 'dashboard/profile_form.scss';
 @import 'form/form.scss';
 @import 'modal/modal.scss';
+@import 'browse/browse.scss';
 @import './animations.scss';
 @import url('https://unpkg.com/leaflet@1.4.0/dist/leaflet.css');
 
@@ -130,6 +131,15 @@ h1,h2, h3,h4 {
         background: linear-gradient(152deg, $main-orange 0%, $main-orange 100%);
     }
 }
+
+.page.loading{
+    display:flex;
+    justify-content: center;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
 
 @media screen and (max-width: 1000px)
 {

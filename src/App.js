@@ -31,14 +31,6 @@ class App extends Component {
     store.dispatch(actions.checkAuthState());
   }
 
-  // logout(){
-  //   actions.logoutOffline(authService.getUsername()).then(
-  //     () =>  store.dispatch(actions.logout())
-  //   ).then(
-  //     () => <Redirect to={{pathname:'/'}}/>
-  //   )
-  // }
-
   logout(){
     store.dispatch(actions.logout())
   }

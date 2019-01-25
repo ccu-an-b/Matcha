@@ -21,7 +21,7 @@ export class ProfileGrid extends React.Component {
       
         return(
             <div className="grid-container">
-                <ProfilePreview userData= { userData }/>
+                <ProfilePreview userData= { userData[0] } user = {userData[0].username}/>
             <div className="last-view grid-area">
             <h2>Your latest visits.</h2>
             <div className="profiles-display">

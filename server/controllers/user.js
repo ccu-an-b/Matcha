@@ -69,6 +69,7 @@ exports.auth = function (req, res) {
 
 exports.authMiddleware = function (req, res, next) {
     const token = req.headers.authorization;
+    console.log(token)
     if (token) {
         const user = parseToken(token);
         User.user_select_one('id', user.userId, function (err, cb) {

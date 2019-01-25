@@ -13,15 +13,21 @@ import {
   FETCH_USER_PROFILE_INIT,
   FETCH_USER_PROFILE_SUCCESS,
   FETCH_USER_PROFILE_FAIL,
+  FETCH_ONE_PROFILE_INIT,
+  FETCH_ONE_PROFILE_SUCCESS,
+  FETCH_ONE_PROFILE_FAIL,
   FETCH_TAGS_INIT,
-  FETCH_TAGS_SUCCESS} from './types';
+  FETCH_TAGS_SUCCESS,
+  FETCH_SUGGESTED_PROFILES_INIT,
+  FETCH_SUGGESTED_PROFILES_SUCCESS,
+  FETCH_SUGGESTED_PROFILES_FAIL} from './types';
 
 const axiosInstance = axiosService.getInstance();
 const store = require('../reducers').init();
 
 // REGISTER ACTIONS
 export const register = (userData) => {
-  return axios.post(`/api/v1/users/register`, { ...userData }).then(
+  return axios.post(`/api/v1/user/register`, { ...userData }).then(
     res => res.data,
     err => Promise.reject(err.response.data.errors)
   );
@@ -31,20 +37,6 @@ const fetchUserByKeyInit = () => {
 
   return {
     type: FETCH_USER_BY_KEY_INIT,
-  }
-}
-
-const fetchPublicInfoInit = () => {
-
-  return {
-    type: FETCH_USER_PUBLIC_INFO_INIT,
-  }
-}
-
-const fetchPublicInfoSuccess = (publicData) => {
-  return {
-    type: FETCH_USER_PUBLIC_INFO_SUCCESS,
-    publicData
   }
 }
 
@@ -60,14 +52,14 @@ export const fetchUserByKey = (userKey) => {
   return function (dispatch) {
     dispatch(fetchUserByKeyInit());
 
-    axios.get(`/api/v1/users/activate/${userKey}`).then((user) => {
+    axios.get(`/api/v1/user/activate/${userKey}`).then((user) => {
       dispatch(fetchUserByKeySuccess(user.data[0]));
     });
   }
 }
 
 export const completeProfile = (profileData) => {
-  return axiosInstance.post(`/users/profileComplete`, profileData).then(
+  return axiosInstance.post(`/user/profileComplete`, profileData).then(
     res => {store.dispatch(fetchUserProfile(res.data['success'][0].username))},
     err => Promise.reject(err.response.data.errors)
   );
@@ -104,7 +96,7 @@ export const checkAuthState = () => {
 
 export const login = (userData) => {
   return dispatch => {
-    return axios.post('/api/v1/users/auth', { ...userData })
+    return axios.post('/api/v1/user/auth', { ...userData })
       .then(res => res.data)
       .then(token => {
         authService.saveToken(token);
@@ -131,7 +123,7 @@ export const logout = () => {
 }
 
 export const logoutOffline = (user) => {
-  return axios.get(`/api/v1/users/logout/${user}`)
+  return axios.get(`/api/v1/user/logout/${user}`)
 }
 
 // UPLOAD ACTIONS 
@@ -159,9 +151,24 @@ export const uploadImage = image => {
 }
 
 export const deleteImage = image =>{
-  return axiosInstance.get(`users/deleteImage/${image}`)
+  return axiosInstance.get(`user/deleteImage/${image}`)
 }
 // FETCH ALL PUBLIC DATA
+
+const fetchPublicInfoInit = () => {
+
+  return {
+    type: FETCH_USER_PUBLIC_INFO_INIT,
+  }
+}
+
+const fetchPublicInfoSuccess = (publicData) => {
+  return {
+    type: FETCH_USER_PUBLIC_INFO_SUCCESS,
+    publicData
+  }
+}
+
 export const fetchPublicData = () => {
   return dispatch => {
     if (authService.isAuthentificated()) {
@@ -175,13 +182,13 @@ const fetchAllPublicData = () => {
   return function (dispatch) {
     dispatch(fetchPublicInfoInit());
 
-    axios.post('/api/v1/users/fetch-users').then((res) => {
+    axios.post('/api/v1/user/fetch-users').then((res) => {
       dispatch(fetchPublicInfoSuccess(res.data));
     }).catch(({ response }) => Promise.reject(response.data))
   }
 }
 
-//PROFILE ACTIONS
+//FETCH USER PROFILE
 const fetchUserProfileInit = () => {
   
   return {
@@ -208,9 +215,42 @@ export const fetchUserProfile = (username) => {
   return function(dispatch) {
     dispatch(fetchUserProfileInit());
     
-      axios.get(`/api/v1/users/profile/${username.toLowerCase()}`)
+      axios.get(`/api/v1/user/profile/${username.toLowerCase()}`)
         .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
         .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
+  }
+}
+
+
+//FETCH ONE PROFILE
+const fetchOneProfileInit = () => {
+  
+  return {
+    type: FETCH_ONE_PROFILE_INIT,
+  }
+}
+
+const fetchOneProfileSuccess = (oneProfile) => {
+  return {  
+    type: FETCH_ONE_PROFILE_SUCCESS,
+    oneProfile
+  }
+
+}
+
+const fetchOneProfileFail = (errors) => {
+  return {
+    type: FETCH_ONE_PROFILE_FAIL,
+    errors
+  }
+}
+export const fetchOneProfile = (username) => {
+  return function(dispatch) {
+    dispatch(fetchOneProfileInit());
+    
+      axios.get(`/api/v1/user/profile/${username.toLowerCase()}`)
+        .then((oneProfile) => dispatch(fetchOneProfileSuccess(oneProfile.data)))
+        .catch(({response}) => dispatch(fetchOneProfileFail(response.data.errors)));
   }
 }
 
@@ -238,5 +278,38 @@ export const fetchTags = () => {
       axios.get(`/api/v1/tools/tags`).then((tags) => {
       dispatch(fetchTagsSuccess(tags.data));
     });
+  }
+}
+
+
+//GET SUGGESTED PROFILES
+const fetchSuggestedProfilesInit = () => {
+  
+  return {
+    type: FETCH_SUGGESTED_PROFILES_INIT,
+  }
+}
+
+const fetchSuggestedProfilesSuccess = (profiles) => {
+  return {  
+    type: FETCH_SUGGESTED_PROFILES_SUCCESS,
+    profiles
+  }
+}
+
+const fetchSuggestedProfilesFail = (errors) => {
+  return {
+    type: FETCH_SUGGESTED_PROFILES_FAIL,
+    errors
+  }
+}
+
+export const fetchSuggestedProfiles = (user) => {
+  return function(dispatch) {
+    dispatch(fetchSuggestedProfilesInit());
+      axios.get(`/api/v1/profiles/${user}`)
+        .then((profiles) => {
+          dispatch(fetchSuggestedProfilesSuccess(profiles.data))})
+        .catch(({response}) => dispatch(fetchSuggestedProfilesFail(response.errors)));
   }
 }
