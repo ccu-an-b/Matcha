@@ -282,8 +282,9 @@ function user_get_profile(username, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT id, first_name, last_name , username, complete, online, connexion, age, location, gender, bio, orientation, profile_img from users 
+        client.query(`SELECT id, first_name, last_name , username, complete, online, connexion, age, location, gender, bio, orientation, profile_img ,total from users 
         JOIN profiles ON profiles.user_id = users.id 
+		JOIN scores ON scores.user_id = users.id
         WHERE username = $1`, [username], function (err, result) {
             done();
             return cb(err, result.rows);

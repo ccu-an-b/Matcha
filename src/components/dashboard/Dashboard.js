@@ -8,8 +8,8 @@ import { ProfileGrid } from './ProfileGrid';
 import ProfileForm from './ProfileForm';
 
 export class Dashboard extends React.Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state ={
             errors:[],
             redirect: false,
@@ -17,9 +17,7 @@ export class Dashboard extends React.Component {
         this.completeProfile = this.completeProfile.bind(this);
     }
 
-      
-
-    componentWillMount(){
+    componentDidMount(){
         this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
         this.props.dispatch(actions.fetchTags())
     }

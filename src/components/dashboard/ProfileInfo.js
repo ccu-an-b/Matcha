@@ -1,4 +1,6 @@
 import React from 'react';
+import TimeAgo from 'react-timeago';
+import { formatter } from 'helpers';
 
 export class ProfileInfo extends React.Component {
 
@@ -37,20 +39,59 @@ export class ProfileInfo extends React.Component {
             )
         }
         return div;
+    }
+
+    getProperTitle(){
+        const { userData, user } =this.props
+        let isUser;
+        let titles;
+        user === userData[0].username ? isUser = true : isUser= false
+
+        if (isUser)
+            titles = [  "What are you looking for ?","Your interests"]
+        else{
+            if (userData[0].gender === 0)
+                titles = [  "What is he looking for ?","His interests"]
+            else   
+            titles = [  "What is she looking for ?","Her interests"]
+        }
+        return titles
 
     }
+
     render (){
-        const { userData, handleClick } =this.props
-        
+        const { userData, handleClick, user } =this.props
+        const titles =this.getProperTitle();
+        let isUser;
+
+        user === userData[0].username ? isUser = true : isUser= false
+
         return(
             <div className="edit-profile grid-area">
+                {isUser && 
                 <div className="header">
-                    <h1>Edit your profile <i className="fas fa-pen" onClick={handleClick}></i></h1>
+                    <h1>Edit your profile
+                        <i className="fas fa-pen" onClick={handleClick}></i>
+                    </h1>
                 </div>
+                }
                 <div className="profile-picture">
                     <img src={process.env.PUBLIC_URL+'img/'+userData[0].profile_img} alt="profile_img"/>
+                    {!isUser &&
+                        <div className="profile-picture-div">
+                            <h5 className={userData[0].online === 1 ? 'online' : '' }>{userData[0].online === 1 ? 'Online' :<TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} /> }</h5> 
+                            <div className="profile-actions">
+                                <i className="fas fa-ban"></i>
+                                <i className="fas fa-flag"></i>
+                            </div>
+                        </div>
+                    }
+
                 </div>
-                <h1>{userData[0].first_name} {userData[0].last_name}</h1>
+                <h1>{userData[0].first_name} {userData[0].last_name}  
+                    {!isUser && <div className="button" id={userData[0].username}><i className="fas fa-heart"></i></div>}
+                </h1>
+                {!isUser && <h1 className="profile-score">{userData[0].total}</h1>}
                 <div className="edit-infos">
                     <h3>Personal information</h3>
                     <div className="profile-data">
@@ -69,7 +110,7 @@ export class ProfileInfo extends React.Component {
                     </div>
                 </div>
                 <div className="edit-interest">
-                    <h3>What are you looking for ?</h3>
+                    <h3>{titles[0]}</h3>
                     <p className="p-small">{this.orientationValue(userData[0].orientation)}</p>
                 </div>
                 <div className="edit-interest">
@@ -77,7 +118,7 @@ export class ProfileInfo extends React.Component {
                     <p>{userData[0].bio}</p>
                 </div>
                 <div className="edit-interest" >
-                    <h3>Your interests</h3>
+                    <h3>{titles[1]}</h3>
                     <div className="display-tags">
                         {this.tagsDisplay(userData[1])}
                     </div>

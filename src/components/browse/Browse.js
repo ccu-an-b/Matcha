@@ -11,13 +11,13 @@ var Coverflow = require('react-coverflow');
 
 export class Browse extends React.Component {
 
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
       showMap: true,
       oneProfile: []
     }
-    this.myRef = React.createRef()
+    this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
     this.profileShowMore = this.profileShowMore.bind(this);
   }
@@ -25,6 +25,7 @@ export class Browse extends React.Component {
   componentWillMount(){
     this.props.dispatch(actions.fetchSuggestedProfiles(authService.getUserId()));
   }
+
   switchDisplay(){
     this.setState({showMap: !this.state.showMap})
   }
@@ -34,8 +35,7 @@ export class Browse extends React.Component {
     {
       this.props.dispatch(actions.fetchOneProfile(event.target.id));
       setTimeout(() => this.setState({oneProfile: this.props.oneProfile }), 100)
-      // setTimeout(() => window.scrollTo(0, this.myRef.current.offsetTop, "smooth"), 200)
-      setTimeout(() => this.myRef.current.scrollIntoView({behavior: 'smooth'}), 200)
+      setTimeout(() => this.profileRef.current.scrollIntoView({behavior: 'smooth'}), 200)
     }
   }
 
@@ -65,14 +65,16 @@ export class Browse extends React.Component {
           {!this.state.showMap &&
             <div className="browse-listing"> 
               <Coverflow
+                ref={this.myRef} 
                 width='100%'
                 height={600}
                 displayQuantityOfSide={8}
                 navigation={false}
                 enableHeading={false}
-                infiniteScroll={false}
+                infiniteScroll={true}
                 background-color="transparent"
                 otherFigureScale = {0.8}
+                otherFigureOpacity= {1}
                 currentFigureScale = {1}
               >
                 <div
@@ -87,8 +89,8 @@ export class Browse extends React.Component {
                 {this.renderProfiles() }
               </Coverflow>
               {this.state.oneProfile.length >1 &&
-                <div ref={this.myRef}className="one-profile-more">
-                  <ProfileInfo userData= {this.state.oneProfile }/>
+                <div ref={this.profileRef} className="one-profile-more">
+                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username}/>
                 </div>
               }
             </div>

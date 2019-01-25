@@ -41,7 +41,7 @@ export class ProfilePreview extends React.Component {
                 </div>
                 <div className="data-details">
                 <h5>Score</h5>
-                <h4>150</h4>
+                <h4>{userData.total}</h4>
                 </div>
             </div>
             {/* <div className="profile-more">

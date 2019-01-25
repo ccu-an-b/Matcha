@@ -1484,7 +1484,7 @@ header {
       .browse .browse-listing .profile .profile-data h5, .browse .browse-listing .profile .profile-more h5 {
         opacity: 0.5; }
     .browse .browse-listing .one-profile-more {
-      width: 700px; }
+      width: 650px; }
       .browse .browse-listing .one-profile-more .edit-profile {
         height: auto;
         overflow: hidden;
@@ -1493,6 +1493,72 @@ header {
         width: 100%;
         box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
         border-radius: 0.25rem; }
+        .browse .browse-listing .one-profile-more .edit-profile h5 {
+          bottom: 0;
+          right: 20px;
+          z-index: 1;
+          color: #363B6D;
+          opacity: 0.5;
+          font-size: 15px;
+          margin-bottom: 0 !important; }
+        .browse .browse-listing .one-profile-more .edit-profile h1 {
+          margin-top: 40px;
+          display: flex;
+          align-items: center; }
+        .browse .browse-listing .one-profile-more .edit-profile h1.profile-score {
+          margin-top: -10px;
+          opacity: 0.5; }
+        .browse .browse-listing .one-profile-more .edit-profile .button {
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+          background-color: #363B6D;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-align: center;
+          align-items: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          padding-top: 1px;
+          cursor: pointer;
+          color: white;
+          font-size: 25px;
+          -webkit-transition: all .4s;
+          -o-transition: all .4s;
+          transition: all .4s;
+          margin-left: 20px; }
+          .browse .browse-listing .one-profile-more .edit-profile .button i {
+            margin-left: 2px;
+            margin-top: 3px; }
+          .browse .browse-listing .one-profile-more .edit-profile .button:hover {
+            background-color: white;
+            font-size: 38px; }
+          .browse .browse-listing .one-profile-more .edit-profile .button:hover i {
+            color: #E83114; }
+        .browse .browse-listing .one-profile-more .edit-profile .profile-picture {
+          margin-top: 20px;
+          overflow: initial; }
+          .browse .browse-listing .one-profile-more .edit-profile .profile-picture .profile-picture-div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px; }
+            .browse .browse-listing .one-profile-more .edit-profile .profile-picture .profile-picture-div h5.online {
+              color: #72C17C;
+              opacity: 1; }
+        .browse .browse-listing .one-profile-more .edit-profile .profile-actions {
+          display: flex;
+          justify-content: center; }
+          .browse .browse-listing .one-profile-more .edit-profile .profile-actions i {
+            color: #E83114;
+            font-size: 20px;
+            margin: 10px 5px;
+            opacity: 0.5;
+            cursor: pointer; }
+            .browse .browse-listing .one-profile-more .edit-profile .profile-actions i:hover {
+              opacity: 1; }
+        .browse .browse-listing .one-profile-more .edit-profile .edit-interest p {
+          min-height: 25px; }
     .browse .browse-listing .coverflow__container__1P-xE {
       background-color: #fafafa;
       padding-right: 100px; }
