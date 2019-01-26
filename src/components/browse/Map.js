@@ -14,8 +14,8 @@ export  class MapView extends Component {
 
   componentDidMount() {
 	  const { user, publicData } = this.props;
-	  if (user && user[0].geoloc) {
-		  this.setState({ center: user[0].geoloc.split(',', 2)});
+	  if (user && user[0].latitude && user[0].longitude) {
+		  this.setState({ center: [user[0].latitude, user[0].longitude]});
 	  }
 	  if (publicData && publicData.data.length > 0) {
 		  this.setState({ publicUserData: publicData.data });
@@ -23,14 +23,13 @@ export  class MapView extends Component {
   }
 
   createMarkers(publicData) {
-	 return publicData.map((user) => {
-		 console.log(user)
-		 if (user.geoloc) {
+	 return publicData.map((user, index) => {
+		 if (user.latitude && user.longitude) {
 			return (
-			<Marker position={user.geoloc.split(',', 2)}>
+			<Marker key={index} position={[user.latitude, user.longitude]}>
 				<Popup>{user.username}</Popup>
 			</Marker>);
-		 }
+		 } else { return null; }
 	 })
   }
 
