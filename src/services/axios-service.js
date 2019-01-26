@@ -13,20 +13,21 @@ class AxiosService {
             baseURL: '/api/v1',
             timeout: 1000
         });
-    this.axiosInstance.interceptors.request.use(
-        (config) => {
-            const token = authService.getToken();
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
+        this.axiosInstance.interceptors.request.use(
+            (config) => {
+                const token = authService.getToken();
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                    // config.headers.
+                }
 
-            return config;
-        });
-
+                return config;
+            });
         return this.axiosInstance;
     }
 
     getInstance(){
+        //return this.axiosInstance ;
         return this.axiosInstance || this.initInstance;
     }
 }

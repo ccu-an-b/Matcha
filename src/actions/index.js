@@ -309,8 +309,11 @@ export const fetchSuggestedProfiles = (user) => {
   return function(dispatch) {
     dispatch(fetchSuggestedProfilesInit());
       axios.get(`/api/v1/profiles/${user}`)
-        .then((profiles) => {
-          dispatch(fetchSuggestedProfilesSuccess(profiles.data))})
+      // axios.post(`/api/v1/profiles`)
+        .then((profiles) => dispatch(fetchSuggestedProfilesSuccess(profiles.data)))
         .catch(({response}) => dispatch(fetchSuggestedProfilesFail(response.errors)));
   }
 }
+
+//USER ACTIONS ON PROFILE
+// export const setProfileView = (user) =>

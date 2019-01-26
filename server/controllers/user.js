@@ -1,7 +1,7 @@
-const User = require('../models/user'),
-    config = require('../config/dev'),
-    jwt = require('jsonwebtoken');
-	axios = require('axios');
+const   User = require('../models/user'),
+        config = require('../config/dev'),
+        jwt = require('jsonwebtoken'),
+        axios = require('axios');
 
 exports.register = function (req, res) {
     return User.user_new(req, res);
@@ -9,11 +9,11 @@ exports.register = function (req, res) {
 
 const errorMessages = {
     "dataMissing": [{ title: 'Data missing', detail: 'Provide email and username' }],
-    "wrongIdentification": [{ title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...' }],
+    "wrongIdentification": [{ title: 'Wrong identification', detail: `The username provided doesn't exist` }],
     "accountNotActive": [{ title: 'Account non active', detail: 'Your account hasn\'t been activated yet. Please check your email.' }],
     "wrongPassword": [{ title: 'Wrong identification', detail: 'Wrong password' }],
     "notAuthorized": [{ title: 'Not authorized', detail: 'You need to log in' }],
-    "linkInvalid": [{title: 'Wrong identification', detail: 'Oops it seems like this link is no longer valid...'}]
+    "linkInvalid": [{title: 'Invalid Link', detail: 'Oops it seems like this link is no longer valid...'}]
 
 }
 
@@ -69,7 +69,7 @@ exports.auth = function (req, res) {
 
 exports.authMiddleware = function (req, res, next) {
     const token = req.headers.authorization;
-    console.log(token)
+
     if (token) {
         const user = parseToken(token);
         User.user_select_one('id', user.userId, function (err, cb) {

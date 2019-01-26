@@ -1,31 +1,28 @@
-const   pg = require('pg'),
-        config = require('../config/dev');
+const   db = require('./db');
 
-const   pool = new pg.Pool(config.db);
+function get_tags(req, res){
 
-function get_tags(cb){
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(`SELECT attname  AS col
+    const query = {
+        text: `SELECT attname  AS col
         FROM   pg_attribute
         WHERE  attrelid = 'tags'::regclass 
         AND    attnum > 0
         AND    NOT attisdropped
-        ORDER  BY attnum;`, function(err, res){
-            done();
+        ORDER  BY attnum;`,
+    };
+
+    return db.get_database(query)
+        .then((response) => { 
             var allTags = []
-            for (var i = 1 ; i < res.rows.length ; i++)
+            for (var i = 1 ; i < response.length ; i++)
             {
-                var oneTag = { value: res.rows[i].col, label: res.rows[i].col }
+                var oneTag = { value: response[i].col, label: response[i].col }
                 allTags.push(oneTag)
             } 
-            return cb(allTags)
-        });
-    })
+            return res.json(allTags)
+        })
+        .catch((e) => console.log(e));
 }
-
 module.exports = {
     get_tags
 }

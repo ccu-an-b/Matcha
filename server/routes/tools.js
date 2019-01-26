@@ -1,8 +1,8 @@
 const   express         = require('express'),
-        ToolsCtrl       = require('../controllers/tools.js');
+        ToolsMod        = require('../models/tools.js');
         
 const router = express.Router();
 
-router.get('/tags', ToolsCtrl.getTag);
+router.get('/tags', ToolsMod.get_tags);
 
 module.exports = router;

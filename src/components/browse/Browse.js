@@ -1,21 +1,26 @@
 import React from "react";
 import MapView from './Map';
-import authService from 'services/auth-service';
+
 import { connect } from "react-redux";
 import * as actions from 'actions'; 
+import axiosService from 'services/axios-service';
 //import { format } from "url";
 
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
+
 var Coverflow = require('react-coverflow');
+const axiosInstance = axiosService.getInstance();
 
 export class Browse extends React.Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       showMap: true,
-      oneProfile: []
+      oneProfile: [],
+      isLoading: true,
+
     }
     this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
@@ -23,7 +28,9 @@ export class Browse extends React.Component {
   }
 
   componentWillMount(){
-    this.props.dispatch(actions.fetchSuggestedProfiles(authService.getUserId()));
+    axiosInstance.post(`profiles`).then((profiles) => {
+      this.setState({profiles, isLoading: false})
+    })
   }
 
   switchDisplay(){
@@ -39,13 +46,14 @@ export class Browse extends React.Component {
     }
   }
 
-  renderProfiles() {
-    return this.props.profilesSuggested.map((profile, index) => {
+  renderProfiles(profiles) {
+    return profiles.data.map((profile, index) => {
         return(
              <ProfilePreview  key={index}
                               user = {this.props.user[0].username}
                               userData={profile}
-                              handleClick={this.profileShowMore} />    
+                              handleClick={this.profileShowMore} />   
+                               
         )
     });
   }
@@ -68,7 +76,7 @@ export class Browse extends React.Component {
                 ref={this.myRef} 
                 width='100%'
                 height={600}
-                displayQuantityOfSide={8}
+                displayQuantityOfSide={2}
                 navigation={false}
                 enableHeading={false}
                 infiniteScroll={true}
@@ -84,9 +92,9 @@ export class Browse extends React.Component {
                   tabIndex="0"
                 >
                 </div>
-                {this.renderProfiles() }
-                {this.renderProfiles() }
-                {this.renderProfiles() }
+                {!this.state.isLoading && 
+                    this.renderProfiles(this.state.profiles) 
+                }
               </Coverflow>
               {this.state.oneProfile.length >1 &&
                 <div ref={this.profileRef} className="one-profile-more">
@@ -128,7 +136,7 @@ function mapStateToProps(state) {
     browse: state.browse,
     user: state.user.data,
     auth: state.auth,
-    profilesSuggested: state.profilesSuggested.data,
+    //profilesSuggested: state.profilesSuggested.data,
     oneProfile: state.oneProfile.data
   };
 }
