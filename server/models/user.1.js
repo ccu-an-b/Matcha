@@ -21,47 +21,46 @@ function user_select_one(key, value, callback) {
     });
 }
 
-function user_select(key, value) {
-
-    const query = {
-        text:`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `,
-        values: [value]
-    }
-    return db.get_database(query)
+function user_select(key, value, callback) {
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query(`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `, [value], function (err, result) {
+            done();
+            return callback(err, result.rows);
+        });
+    });
 }
 
 // PUBLIC DATA
 // TO BE UPDATED WITH: TAGS / USER POSITION
-function user_select_all_public_data() {
-
-    const query = {
-        text:`SELECT username FROM users`,
-    }
-    return db.get_database(query)
+function user_select_all_public_data(callback) {
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT username FROM users', function (err, result) {
+            done();
+            return callback(err, result.rows);
+        });
+    });
 }
 
 // REGISTER FUNCTIONS
 function user_new_tables(user_id){
-
-    const query = [{
-        text:'ALTER TABLE matchs ADD COLUMN "'+ user_id +'" integer DEFAULT 0',
-    },{
-        text:`INSERT INTO matchs (user_id) VALUES($1)`,
-        values: [user_id]
-    },{
-        text:`INSERT INTO scores (user_id) VALUES($1)`,
-        values: [user_id]
-    },{
-        text:`INSERT INTO profiles (user_id) VALUES($1)`,
-        values: [user_id]
-    },{
-        text:`INSERT INTO tags (user_id) VALUES($1)`,
-        values: [user_id]
-    }]
-    for (var i = 0 ; i < query.length ; i++)
-        db.set_database(query[i]);
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
+        }
+        client.query('ALTER TABLE matchs ADD COLUMN "'+ user_id +'" integer DEFAULT 0');
+        client.query('INSERT INTO matchs (user_id) VALUES($1)', [user_id]);
+        client.query('INSERT INTO scores (user_id) VALUES($1)', [user_id]);
+        client.query('INSERT INTO profiles (user_id) VALUES($1)', [user_id]);
+        client.query('INSERT INTO tags (user_id) VALUES($1)', [user_id]);
+        done(); 
+    });
 }
-
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
@@ -74,34 +73,6 @@ function user_new(req, res) {
     const last_name = req.body.last_name.capitalize();
     const mail = req.body.mail.toLowerCase();
     const username = req.body.username.toLowerCase();
-
-    // return user_select('username', username)
-    // .then((result) => {
-    //         if (result.length != 0)
-    //             return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] });
-    //         else{
-    //             user_select_one('mail', mail, function (err, result) {
-    //                 if (result.length != 0) 
-    //                     return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used ' }] });
-    //                 else{
-    //                     let hash = bcrypt.hashSync(password, 10);
-    //                     var key = base64url(crypto.randomBytes(40));
-    //                     pool.connect(function (err, client, done) {
-    //                         if (err) {
-    //                             return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
-    //                         }
-    //                         client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key], function(err, result){
-    //                             done();
-    //                             Mail.activation_mail(username, mail, key); 
-    //                             user_new_tables(result.rows[0].id);           
-    //                             return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
-    //                         });
-    //                     });
-    //                 }
-    //             });
-    //         }
-    
-    //     });
 
     user_select_one('username', username, function (err, result) {
         if (result.length != 0)
@@ -133,12 +104,13 @@ function user_new(req, res) {
 
 function user_set_active(user_id){
     var key = base64url(crypto.randomBytes(40));
-
-    const query = {
-        text:`UPDATE users SET active = 1, key = $1 WHERE id = $2`,
-        values: [key, user_id]
-    }
-    db.set_database(query);
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
+        }
+    client.query('UPDATE users SET active = 1, key = $1 WHERE id = $2', [key,user_id]);
+        done();
+    });
 }
 
 function user_profile_update(req, res, callback)
@@ -238,29 +210,30 @@ function user_delete_image(req, res){
     const userId = res.locals.user.userId;
     const path = req.params.image;
 
-    const query = {
-        text:'DELETE FROM images WHERE user_id = $1 AND path = $2',
-        values: [userId, path]
-    }
- 
-    return db.set_database(query).then(() =>{
-        return res.status(200).send({ success: [{title: 'Image delete', detail: 'Your image has been delete'}] })
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('DELETE FROM images WHERE user_id = $1 AND path = $2', [userId, path], function (err, result) {
+            done()
+            return res.status(200).send({ success: [{title: 'Image delete', detail: 'Your image has been delete'}] });
         })
+    })
 }
 
 // AUTH FUNCTIONS
-function user_password_check(data, password) {
-
-    const query = {
-        text:`SELECT password FROM users WHERE id=$1`,
-        values: [data[0].id]
-    }
-
-    return db.get_database(query).then((result) => {
-        if (bcrypt.compareSync(password, result[0].password))
-            return data;
-        else
-            return status(422);
+function user_password_check(id, password, cb) {
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT password FROM users WHERE id=$1', [id], function (err, result) {
+            done()
+            if (bcrypt.compareSync(password, result.rows[0].password))
+                return cb(true);
+            else
+                return cb(false);
+        })
     })
 }
 
@@ -290,22 +263,24 @@ function user_set_online(isOnline, username){
 }
 
 function user_set_ip(ipData, userId){
-
-    const query = {
-        text:'UPDATE users SET ip = $1, geoloc = $2 WHERE id = $3',
-        values: [ipData.ip, ipData.loc, userId]
-    }
-    console.log('User info : ', ipData);
-    db.set_database(query);
+    pool.connect(function (err, client, done) {   
+        client.query('UPDATE users SET ip = $1, geoloc = $2 WHERE id = $3', [ipData.ip, ipData.loc, userId], function () {
+            done();
+            console.log('User info : ', ipData);
+        });
+    })
 }
 
 function user_set_offline(req, res){
-
     const user = req.params.user; 
 
     user_set_online('0', user);
     return res.status(200).send({ success: [{title: 'Logout', detail: 'Success logout'}] });
 
+}
+
+function test_user(req, res){
+    console.log(req.body)
 }
 
 //GET USER PROFILE
@@ -397,6 +372,7 @@ function user_get_images(userdata, cb){
 
 module.exports = {
     user_select,
+    user_select_one,
     user_new,
     user_profile_update,
     user_get_profile,
@@ -411,5 +387,6 @@ module.exports = {
     user_set_online,
     user_set_ip,
     user_set_offline,
-    user_select_all_public_data
+    user_select_all_public_data,
+    test_user
 }

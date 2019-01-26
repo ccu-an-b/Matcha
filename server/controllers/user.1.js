@@ -19,35 +19,40 @@ const errorMessages = {
 
 exports.activate = function (req, res) {
     const userKey = req.params.key;
-
-    return User.user_select('key', userKey)
-        .then((result) => {
+    User.user_select_one('key', userKey, function (err, result) {
+        if (err) {
+            return res.status(422).send({ errors: errorMessages.wrongIdentification })
+        }
+        if (result.length) {
             User.user_set_active(result[0].id)
-            return res.json(result)
-        })
-        .catch(() => {return res.status(422).send({ errors: errorMessages.wrongIdentification })})
+        }
+        return res.json(result);
+    });
 }
 
 exports.auth = function (req, res) {
     const {  password } = req.body;
     const username = req.body.username.toLowerCase() ;
-
+    username;
     if (!password || !username) {
         return res.status(422).send({ errors: errorMessages.dataMissing });
     }
-
-    return User.user_select('username', username)
-        .then((result) => {
-            if (result[0].active == '0') 
-                return res.status(422).send({ errors: errorMessages.accountNotActive });
-            return result
-        })
-        .then((result) => {
-            return User.user_password_check(result, password)
-                .then((result) => {
+    User.user_select_one('username', username, function (req, result) {
+        if (result.length == 0) {
+            return res.status(422).send({ errors: errorMessages.wrongIdentification });
+        }
+        else if (result[0].active == '0') {
+            return res.status(422).send({ errors: errorMessages.accountNotActive });
+        }
+        else {
+            User.user_password_check(result[0].id, password, function (cb_result) {
+                if (cb_result === false) {
+                    return res.status(422).send({ errors: errorMessages.wrongPassword });
+                }
+                else {
                     const userId = result[0].id;
                     axios.get(`http://api.ipstack.com/check?access_key=7b4aac12f356ba32dee5cb0d1dbfa762&format=1`).then((result) => {
-                        result.json;
+						result.json;
                         User.user_set_ip(result.data, userId);
                     }).catch((e) => console.log(e))
                     User.user_set_online('1', result[0].username)
@@ -55,14 +60,11 @@ exports.auth = function (req, res) {
                         userId: userId,
                         username: result[0].username
                     }, config.SECRET, { expiresIn: '1h' }));
-            })
-            .catch(() => {
-                return res.status(422).send({ errors: errorMessages.wrongPassword });
-            })
-        })
-        .catch(() => {
-            return res.status(422).send({ errors: errorMessages.wrongIdentification });
-        })
+                }
+            });
+        }
+    });
+
 }
 
 exports.authMiddleware = function (req, res, next) {
@@ -70,13 +72,14 @@ exports.authMiddleware = function (req, res, next) {
 
     if (token) {
         const user = parseToken(token);
-
-        return User.user_select('id', user.userId)
-            .then(() => {
+        User.user_select_one('id', user.userId, function (err, cb) {
+            if (cb.length != 0) {
                 res.locals.user = user;
                 next();
-            })
-            .catch(() => {return notAuthorized(res)})
+            }
+            else
+                return notAuthorized(res);
+        });
     }
     else
         return notAuthorized(res);
@@ -90,13 +93,14 @@ function notAuthorized(res) {
     return res.status(401).send({ errors: errorMessages.notAuthorized });
 }
 
-exports.fetchAllUsersData = function (req, res) {
+exports.fetchAllUsersData = function (req, res, next) {
     // Public Data to be defined
-    return User.user_select_all_public_data()
-        .then((result) => {
-            return res.status(200).send(result);
-        })
-        .catch(() => {return res.status(422).send({ errors: errorMessages.dataMissing })})
+    User.user_select_all_public_data(function (err, result) {
+        if (err) {
+            return res.status(422).send({ errors: errorMessages.dataMissing })
+        }
+        return res.status(200).send(result);
+    });
 }
 
 exports.getProfile = function(req, res) {
