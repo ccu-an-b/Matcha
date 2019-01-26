@@ -4,23 +4,30 @@ const   pg = require('pg'),
         crypto = require('crypto'),
         base64url = require('base64url'),
         config = require('../config/dev'),
-        Mail = require('./mail');
+        Mail = require('./mail'),
+        db = require('./db');
 
 const   pool = new pg.Pool(config.db);
 
-function user_select_all(callback) {
+function user_select_one(key, value, callback) {
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT mail, id, login FROM users', function (err, result) {
+        client.query(`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `, [value], function (err, result) {
             done();
             return callback(err, result.rows);
         });
     });
 }
 
-function user_select_one(key, value, callback) {
+function user_select(key, value, callback) {
+    const query = {
+        text:`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `,
+        values: [value]
+    }
+
+    callback( null, db.set_database(query));
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error('error fetching client from pool', err);
@@ -114,18 +121,23 @@ function user_set_active(user_id){
 
 function user_profile_update(req, res, callback)
 {
-    const { bio , age, profile, gender, orientation, location, tags ,image, first_name, last_name} = req.body;
-
+    const { bio , age, profile, location, tags ,image, first_name, last_name} = req.body;
+    let  {  gender, orientation} = req.body;
     const user = res.locals.user; 
+
+    if (gender)
+        gender = gender.value
+    if (orientation)
+        orientation = orientation.value
 
    pool.connect(function (err, client, done) {
         if (err) {
             return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
         }
         if (profile)
-            client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender.value, orientation.value, location, user.userId])
+            client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender, orientation, location, user.userId])
         else 
-            client.query('UPDATE profiles SET bio = $1, age = $2, gender = $3, orientation = $4, location = $5 WHERE user_id = $6', [bio, age, gender.value, orientation.value, location, user.userId])
+            client.query('UPDATE profiles SET bio = $1, age = $2, gender = $3, orientation = $4, location = $5 WHERE user_id = $6', [bio, age, gender, orientation, location, user.userId])
 
         if(image)
         {
@@ -247,12 +259,13 @@ function user_is_complete_status(id){
 
 function user_set_online(isOnline, username){
     var date = Date.now()
-    pool.connect(function (err, client, done) {   
-        client.query('UPDATE users SET online = $1, connexion = $2 WHERE username = $3', [isOnline,date, username], function () {
-            done();
-            console.log(Date.now())
-        });
-    })
+
+    const query = {
+        text:'UPDATE users SET online = $1, connexion = $2 WHERE username = $3',
+        values: [isOnline, date, username]
+    }
+
+    db.set_database(query);
 }
 
 function user_set_ip(ipData, userId){
@@ -266,7 +279,7 @@ function user_set_ip(ipData, userId){
 
 function user_set_offline(req, res){
     const user = req.params.user; 
-    console.log(user)
+
     user_set_online('0', user);
     return res.status(200).send({ success: [{title: 'Logout', detail: 'Success logout'}] });
 
@@ -364,6 +377,7 @@ function user_get_images(userdata, cb){
 }
 
 module.exports = {
+    user_select,
     user_select_one,
     user_new,
     user_profile_update,
