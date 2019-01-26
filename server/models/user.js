@@ -46,7 +46,7 @@ function user_select_all_public_data(callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT username FROM users', function (err, result) {
+        client.query('SELECT username, latitude, longitude FROM users', function (err, result) {
             done();
             return callback(err, result.rows);
         });
@@ -269,10 +269,9 @@ function user_set_online(isOnline, username){
 }
 
 function user_set_ip(ipData, userId){
-    pool.connect(function (err, client, done) {   
-        client.query('UPDATE users SET ip = $1, geoloc = $2 WHERE id = $3', [ipData.ip, ipData.loc, userId], function () {
+    pool.connect(function (err, client, done) {
+        client.query('UPDATE users SET ip = $1, latitude = $2, longitude = $3 WHERE id = $4', [ipData.ip, ipData.latitude, ipData.longitude, userId], function () {
             done();
-            console.log('User info : ', ipData);
         });
     })
 }
@@ -295,7 +294,7 @@ function user_get_profile(username, cb){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query(`SELECT id, first_name, last_name , username, complete, online, connexion, age, location, gender, bio, orientation, profile_img ,total from users 
+        client.query(`SELECT id, first_name, last_name , username, complete, online, latitude, longitude, connexion, age, location, gender, bio, orientation, profile_img ,total from users 
         JOIN profiles ON profiles.user_id = users.id 
 		JOIN scores ON scores.user_id = users.id
         WHERE username = $1`, [username], function (err, result) {

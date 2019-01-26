@@ -51,13 +51,13 @@ exports.auth = function (req, res) {
                 }
                 else {
                     const userId = result[0].id;
-                    axios.get(`https://ipinfo.io/json`).then((result) => {
-                        result.json;
+                    axios.get(`http://api.ipstack.com/check?access_key=7b4aac12f356ba32dee5cb0d1dbfa762&format=1`).then((result) => {
+						result.json;
                         User.user_set_ip(result.data, userId);
                     }).catch((e) => console.log(e))
                     User.user_set_online('1', result[0].username)
                     return res.json(jwt.sign({
-                        userId: result[0].id,
+                        userId: userId,
                         username: result[0].username
                     }, config.SECRET, { expiresIn: '1h' }));
                 }
