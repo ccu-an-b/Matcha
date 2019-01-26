@@ -70,7 +70,8 @@ export const completeProfile = (profileData) => {
 const loginSuccess = () => {
   const username = authService.getUsername();
   const userId = authService.getUserId();
-  store.dispatch(fetchUserProfile(username))
+  store.dispatch(fetchUserProfile(username));
+  store.dispatch(fetchAllPublicData());
   store.dispatch(fetchTags())
   return {
     type: LOGIN_SUCCESS,
