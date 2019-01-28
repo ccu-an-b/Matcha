@@ -3,6 +3,8 @@ const   express         = require('express'),
         
 const router = express.Router();
 
-router.get('/tags', ToolsMod.get_tags);
+router.get('/tags', function(req, res){
+        ToolsMod.get_tags().then((result) => {return res.json(result);})
+});
 
 module.exports = router;

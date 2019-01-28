@@ -1,6 +1,6 @@
 const   db = require('./db');
 
-function get_tags(req, res){
+function get_tags(){
 
     const query = {
         text: `SELECT attname  AS col
@@ -19,10 +19,11 @@ function get_tags(req, res){
                 var oneTag = { value: response[i].col, label: response[i].col }
                 allTags.push(oneTag)
             } 
-            return res.json(allTags)
+            return allTags
         })
         .catch((e) => console.log(e));
 }
+
 module.exports = {
     get_tags
 }

@@ -1,25 +1,10 @@
-
-const   pg = require('pg'),
-        bcrypt = require('bcrypt'),
+const   bcrypt = require('bcrypt'),
         crypto = require('crypto'),
         base64url = require('base64url'),
-        config = require('../config/dev'),
         Mail = require('./mail'),
-        db = require('./db');
-
-const   pool = new pg.Pool(config.db);
-
-function user_select_one(key, value, callback) {
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(`SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `, [value], function (err, result) {
-            done();
-            return callback(err, result.rows);
-        });
-    });
-}
+        db = require('./db'),
+        helpers = require('./helpers'),
+        tools = require('./tools');
 
 function user_select(key, value) {
 
@@ -75,60 +60,33 @@ function user_new(req, res) {
     const mail = req.body.mail.toLowerCase();
     const username = req.body.username.toLowerCase();
 
-    // return user_select('username', username)
-    // .then((result) => {
-    //         if (result.length != 0)
-    //             return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] });
-    //         else{
-    //             user_select_one('mail', mail, function (err, result) {
-    //                 if (result.length != 0) 
-    //                     return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used ' }] });
-    //                 else{
-    //                     let hash = bcrypt.hashSync(password, 10);
-    //                     var key = base64url(crypto.randomBytes(40));
-    //                     pool.connect(function (err, client, done) {
-    //                         if (err) {
-    //                             return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
-    //                         }
-    //                         client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key], function(err, result){
-    //                             done();
-    //                             Mail.activation_mail(username, mail, key); 
-    //                             user_new_tables(result.rows[0].id);           
-    //                             return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
-    //                         });
-    //                     });
-    //                 }
-    //             });
-    //         }
-    
-    //     });
-
-    user_select_one('username', username, function (err, result) {
-        if (result.length != 0)
-            return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Username already exists' }] });
-        else{
-            user_select_one('mail', mail, function (err, result) {
-                if (result.length != 0) 
-                    return res.status(422).send({ errors: [{ title: 'User exists', detail: 'Email already used ' }] });
-                else{
-                    let hash = bcrypt.hashSync(password, 10);
-                    var key = base64url(crypto.randomBytes(40));
-                    pool.connect(function (err, client, done) {
-                        if (err) {
-                            return res.status(422).send({ errors: [{ title: 'Error fetching client from pool', detail: err }] })
-                        }
-                        client.query('INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id', [name, last_name, username, mail, hash, key], function(err, result){
-                            done();
-                            Mail.activation_mail(username, mail, key); 
-                            user_new_tables(result.rows[0].id);           
-                            return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
-                        });
-                    });
-                }
-            });
+    return user_select('username', username)
+    .then((result) => {
+        if (result.length)
+           throw { errors: [{ title: 'User exists', detail: 'Username already exists' }] };
+        return user_select('mail', mail)
+    })
+    .then((result) => {
+        if (result.length)
+           throw { errors: [{ title: 'User exists', detail: 'Email already used' }] };
+        
+        const hash = bcrypt.hashSync(password, 10);
+        const key = base64url(crypto.randomBytes(40));
+        const query = {
+            text: 'INSERT INTO users (first_name, last_name, username, mail, password, key) VALUES($1, $2 ,$3, $4, $5, $6) RETURNING id, key',
+            values: [name, last_name, username, mail, hash, key]
         }
-
-    });
+        return db.get_database(query)
+    })
+    .then((result) => {
+        console.log(result[0])
+        Mail.activation_mail(username, mail, result[0].key)
+        user_new_tables(result[0].id)
+        return res.status(200).send({ success: [{title: 'User created', detail: 'You created a new user'}] });
+    })
+    .catch((err) => {
+        return res.status(422).send(err);
+    })
 }
 
 function user_set_active(user_id){
@@ -141,53 +99,51 @@ function user_set_active(user_id){
     db.set_database(query);
 }
 
-function user_profile_update(req, res, callback)
+function user_profile_update(req, res)
 {
     const { bio , age, profile, location, tags ,image, first_name, last_name} = req.body;
     let  {  gender, orientation} = req.body;
     const user = res.locals.user; 
+    const query = [];
 
     if (gender)
         gender = gender.value
     if (orientation)
         orientation = orientation.value
-
-   pool.connect(function (err, client, done) {
-        if (err) {
-            return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
+    if (profile){
+        query[0] = {
+            text:`UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7`,
+            values: [bio, age, profile, gender, orientation, location, user.userId]
         }
-        if (profile)
-            client.query('UPDATE profiles SET bio = $1, age = $2, profile_img = $3, gender = $4, orientation = $5, location = $6 WHERE user_id = $7', [bio, age, profile, gender, orientation, location, user.userId])
-        else 
-            client.query('UPDATE profiles SET bio = $1, age = $2, gender = $3, orientation = $4, location = $5 WHERE user_id = $6', [bio, age, gender, orientation, location, user.userId])
-
-        if(image)
+    }
+    if (!profile){
+        query[0] = {
+            text:`UPDATE profiles SET bio = $1, age = $2, gender = $3, orientation = $4, location = $5 WHERE user_id = $6`,
+            values: [bio, age, gender, orientation, location, user.userId]
+        }
+    }
+    if (image){
+        for ( var i = 0 ; i < image.length; i++)
         {
-            console.log(image)
-            for ( var i = 0 ; i < image.length; i++)
-            {
-                client.query('INSERT INTO images (user_id, path) VALUES ($1, $2)', [user.userId, image[i].filename])
-            }
+           query.push({
+               text : 'INSERT INTO images (user_id, path) VALUES ($1, $2)',
+               values: [user.userId, image[i].filename]
+           })
         }
-        var isComplete = user_is_complete_status(user.userId)
-        isComplete ? isComplete = 0 : isComplete = 1;
-        
-        client.query('UPDATE users SET first_name = $1, last_name = $2, complete = $3 WHERE id = $4', [first_name.capitalize(), last_name.capitalize(), isComplete, user.userId])
-        done();
-        return callback(res, tags, user.userId, user.username)
-    });
-}
+    }
+    query.push({
+        text: `UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3`,
+        values : [first_name.capitalize(), last_name.capitalize(), user.userId]
+    })
 
-function isInArray(value, array) {
-    if( array.indexOf(value) > -1)
-        return 1;
-    else
-        return 0;
+    for (var i = 0 ; i < query.length ; i++)
+        db.set_database(query[i]);
+
+    return user_tags_update(res, tags, user.userId, user.username);
 }
 
 function user_tags_update(res, tags, userId, username){
 
-   
     //Separate created tags from existing one
     var newArray =[[],[]]
     for (var i =0; i < tags.length ; i++)
@@ -208,30 +164,39 @@ function user_tags_update(res, tags, userId, username){
     arrTagsNew = arrTagsNew.map(value => value.toLowerCase());
     arrTagsExist = arrTagsExist.map(value => value.toLowerCase());
 
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return res.status(422).send({errors: [{title: 'DB Error', detail: 'Could not fetch client from pool'}]})
-        }
-        client.query(`SELECT attname  AS col
-            FROM   pg_attribute
-            WHERE  attrelid = 'tags'::regclass 
-            AND    attnum > 0
-            AND    NOT attisdropped
-            ORDER  BY attnum;`, function(err, res){
-            for (var i = 1 ; i < res.rows.length ; i++)
+    return tools.get_tags()
+        .then((res) => {
+            let query = [];
+            for (var i = 1 ; i < res.length ; i++)
             {
-                const value = isInArray(res.rows[i].col, arrTagsExist)
-
-                client.query(`UPDATE tags SET ${res.rows[i].col} =  $1 WHERE user_id = $2`, [value,userId])
+                const value = helpers.isInArray(res[i].value, arrTagsExist)
+                query.push({
+                    text: `UPDATE tags SET ${res[i].value} =  $1 WHERE user_id = $2`,
+                    values: [value,userId]
+                })
             } 
+            for (var i = 0 ; i < query.length ; i++)
+                db.set_database(query[i]);
+        })
+        .then(() => {
+            let query =[];
+            for (var i = 0; i <arrTagsNew.length ; i++){
+                query.push({
+                    text: `ALTER TABLE tags ADD COLUMN ${arrTagsNew[i]} integer DEFAULT 0`
+                })
+                query.push({
+                    text: `UPDATE tags SET ${arrTagsNew[i]} = 1 WHERE user_id = $1`,
+                    values:  [userId]
+                })
+            }
+            for (var i = 0 ; i < query.length ; i++)
+                db.set_database(query[i]);
+            
+        })
+        .then(() => {
+            user_is_complete_status(userId)
+            return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update', username: username}] });
         });
-        for (var i = 0; i <arrTagsNew.length ; i++){
-           client.query(`ALTER TABLE tags ADD COLUMN ${arrTagsNew[i]} integer DEFAULT 0`)
-           client.query(`UPDATE tags SET ${arrTagsNew[i]} = 1 WHERE user_id = $1`, [userId]) 
-        }
-        done();
-        return res.status(200).send({ success: [{title: 'Profile update', detail: 'Your profile has been update', username: username}] });
-    });
 }
 
 function user_delete_image(req, res){
@@ -265,16 +230,20 @@ function user_password_check(data, password) {
 }
 
 function user_is_complete_status(id){
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
+    const query_get = {
+        text:'SELECT age, location, bio, gender, profile_img, orientation from profiles where user_id = $1',
+        values: [id]
+    }
+    return db.get_database(query_get).then((result) => {
+        var hasNullValue = Object.values(result[0]).some(function(value) {
+            return value === null || value === "";
+        });
+        hasNullValue ? hasNullValue = 0 : hasNullValue = 1;
+        const query_set = {
+            text:'UPDATE users SET complete = $1 WHERE id = $2',
+            values: [hasNullValue,id]
         }
-        client.query('SELECT age, location, bio, gender, profile_img, orientation from profiles where user_id = $1', [id], function (err, result) {
-            done()
-            var hasNullValue = Object.values(result.rows[0]).some(function(value) {
-                return value === null || value === "";
-            });
-        })
+        db.set_database(query_set)
     })
 }
 
@@ -285,7 +254,6 @@ function user_set_online(isOnline, username){
         text:'UPDATE users SET online = $1, connexion = $2 WHERE username = $3',
         values: [isOnline, date, username]
     }
-
     db.set_database(query);
 }
 
@@ -307,103 +275,75 @@ function user_set_offline(req, res){
 }
 
 //GET USER PROFILE
-function user_get_profile(username, cb){
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(`SELECT id, first_name, last_name , username, latitude, longitude, complete, online, connexion, age, location, gender, bio, orientation, profile_img ,total from users 
+function user_get_profile(req, res){
+    const username = req.params.username ;
+    let userData = [];
+
+    const query ={
+        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude, longitude,location, gender, bio, orientation, profile_img ,total from users 
         JOIN profiles ON profiles.user_id = users.id 
 		JOIN scores ON scores.user_id = users.id
-        WHERE username = $1`, [username], function (err, result) {
-            done();
-            return cb(err, result.rows);
-        });
-    })
+        WHERE username = $1`,
+        values: [username]
+    }
+    return db.get_database(query)
+        .then((result) => {
+            userData.push(result[0])
+            return user_get_tags(userData[0].id)
+        })
+        .then((result) => {
+            userData.push(result)
+            return user_get_images(userData[0].id)
+        })
+        .then((result) => {
+            userData.push(result)
+            return res.json(userData)
+        })
 }
 
-function get_tags(userdata, cb){
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(`SELECT attname  AS col
-        FROM   pg_attribute
-        WHERE  attrelid = 'tags'::regclass 
-        AND    attnum > 0
-        AND    NOT attisdropped
-        ORDER  BY attnum;`, function(err, res){
-            done();
-            var allTags = []
-            for (var i = 0 ; i < res.rows.length ; i++)
-            {
-                allTags.push(res.rows[i].col)
-            } 
-            var newRes = userdata
-            newRes.push(allTags)
-            return cb(err, newRes)
-        });
-    })
-}
-
-function user_get_tags(userdata, cb){
-    const userId = userdata[0].id
-
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-    
-        client.query(`SELECT * FROM tags WHERE user_id = $1`, [userId], function (err, result) {
-            done();
-            var tags = []
-            const allTags = userdata[1]
+function user_get_tags(userId){
+    let allTags =[];
+    return tools.get_tags()
+        .then((res) => {
+            allTags = res;
+            const query = {
+                text:`SELECT * FROM tags WHERE user_id = $1`,
+                values : [userId]
+            }
+            return db.get_database(query)
+        })
+        .then ((res) => {
+            let tags =[];
             if (allTags){
                 for (i= 0; i <allTags.length; i ++)
                 {
-                    const tag = allTags[i]
-                    if (result.rows[0][tag] === 1)
+                    const tag = allTags[i].value;
+                    if (res[0][tag] === 1)
                     {
-                        tags.push(tag)
+                        tags.push(tag);
                     }
                 }
             }
-            var newRes = userdata
-            newRes.splice(newRes.indexOf(1), 1)
-            newRes.push(tags)
-            return cb(err, newRes);
-        });
-    })
+            return tags;
+        })
 }
 
-function user_get_images(userdata, cb){
-    const userId = userdata[0].id
-
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
+function user_get_images(userId){
     
-        client.query(`SELECT * FROM images WHERE user_id = $1`, [userId], function (err, result) {
-            done();
-            var newRes = userdata
-            newRes.push(result.rows)
-            return cb(err, newRes)
-        });
-    });
+    const query = {
+        text: `SELECT * FROM images WHERE user_id = $1`,
+        values: [userId]
+    }
+    return db.get_database(query) 
 }
 
 module.exports = {
     user_select,
     user_new,
     user_profile_update,
-    user_get_profile,
-    user_get_tags,
-    user_get_images,
     user_delete_image,
-    get_tags,
     user_tags_update,
-    user_tags_update,
+    user_get_profile,
     user_password_check,
     user_set_active,
     user_set_online,

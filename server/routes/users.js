@@ -10,16 +10,15 @@ router.get('/logout/:user',  UserMod.user_set_offline)
 
 router.post('/register', UserCtrl.register)
 
-router.post('/profileComplete', UserCtrl.authMiddleware,function(req, res){
-        UserMod.user_profile_update(req, res, UserMod.user_tags_update)
-})
+router.post('/profileComplete', UserCtrl.authMiddleware, UserMod.user_profile_update)
 
 router.get('/activate/:key', UserCtrl.activate)
 
 router.post('/fetch-users', UserCtrl.fetchAllUsersData)
 
-router.get('/profile/:username', UserCtrl.getProfile)
+router.get('/profile/:username', UserMod.user_get_profile)
 
 router.get('/deleteImage/:image', UserCtrl.authMiddleware, UserMod.user_delete_image)
+
 
 module.exports = router;
