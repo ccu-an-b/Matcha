@@ -40,7 +40,7 @@ function user_select_all_public_data(callback) {
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT username FROM users', function (err, result) {
+        client.query('SELECT username, latitude, longitude FROM users', function (err, result) {
             done();
             return callback(err, result.rows);
         });
@@ -263,10 +263,9 @@ function user_set_online(isOnline, username){
 }
 
 function user_set_ip(ipData, userId){
-    pool.connect(function (err, client, done) {   
-        client.query('UPDATE users SET ip = $1, geoloc = $2 WHERE id = $3', [ipData.ip, ipData.loc, userId], function () {
+    pool.connect(function (err, client, done) {
+        client.query('UPDATE users SET ip = $1, latitude = $2, longitude = $3 WHERE id = $4', [ipData.ip, ipData.latitude, ipData.longitude, userId], function () {
             done();
-            console.log('User info : ', ipData);
         });
     })
 }

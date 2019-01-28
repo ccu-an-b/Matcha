@@ -5,7 +5,7 @@ const config = require("../server/config/dev");
 const pool = new pg.Pool(config.db);
 
 pool.query(
-`
+  `
 CREATE SEQUENCE IF NOT EXISTS users_id_seq; 
 CREATE SEQUENCE IF NOT EXISTS id_notif_seq; 
 CREATE SEQUENCE IF NOT EXISTS id_notif_msg_seq; 
