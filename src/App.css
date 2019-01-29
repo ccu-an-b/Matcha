@@ -370,7 +370,7 @@ header {
           .dashboard .grid-container .edit-profile .header h1 i {
             cursor: pointer;
             font-size: 17px;
-            margin-left: 5px;
+            margin-left: 10px;
             transition: all .2s; }
             .dashboard .grid-container .edit-profile .header h1 i:hover {
               transform: scale(1.3);
@@ -530,6 +530,10 @@ header {
           border-radius: 3px; }
         .dashboard .grid-container .matchs .display-matchs::-webkit-scrollbar-thumb:hover {
           background: #363B6D; }
+        .dashboard .grid-container .matchs .display-matchs h2 {
+          visibility: visible;
+          text-align: center;
+          margin-top: 20px; }
         .dashboard .grid-container .matchs .display-matchs .one-match {
           visibility: visible;
           cursor: pointer;
@@ -605,8 +609,7 @@ header {
       .dashboard .grid-container .profiles-display h2 {
         visibility: visible;
         margin: auto;
-        color: #E83114;
-        opacity: 1; }
+        color: #E83114; }
       .dashboard .grid-container .profiles-display:hover {
         visibility: visible; }
       .dashboard .grid-container .profiles-display::-webkit-scrollbar {

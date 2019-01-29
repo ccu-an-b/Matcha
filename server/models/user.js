@@ -348,5 +348,5 @@ module.exports = {
     user_set_online,
     user_set_ip,
     user_set_offline,
-    user_select_all_public_data
+    user_select_all_public_data,
 }

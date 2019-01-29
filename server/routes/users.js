@@ -22,4 +22,5 @@ router.get('/profile/:username', UserMod.user_get_profile)
 router.get('/deleteImage/:image', UserCtrl.authMiddleware, UserMod.user_delete_image)
 
 router.get('/notifications/:type', UserCtrl.authMiddleware, NotifMod.get_type_notifications )
+
 module.exports = router;

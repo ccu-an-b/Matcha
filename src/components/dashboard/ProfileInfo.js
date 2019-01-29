@@ -89,7 +89,7 @@ export class ProfileInfo extends React.Component {
 
                 </div>
                 <h1>{userData[0].first_name} {userData[0].last_name}  
-                    {!isUser && <div className="button" id={userData[0].username}><i className="fas fa-heart"></i></div>}
+                    {!isUser && <div onClick={this.props.handleClick} className="button" id={userData[0].username}><i id={userData[0].username} className="fas fa-heart"></i></div>}
                 </h1>
                 {!isUser && <h1 className="profile-score">{userData[0].total}</h1>}
                 <div className="edit-infos">

@@ -15,6 +15,9 @@ class ProfileService {
     setProfileView(username){
         return axiosInstance.get(`profiles/view/${username.toLowerCase()}`)
     }
+    setProfileLike(username){
+        return axiosInstance.get(`profiles/like/${username.toLowerCase()}`)
+    }
 }
 
 export default new ProfileService();

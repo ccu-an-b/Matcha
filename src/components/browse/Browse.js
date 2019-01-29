@@ -23,6 +23,7 @@ export class Browse extends React.Component {
     this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
     this.profileShowMore = this.profileShowMore.bind(this);
+    this.profileLike = this.profileLike.bind(this);
   }
 
   componentWillMount(){
@@ -43,16 +44,28 @@ export class Browse extends React.Component {
     if (event.target.className === 'fas fa-plus' || event.target.className === 'button' )
     {
       const username = event.target.id;
-      profileService.setProfileView(username)
+      return profileService.setProfileView(username)
+        .then (() => {this.updateSuggestedProfiles()})
         .then(() => { return profileService.getOneProfile(username)})
         .then((oneProfile) => {
           this.setState({oneProfile: oneProfile.data})
           this.profileRef.current.scrollIntoView({behavior: 'smooth'})
         })
-        .then (() => {this.updateSuggestedProfiles()})
     }
   }
 
+  profileLike(event){
+    if (event.target.className === 'fas fa-heart' || event.target.className === 'button' )
+    {
+      const username = event.target.id;
+      return profileService.setProfileLike(username)
+        .then (() => {this.updateSuggestedProfiles()})
+        .then(() => { return profileService.getOneProfile(username)})
+        .then((oneProfile) => {
+          this.setState({oneProfile: oneProfile.data})
+        })
+    }
+  }
   renderProfiles(profiles) {
     return profiles.data.map((profile, index) => {
         return(
@@ -106,7 +119,7 @@ export class Browse extends React.Component {
               </Coverflow>
               {this.state.oneProfile.length >1 &&
                 <div ref={this.profileRef} className="one-profile-more">
-                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username}/>
+                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username} handleClick={this.profileLike}/>
                 </div>
               }
             </div>
