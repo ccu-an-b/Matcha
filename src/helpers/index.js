@@ -9,3 +9,10 @@ export const formatter = (nb,item ,ago) =>{
         return "just now"
     return nb+item[0]+" "+ago
 }
+
+export const imgPath = (img) => {
+    if (img.includes("http"))
+        return img;
+    else    
+        return process.env.PUBLIC_URL+'img/'+img;
+}

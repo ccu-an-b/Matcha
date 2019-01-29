@@ -1,6 +1,6 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
-import { formatter } from 'helpers';
+import { formatter, imgPath } from 'helpers';
 
 export class ProfileInfo extends React.Component {
 
@@ -34,7 +34,7 @@ export class ProfileInfo extends React.Component {
         for ( var i = 0 ; i < images.length ; i++){
             div.push(
                 <div  key={i} className="picture">
-                    <img src={process.env.PUBLIC_URL+'img/'+images[i].path} alt="profile_img"/>
+                    <img src={imgPath(images[i].path)} alt="profile_img"/>
                 </div>
             )
         }
@@ -76,7 +76,7 @@ export class ProfileInfo extends React.Component {
                 </div>
                 }
                 <div className="profile-picture">
-                    <img src={process.env.PUBLIC_URL+'img/'+userData[0].profile_img} alt="profile_img"/>
+                    <img src={imgPath(userData[0].profile_img)} alt="profile_img"/>
                     {!isUser &&
                         <div className="profile-picture-div">
                             <h5 className={userData[0].online === 1 ? 'online' : '' }>{userData[0].online === 1 ? 'Online' :<TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} /> }</h5> 

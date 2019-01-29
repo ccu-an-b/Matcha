@@ -1,5 +1,6 @@
 import React from 'react';
 import * as actions from 'actions';
+import { imgPath } from 'helpers';
 
 export class BwmImageUpload extends React.Component {
     
@@ -98,7 +99,7 @@ export class BwmImageUpload extends React.Component {
 
         var newArray = [];
         for (var i = 0; i < images.length ; i++){
-            newArray[i] = process.env.PUBLIC_URL+'img/'+images[i].path
+            newArray[i] = imgPath(images[i].path)
         }
         this.setState({
             img_nb: images.length,

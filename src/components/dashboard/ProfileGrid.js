@@ -1,15 +1,21 @@
 import React from 'react';
 import { ProfileInfo } from './ProfileInfo';
 import { ProfilePreview } from './ProfilePreview';
+import { ProfileViewLike } from './ProfileViewLike';
 import ProfileForm from './ProfileForm';
 
 export class ProfileGrid extends React.Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state ={
            showEdit: false,
+           isLoading: true
         }
         this.showEdit = this.showEdit.bind(this);
+    }
+
+    componentDidMount(){
+            this.setState({isLoading:false})
     }
 
     showEdit(){
@@ -23,59 +29,17 @@ export class ProfileGrid extends React.Component {
             <div className="grid-container">
                 <ProfilePreview userData= { userData[0] } user = {userData[0].username}/>
             <div className="last-view grid-area">
-            <h2>Your latest visits.</h2>
-            <div className="profiles-display">
-                <div className="one-profile online">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>Alicia</h4>
-                </div>
-                <div className="one-profile">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1300&q=80" alt="profile_img"/>
-                </div>
-                <h4>Dan</h4>
-                </div>
-                <div className="one-profile online">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>Lea</h4>
-                </div>
-                
-                <div className="one-profile">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1517935541300-19815e88fa63?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>John</h4>
-                </div>
-                <div className="one-profile">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>Christopher</h4>
-                </div>
-            </div>
-                
+                <h2>Your latest visits.</h2>
+                {!this.state.isLoading &&
+                    <ProfileViewLike type={1} />
+                }
             </div>
             
             <div className="last-like grid-area">
                 <h2>They liked your profile !</h2>
-                <div className="profiles-display">
-                <div className="one-profile online">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>Lea</h4>
-                </div>
-                <div className="one-profile">
-                <div className="img">
-                <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="profile_img"/>
-                </div>
-                <h4>Christopher</h4>
-                </div>
-            </div>
+                {!this.state.isLoading &&
+                    <ProfileViewLike type={2} />
+                }
             </div>
             
             {this.state.showEdit ?  <div className="edit-profile grid-area edit">

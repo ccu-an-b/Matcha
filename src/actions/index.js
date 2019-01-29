@@ -13,14 +13,8 @@ import {
   FETCH_USER_PROFILE_INIT,
   FETCH_USER_PROFILE_SUCCESS,
   FETCH_USER_PROFILE_FAIL,
-  FETCH_ONE_PROFILE_INIT,
-  FETCH_ONE_PROFILE_SUCCESS,
-  FETCH_ONE_PROFILE_FAIL,
   FETCH_TAGS_INIT,
-  FETCH_TAGS_SUCCESS,
-  FETCH_SUGGESTED_PROFILES_INIT,
-  FETCH_SUGGESTED_PROFILES_SUCCESS,
-  FETCH_SUGGESTED_PROFILES_FAIL} from './types';
+  FETCH_TAGS_SUCCESS} from './types';
 
 const axiosInstance = axiosService.getInstance();
 const store = require('../reducers').init();
@@ -103,10 +97,6 @@ export const login = (userData) => {
         authService.saveToken(token);
         dispatch(loginSuccess(token));
       })
-      .then(()=> {
-        dispatch(fetchUserProfile(userData.username))
-        dispatch(fetchTags())
-      })
       .catch(({response}) => {
         dispatch(loginFailure(response.data.errors))
       })
@@ -115,9 +105,6 @@ export const login = (userData) => {
 
 export const logout = () => {
   authService.deleteToken()
-  // store.dispatch(fetchUserProfileInit())
-  // store.dispatch(fetchTagsInit())
-  // authService.deleteToken()
   return {
     type: LOGOUT
   }
@@ -222,39 +209,6 @@ export const fetchUserProfile = (username) => {
   }
 }
 
-
-//FETCH ONE PROFILE
-const fetchOneProfileInit = () => {
-  
-  return {
-    type: FETCH_ONE_PROFILE_INIT,
-  }
-}
-
-const fetchOneProfileSuccess = (oneProfile) => {
-  return {  
-    type: FETCH_ONE_PROFILE_SUCCESS,
-    oneProfile
-  }
-
-}
-
-const fetchOneProfileFail = (errors) => {
-  return {
-    type: FETCH_ONE_PROFILE_FAIL,
-    errors
-  }
-}
-export const fetchOneProfile = (username) => {
-  return function(dispatch) {
-    dispatch(fetchOneProfileInit());
-    
-      axios.get(`/api/v1/user/profile/${username.toLowerCase()}`)
-        .then((oneProfile) => dispatch(fetchOneProfileSuccess(oneProfile.data)))
-        .catch(({response}) => dispatch(fetchOneProfileFail(response.data.errors)));
-  }
-}
-
 //TAGS ACTIONS
 const fetchTagsInit = () => {
   
@@ -279,39 +233,6 @@ export const fetchTags = () => {
       axios.get(`/api/v1/tools/tags`).then((tags) => {
       dispatch(fetchTagsSuccess(tags.data));
     });
-  }
-}
-
-
-//GET SUGGESTED PROFILES
-const fetchSuggestedProfilesInit = () => {
-  
-  return {
-    type: FETCH_SUGGESTED_PROFILES_INIT,
-  }
-}
-
-const fetchSuggestedProfilesSuccess = (profiles) => {
-  return {  
-    type: FETCH_SUGGESTED_PROFILES_SUCCESS,
-    profiles
-  }
-}
-
-const fetchSuggestedProfilesFail = (errors) => {
-  return {
-    type: FETCH_SUGGESTED_PROFILES_FAIL,
-    errors
-  }
-}
-
-export const fetchSuggestedProfiles = (user) => {
-  return function(dispatch) {
-    dispatch(fetchSuggestedProfilesInit());
-      axios.get(`/api/v1/profiles/${user}`)
-      // axios.post(`/api/v1/profiles`)
-        .then((profiles) => dispatch(fetchSuggestedProfilesSuccess(profiles.data)))
-        .catch(({response}) => dispatch(fetchSuggestedProfilesFail(response.errors)));
   }
 }
 

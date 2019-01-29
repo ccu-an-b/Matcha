@@ -1,6 +1,6 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
-import { formatter } from 'helpers';
+import { formatter, imgPath } from 'helpers';
 
 // export function ProfilePreview(props) {
 export class ProfilePreview extends React.Component {
@@ -14,7 +14,7 @@ export class ProfilePreview extends React.Component {
         return (
             <div className="profile grid-area">
             <div className="img">
-                <img src={process.env.PUBLIC_URL+'img/'+userData.profile_img} alt="profile_img"/>
+                <img src={imgPath(userData.profile_img)} alt="profile_img"/>
                 <h3>{userData.first_name}</h3>
                 
                 <h5 className={userData.online === 1 ? 'online' : ' ' }>

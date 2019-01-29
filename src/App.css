@@ -602,6 +602,11 @@ header {
       display: flex;
       overflow-x: auto;
       visibility: hidden; }
+      .dashboard .grid-container .profiles-display h2 {
+        visibility: visible;
+        margin: auto;
+        color: #E83114;
+        opacity: 1; }
       .dashboard .grid-container .profiles-display:hover {
         visibility: visible; }
       .dashboard .grid-container .profiles-display::-webkit-scrollbar {

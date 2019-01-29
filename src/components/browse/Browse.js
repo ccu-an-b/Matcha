@@ -2,15 +2,13 @@ import React from "react";
 import MapView from './Map';
 
 import { connect } from "react-redux";
-import * as actions from 'actions'; 
-import axiosService from 'services/axios-service';
+import profileService from 'services/profile-service';
 //import { format } from "url";
 
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 
 var Coverflow = require('react-coverflow');
-const axiosInstance = axiosService.getInstance();
 
 export class Browse extends React.Component {
 
@@ -28,7 +26,11 @@ export class Browse extends React.Component {
   }
 
   componentWillMount(){
-    axiosInstance.post(`profiles`).then((profiles) => {
+    this.updateSuggestedProfiles()
+  }
+
+  updateSuggestedProfiles(){
+    profileService.getSuggestedProfiles().then((profiles) => {
       this.setState({profiles, isLoading: false})
     })
   }
@@ -40,9 +42,14 @@ export class Browse extends React.Component {
   profileShowMore(event){
     if (event.target.className === 'fas fa-plus' || event.target.className === 'button' )
     {
-      this.props.dispatch(actions.fetchOneProfile(event.target.id));
-      setTimeout(() => this.setState({oneProfile: this.props.oneProfile }), 100)
-      setTimeout(() => this.profileRef.current.scrollIntoView({behavior: 'smooth'}), 200)
+      const username = event.target.id;
+      profileService.setProfileView(username)
+        .then(() => { return profileService.getOneProfile(username)})
+        .then((oneProfile) => {
+          this.setState({oneProfile: oneProfile.data})
+          this.profileRef.current.scrollIntoView({behavior: 'smooth'})
+        })
+        .then (() => {this.updateSuggestedProfiles()})
     }
   }
 
@@ -57,6 +64,7 @@ export class Browse extends React.Component {
         )
     });
   }
+  
   render() {
     const userData = this.props.user
 
@@ -76,7 +84,7 @@ export class Browse extends React.Component {
                 ref={this.myRef} 
                 width='100%'
                 height={600}
-                displayQuantityOfSide={2}
+                displayQuantityOfSide={this.state.profiles.data.length/2}
                 navigation={false}
                 enableHeading={false}
                 infiniteScroll={true}
@@ -135,9 +143,7 @@ function mapStateToProps(state) {
   return {
     browse: state.browse,
     user: state.user.data,
-    auth: state.auth,
-    //profilesSuggested: state.profilesSuggested.data,
-    oneProfile: state.oneProfile.data
+    auth: state.auth
   };
 }
 

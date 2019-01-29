@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions'; 
 import authService from 'services/auth-service';
-
 import { Redirect } from 'react-router-dom';
 import { ProfileGrid } from './ProfileGrid';
 import ProfileForm from './ProfileForm';

@@ -1,4 +1,5 @@
-const   db = require('./db')
+const   db = require('./db'),
+        UserMod = require('./user')
 
 function get_suggested_profiles(req, res){
         const userId = res.locals.user.userId;
@@ -12,6 +13,25 @@ function get_suggested_profiles(req, res){
                 .catch((e) => console.log(e));
 }
 
+function set_profile_view(req, res){
+        const userId = res.locals.user.userId;
+        const username = req.params.username;
+
+        return UserMod.user_select('username', username).then((result)=>{
+                const query = [{
+                        text:`INSERT INTO notifications (user_id, user_from_id, type, date) VALUES ($1, $2, $3, $4)`,
+                        values: [result[0].id, userId, '1', Date.now()]
+                },{
+                        text:`UPDATE scores SET nb_visit = nb_visit + 1, total = total + 1 WHERE user_id = $1`,
+                        values: [result[0].id]
+                }]
+                for (var i = 0 ; i < query.length ; i++)
+                        db.set_database(query[i]);
+                return res.status(200).send({ success: [{title: 'Profile viewed', detail: ''}] });
+        })
+
+}
 module.exports = {
-        get_suggested_profiles
+        get_suggested_profiles,
+        set_profile_view
 }

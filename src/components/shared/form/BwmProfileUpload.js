@@ -1,5 +1,6 @@
 import React from 'react';
 import * as actions from 'actions';
+import { imgPath } from 'helpers';
 
 export class BwmProfileUpload extends React.Component {
     
@@ -75,7 +76,7 @@ export class BwmProfileUpload extends React.Component {
                 }
                 {defaultValue && !imageBase64 &&
                     <div className='img-preview-container'>
-                        <div className='img-preview' style={{'backgroundImage' : 'url(' + process.env.PUBLIC_URL+'img/'+defaultValue + ')'}}>
+                        <div className='img-preview' style={{'backgroundImage' : 'url(' + imgPath(defaultValue) + ')'}}>
                         </div>
                         <div onClick={() => this.inputUpload.click()}  className="hover">
                             Edit

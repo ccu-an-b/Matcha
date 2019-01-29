@@ -258,11 +258,11 @@ function user_set_online(isOnline, username){
 }
 
 function user_set_ip(ipData, userId){
-    pool.connect(function (err, client, done) {
-        client.query('UPDATE users SET ip = $1, latitude = $2, longitude = $3 WHERE id = $4', [ipData.ip, ipData.latitude, ipData.longitude, userId], function () {
-            done();
-        });
-    })
+    const query = {
+        text:'UPDATE users SET ip = $1, latitude = $2, longitude = $3 WHERE id = $4',
+        values: [ipData.ip, ipData.latitude, ipData.longitude, userId]
+    }
+    db.set_database(query);
 }
 
 function user_set_offline(req, res){
@@ -342,7 +342,6 @@ module.exports = {
     user_new,
     user_profile_update,
     user_delete_image,
-    user_tags_update,
     user_get_profile,
     user_password_check,
     user_set_active,

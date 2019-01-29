@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS notifications
     user_id integer,
     user_from_id integer,
     type integer,
-    date timestamp without time zone NOT NULL DEFAULT now(),
+    date character varying(128) DEFAULT 0,
     read integer DEFAULT 0,
     CONSTRAINT notifications_pkey PRIMARY KEY (id)
 )
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS notifications_messages
     user_id integer,
     user_from_id integer,
     last_msg character varying(254) COLLATE pg_catalog."default",
-    date timestamp without time zone NOT NULL DEFAULT now(),
+    date  character varying(128) DEFAULT 0,
     read integer DEFAULT 0,
     CONSTRAINT notifications_messages_pkey PRIMARY KEY (id)
 )

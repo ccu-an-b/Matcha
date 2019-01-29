@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
-import { toCapitalize} from 'helpers';
+import { toCapitalize, imgPath} from 'helpers';
 import * as actions from 'actions';
 // import { isBuffer } from 'util';
 
@@ -21,7 +21,7 @@ class Header extends React.Component {
 
     getProfileImage(userData){
         if (userData.length > 1 && userData[0].profile_img)
-            return process.env.PUBLIC_URL + '/img/' +userData[0].profile_img ;
+            return imgPath(userData[0].profile_img)
         else
             return process.env.PUBLIC_URL + '/profile_default.svg';
     }

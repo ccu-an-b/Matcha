@@ -6,7 +6,6 @@ import { publicDataReducer } from './public-data-reducer';
 import { authReducer} from './auth-reducer';
 import { selectedUserReducer, activateUserReducer} from './user-reducer';
 import { getTagsReducer } from './tags-reducer';
-import { getSuggestedProfilesReducer, getOneProfileReducer } from './profiles-reducer';
 
 export const init = () => {
     const reducer = combineReducers({
@@ -16,8 +15,6 @@ export const init = () => {
         user: selectedUserReducer,
         userActivate: activateUserReducer,
         tags: getTagsReducer,
-        profilesSuggested: getSuggestedProfilesReducer,
-        oneProfile: getOneProfileReducer
     });
 
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
