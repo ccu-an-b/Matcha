@@ -2,17 +2,16 @@ import React from 'react';
 import TimeAgo from 'react-timeago';
 import { formatter, imgPath } from 'helpers';
 
-// export function ProfilePreview(props) {
 export class ProfilePreview extends React.Component {
 
     render(){
-        const userData = this.props.userData;
-        const user = this.props.user
+        const {userData , user, onClick, onKeyDown, id} = this.props;
 
         let isUser;
+
         user === userData.username ? isUser = true : isUser= false
         return (
-            <div className="profile grid-area">
+            <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id}  >
             <div className="img">
                 <img src={imgPath(userData.profile_img)} alt="profile_img"/>
                 <h3>{userData.first_name}</h3>

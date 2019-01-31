@@ -17,13 +17,33 @@ export class BwmSelectLocation extends Component {
       });
   };
 
+  onChange = (value) => {
+    this.setState({ value })
+    this.onSuccess(value)
+  }
+
+  onSuccess(value){
+      const {input: {onChange}} = this.props;
+      onChange(value);
+  }
+
   render() {
+    const { labelUp , className, placeholder } = this.props
     return (
-      <AsyncSelect
-        cacheOptions
-        defaultOptions
-        loadOptions={this.fetchOptions}
-      />
+      <div  className = {className} >
+        { labelUp &&
+          <label>
+              {labelUp}
+          </label>
+        }
+        <AsyncSelect
+          cacheOptions
+          defaultOptions
+          loadOptions={this.fetchOptions}
+          placeholder={placeholder}
+          onChange={this.onChange}
+        />
+      </div>
     );
   }
 }

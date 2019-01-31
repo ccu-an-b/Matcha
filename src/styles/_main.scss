@@ -6,7 +6,9 @@
 @import 'form/form.scss';
 @import 'modal/modal.scss';
 @import 'browse/browse.scss';
+@import 'browse/filters.scss';
 @import './animations.scss';
+@import 'profile/profile.scss';
 @import url('https://unpkg.com/leaflet@1.4.0/dist/leaflet.css');
 
 textarea:hover, 
@@ -64,6 +66,7 @@ h1,h2, h3,h4 {
 
 *{
     box-sizing: border-box;
+    // touch-action: none;
 }
 
 @media screen and (max-width: 1000px){

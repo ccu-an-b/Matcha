@@ -229,7 +229,27 @@
     }
 }
 
-
+.slider-interval{
+    width: 100%;
+    .rc-slider-track{
+        background-color: $main-dark-purple;
+    }
+    .rc-slider-handle{
+        border-color: $main-dark-purple;
+        &:hover, &:active{
+            border-color: $main-orange;
+        }
+        &:focus {
+            border-color: $main-orange;
+            -webkit-box-shadow: none;
+            box-shadow: 0 0 0 5px #F07B69 ;
+            outline: none;
+        }
+    }
+    .rc-slider-handle-click-focus{
+        border-color: $main-orange;
+    }
+}
 
 @media screen and (max-width: 320px)
 {

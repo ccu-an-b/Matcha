@@ -1,12 +1,14 @@
 import React from "react";
 import MapView from './Map';
-
+import { StyleRoot } from 'radium';
 import { connect } from "react-redux";
 import profileService from 'services/profile-service';
 //import { format } from "url";
 
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
+import { Filters } from './Filters';
+//import thunk from "redux-thunk";
 
 var Coverflow = require('react-coverflow');
 
@@ -18,6 +20,7 @@ export class Browse extends React.Component {
       showMap: true,
       oneProfile: [],
       isLoading: true,
+      isActive: 0,
 
     }
     this.profileRef = React.createRef()
@@ -38,6 +41,13 @@ export class Browse extends React.Component {
 
   switchDisplay(){
     this.setState({showMap: !this.state.showMap})
+
+    setTimeout(() => {
+      if (!this.state.showMap){
+        this.setState({isActive: 3})
+        this.setState({isActive: 0})
+      }}, 500)
+      console.log(this.props.form)
   }
 
   profileShowMore(event){
@@ -70,34 +80,44 @@ export class Browse extends React.Component {
     return profiles.data.map((profile, index) => {
         return(
              <ProfilePreview  key={index}
+                              id={index}
                               user = {this.props.user[0].username}
                               userData={profile}
-                              handleClick={this.profileShowMore} />   
-                               
+                              handleClick={this.profileShowMore} 
+                              onKeyDown={this.handleCarousal.bind(this)} 
+                              onClick={this.handleCarousal.bind(this)}
+                              />                         
         )
     });
   }
-  
+  handleCarousal(e) {
+    this.setState({
+        isActive: parseInt(e.currentTarget.id, 10)
+    });
+}
   render() {
     const userData = this.props.user
-
+    
+    console.log(this.props.form)
     if (userData.length > 1 && userData[0].complete === 1) {
       return (
         <div className="browse">
           <div className="type-display"> 
               <div className='btn button full' onClick={this.switchDisplay}>Show {this.state.showMap ? 'List' : 'Map'}</div>
           </div>
-
+          <Filters tags={this.props.tags}/>
           {this.state.showMap &&
             <div id="leaflet-map"><MapView /></div>
           }
-          {!this.state.showMap &&
+          {!this.state.showMap && 
             <div className="browse-listing"> 
+            <StyleRoot>
               <Coverflow
-                ref={this.myRef} 
                 width='100%'
                 height={600}
-                displayQuantityOfSide={this.state.profiles.data.length/2}
+                displayQuantityOfSide={Math.floor(this.state.profiles.data.length/2)}
+                // displayQuantityOfSide={}
+
                 navigation={false}
                 enableHeading={false}
                 infiniteScroll={true}
@@ -105,21 +125,26 @@ export class Browse extends React.Component {
                 otherFigureScale = {0.8}
                 otherFigureOpacity= {1}
                 currentFigureScale = {1}
+                active={this.state.isActive}
+                media={{
+                  '@media (max-width: 900px)': {
+                    width: '100%',
+                    height: '410px',
+                  },
+                  '@media (min-width: 900px)': {
+                    width:'100%',
+                    height: '600px',
+                  }
+                }}
               >
-                <div
-                  onClick={() => this.fn()}
-                  onKeyDown={() => this.fn()}
-                  role="menuitem"
-                  tabIndex="0"
-                >
-                </div>
                 {!this.state.isLoading && 
                     this.renderProfiles(this.state.profiles) 
                 }
               </Coverflow>
-              {this.state.oneProfile.length >1 &&
+            </StyleRoot>
+                {this.state.oneProfile.length >1 &&
                 <div ref={this.profileRef} className="one-profile-more">
-                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username} handleClick={this.profileLike}/>
+                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username} handleClick={this.profileLike} />
                 </div>
               }
             </div>
@@ -156,7 +181,9 @@ function mapStateToProps(state) {
   return {
     browse: state.browse,
     user: state.user.data,
-    auth: state.auth
+    auth: state.auth,
+    tags: state.tags,
+    form: state.form
   };
 }
 

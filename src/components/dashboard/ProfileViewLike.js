@@ -1,5 +1,6 @@
 import React from 'react';
 import { imgPath, toCapitalize } from 'helpers';
+import { Link } from 'react-router-dom';
 import userService from 'services/user-service';
 export class ProfileViewLike extends React.Component {
 
@@ -22,12 +23,14 @@ export class ProfileViewLike extends React.Component {
             let className;
             profile.online === 0 ? className = "one-profile" : className = "one-profile online"
             return(
-                <div className={className} key={index} id={profile.username}>
-                    <div className="img">
-                    <img src={ imgPath(profile.profile_img)} alt="profile_img"/>
-                    </div>
-                    <h4>{toCapitalize(profile.username)}</h4>
-                </div>              
+                <Link key={index} to={`/profile/${profile.username}`}>
+                    <div className={className} id={profile.username}>
+                        <div className="img">
+                        <img src={ imgPath(profile.profile_img)} alt="profile_img"/>
+                        </div>
+                        <h4>{toCapitalize(profile.username)}</h4>
+                    </div>   
+                </Link>           
             )
         });
     }

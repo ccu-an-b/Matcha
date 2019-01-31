@@ -105,7 +105,7 @@ let ProfileForm = props => {
             type="text"
             labelUp="Location"
             placeholder="The Moon"
-            className="form-control"
+            className="my-select no-border location"
             component={BwmSelectLocation}
             validate={[required]}
             data-parse="lowercase"

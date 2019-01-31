@@ -14,5 +14,5 @@ export const imgPath = (img) => {
     if (img.includes("http"))
         return img;
     else    
-        return process.env.PUBLIC_URL+'img/'+img;
+        return process.env.PUBLIC_URL+'/img/'+img;
 }

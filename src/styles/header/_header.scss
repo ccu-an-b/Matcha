@@ -96,7 +96,7 @@ header {
     padding: 0;
     box-sizing: border-box;
     overflow:hidden;
-    .profile {
+    .profile-tab {
       height:65px;
       display: flex;
       align-items:center;
@@ -212,7 +212,7 @@ header {
       overflow: initial;
       position: fixed;
       top: -30px;
-      .profile {
+      .profile-tab {
         margin:auto;
         justify-content:center;
         img {

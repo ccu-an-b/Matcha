@@ -42,7 +42,7 @@ class Header extends React.Component {
                     </button>
                     <nav className="navbar navbar-expand-lg navbar-light my-nav">
                         <div className="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
-                            <div className="profile">
+                            <div className="profile-tab">
                                 <img src={this.getProfileImage(userData)} alt="profile_img"/>
                                 <Link className="navbar-brand " to="/dashboard"> {toCapitalize(username)}</Link>
                             </div>

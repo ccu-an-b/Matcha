@@ -16,10 +16,10 @@ export class BwmSelect extends React.Component {
 
     onChange = (value) => {
         this.setState({ value })
-        this.onSucces(value)
+        this.onSuccess(value)
     }
 
-    onSucces(value){
+    onSuccess(value){
         const {input: {onChange}} = this.props;
         onChange(value);
     }

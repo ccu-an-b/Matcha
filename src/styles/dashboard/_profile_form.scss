@@ -169,14 +169,16 @@
             }
         }
     }
+    .my-select{
+        *{
+            max-height: 220px !important;
+        }
+    }
 }
 
 //SELECT TAGS
 .my-select{
     width:200px;
-    *{
-        max-height: 220px !important;
-    }
 
     .css-vj8t7z{
         border-radius:0.25rem;
@@ -267,6 +269,53 @@
         font-size: 16px !important;
         margin-top: 5px;
     }
+    .css-xwjg1b
+    {
+        padding: 5px 10px;
+        background-color: #363B6D;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 0.25rem;
+        color: white;
+        font-family: "Abel";
+        position:relative;
+        .css-12jo7m5{
+            color:white;
+        }
+        .css-1alnv5e{
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            content: "x";
+            background-color: #E83114;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            opacity: 0;
+            font-family: raleway;
+            font-size: 16px;
+            -webkit-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+            cursor: pointer;
+            &:hover{
+                color:white;
+            }
+        }
+    }
+    .css-xwjg1b:hover .css-1alnv5e{
+        opacity: 1;
+    }
+}
+
+.profile-form .perso-information .my-select.no-border.location{
+    width:200px;
 }
 
 .dashboard .grid-container .edit-profile.edit{

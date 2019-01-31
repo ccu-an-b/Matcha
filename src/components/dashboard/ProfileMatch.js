@@ -1,5 +1,6 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
+import { Link } from 'react-router-dom';
 import { imgPath, toCapitalize, formatter } from 'helpers';
 import userService from 'services/user-service';
 export class ProfileMatch extends React.Component {
@@ -21,15 +22,17 @@ export class ProfileMatch extends React.Component {
     renderProfiles(profiles){
         return profiles.map((profile, index) => {
             return(
-                <div className="one-match" key={index} id={profile.username}>
-                    <div className="one-match-content">
-                    <img src={ imgPath(profile.profile_img)} alt="profile_img"/>
-                    <div className="match-info">
-                    <h4>{toCapitalize(profile.username)}, {profile.age} </h4>
-                        <h5 >Matched <TimeAgo date={parseInt(profile.date, 10)} formatter={formatter} /> </h5>
+                <Link to={`/profile/${profile.username}`} key={index}>
+                    <div className="one-match" id={profile.username}>
+                        <div className="one-match-content">
+                        <img src={ imgPath(profile.profile_img)} alt="profile_img"/>
+                        <div className="match-info">
+                        <h4>{toCapitalize(profile.username)}, {profile.age} </h4>
+                            <h5 >Matched <TimeAgo date={parseInt(profile.date, 10)} formatter={formatter} /> </h5>
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
+                </Link>
             )
         });
     }
