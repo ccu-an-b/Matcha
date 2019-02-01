@@ -20,7 +20,8 @@ function user_select(key, value) {
 function user_select_all_public_data() {
 
     const query = {
-        text:`SELECT username, latitude, longitude FROM users`,
+        text:`SELECT id, username, latitude_ip, longitude_ip FROM users
+        JOIN geoloc ON geoloc.user_id = users.id`,
     }
     return db.get_database(query)
 }
@@ -35,6 +36,9 @@ function user_new_tables(user_id){
         values: [user_id]
     },{
         text:`INSERT INTO scores (user_id) VALUES($1)`,
+        values: [user_id]
+    },{
+        text:`INSERT INTO geoloc (user_id) VALUES($1)`,
         values: [user_id]
     },{
         text:`INSERT INTO profiles (user_id) VALUES($1)`,
@@ -259,7 +263,7 @@ function user_set_online(isOnline, username){
 
 function user_set_ip(ipData, userId){
     const query = {
-        text:'UPDATE users SET ip = $1, latitude = $2, longitude = $3 WHERE id = $4',
+        text:'UPDATE geoloc SET ip = $1, latitude_ip = $2, longitude_ip = $3 WHERE user_id = $4',
         values: [ipData.ip, ipData.latitude, ipData.longitude, userId]
     }
     db.set_database(query);
@@ -280,9 +284,10 @@ function user_get_profile(req, res){
     let userData = [];
 
     const query ={
-        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude, longitude,location, gender, bio, orientation, profile_img ,total from users 
+        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude_ip, longitude_ip, location, gender, bio, orientation, profile_img ,total from users 
         JOIN profiles ON profiles.user_id = users.id 
-		JOIN scores ON scores.user_id = users.id
+        JOIN scores ON scores.user_id = users.id
+        JOIN geoloc ON geoloc.user_id = users.id
         WHERE username = $1`,
         values: [username]
     }

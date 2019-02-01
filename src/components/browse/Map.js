@@ -13,9 +13,10 @@ export  class MapView extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
 	  const { user, publicData } = this.props;
-	  if (user && user[0].latitude && user[0].longitude) {
-		  this.setState({ center: [user[0].latitude, user[0].longitude]});
+	  if (user && user[0].latitude_ip && user[0].longitude_ip) {
+		  this.setState({ center: [user[0].latitude_ip, user[0].longitude_ip]});
 	  }
 	  if (publicData && publicData.data.length > 0) {
 		  this.setState({ publicUserData: publicData.data });
@@ -24,9 +25,9 @@ export  class MapView extends Component {
 
   createMarkers(publicData) {
 	 return publicData.map((user, index) => {
-		 if (user.latitude && user.longitude) {
+		 if (user.latitude_ip && user.longitude_ip) {
 			return (
-			<Marker key={index} position={[user.latitude, user.longitude]}>
+			<Marker key={index} position={[user.latitude_ip, user.longitude_ip]}>
 				<Popup>{user.username}</Popup>
 			</Marker>);
 		 } else { return null; }

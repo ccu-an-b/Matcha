@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS scores; \
 DROP TABLE IF EXISTS tags;\
 DROP TABLE IF EXISTS images;\
 DROP TABLE IF EXISTS messages;\
+DROP TABLE IF EXISTS geoloc;\
 DROP TABLE IF EXISTS notifications;\
 DROP TABLE IF EXISTS notifications_messages;\
 DROP SEQUENCE IF EXISTS users_id_seq; \

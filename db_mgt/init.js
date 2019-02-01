@@ -19,9 +19,6 @@ last_name character varying(128) COLLATE pg_catalog."default",
 mail character varying(128) COLLATE pg_catalog."default", 
 password character varying(128) COLLATE pg_catalog."default", 
 key character varying(128) COLLATE pg_catalog."default", 
-ip character varying(128) COLLATE pg_catalog."default", 
-latitude character varying(128) COLLATE pg_catalog."default", 
-longitude character varying(128) COLLATE pg_catalog."default", 
 active integer DEFAULT 0, 
 online integer DEFAULT 0, 
 complete integer DEFAULT 0, 
@@ -63,6 +60,23 @@ CREATE TABLE IF NOT EXISTS scores
     nb_report integer DEFAULT 0, 
     total integer DEFAULT 0, 
     CONSTRAINT "Scores_pkey" PRIMARY KEY (user_id) 
+) 
+WITH ( 
+    OIDS = FALSE 
+)
+TABLESPACE pg_default; 
+CREATE TABLE IF NOT EXISTS geoloc 
+( 
+    user_id integer NOT NULL, 
+    ip character varying(128) COLLATE pg_catalog."default", 
+    latitude_ip character varying(128) COLLATE pg_catalog."default", 
+    longitude_ip character varying(128) COLLATE pg_catalog."default",
+    latitude_user character varying(128) COLLATE pg_catalog."default", 
+    longitude_user character varying(128) COLLATE pg_catalog."default",
+    display_adress_user text COLLATE pg_catalog."default",
+    city_user character varying(128) COLLATE pg_catalog."default",
+    country_user character varying(128) COLLATE pg_catalog."default",
+    CONSTRAINT "Geoloc_pkey" PRIMARY KEY (user_id) 
 ) 
 WITH ( 
     OIDS = FALSE 
