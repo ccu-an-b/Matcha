@@ -1517,15 +1517,6 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around; }
-    .browse .browse-listing .coverflow__container__1P-xE {
-      background-color: #fafafa;
-      padding-right: 100px; }
-    .browse .browse-listing .coverflow__coverflow__53z9A {
-      background-color: #fafafa; }
-    .browse .browse-listing .coverflow__figure__3bk_C {
-      box-shadow: none; }
-    .browse .browse-listing .coverflow__stage__14oqC {
-      perspective: 900px; }
   .browse #leaflet-map {
     margin-top: 20px; }
     .browse #leaflet-map .leaflet-container {
@@ -1640,10 +1631,25 @@ header {
     .one-profile-more .edit-profile .edit-interest p {
       min-height: 25px; }
 
+.slider-container {
+  margin-top: 20px; }
+  .slider-container .slick-slider {
+    visibility: hidden; }
+  .slider-container .slick-initialized {
+    visibility: visible; }
+  .slider-container .slick-list {
+    overflow: initial;
+    height: 600px; }
+    .slider-container .slick-list .slick-slide {
+      transform: perspective(1000px) rotateY(-40deg) scale(0.9);
+      transition: transform 600ms ease; }
+    .slider-container .slick-list .slick-slide.slick-active {
+      transform: scale(1); }
+    .slider-container .slick-list .slick-track {
+      height: 600px;
+      display: flex; }
+
 @media screen and (max-width: 900px) {
-  .browse .browse-listing .coverflow__container__1P-xE {
-    max-width: 900px;
-    touch-action: pan-x; }
   .profile {
     width: 250px;
     height: 400px; }
@@ -1784,6 +1790,15 @@ header {
 
 .filters-container.active {
   background-color: rgba(75, 78, 109, 0.05); }
+
+@media screen and (max-width: 700px) {
+  .filters-container .col {
+    flex-basis: 45%; }
+  .filters-container .filters {
+    flex-wrap: wrap; }
+    .filters-container .filters h2 {
+      flex-basis: 45%;
+      margin-bottom: 10px; } }
 
 @keyframes fadein {
   from {

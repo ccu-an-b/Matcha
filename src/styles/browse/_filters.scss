@@ -107,3 +107,17 @@
 }
 
 
+@media screen and (max-width: 700px){
+  .filters-container{
+    .col{
+      flex-basis: 45%;
+    }
+    .filters {
+      flex-wrap: wrap;
+      h2 {
+        flex-basis:45%;
+        margin-bottom:10px;
+      }
+    }
+  }
+}

@@ -16,3 +16,7 @@ export const imgPath = (img) => {
     else    
         return process.env.PUBLIC_URL+'/img/'+img;
 }
+
+export const intersect =(a, b) => {
+    return [...new Set(a)].filter(x => new Set(b).has(x));
+}

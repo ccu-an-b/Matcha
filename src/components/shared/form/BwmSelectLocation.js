@@ -37,6 +37,7 @@ export class BwmSelectLocation extends Component {
           </label>
         }
         <AsyncSelect
+          isClearable
           cacheOptions
           defaultOptions
           loadOptions={this.fetchOptions}

@@ -2,6 +2,10 @@ import React from 'react';
 import Select from 'react-select';
 
 export class BwmMultiSelect extends React.Component {
+    constructor() {
+        super();
+        this.onChange = this.onChange.bind(this);
+    }
     onChange = (value) => {
         this.setState({ value })
         this.onSuccess(value)
@@ -14,14 +18,17 @@ export class BwmMultiSelect extends React.Component {
     
     render(){
         const {className, options} = this.props
+    
        return(
         <div  className = {className} >
-            <Select
-                closeMenuOnSelect={false}
-                isMulti
-                options={options}
-                onChange={this.onChange}
-            />
+        {options.length &&
+             <Select
+             closeMenuOnSelect={false}
+             isMulti
+             options={options}
+             onChange={this.onChange}
+         />
+        }
         </div>
         )
     }

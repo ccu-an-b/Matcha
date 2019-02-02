@@ -25,19 +25,6 @@
         flex-wrap: wrap;
         justify-content: space-around;
 
-        .coverflow__container__1P-xE{
-            background-color: $body-color;
-            padding-right: 100px;
-        }
-        .coverflow__coverflow__53z9A{
-            background-color: $body-color;
-        }
-        .coverflow__figure__3bk_C{
-            box-shadow: none;
-        }
-        .coverflow__stage__14oqC{
-            perspective:900px
-        }
     }
     #leaflet-map{
         margin-top:20px;
@@ -182,15 +169,34 @@
         }
     }
 }
-@media screen and (max-width: 900px){
-    .browse {
-        .browse-listing {
-            .coverflow__container__1P-xE{
-                max-width: 900px;
-                touch-action: pan-x;
-            }
+
+.slider-container{
+    margin-top:20px;
+    .slick-slider{
+        visibility: hidden;
+    }
+    .slick-initialized { 
+        visibility: visible; 
+    }
+    .slick-list{
+        overflow: initial;
+        height: 600px;
+        .slick-slide{
+            transform: perspective(1000px) rotateY(-40deg) scale(0.9);
+            transition: transform 600ms ease;
+        }
+        .slick-slide.slick-active{
+            transform:scale(1);
+        }
+        .slick-track{
+            height: 600px;
+            display: flex;
         }
     }
+}
+
+@media screen and (max-width: 900px){
+   
     .profile{
         width: 250px;
         height: 400px;
@@ -273,17 +279,6 @@
                 justify-content: center;
             }
 
-        }
-    }
-}
-
-@media screen and (max-width: 350px){
-
-    .browse {
-        .browse-listing {
-            .coverflow__container__1P-xE{
-                // max-width: 350px;
-            }
         }
     }
 }

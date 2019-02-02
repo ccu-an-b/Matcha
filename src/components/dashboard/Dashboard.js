@@ -46,7 +46,6 @@ export class Dashboard extends React.Component {
         const userData = this.props.user
         const optionTags = this.props.tags
         
-        console.log(this.props.form)
         if (this.state.redirect) {
             return <Redirect to={{pathname:'/'}}/>
         }

@@ -1,6 +1,5 @@
 import React from "react";
 import MapView from './Map';
-import { StyleRoot } from 'radium';
 import { connect } from "react-redux";
 import profileService from 'services/profile-service';
 //import { format } from "url";
@@ -8,9 +7,8 @@ import profileService from 'services/profile-service';
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { Filters } from './Filters';
+import { MySlider } from './Sliders';
 //import thunk from "redux-thunk";
-
-var Coverflow = require('react-coverflow');
 
 export class Browse extends React.Component {
 
@@ -20,8 +18,6 @@ export class Browse extends React.Component {
       showMap: true,
       oneProfile: [],
       isLoading: true,
-      isActive: 0,
-
     }
     this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
@@ -30,24 +26,30 @@ export class Browse extends React.Component {
   }
 
   componentWillMount(){
-    this.updateSuggestedProfiles()
+    profileService.getSuggestedProfiles().then((profiles) => {
+      this.setState({profiles , profilesFilter: profiles.data, isLoading: false})
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {form} = this.props
+
+    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles )) {
+      const profilesFilter = this.filterProfiles(form)
+
+      if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
+        this.setState({profilesFilter})
+    }
   }
 
   updateSuggestedProfiles(){
     profileService.getSuggestedProfiles().then((profiles) => {
-      this.setState({profiles, isLoading: false})
+      this.setState({profiles})
     })
   }
 
   switchDisplay(){
     this.setState({showMap: !this.state.showMap})
-
-    setTimeout(() => {
-      if (!this.state.showMap){
-        this.setState({isActive: 3})
-        this.setState({isActive: 0})
-      }}, 500)
-      console.log(this.props.form)
   }
 
   profileShowMore(event){
@@ -76,75 +78,57 @@ export class Browse extends React.Component {
         })
     }
   }
+
   renderProfiles(profiles) {
-    return profiles.data.map((profile, index) => {
+    return profiles.map((profile, index) => {
         return(
              <ProfilePreview  key={index}
                               id={index}
                               user = {this.props.user[0].username}
                               userData={profile}
                               handleClick={this.profileShowMore} 
-                              onKeyDown={this.handleCarousal.bind(this)} 
-                              onClick={this.handleCarousal.bind(this)}
                               />                         
         )
     });
   }
-  handleCarousal(e) {
-    this.setState({
-        isActive: parseInt(e.currentTarget.id, 10)
-    });
-}
+
+  filterProfiles(form){
+    if (form.filtersForm && form.filtersForm.values){
+      const filters = form.filtersForm.values;
+      let filtered = this.state.profiles.data;
+
+      if (filters.age){
+        filtered = filtered.filter(obj => obj.age >= filters.age[0] && obj.age <= filters.age[1])
+      }
+      if (filters.score){
+        filtered = filtered.filter(obj => obj.total >= filters.score[0] && obj.total <= filters.score[1])
+      }
+      return filtered
+    }
+  }
+ 
   render() {
-    const userData = this.props.user
-    
-    console.log(this.props.form)
-    if (userData.length > 1 && userData[0].complete === 1) {
+    const {user, tags} = this.props
+    const {isLoading, oneProfile, showMap, profilesFilter} = this.state
+  
+    if (user.length > 1 && user[0].complete === 1 && !isLoading) {
       return (
         <div className="browse">
           <div className="type-display"> 
-              <div className='btn button full' onClick={this.switchDisplay}>Show {this.state.showMap ? 'List' : 'Map'}</div>
+              <div className='btn button full' onClick={this.switchDisplay}>Show {showMap ? 'List' : 'Map'}</div>
           </div>
-          <Filters tags={this.props.tags}/>
-          {this.state.showMap &&
+          <Filters tags={tags}/>
+
+          {showMap &&
             <div id="leaflet-map"><MapView /></div>
           }
-          {!this.state.showMap && 
-            <div className="browse-listing"> 
-            <StyleRoot>
-              <Coverflow
-                width='100%'
-                height={600}
-                displayQuantityOfSide={Math.floor(this.state.profiles.data.length/2)}
-                // displayQuantityOfSide={}
 
-                navigation={false}
-                enableHeading={false}
-                infiniteScroll={true}
-                background-color="transparent"
-                otherFigureScale = {0.8}
-                otherFigureOpacity= {1}
-                currentFigureScale = {1}
-                active={this.state.isActive}
-                media={{
-                  '@media (max-width: 900px)': {
-                    width: '100%',
-                    height: '410px',
-                  },
-                  '@media (min-width: 900px)': {
-                    width:'100%',
-                    height: '600px',
-                  }
-                }}
-              >
-                {!this.state.isLoading && 
-                    this.renderProfiles(this.state.profiles) 
-                }
-              </Coverflow>
-            </StyleRoot>
-                {this.state.oneProfile.length >1 &&
+          {!showMap && 
+            <div className="browse-listing"> 
+                <MySlider profiles={this.renderProfiles(profilesFilter) } />
+              {oneProfile.length >1 &&
                 <div ref={this.profileRef} className="one-profile-more">
-                  <ProfileInfo userData= {this.state.oneProfile }  user = {this.props.user[0].username} handleClick={this.profileLike} />
+                  <ProfileInfo userData={oneProfile }  user={user[0].username} handleClick={this.profileLike} />
                 </div>
               }
             </div>
@@ -152,7 +136,7 @@ export class Browse extends React.Component {
         </div>
       )
     } 
-    else if (userData.length > 1 && userData[0].complete === 0) {
+    else if (user.length > 1 && user[0].complete === 0 && !isLoading) {
       return (
         <div className="profile-not-completed">
           <div className="header">
