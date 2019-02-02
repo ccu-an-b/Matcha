@@ -5,12 +5,28 @@ const db = require('./db'),
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
         const query = {
-                text: 'SELECT first_name, last_name , username, online, connexion,age, location, profile_img, total from users JOIN profiles ON profiles.user_id = users.id  JOIN scores ON scores.user_id = users.id  WHERE users.complete = 1 AND id != $1',
+                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, location, profile_img, total, latitude_ip, longitude_ip from users 
+                JOIN profiles ON profiles.user_id = users.id  
+                JOIN scores ON scores.user_id = users.id  
+                JOIN geoloc ON geoloc.user_id = users.id
+                WHERE users.complete = 1 AND id != $1`,
                 values: [userId],
         };
 
         return db.get_database(query)
-                .then((response) => { return res.json(response) })
+                .then((response) => { 
+                        let promises = response.map((profile) =>{
+                                return UserMod.user_get_tags(profile.id)
+                                        .then((res) => {
+                                                 profile.tags = res;
+                                                return profile;  
+                                        })
+                                
+                         })
+                        Promise.all(promises).then(function(results) {
+                                return res.json(results)
+                        })
+                })
                 .catch((e) => console.log(e));
 }
 function update_match(userFromId, profileId, value) {

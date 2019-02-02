@@ -348,10 +348,12 @@ module.exports = {
     user_profile_update,
     user_delete_image,
     user_get_profile,
+    user_get_tags,
     user_password_check,
     user_set_active,
     user_set_online,
     user_set_ip,
     user_set_offline,
     user_select_all_public_data,
+
 }

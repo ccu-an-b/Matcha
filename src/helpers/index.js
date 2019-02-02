@@ -20,3 +20,16 @@ export const imgPath = (img) => {
 export const intersect =(a, b) => {
     return [...new Set(a)].filter(x => new Set(b).has(x));
 }
+
+export const contains = (a, b) => {
+    const res = intersect(a,b);
+
+    if (res.length === b.length)
+        return true
+    else
+        return false
+}
+
+export const getValues = (array) => {
+    return array.map((row) => row.value)
+}

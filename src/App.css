@@ -1634,7 +1634,8 @@ header {
 .slider-container {
   margin-top: 20px; }
   .slider-container .slick-slider {
-    visibility: hidden; }
+    visibility: hidden;
+    touch-action: pan-x; }
   .slider-container .slick-initialized {
     visibility: visible; }
   .slider-container .slick-list {

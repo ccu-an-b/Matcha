@@ -3,7 +3,7 @@ import MapView from './Map';
 import { connect } from "react-redux";
 import profileService from 'services/profile-service';
 //import { format } from "url";
-
+import {contains, getValues} from 'helpers'
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { Filters } from './Filters';
@@ -18,6 +18,7 @@ export class Browse extends React.Component {
       showMap: true,
       oneProfile: [],
       isLoading: true,
+      filtered: false,
     }
     this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
@@ -34,11 +35,16 @@ export class Browse extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const {form} = this.props
 
-    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles )) {
+    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles )) 
+    {
       const profilesFilter = this.filterProfiles(form)
 
       if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
-        this.setState({profilesFilter})
+        this.setState({profilesFilter, filtered:true})
+    }
+    else if (form.filtersForm && !form.filtersForm.values &&  prevState.filtered)
+    {
+      this.setState({profilesFilter: this.state.profiles.data, filtered: false})
     }
   }
 
@@ -103,14 +109,16 @@ export class Browse extends React.Component {
       if (filters.score){
         filtered = filtered.filter(obj => obj.total >= filters.score[0] && obj.total <= filters.score[1])
       }
+      if(filters.tags){
+        filtered = filtered.filter(obj => contains(obj.tags, getValues(filters.tags)));
+      }
       return filtered
     }
   }
- 
   render() {
     const {user, tags} = this.props
     const {isLoading, oneProfile, showMap, profilesFilter} = this.state
-  
+
     if (user.length > 1 && user[0].complete === 1 && !isLoading) {
       return (
         <div className="browse">
