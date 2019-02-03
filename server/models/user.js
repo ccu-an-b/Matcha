@@ -20,8 +20,9 @@ function user_select(key, value) {
 function user_select_all_public_data() {
 
     const query = {
-        text: `SELECT id, username, latitude_ip, longitude_ip, latitude_user, longitude_user FROM users
-        JOIN geoloc ON geoloc.user_id = users.id`,
+        text: `SELECT id, username, latitude_ip, longitude_ip, latitude_user, longitude_user, profile_img FROM users
+        JOIN geoloc ON geoloc.user_id = users.id
+        JOIN profiles ON profiles.user_id = users.id`,
     }
     return db.get_database(query)
 }

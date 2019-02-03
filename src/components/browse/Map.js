@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { imgPath } from 'helpers';
 
 const defaultLocation = [48.896755, 2.318565];
 const defaultZoom = 13;
@@ -31,20 +32,36 @@ export class MapView extends Component {
     </Marker>);
   }
 
+  popupContent = (user) => {
+    return (
+      <div >
+        <img style={{
+          borderRadius: '50%',
+          height: '40px',
+          width: '40px'
+        }} src={imgPath(user.profile_img)} alt="profile_img" />
+        <span style={{
+          margin: '4px'
+        }}>{user.username}</span>
+      </div>
+    );
+  }
+
   createMarkersList(publicData) {
     return publicData.map((user, index) => {
       if (user.latitude_user && user.longitude_user) {
         const position = [user.latitude_user, user.longitude_user];
-        return this.createMarker(position, index, user.username);
+        return this.createMarker(position, index, this.popupContent(user));
       } else if (user.latitude_ip && user.longitude_ip) {
         const position = [user.latitude_ip, user.longitude_ip];
-        return this.createMarker(position, index, user.username);
+        return this.createMarker(position, index, this.popupContent(user));
       } else { return null; }
     })
   }
 
   render() {
     const { publicUserData } = this.state;
+    console.log(publicUserData);
     return (
       <div>
         <Map center={this.state.center} zoom={this.state.zoom}>
