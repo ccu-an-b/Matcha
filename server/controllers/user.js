@@ -14,7 +14,6 @@ const errorMessages = {
     "wrongPassword": [{ title: 'Wrong identification', detail: 'Wrong password' }],
     "notAuthorized": [{ title: 'Not authorized', detail: 'You need to log in' }],
     "linkInvalid": [{title: 'Invalid Link', detail: 'Oops it seems like this link is no longer valid...'}]
-
 }
 
 exports.activate = function (req, res) {

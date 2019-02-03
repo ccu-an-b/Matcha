@@ -5,17 +5,16 @@ const axiosInstance = axiosService.getInstance();
 
 class ProfileService {
 
-    getSuggestedProfiles(){
+    getSuggestedProfiles() {
         return axiosInstance.post(`profiles`)
     }
-
-    getOneProfile(username){
+    getOneProfile(username) {
         return axios.get(`/api/v1/user/profile/${username.toLowerCase()}`)
     }
-    setProfileView(username){
+    setProfileView(username) {
         return axiosInstance.get(`profiles/view/${username.toLowerCase()}`)
     }
-    setProfileLike(username){
+    setProfileLike(username) {
         return axiosInstance.get(`profiles/like/${username.toLowerCase()}`)
     }
 }

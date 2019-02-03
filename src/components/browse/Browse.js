@@ -134,7 +134,7 @@ export class Browse extends React.Component {
           {!showMap && 
             <div className="browse-listing"> 
                 <MySlider profiles={this.renderProfiles(profilesFilter) } />
-              {oneProfile.length >1 &&
+              {oneProfile.length > 1 &&
                 <div ref={this.profileRef} className="one-profile-more">
                   <ProfileInfo userData={oneProfile }  user={user[0].username} handleClick={this.profileLike} />
                 </div>

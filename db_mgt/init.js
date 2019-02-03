@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS profiles
 ( 
     user_id integer NOT NULL, 
     age integer, 
-    location character varying(128) COLLATE pg_catalog."default", 
     bio character varying(128) COLLATE pg_catalog."default", 
     gender integer, 
     orientation integer DEFAULT 0, 
@@ -71,6 +70,8 @@ CREATE TABLE IF NOT EXISTS geoloc
     ip character varying(128) COLLATE pg_catalog."default", 
     latitude_ip character varying(128) COLLATE pg_catalog."default", 
     longitude_ip character varying(128) COLLATE pg_catalog."default",
+    city_ip character varying(128) COLLATE pg_catalog."default",
+    country_ip character varying(128) COLLATE pg_catalog."default",
     latitude_user character varying(128) COLLATE pg_catalog."default", 
     longitude_user character varying(128) COLLATE pg_catalog."default",
     display_adress_user text COLLATE pg_catalog."default",

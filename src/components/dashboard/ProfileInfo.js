@@ -4,22 +4,20 @@ import { formatter, imgPath } from 'helpers';
 
 export class ProfileInfo extends React.Component {
 
-    genderValue(value){
-        var optionsGender = ['Man' , 'Woman'];
+    genderValue(value) {
+        var optionsGender = ['Man', 'Woman'];
         return optionsGender[value];
     }
-    orientationValue(value){
-        var optionsGender = ['Women and Men' ,'Men', 'Woman'];
+    orientationValue(value) {
+        var optionsGender = ['Women and Men', 'Men', 'Woman'];
         return optionsGender[value];
     }
 
-    tagsDisplay(tags){
-
-        let div = [ ];
-
-        for ( var i = 0 ; i < tags.length ; i++){
+    tagsDisplay(tags) {
+        let div = [];
+        for (var i = 0; i < tags.length; i++) {
             div.push(
-                <div  key={i} className="tags">
+                <div key={i} className="tags">
                     #{tags[i]}
                 </div>
             )
@@ -27,59 +25,67 @@ export class ProfileInfo extends React.Component {
         return div;
     }
 
-    imagesDisplay(images){
-
-        let div= [];
-
-        for ( var i = 0 ; i < images.length ; i++){
+    imagesDisplay(images) {
+        let div = [];
+        for (var i = 0; i < images.length; i++) {
             div.push(
-                <div  key={i} className="picture">
-                    <img src={imgPath(images[i].path)} alt="profile_img"/>
+                <div key={i} className="picture">
+                    <img src={imgPath(images[i].path)} alt="profile_img" />
                 </div>
             )
         }
         return div;
     }
 
-    getProperTitle(){
-        const { userData, user } =this.props
+    getUserLocation(userData) {
+        if (userData.city_user && userData.country_user) {
+            return `${userData.city_user}, ${userData.country_user}`;
+        } else if (userData.city_ip && userData.country_ip) {
+            return `${userData.city_ip}, ${userData.country_ip}`;
+        } else {
+            return "Unknown";
+        }
+    }
+
+    getProperTitle() {
+        const { userData, user } = this.props
         let isUser;
         let titles;
-        user === userData[0].username ? isUser = true : isUser= false
+        user === userData[0].username ? isUser = true : isUser = false
 
         if (isUser)
-            titles = [  "What are you looking for ?","Your interests"]
-        else{
+            titles = ["What are you looking for ?", "Your interests"]
+        else {
             if (userData[0].gender === 0)
-                titles = [  "What is he looking for ?","His interests"]
-            else   
-            titles = [  "What is she looking for ?","Her interests"]
+                titles = ["What is he looking for ?", "His interests"]
+            else
+                titles = ["What is she looking for ?", "Her interests"]
         }
         return titles
 
     }
 
-    render (){
-        const { userData, handleClick, user } =this.props
-        const titles =this.getProperTitle();
+    render() {
+        const { userData, handleClick, user } = this.props;
+        const titles = this.getProperTitle();
         let isUser;
 
-        user === userData[0].username ? isUser = true : isUser= false
+        user === userData[0].username ? isUser = true : isUser = false
 
-        return(
+        return (
             <div className="edit-profile grid-area">
-                {isUser && 
-                <div className="header">
-                    <h1>Edit your profile
+                {isUser &&
+                    <div className="header">
+                        <h1>Edit your profile
                         <i className="fas fa-pen" onClick={handleClick}></i>
-                    </h1>
-                </div>
+                        </h1>
+                    </div>
                 }
                 <div className="profile-picture">
-                    <img src={imgPath(userData[0].profile_img)} alt="profile_img"/>
+                    <img src={imgPath(userData[0].profile_img)} alt="profile_img" />
                     {!isUser &&
                         <div className="profile-picture-div">
-                            <h5 className={userData[0].online === 1 ? 'online' : '' }>{userData[0].online === 1 ? 'Online' :<TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} /> }</h5> 
+                            <h5 className={userData[0].online === 1 ? 'online' : ''}>{userData[0].online === 1 ? 'Online' : <TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} />}</h5>
                             <div className="profile-actions">
                                 <i className="fas fa-ban"></i>
                                 <i className="fas fa-flag"></i>
@@ -88,7 +94,7 @@ export class ProfileInfo extends React.Component {
                     }
 
                 </div>
-                <h1>{userData[0].first_name} {userData[0].last_name}  
+                <h1>{userData[0].first_name} {userData[0].last_name}
                     {!isUser && <div onClick={this.props.handleClick} className="button" id={userData[0].username}><i id={userData[0].username} className="fas fa-heart"></i></div>}
                 </h1>
                 {!isUser && <h1 className="profile-score">{userData[0].total}</h1>}
@@ -105,7 +111,7 @@ export class ProfileInfo extends React.Component {
                         </div>
                         <div className="data-details">
                             <h5>Location</h5>
-                            <h4>{userData[0].location}</h4>
+                            <h4>{this.getUserLocation(userData[0])}</h4>
                         </div>
                     </div>
                 </div>

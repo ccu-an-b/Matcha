@@ -12,7 +12,8 @@ pool.query(
   INSERT INTO geoloc (user_id) VALUES(5);
   INSERT INTO profiles (user_id) VALUES(5);
   INSERT INTO tags (user_id) VALUES(5);
-  ALTER TABLE tags ADD COLUMN romantique INTEGER default 0;`,
+  ALTER TABLE tags ADD COLUMN romantique INTEGER default 0;
+  ALTER TABLE tags ADD COLUMN randonnées INTEGER default 0;`,
   (err, res) => {
     console.log(err, res);
     pool.end();

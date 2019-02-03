@@ -5,7 +5,7 @@ const db = require('./db'),
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
         const query = {
-                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, location, profile_img, total, latitude_ip, longitude_ip from users 
+                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user from users 
                 JOIN profiles ON profiles.user_id = users.id  
                 JOIN scores ON scores.user_id = users.id  
                 JOIN geoloc ON geoloc.user_id = users.id
