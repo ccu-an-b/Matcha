@@ -75,7 +75,7 @@
 
 .one-profile-more{
     width: 650px;
-    
+    margin:auto;
     .edit-profile{
         height: auto;
         overflow: hidden;
@@ -84,7 +84,6 @@
         width: 100%;
         box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
         border-radius: 0.25rem;
-
         h5{
             bottom: 0;
             right: 20px;
@@ -99,9 +98,28 @@
             display: flex;
             align-items: center;
         }
+        .profile-interaction{
+            display: flex;
+            align-items: center
+        }
         h1.profile-score{
             margin-top: -10px;
             opacity: 0.5;
+        }
+        h1.profile-score.like, h1.profile-score.match{
+            background-color: $main-dark-purple;
+            color: white;
+            padding: 0px 10px;
+            border-radius: 0.25rem;
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 1;
+            font-size: 13px;
+            height: 35px;
+        }
+        h1.profile-score.match{
+            background-color: $main-orange
         }
         .button{
             height: 50px;
@@ -123,8 +141,8 @@
             transition: all .4s;
             margin-left: 20px;
             i {
-                margin-left: 2px;
-                margin-top: 3px;
+                margin-left: 1px;
+                margin-top: 1px;
       
             }
             &:hover{
@@ -134,6 +152,18 @@
             &:hover i {
                 color:$main-orange;
                 
+            }
+        }
+        .button.liked{
+            background-color: white;
+            font-size: 38px;
+            color:$main-orange;
+            &:hover{
+                color:$main-dark-purple;
+                opacity: 0.5;
+            }
+            &:hover i {
+                color:$main-dark-purple;
             }
         }
         .profile-picture{
@@ -279,7 +309,35 @@
             .edit-picture{
                 justify-content: center;
             }
+            .profile-interaction{
+                flex-direction: column;
+            }
+            h1.profile-score
+            {
+                margin-top:10px;
+            }
+            h1.profile-score.like, h1.profile-score.match{
+                height: auto;
+                min-height: 35px;
+            }
+        }
+    }
+}
 
+@media screen and (max-width: 350px){
+    .profile{
+        width: 220px;
+        height: 360px;
+        .img{
+            img{
+                height: 360px;
+            }
+            &:before{
+                top:260px;
+            }
+            &:after{
+                top:290px;
+            }
         }
     }
 }

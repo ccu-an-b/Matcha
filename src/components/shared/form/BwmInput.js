@@ -24,7 +24,7 @@ export const BwmInput = ({
                     {labelUp}
                 </label>
             }
-                <input {...input} placeholder={placeholder} type={type} className={className} />
+                <input {...input} placeholder={placeholder} type={type} className={className} autoComplete={placeholder}/>
                 <span className='focus-input'></span>
             {
                 label &&

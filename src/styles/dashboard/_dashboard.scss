@@ -56,214 +56,7 @@
       .last-like { 
         grid-area: last-like; 
       }
-  
-      .edit-profile { 
-        grid-area: edit-profile;
-        height:800px;
-        padding-bottom:20px;
-        h3 {
-            font-size:20px;
-            color:$main-dark-purple;
-            display: flex;
-           i {
-              font-size:18px;
-              margin-left:10px;
-              cursor:pointer;
-              transition: all .2s;
-              &:hover{
-                color:$main-orange;
-                transform: scale(1.1);
-              }
-            }
-        }
-        h1 {
-          margin-top:100px;
-          color: $main-dark-purple;
-          margin-left:20px;   
-        }
-         .header {
-            color:white;
-            position:relative;
-            margin-bottom:20px;
-            width:60%;
-            min-width: 400px;
-            h1{
-              color:white;
-              text-align:center;
-              font-size:19px;
-              padding:20px 10px;
-              font-weight:100;
-              letter-spacing:0.5px;
-              z-index:3;
-              position:absolute;
-              width:50%;
-              margin-top: 0;
-              i {
-                 cursor:pointer;
-                 font-size:17px; 
-                 margin-left: 10px;
-                 transition: all .2s;
-                 &:hover{
-                  transform: scale(1.3);
-                  color: #E83114 !important;
-                 }
-              }
-            }
-            &:after{
-              z-index: 2;
-              background-color:$main-dark-purple;
-              width: 110%;
-              transform: rotate(-20deg) skewX(0deg);
-              opacity: 1;
-              content: "";
-              position: absolute;
-              top: -150px;
-              left: -30px;
-              height: 200px;
-              border-radius: 100px 283px 383px 319px / 132px 1px 24px 117px;
-            }
-        }
-        .profile-picture{
-          border-radius:50%;
-          margin-right:20px;
-          height:150px;
-          width:150px;
-          float:right;
-          cursor:default;
-          position:relative;
-          overflow:hidden;
-          background-color:$main-dark-purple-03;
-          img {
-            width:100%;
-            height:100%;
-            border-radius:50%;
-            object-fit:cover;
-          }
-          // &:after{
-          //     z-index: 2;
-          //     background-color:$main-dark-purple;
-          //     width: 100%;
-          //     opacity: 0.8;
-          //     content: "";
-          //     position: absolute;
-          //     bottom: 0px;
-          //     height: 50px;
-          //     color: white;
-          //     content:"Edit";
-          //     display:flex;
-          //     align-items:center;
-          //     justify-content:center;
-          //     transition:all .4s;
-          //     font-size:18px;
-          //     letter-spacing:1px;
-          // }
-          // &:hover:after{
-          //   opacity:1;
-          //   height:100%;
-          // }
-        }
-        .edit-interest{
-          width:auto;
-          clear:both;
-          margin:20px;
-          color:#615F5E;
-          p {
-            min-height: 35px;
-            word-wrap: break-word;
-          }
-          p.p-small{
-            height:24px;
-          }
-          .display-tags {
-            display:flex;
-            flex-wrap: wrap;
-            .tags{
-              padding: 5px 10px;
-              background-color: #363B6D;
-              margin-right: 10px;
-              margin-bottom: 10px;
-              border-radius: 0.25rem;
-              color: white;
-              font-family: "Abel";
-              cursor:default;
-            }
-          }
-        }
-        .edit-infos{
-          margin: 20px;
-          width:100%;
-          .profile-data{
-            width:400px;
-            display:flex;
-           .data-details{
-              display:flex;
-              flex-direction:column;
-              align-items:center;
-              margin-right:55px;
-              h5{
-                position:initial;
-              }
-              h4{
-                font-size:20px;
-                color: $main-dark-purple;
-                font-weight:normal;
-              }
-            }
-          }
-        }
-        .edit-picture{
-          display:flex;
-          width: 100%;
-          padding-right:10px;
-          clear:both;
-          flex-wrap:wrap;
-          div{
-            height:150px;
-            width:150px;
-            margin-left:10px;
-            margin-top:10px;
-            border-radius:0.25rem;
-            overflow:hidden;
-            cursor:default;
-            position:relative;
-            img {
-              width:100%;
-              height:100%;
-              object-fit:cover;
-              z-index:-1;
-            }
-          }
-          //div.picture{
-            // &:hover:after{
-            //   position:absolute;
-            //   width:100%;
-            //   background-color:rgba(75,78,109,0.8);
-            //   bottom: 0px;
-            //   color: white;
-            //   display: flex;
-            //   align-items: center;
-            //   justify-content: center;
-            //   transition: all .4s;
-            //   font-size: 18px;
-            //   letter-spacing: 1px;
-            //   content:"Delete";
-            //   height: 100%;
-            // }
-         // }
-         div.picture-add{
-           background-color:rgba(75,78,109,0.3);
-           display:flex;
-           align-items:center;
-           justify-content:center;
-           color: white;
-           font-size:30px;
-           &:hover{
-              background-color:$main-dark-purple;
-           }
-         }
-        }
-      }
-  
+
       .matchs { 
         grid-area: matchs;
         height: max-content;
@@ -642,6 +435,7 @@
       h4{
         color: $main-dark-purple;
         font-weight:normal;
+        text-align: center;
       }
     }
   }
@@ -663,7 +457,6 @@
 
 .edit-profile { 
   grid-area: edit-profile;
-  height:800px;
   padding-bottom:20px;
   h3 {
       font-size:20px;
@@ -743,28 +536,6 @@
       border-radius:50%;
       object-fit:cover;
     }
-    // &:after{
-    //     z-index: 2;
-    //     background-color:$main-dark-purple;
-    //     width: 100%;
-    //     opacity: 0.8;
-    //     content: "";
-    //     position: absolute;
-    //     bottom: 0px;
-    //     height: 50px;
-    //     color: white;
-    //     content:"Edit";
-    //     display:flex;
-    //     align-items:center;
-    //     justify-content:center;
-    //     transition:all .4s;
-    //     font-size:18px;
-    //     letter-spacing:1px;
-    // }
-    // &:hover:after{
-    //   opacity:1;
-    //   height:100%;
-    // }
   }
   .edit-interest{
     width:auto;
@@ -837,23 +608,6 @@
         z-index:-1;
       }
     }
-    //div.picture{
-      // &:hover:after{
-      //   position:absolute;
-      //   width:100%;
-      //   background-color:rgba(75,78,109,0.8);
-      //   bottom: 0px;
-      //   color: white;
-      //   display: flex;
-      //   align-items: center;
-      //   justify-content: center;
-      //   transition: all .4s;
-      //   font-size: 18px;
-      //   letter-spacing: 1px;
-      //   content:"Delete";
-      //   height: 100%;
-      // }
-   // }
    div.picture-add{
      background-color:rgba(75,78,109,0.3);
      display:flex;
@@ -893,11 +647,8 @@
         margin: 70px 10px 20px 10px; 
       }
       
-      .profile .profile-data  {
-        margin-top:0;
-        .data-details {
-          margin-left:20%;
-        }
+      .profile {
+        display: none;
       }
     }
   }

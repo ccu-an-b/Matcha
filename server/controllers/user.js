@@ -53,7 +53,7 @@ exports.auth = function (req, res) {
                     return res.json(jwt.sign({
                         userId: userId,
                         username: result[0].username
-                    }, config.SECRET, { expiresIn: '1h' }));
+                    }, config.SECRET, { expiresIn: '3h' }));
             })
             .catch(() => {
                 return res.status(422).send({ errors: errorMessages.wrongPassword });

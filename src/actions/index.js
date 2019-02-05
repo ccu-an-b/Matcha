@@ -203,7 +203,7 @@ export const fetchUserProfile = (username) => {
   return function(dispatch) {
     dispatch(fetchUserProfileInit());
     
-      axios.get(`/api/v1/user/profile/${username.toLowerCase()}`)
+      axiosInstance.get(`user/profile/${username.toLowerCase()}`)
         .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
         .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
   }

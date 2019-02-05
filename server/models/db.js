@@ -5,15 +5,13 @@ const   pool = new pg.Pool(config.db);
 
 function get_database(query){
     return pool.query(query)
-            .then(result => {
-                    return  result.rows;
-            })
+            .then(result => result.rows)
             .catch(e => console.error(e.stack))
 }
 
 function set_database(query){
     return pool.query(query)
-            .catch(e => console.error(e.stack))
+        .catch(e => console.error(e.stack))
 }
 
 module.exports = {

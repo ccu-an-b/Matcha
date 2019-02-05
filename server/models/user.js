@@ -283,11 +283,13 @@ function user_set_offline(req, res) {
 
 //GET USER PROFILE
 function user_get_profile(req, res) {
+    const userId = res.locals.user.userId
     const username = req.params.username;
     let userData = [];
 
     const query = {
-        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, gender, bio, orientation, profile_img, total from users 
+        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, gender, bio, orientation, profile_img, total,"${userId}" as match  from users 
+        JOIN matchs ON matchs.user_id =users.id
         JOIN profiles ON profiles.user_id = users.id 
         JOIN scores ON scores.user_id = users.id
         JOIN geoloc ON geoloc.user_id = users.id
@@ -297,16 +299,29 @@ function user_get_profile(req, res) {
     return db.get_database(query)
         .then((result) => {
             userData.push(result[0])
+            // console.log(userId)
             return user_get_tags(userData[0].id)
         })
-        .then((result) => {
+        .then ((result) => {
             userData.push(result)
+            return user_get_match(userId, userData[0].id)
+        })
+        .then((result) => {
+            userData[0].mymatch = result[0].mymatch
             return user_get_images(userData[0].id)
         })
         .then((result) => {
             userData.push(result)
             return res.json(userData)
         })
+}
+
+function user_get_match(userId, profileId) {
+    const query = {
+        text: `SELECT "${profileId}" as mymatch FROM matchs WHERE user_id = $1`,
+        values: [userId]
+    }
+    return db.get_database(query)
 }
 
 function user_get_tags(userId) {

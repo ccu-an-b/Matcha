@@ -32,8 +32,22 @@ function send_notification(user, userfrom ,type){
     }
     db.set_database(query)
 }
+
+function delete_all_notification(user, userfrom){
+    const query = [{
+        text: `DELETE FROM notifications WHERE user_id = $1 AND user_from_id = $2`,
+        values: [user, userfrom]
+    },{
+        text: `DELETE FROM notifications WHERE user_id = $1 AND user_from_id = $2` ,
+        values: [userfrom, user]
+    }]
+    for (var i = 0; i < query.length; i++)
+        db.set_database(query[i]);
+}
+
 module.exports = {
     get_type_notifications,
     delete_notification,
-    send_notification
+    send_notification,
+    delete_all_notification
 }

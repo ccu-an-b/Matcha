@@ -57,9 +57,9 @@ export class ProfileInfo extends React.Component {
             titles = ["What are you looking for ?", "Your interests"]
         else {
             if (userData[0].gender === 0)
-                titles = ["What is he looking for ?", "His interests"]
+                titles = ["What is he looking for ?", "His interests", "He liked your profile", "It's a match !"]
             else
-                titles = ["What is she looking for ?", "Her interests"]
+                titles = ["What is she looking for ?", "Her interests", "she liked your profile", "It's a match !"]
         }
         return titles
 
@@ -69,7 +69,6 @@ export class ProfileInfo extends React.Component {
         const { userData, handleClick, user } = this.props;
         const titles = this.getProperTitle();
         let isUser;
-
         user === userData[0].username ? isUser = true : isUser = false
 
         return (
@@ -87,17 +86,24 @@ export class ProfileInfo extends React.Component {
                         <div className="profile-picture-div">
                             <h5 className={userData[0].online === 1 ? 'online' : ''}>{userData[0].online === 1 ? 'Online' : <TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} />}</h5>
                             <div className="profile-actions">
-                                <i className="fas fa-ban"></i>
+                                <i className="fas fa-ban" onClick={this.props.handleBlock} id={userData[0].username}></i>
                                 <i className="fas fa-flag"></i>
                             </div>
                         </div>
                     }
 
                 </div>
-                <h1>{userData[0].first_name} {userData[0].last_name}
-                    {!isUser && <div onClick={this.props.handleClick} className="button" id={userData[0].username}><i id={userData[0].username} className="fas fa-heart"></i></div>}
+                <h1>{userData[0].first_name}&nbsp;{userData[0].last_name}
+                    {!isUser && <div onClick={this.props.handleClick} className={userData[0].mymatch > 1 ? "button liked" :"button"} id={userData[0].username}><i id={userData[0].username} className="fas fa-heart"></i></div>}
                 </h1>
-                {!isUser && <h1 className="profile-score">{userData[0].total}</h1>}
+                {!isUser &&
+                <div className="profile-interaction">
+                    <h1 className="profile-score">{userData[0].total}</h1>
+                    { userData[0].match > 1  &&
+                        <h1 className={ userData[0].match === 2 ? "profile-score like" : "profile-score match" }>{titles[userData[0].match]}</h1>
+                    }
+                </div>
+                }
                 <div className="edit-infos">
                     <h3>Personal information</h3>
                     <div className="profile-data">

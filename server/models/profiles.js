@@ -5,11 +5,13 @@ const db = require('./db'),
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
         const query = {
-                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user from users 
+                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user , "${userId}" as match from users 
+                JOIN matchs ON matchs.user_id =users.id AND "${userId}" >= 0
                 JOIN profiles ON profiles.user_id = users.id  
                 JOIN scores ON scores.user_id = users.id  
                 JOIN geoloc ON geoloc.user_id = users.id
-                WHERE users.complete = 1 AND id != $1`,
+                WHERE users.complete = 1 AND users.id != $1
+                GROUP BY users.id, profiles.age,profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, "${userId}"`,
                 values: [userId],
         };
 
@@ -113,6 +115,8 @@ function set_profile_view(req, res) {
         const userId = res.locals.user.userId;
         const username = req.params.username;
 
+        if (username === res.locals.user.username)
+                return res.status(200).send({ success: [{ title: "It's your profile", detail: '' }] });
         return UserMod.user_select('username', username)
                 .then((result) => {
 
@@ -134,8 +138,44 @@ function set_profile_view(req, res) {
                 })
 }
 
+function set_profile_block(req, res) {
+        const userId = res.locals.user.userId;
+        const username = req.params.username;
+
+        return UserMod.user_select('username', username)
+                .then((result) => {
+                        update_match(userId, result[0].id, -11)
+                        update_match(result[0].id, userId, -1)
+                        update_score(result[0].id, '-', 10)
+                        NotifMod.delete_all_notification(userId,result[0].id)
+                        return res.status(200).send({ success: [{ title: 'Profile viewed', detail: '' }] });
+                })
+}
+
+function get_user_info(req, res){
+        const userId = res.locals.user.userId;
+        const username = req.params.username;
+
+        return UserMod.user_select('username', username)
+        .then((result) => {
+                const query ={
+                        text:`SELECT COALESCE(
+                        (SELECT count(*) FROM notifications WHERE  notifications.user_id =  $1 AND type= 1  AND user_from_id= $2 
+                        GROUP BY notifications.user_from_id), 0) as seen, "${userId}" as type
+                        FROM matchs WHERE matchs.user_id = $2  ;`,
+                        values:[userId, result[0].id]
+                }
+                return db.get_database(query)
+        })
+        .then((result) => {
+                return res.json(result)
+        })
+}
+
 module.exports = {
         get_suggested_profiles,
         set_profile_view,
-        set_profile_like
+        set_profile_like,
+        set_profile_block,
+        get_user_info
 }

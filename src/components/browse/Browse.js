@@ -1,6 +1,7 @@
 import React from "react";
 import MapView from './Map';
 import { connect } from "react-redux";
+import { Link, Redirect } from 'react-router-dom';
 import profileService from 'services/profile-service';
 //import { format } from "url";
 import {contains, getValues} from 'helpers'
@@ -19,11 +20,14 @@ export class Browse extends React.Component {
       oneProfile: [],
       isLoading: true,
       filtered: false,
+      isUpdating: false,
+      redirect: false
     }
     this.profileRef = React.createRef()
     this.switchDisplay = this.switchDisplay.bind(this);
     this.profileShowMore = this.profileShowMore.bind(this);
     this.profileLike = this.profileLike.bind(this);
+    this.profileBlock = this.profileBlock.bind(this);
   }
 
   componentWillMount(){
@@ -35,22 +39,22 @@ export class Browse extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const {form} = this.props
 
-    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles )) 
+    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles || this.state.isUpdating )) 
     {
       const profilesFilter = this.filterProfiles(form)
 
       if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
-        this.setState({profilesFilter, filtered:true})
+        this.setState({profilesFilter, filtered:true, isUpdating: false})
     }
-    else if (form.filtersForm && !form.filtersForm.values &&  prevState.filtered)
+    else if ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| this.state.isUpdating )
     {
-      this.setState({profilesFilter: this.state.profiles.data, filtered: false})
+      this.setState({profilesFilter: this.state.profiles.data, filtered: false,  isUpdating: false})
     }
   }
 
   updateSuggestedProfiles(){
     profileService.getSuggestedProfiles().then((profiles) => {
-      this.setState({profiles})
+      this.setState({profiles, isUpdating: true})
     })
   }
 
@@ -59,12 +63,12 @@ export class Browse extends React.Component {
   }
 
   profileShowMore(event){
-    if (event.target.className === 'fas fa-plus' || event.target.className === 'button' )
+    if (event.target.className === 'fas fa-plus' || event.target.className === 'button' || event.target.className === 'show-more' )
     {
       const username = event.target.id;
       return profileService.setProfileView(username)
-        .then (() => {this.updateSuggestedProfiles()})
-        .then(() => { return profileService.getOneProfile(username)})
+        .then (() => this.updateSuggestedProfiles())
+        .then(() =>  profileService.getOneProfile(username))
         .then((oneProfile) => {
           this.setState({oneProfile: oneProfile.data})
           this.profileRef.current.scrollIntoView({behavior: 'smooth'})
@@ -77,8 +81,8 @@ export class Browse extends React.Component {
     {
       const username = event.target.id;
       return profileService.setProfileLike(username)
-        .then (() => {this.updateSuggestedProfiles()})
-        .then(() => { return profileService.getOneProfile(username)})
+        .then(() => this.updateSuggestedProfiles())
+        .then(() => profileService.getOneProfile(username) )
         .then((oneProfile) => {
           this.setState({oneProfile: oneProfile.data})
         })
@@ -88,14 +92,23 @@ export class Browse extends React.Component {
   renderProfiles(profiles) {
     return profiles.map((profile, index) => {
         return(
-             <ProfilePreview  key={index}
+          <ProfilePreview  key={index}
                               id={index}
                               user = {this.props.user[0].username}
                               userData={profile}
                               handleClick={this.profileShowMore} 
-                              />                         
+                            />                         
         )
     });
+  }
+
+  profileBlock(event){
+    if (event.target.className === 'fas fa-ban')
+    {
+      const username = event.target.id;
+      return profileService.setProfileBlock(username)
+        .then (() => this.setState({redirect: true}))
+    }
   }
 
   filterProfiles(form){
@@ -119,6 +132,9 @@ export class Browse extends React.Component {
     const {user, tags} = this.props
     const {isLoading, oneProfile, showMap, profilesFilter} = this.state
 
+    if (this.state.redirect) {
+      return <Redirect to={{pathname:'/'}}/>
+    }
     if (user.length > 1 && user[0].complete === 1 && !isLoading) {
       return (
         <div className="browse">
@@ -128,19 +144,17 @@ export class Browse extends React.Component {
           <Filters tags={tags}/>
 
           {showMap &&
-            <div id="leaflet-map"><MapView /></div>
+            <div id="leaflet-map" className="my-map"><MapView publicUserData={profilesFilter} showMore={this.profileShowMore} /></div>
           }
 
           {!showMap && 
             <div className="browse-listing"> 
                 <MySlider profiles={this.renderProfiles(profilesFilter) } />
-              {oneProfile.length > 1 &&
-                <div ref={this.profileRef} className="one-profile-more">
-                  <ProfileInfo userData={oneProfile }  user={user[0].username} handleClick={this.profileLike} />
-                </div>
-              }
             </div>
           }
+            <div ref={this.profileRef} className="one-profile-more">
+             {oneProfile.length > 1 &&  <ProfileInfo userData={oneProfile}  user={user[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock}/>}
+            </div>
         </div>
       )
     } 
@@ -154,9 +168,8 @@ export class Browse extends React.Component {
           
             Before you start looking for new matchs you have to complete your
             profile information.
-            <br /> <a href="/dashboard">Complete your profile</a>
+            <br /> <Link to="/dashboard">Complete your profile</Link>
           </p>
-          <div id="leaflet-map"><MapView /></div>
         </div>
       );
     }
