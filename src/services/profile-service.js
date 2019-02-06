@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import axiosService from './axios-service';
 
 const axiosInstance = axiosService.getInstance();
@@ -22,6 +22,9 @@ class ProfileService {
     }
     setProfileBlock(username) {
         return axiosInstance.get(`profiles/block/${username.toLowerCase()}`)
+    }
+    setProfileReport(username) {
+        return axios.get(`/api/v1/profiles/report/${username.toLowerCase()}`)
     }
 }
 

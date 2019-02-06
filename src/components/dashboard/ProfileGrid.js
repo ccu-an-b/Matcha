@@ -12,7 +12,6 @@ export class ProfileGrid extends React.Component {
            showEdit: false,
            isLoading: true
         }
-        this.showEdit = this.showEdit.bind(this);
         this.editRef = React.createRef()
     }
 
@@ -20,7 +19,7 @@ export class ProfileGrid extends React.Component {
             this.setState({isLoading:false})
     }
 
-    showEdit(){
+    showEdit = () =>{
         if (!this.state.showEdit)
             this.editRef.current.scrollIntoView({behavior: 'smooth'})
         this.setState({showEdit: !this.state.showEdit})

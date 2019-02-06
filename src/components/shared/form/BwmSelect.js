@@ -8,7 +8,6 @@ export class BwmSelect extends React.Component {
         this.state = {
           value: "",
         }
-        this.onChange = this.onChange.bind(this);
     }
     componentDidMount(){
         this.initializeValue()

@@ -8,7 +8,6 @@ export class BwmSelectCreatable extends React.Component {
         this.state = {
           value: [],
         }
-        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount(){

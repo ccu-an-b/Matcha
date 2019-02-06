@@ -2,25 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link , Redirect} from 'react-router-dom';
 import profileService from 'services/profile-service';
-import TimeAgo from 'react-timeago';
-import { imgPath, formatter } from 'helpers';
 
 import { ProfileInfo } from '../dashboard/ProfileInfo';
-
+import { ProfileActions } from './ProfileActions';
 
 export class Profile extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      profile: [],
       isLoading: true,
-      username: "",
       notFound: false,
       redirect: false
     }
-    this.profileLike = this.profileLike.bind(this);
-    this.profileBlock = this.profileBlock.bind(this);
   }
 
   componentWillMount(){
@@ -45,22 +39,25 @@ export class Profile extends React.Component {
 
   }
 
-  profileLike(event){
-    if (event.target.className === 'fas fa-heart' || event.target.className === 'button' )
-    {
-      const username = event.target.id;
-      return profileService.setProfileLike(username)
-        .then (() => this.updateProfile(username))
-    }
+  profileLike = () => {
+      return profileService.setProfileLike(this.state.username)
+        .then (() => this.updateProfile(this.state.username))
   }
-  profileBlock(event){
-    if (event.target.className === 'fas fa-ban')
-    {
-      // const username = event.target.id;
+  profileBlock = () => {
       return profileService.setProfileBlock(this.state.username)
-        .then (() => this.setState({redirect: true}))
-    }
+        .then (() => {
+            this.setState({redirect: true})
+            this.props.addNotification(this.state.profile, 'flag', 'You blocked ')
+        })
   }
+  profileReport = () =>{
+      // const username = event.target.id;
+      return profileService.setProfileReport(this.state.username)
+        .then (() => {
+          this.props.addNotification(this.state.profile, 'flag', 'You reported ')
+        })
+    }
+  
 
   render() {
     const userData = this.props.user
@@ -86,45 +83,12 @@ export class Profile extends React.Component {
     {
         return(
             <div className="profile-page">
-                    <div className="profile-left">
-                      <img src={imgPath(profile[0].profile_img)} alt="profile-img"/>
-                      <div className="profile-picture-div">
-                      <h5 className={profile[0].online === 1 ? 'online' : ''}>{profile[0].online === 1 ? 'Online' : <TimeAgo date={parseInt(profile[0].connexion, 10)} formatter={formatter} />}</h5>
-                       {userData[0].username !== profile[0].username &&
-                        <div className="profile-actions">
-                          <i className="fas fa-ban" onClick={this.profileBlock}></i>
-                          <i className="fas fa-flag"></i>
-                        </div>
-                       }
-                      </div>
-                      {userInfo&& userInfo[0].type > 1 &&
-                        <div className={userInfo[0].type === 3 ? "profile-user-info match" : "profile-user-info like" }>
-                         {userInfo[0].type === 2 &&
-                             <h2>Liked your profile</h2>
-                         }
-                         {userInfo[0].type === 3 &&
-                             <h2>It's a match !</h2>
-                         }
-                        </div>
-                      }
-                      {userInfo&& userData[0].username !== profile[0].username &&
-                        <div className="profile-user-info">
-                         {parseInt(userInfo[0].seen,10) > 0 &&
-                             <h2>Checked your profile <span>{userInfo[0].seen}</span> times</h2>
-                         }
-                         {parseInt(userInfo[0].seen,10) <= 0 &&
-                             <h2>Haven't check your profile yet</h2>
-                         }
-                        </div>
-                      }
-                    </div>
-
-                    <div className="one-profile-more">
-                        <ProfileInfo userData={profile} user={userData[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock}/> 
-                    </div>
+              <ProfileActions profile={profile} userInfo={userInfo} userData={userData} profileBlock={this.profileBlock} profileReport={this.profileReport}/> 
+              <div className="one-profile-more">
+                  <ProfileInfo userData={profile} user={userData[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock}/> 
+              </div>
             </div>
         )
-
     }
     else {
         return (

@@ -1,5 +1,6 @@
 const db = require('./db'),
-        UserMod = require('./user'),
+        UserMod = require('./user'), 
+        Mail = require('./mail'),
         NotifMod = require('./notifications');
 
 function get_suggested_profiles(req, res) {
@@ -152,6 +153,20 @@ function set_profile_block(req, res) {
                 })
 }
 
+function set_profile_report(req, res){
+        const username =req.params.username
+
+        return UserMod.user_select("username", username)
+        .then((result) =>{
+                Mail.report_mail(username, result[0].mail, result[0].key)
+                const query = {
+                        text:`UPDATE users SET active = 0 WHERE id= $1`,
+                        values:[result[0].id]
+                }
+                db.set_database(query);
+                return res.status(200).send({ success: [{ title: 'The user has been report', detail: '' }] });
+        })
+}
 function get_user_info(req, res){
         const userId = res.locals.user.userId;
         const username = req.params.username;
@@ -177,5 +192,6 @@ module.exports = {
         set_profile_view,
         set_profile_like,
         set_profile_block,
-        get_user_info
+        get_user_info,
+        set_profile_report
 }

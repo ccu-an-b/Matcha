@@ -17,7 +17,6 @@ export class BwmImageUpload extends React.Component {
             selectedFiles: [],
             deletedFiles:[],
         }
-        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount(){
@@ -33,7 +32,7 @@ export class BwmImageUpload extends React.Component {
         });
     }
 
-    onChange(event) {
+    onChange = event => {
     
         const selectedFile = event.target.files[0];
         if (selectedFile){

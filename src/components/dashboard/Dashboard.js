@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from 'actions'; 
 import authService from 'services/auth-service';
-import { Redirect } from 'react-router-dom';
 import { ProfileGrid } from './ProfileGrid';
 import ProfileForm from './ProfileForm';
 
@@ -11,24 +10,25 @@ export class Dashboard extends React.Component {
         super(props)
         this.state ={
             errors:[],
-            redirect: false,
         }
-        this.completeProfile = this.completeProfile.bind(this);
     }
 
     componentDidMount(){
+       this.updateProps()
+    }
+
+    updateProps(){
         this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
         this.props.dispatch(actions.fetchTags())
     }
-
-    completeProfile(profileData){
+    completeProfile = profileData =>{
         if (profileData.image)
         {
             actions.uploadImage(profileData.image.slice()).then(
                 (uploadedImage) => {
                     profileData.image = uploadedImage;
                     actions.completeProfile(profileData).then(
-                        () => this.setState({redirect: true}),
+                        () => this.updateProps(),
                         (errors) => this.setState({errors})
                     )}
                 )
@@ -36,7 +36,7 @@ export class Dashboard extends React.Component {
         else
         {
             actions.completeProfile(profileData).then(
-                () => {this.setState({redirect: true})},
+                () =>  this.updateProps(),
                 (errors) => this.setState({errors})
             )
         }
@@ -45,12 +45,8 @@ export class Dashboard extends React.Component {
     render(){
         const userData = this.props.user
         const optionTags = this.props.tags
-        
-        if (this.state.redirect) {
-            return <Redirect to={{pathname:'/'}}/>
-        }
 
-        else if(userData.length > 1 && userData[0].complete === 1)
+        if(userData.length > 1 && userData[0].complete === 1)
         {
             return (
                 <div className="dashboard">

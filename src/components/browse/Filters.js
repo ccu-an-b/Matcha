@@ -10,13 +10,12 @@ export class Filters extends React.Component {
             showFilter: false,
             isClear: true
         }
-        this.showFilters = this.showFilters.bind(this);
     }
 
     componentDidMount(){
         this.setState({isClear: false})
     }
-    showFilters(){
+    showFilters = () => {
         if (this.state.showFilter){
             this.setState({isClear: true})
         }

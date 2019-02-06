@@ -14,7 +14,6 @@ export class Activation extends React.Component {
             errors:[],
             success: [],   
         }
-        this.logInUser = this.logInUser.bind(this);
     }
     componentWillMount(){
         const activationKey = this.props.match.params.key;
@@ -22,7 +21,7 @@ export class Activation extends React.Component {
             this.props.dispatch(actions.fetchUserByKey(activationKey));
     }
     
-    logInUser(userData){
+    logInUser = userData =>{
         this.props.dispatch(actions.login(userData));
     }
 

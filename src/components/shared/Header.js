@@ -7,13 +7,8 @@ import * as actions from 'actions';
 // import { isBuffer } from 'util';
 
 class Header extends React.Component {
-    constructor() {
-        super ();
 
-        this.handleLogout = this.handleLogout.bind(this)
-    }
-
-    handleLogout() {
+    handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();
         this.props.history.push('/');

@@ -18,6 +18,25 @@ function activation_mail(username, email, key){
     send_mail(email, subject,body);
 }
 
+function report_mail(username, email, key){
+
+    var link = "http://localhost:3000/activation/"+key;
+    var subject = "Matcha: you've been report";
+    var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
+                    '<tr><td align="center" valign="top">' +
+                        '<table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateContainerMiddle" style="margin-bottom:30px"> <tbody>'+
+                            '<tr><td valign="top" class="bodyContent" mc:edit="body_content" style="color:#3f3c3b; text-align:center">'+
+                                '<h3 style="color:#3f3c3b ;margin-bottom: 0px; margin-top: 20px; text-transform: capitalize;">Hi '+username+',</h3>'+
+                                '<p style="color:#3f3c3b;margin-top: 10px;margin-bottom: 30px;"><span style="color:#3f3c3b">Oops you&apos;ve been report as a fake account...</span> <br><span style="color:#3f3c3b"> Click on the link to confirm you&apos;re not a robot.</span></p>'+
+                                '<a href="'+link+'" style="background: linear-gradient(332deg, #363B6D 0%, #E83114 100%);padding: 10px 20px;color: white;border-radius: 0.25rem;letter-spacing: 1px;text-decoration: none;text-transform: uppercase;margin-top: 0p;">I am not a robot</a>' +
+                            '</td></tr>'+
+                        '</tbody> </table>' + 
+                    '</td></tr>'+
+                '</tbody></table>';
+    send_mail(email, subject,body);
+}
+
+
 function send_mail(email, subject, body){
     let transporter = nodemailer.createTransport();
     var mailOptions = {
@@ -62,12 +81,13 @@ function send_mail(email, subject, body){
         if (error) {
             console.log(error);
         } else {
-            console.log('Email sent: ' + info.response);
+            console.log('Email sent');
         }
     });
 }
 
 module.exports = {
-    activation_mail
+    activation_mail,
+    report_mail
 }
 

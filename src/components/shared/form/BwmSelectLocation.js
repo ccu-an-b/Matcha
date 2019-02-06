@@ -3,6 +3,12 @@ import AsyncSelect from "react-select/lib/Async";
 const axios = require("axios");
 
 export class BwmSelectLocation extends Component {
+  constructor() {
+    super();
+    this.state = {
+      value: "",
+    }
+}
   fetchOptions = inputValue => {
     return axios
       .get(
@@ -17,6 +23,10 @@ export class BwmSelectLocation extends Component {
       });
   };
 
+  componentDidMount(){
+    this.initializeValue()
+  }
+
   onChange = (value) => {
     this.setState({ value })
     this.onSuccess(value)
@@ -26,6 +36,21 @@ export class BwmSelectLocation extends Component {
       const {input: {onChange}} = this.props;
       onChange(value);
   }
+
+  initializeValue(){
+    const {defaultValue, defaultLat } = this.props
+    if (defaultValue){
+      const address = defaultValue.split(',');
+      return this.fetchOptions(address[0]).then((res)=> {
+     
+        for(var i=0; i<res.length; i++) {
+            if(res[i].value.indexOf(defaultLat)!==-1) {
+              this.onChange(res[0])
+          }
+        }
+       })
+    }
+}
 
   render() {
     const { labelUp , className, placeholder } = this.props
@@ -43,6 +68,7 @@ export class BwmSelectLocation extends Component {
           loadOptions={this.fetchOptions}
           placeholder={placeholder}
           onChange={this.onChange}
+          value={this.state.value}
         />
       </div>
     );

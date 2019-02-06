@@ -16,18 +16,14 @@ export class Browse extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showMap: true,
       oneProfile: [],
+      showMap: true,
       isLoading: true,
       filtered: false,
       isUpdating: false,
       redirect: false
     }
     this.profileRef = React.createRef()
-    this.switchDisplay = this.switchDisplay.bind(this);
-    this.profileShowMore = this.profileShowMore.bind(this);
-    this.profileLike = this.profileLike.bind(this);
-    this.profileBlock = this.profileBlock.bind(this);
   }
 
   componentWillMount(){
@@ -58,11 +54,11 @@ export class Browse extends React.Component {
     })
   }
 
-  switchDisplay(){
+  switchDisplay = () => {
     this.setState({showMap: !this.state.showMap})
   }
 
-  profileShowMore(event){
+  profileShowMore = event => {
     if (event.target.className === 'fas fa-plus' || event.target.className === 'button' || event.target.className === 'show-more' )
     {
       const username = event.target.id;
@@ -76,7 +72,7 @@ export class Browse extends React.Component {
     }
   }
 
-  profileLike(event){
+  profileLike = event =>{
     if (event.target.className === 'fas fa-heart' || event.target.className === 'button' )
     {
       const username = event.target.id;
@@ -102,7 +98,7 @@ export class Browse extends React.Component {
     });
   }
 
-  profileBlock(event){
+  profileBlock = event =>{
     if (event.target.className === 'fas fa-ban')
     {
       const username = event.target.id;

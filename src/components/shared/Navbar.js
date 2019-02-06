@@ -14,9 +14,6 @@ class Navbar extends React.Component {
         this.state = {
             show: true,
         }
-        this.handleLogout = this.handleLogout.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.hideModal = this.hideModal.bind(this);
     }
 
     hideModal = (event) => {
@@ -29,7 +26,7 @@ class Navbar extends React.Component {
         this.setState({ show: true, });
     }
 
-    handleLogout() {
+    handleLogout = () => {
         this.props.logout();
         this.props.history.push('/');
     }

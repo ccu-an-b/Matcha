@@ -13,8 +13,6 @@ export class BwmProfileUpload extends React.Component {
             selectedFile: undefined,
             imageBase64: '',
         }
-
-        this.onChange = this.onChange.bind(this);
     }
 
     setupReader(){
@@ -24,7 +22,7 @@ export class BwmProfileUpload extends React.Component {
             this.setState({imageBase64: event.target.result});
         });
     }
-    onChange(event) {
+    onChange = event => {
     
         const selectedFile = event.target.files[0];
         if (selectedFile){

@@ -107,6 +107,9 @@ let ProfileForm = props => {
             placeholder="The Moon"
             className="my-select no-border location"
             component={BwmSelectLocation}
+            validate={[required]}
+            defaultValue={userData[0].display_adress_user}
+            defaultLat={userData[0].latitude_user}
             data-parse="lowercase"
           />
         </div>

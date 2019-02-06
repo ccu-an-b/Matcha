@@ -20,13 +20,9 @@ export class Landing extends React.Component {
             show:false,
             test:false,
         }
-        this.logInUser = this.logInUser.bind(this);
-        this.registerUser = this.registerUser.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    showModal(formType) {
+    showModal = formType => {
         if(formType === "signIn")
             this.setState({
                 show: true, 
@@ -39,7 +35,7 @@ export class Landing extends React.Component {
             })
     }
     
-    hideModal(event) {
+    hideModal = event => {
         if(event.target.id.includes('closeModal') ||event.target.nodeName === 'path' || event.target.nodeName ==='svg')
         {
             this.setState({
@@ -51,7 +47,7 @@ export class Landing extends React.Component {
         }
     }
 
-    registerUser(userData){
+    registerUser = userData => {
         actions.register(userData).then(
             () => this.setState({
                 isSignUp: false,
@@ -61,7 +57,7 @@ export class Landing extends React.Component {
         );
     }
     
-    logInUser(userData){
+    logInUser = userData => {
         this.props.dispatch(actions.login(userData));
     }
 

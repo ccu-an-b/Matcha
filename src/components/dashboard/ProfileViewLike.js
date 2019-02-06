@@ -10,7 +10,6 @@ export class ProfileViewLike extends React.Component {
             profiles: [],
             isLoading : true
         }
-        this.renderProfiles = this.renderProfiles.bind(this);
     }
     componentDidMount(){
         return userService.getNotificationsType(this.props.type).then((profiles)=>{
@@ -18,7 +17,7 @@ export class ProfileViewLike extends React.Component {
         })
         .catch((err) => {console.log(err)})
     }
-    renderProfiles(profiles){
+    renderProfiles = profiles =>{
         return profiles.map((profile, index) => {
             let className;
             profile.online === 0 ? className = "one-profile" : className = "one-profile online"

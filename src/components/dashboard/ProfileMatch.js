@@ -11,7 +11,6 @@ export class ProfileMatch extends React.Component {
             profiles: [],
             isLoading : true
         }
-        this.renderProfiles = this.renderProfiles.bind(this);
     }
     componentDidMount(){
         return userService.getNotificationsType(3).then((profiles)=>{
@@ -19,7 +18,7 @@ export class ProfileMatch extends React.Component {
         })
         .catch((err) => {console.log(err)})
     }
-    renderProfiles(profiles){
+    renderProfiles = profiles =>{
         return profiles.map((profile, index) => {
             return(
                 <Link to={`/profile/${profile.username}`} key={index}>

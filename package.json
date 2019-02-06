@@ -44,6 +44,7 @@
     "react-google-maps": "^9.4.5",
     "react-leaflet": "^2.2.0",
     "react-leaflet-marker-layer": "^0.1.4",
+    "react-notifications-component": "^1.0.1",
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.5",
@@ -54,6 +55,7 @@
     "redux-form": "^7.4.2",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",
+    "socket.io": "^2.2.0",
     "titleize": "^1.0.1"
   },
   "scripts": {

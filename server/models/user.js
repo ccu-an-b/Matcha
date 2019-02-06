@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt'),
 function user_select(key, value) {
 
     const query = {
-        text: `SELECT mail, id, username,active, first_name, last_name, complete FROM users WHERE ${key}=$1 `,
+        text: `SELECT mail, id, username,active, first_name, last_name, complete, key FROM users WHERE ${key}=$1 `,
         values: [value]
     }
     return db.get_database(query)
@@ -288,7 +288,7 @@ function user_get_profile(req, res) {
     let userData = [];
 
     const query = {
-        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, gender, bio, orientation, profile_img, total,"${userId}" as match  from users 
+        text: `SELECT id, first_name, last_name , username, complete, online, connexion, age, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, gender, bio, orientation, profile_img, total, display_adress_user,"${userId}" as match  from users 
         JOIN matchs ON matchs.user_id =users.id
         JOIN profiles ON profiles.user_id = users.id 
         JOIN scores ON scores.user_id = users.id

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import {Provider} from 'react-redux';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
-
+import "react-notifications-component/dist/theme.css";
 import { ProtectedRoute } from 'components/shared/auth/ProtectedRoute' ;
 import { LoggedInRoute } from 'components/shared/auth/LoggedInRoute' ;
+import ReactNotification from "react-notifications-component";
 
 import * as actions from 'actions';
 import authService from 'services/auth-service';
@@ -15,11 +16,16 @@ import Background from 'components/shared/Background';
 import Dashboard  from 'components/dashboard/Dashboard' ;
 import Browse from 'components/browse/Browse' ;
 import Profile  from 'components/profile/Profile' ;
-
+import Notification from 'components/shared/notifications/Notification' ;
 const store = require('./reducers').init();
 
 
 class App extends Component {
+
+  constructor(){
+    super()
+    this.notificationDOMRef = React.createRef();
+  }
 
   componentWillMount(){
     this.checkAuthState();
@@ -28,6 +34,18 @@ class App extends Component {
     }
   }
 
+  addNotification = (profile, type, message) => {
+    this.notificationDOMRef.current.addNotification({
+      message: message,
+      insert: "top",
+      container: "bottom-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 3000 },
+      dismissable: { click: true },
+      content: <Notification username="chloe" type={type} profile={profile} message={message}/>,
+    });
+  }
   checkAuthState(){
     store.dispatch(actions.checkAuthState());
   }
@@ -54,11 +72,12 @@ class App extends Component {
           <Background/>
           <div className="app-container">
             <Header logout={this.logout}/>
+            <ReactNotification ref={this.notificationDOMRef} />
               <Switch>
-                <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-                <ProtectedRoute exact path="/browse" component={Browse} />
-                <ProtectedRoute exact path="/:key" component={Landing} />
-                <ProtectedRoute exact path="/profile/:username" component={Profile} />
+                <ProtectedRoute exact path="/dashboard" component={Dashboard} addNotification={this.addNotification}/>
+                <ProtectedRoute exact path="/browse" component={Browse} addNotification={this.addNotification}/>
+                <ProtectedRoute exact path="/:key" component={Landing} addNotification={this.addNotification}/>
+                <ProtectedRoute exact path="/profile/:username" component={Profile} addNotification={this.addNotification} />
               </Switch>
             </div>
           </div>

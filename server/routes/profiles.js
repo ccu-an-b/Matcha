@@ -12,6 +12,8 @@ router.get('/view/:username', UserCtrl.authMiddleware, profilesMod.set_profile_v
 
 router.get('/block/:username', UserCtrl.authMiddleware, profilesMod.set_profile_block)
 
+router.get('/report/:username', profilesMod.set_profile_report)
+
 router.get('/user-info/:username', UserCtrl.authMiddleware, profilesMod.get_user_info)
 
 module.exports = router;

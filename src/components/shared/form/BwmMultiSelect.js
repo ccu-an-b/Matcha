@@ -2,10 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 
 export class BwmMultiSelect extends React.Component {
-    constructor() {
-        super();
-        this.onChange = this.onChange.bind(this);
-    }
+
     onChange = (value) => {
         this.setState({ value })
         this.onSuccess(value)
