@@ -1850,7 +1850,8 @@ header {
     display: none; } }
 
 .app-container .notification-item {
-  border-radius: 50px 4px 4px 50px; }
+  border-radius: 50px 4px 4px 50px;
+  box-shadow: none; }
 
 .app-container .notification-box {
   width: 100%;
@@ -1862,7 +1863,8 @@ header {
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50px 4px 4px 50px;
-  padding-left: 90px; }
+  padding-left: 90px;
+  box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2); }
   .app-container .notification-box p {
     margin: 0;
     font-size: 15px;
@@ -1891,6 +1893,130 @@ header {
   .app-container .notification-box.flag img {
     margin-bottom: 10px;
     background-color: #e83114; }
+
+.app-container .notification-box.success {
+  border-radius: 4px;
+  padding-left: 10px;
+  background-color: rgba(114, 193, 124, 0.8); }
+  .app-container .notification-box.success p {
+    text-align: center;
+    font-size: 15px;
+    color: white; }
+
+.settings-container {
+  background-color: white;
+  border-radius: 0.25rem;
+  display: flex;
+  min-height: 330px;
+  overflow: hidden;
+  box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1); }
+  .settings-container .left-column {
+    width: 30%; }
+    .settings-container .left-column ul {
+      margin: 0;
+      height: 100%;
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      padding: 0; }
+      .settings-container .left-column ul li {
+        flex: auto;
+        padding: 20px;
+        cursor: pointer;
+        color: #363B6D;
+        transition: all .2s ease-out;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: bold;
+        display: flex;
+        align-items: center; }
+        .settings-container .left-column ul li:hover {
+          background-color: #363B6D;
+          color: white; }
+        .settings-container .left-column ul li i {
+          margin-right: 10px;
+          color: #363B6D; }
+  .settings-container .settings-tab {
+    width: 70%;
+    padding: 20px;
+    border-left: 3px solid #363B6D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+    .settings-container .settings-tab form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+    .settings-container .settings-tab .input-group {
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: stretch; }
+      .settings-container .settings-tab .input-group input {
+        padding-left: 0 !important;
+        font-family: inherit;
+        line-height: 1.2;
+        color: #363B6D;
+        font-size: 20px;
+        background: transparent;
+        padding: 0 5px;
+        border: none;
+        border-bottom: 1px solid #ced4da; }
+      .settings-container .settings-tab .input-group label {
+        font-size: 15px;
+        color: #363B6D;
+        opacity: 0.5; }
+    .settings-container .settings-tab .button.full {
+      border-radius: 0.25rem;
+      margin-top: 40px; }
+    .settings-container .settings-tab h1 {
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #363B6D;
+      opacity: 0.5; }
+    .settings-container .settings-tab h2 {
+      color: #E83114;
+      font-size: 16px;
+      font-weight: normal;
+      text-align: center;
+      margin: -10px 0 40px 0; }
+    .settings-container .settings-tab img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 10px; }
+    .settings-container .settings-tab img.select {
+      padding: 3px;
+      background: #E83114; }
+    .settings-container .settings-tab .profiles {
+      margin-bottom: 20px; }
+    .settings-container .settings-tab .alert-input {
+      font-size: 13px;
+      color: #E83114; }
+
+@media screen and (max-width: 1000px) {
+  #root {
+    width: 100%; } }
+
+@media screen and (max-width: 750px) {
+  .settings-container {
+    flex-direction: column; }
+    .settings-container .left-column {
+      width: 100%; }
+      .settings-container .left-column ul li {
+        width: 100%;
+        justify-content: center; }
+    .settings-container .settings-tab {
+      width: 100%;
+      border-left: 0; } }
 
 textarea:hover,
 input:hover,

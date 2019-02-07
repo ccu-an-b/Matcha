@@ -24,21 +24,25 @@ export class Dashboard extends React.Component {
     completeProfile = profileData =>{
         if (profileData.image)
         {
-            actions.uploadImage(profileData.image.slice()).then(
-                (uploadedImage) => {
+            return actions.uploadImage(profileData.image.slice())
+                .then((uploadedImage) => {
                     profileData.image = uploadedImage;
-                    actions.completeProfile(profileData).then(
-                        () => this.updateProps(),
-                        (errors) => this.setState({errors})
-                    )}
-                )
+                    return actions.completeProfile(profileData)
+                })
+                .then(() => { 
+                    this.updateProps();
+                    this.props.addNotification(this.state.profile, 'success', 'Your profile has been updated !')
+                })
+                .catch((errors) => this.setState({errors}))
         }
         else
         {
-            actions.completeProfile(profileData).then(
-                () =>  this.updateProps(),
-                (errors) => this.setState({errors})
-            )
+            return actions.completeProfile(profileData)
+                .then(() =>  {
+                    this.updateProps()
+                    this.props.addNotification(this.state.profile, 'success', 'Your profile has been updated !')
+                })
+                .catch((errors) => this.setState({errors}))
         }
     }
 

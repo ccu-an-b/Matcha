@@ -3,6 +3,7 @@
 
     .notification-item {
        border-radius: 50px 4px 4px 50px;
+       box-shadow: none;
     }
     .notification-box{
         width: 100%;
@@ -15,6 +16,7 @@
         background-color: rgba(255,255,255,0.9);
         border-radius: 50px 4px 4px 50px;
         padding-left:90px;
+        box-shadow: 1px 3px 4px rgba(0,0,0,.2);
         p {
             margin:0;
             font-size:15px;
@@ -46,6 +48,16 @@
         img{
             margin-bottom: 10px;
             background-color: rgba(232, 49,20, 1);
+        }
+    }
+    .notification-box.success{
+        border-radius: 4px;
+        padding-left: 10px;
+        background-color: rgba(114, 193,124, 0.8);
+        p{
+            text-align: center;
+            font-size: 15px;
+            color: white;
         }
     }
 }

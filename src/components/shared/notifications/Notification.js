@@ -25,6 +25,14 @@ export default class Notification extends React.Component  {
                 </div>
             )
         }
+        if (type === 'success')
+        {
+            return(
+                <div className="notification-box success">
+                    <p>{message}</p>
+                </div>
+            )
+        }
    }
   }
 

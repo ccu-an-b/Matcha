@@ -1,6 +1,7 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
 import { formatter, imgPath } from 'helpers';
+import { Link } from 'react-router-dom';
 
 export class ProfilePreview extends React.Component {
 
@@ -29,15 +30,20 @@ export class ProfilePreview extends React.Component {
                     <h5 className={userData.online === 1 ? 'online' : ' '}>
                         {userData.online === 1 ? 'Online' : <TimeAgo date={parseInt(userData.connexion, 10)} formatter={formatter} />}
                     </h5>
-                    <div className="button" id={userData.username} onClick={this.props.handleClick}>
+                  
                         {isUser &&
-                            <i className="fas fa-sliders-h"></i>
+                            <Link to="/settings">
+                                <div className="button" id={userData.username} >
+                                    <i className="fas fa-sliders-h"></i>
+                                </div>
+                            </Link>
+                        
                         }
                         {!isUser &&
-                            // <i className="fas fa-heart"></i>
-                            <i id={userData.username} className="fas fa-plus"></i>
+                            <div className="button" id={userData.username} onClick={this.props.handleClick}>
+                                <i id={userData.username} className="fas fa-plus"></i>
+                            </div>
                         }
-                    </div>
                 </div>
                 <div className="profile-data">
                     <div className="data-details">
@@ -53,9 +59,6 @@ export class ProfilePreview extends React.Component {
                         <h4>{userData.total}</h4>
                     </div>
                 </div>
-                {/* <div className="profile-more">
-            <h5 id={userData.username} onClick={this.props.handleClick}>Show more</h5>
-            </div> */}
             </div>
         )
     }
