@@ -1,5 +1,7 @@
 const   db = require('./db'),
-        bcrypt = require('bcrypt');
+        bcrypt = require('bcrypt'),
+        ProfileMod = require('./profiles'),
+        UserMod = require ('./user');
 
 function user_get_block(req, res){
     const userId = res.locals.user.userId
@@ -51,10 +53,94 @@ function user_update_password(req, res){
             else
                 throw {error: [{title: "wrongPassword" , detail: 'Wrong password'}] }
         })
-        .then(() => res.status(200).send({ success: [{ title: 'Update', detail: 'Your password has been updated' }] }))
-        .catch((err) => res.status(422).send(err))
+        .then(() => res.status(200).send({ success: [{ title: 'Update', detail: 'Your password has been updated.' }] }))
+        .catch((err) => res.status(200).send(err))
+}
+
+function user_update_general(req, res){
+    const { username, mail } = req.body;
+    const userId = res.locals.user.userId;
+
+    const query = {
+        text:`UPDATE users SET username = $1,mail = $2 WHERE id= $3`,
+        values: [username, mail, userId]
+    }
+
+    return db.set_database(query).then(() => {
+
+        if (username !== res.locals.user.username)
+            return res.status(200).send({ redirect: [], success: [{ title: 'Update', detail: 'Your information has been updated.' }] })
+        return res.status(200).send({ success: [{ title: 'Update', detail: 'Your information has been updated.' }] })
+    })
+}
+
+function user_update_delete(req, res){
+    const {password } = req.body;
+    const userId = res.locals.user.userId;
+    
+    const query = {
+        text:`SELECT password FROM users WHERE id=$1`,
+        values: [userId]
+    }
+
+    return db.get_database(query)
+        .then((result) => {
+            if (bcrypt.compareSync(password, result[0].password)){
+                const query = [{
+                    text: 'ALTER TABLE matchs DROP COLUMN "' + userId + '"',
+                }, {
+                    text: `DELETE from matchs WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from  scores WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from geoloc WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from  profiles WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from tags WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from users WHERE id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from images WHERE user_id = $1`,
+                    values: [userId]
+                }, {
+                    text: `DELETE from notifications WHERE user_id = $1 OR user_from_id = $1`,
+                    values: [userId]
+                }]
+                for (var i = 0; i < query.length; i++)
+                    db.set_database(query[i]);
+                return true
+            }
+            else
+                throw false
+        })
+        .then(() => res.status(200).send({ success: [{ title: 'Update', detail: 'Your password has been updated.' }] }))
+        .catch(() => res.status(200).send({error: [{title: "wrongPassword" , detail: 'Wrong password'}] }))
+}
+
+function user_update_blocked(req, res){
+    const userId = res.locals.user.userId;
+    const profiles = req.body;
+    Object.values(profiles).map((profile) => {
+        return UserMod.user_select("username", profile)
+        .then((result) => {
+            ProfileMod.update_match(userId, result[0].id, 0)
+            ProfileMod.update_match(result[0].id, userId,0)
+        })
+    })
+
+    return res.status(200).send({ success: [{ title: 'Update', detail: 'You successfully unblocked '+Object.values(profiles).join()+'.' }] })
 }
 module.exports = {
     user_get_block,
-    user_update_password
+    user_update_password,
+    user_update_general,
+    user_update_delete,
+    user_update_blocked
 }

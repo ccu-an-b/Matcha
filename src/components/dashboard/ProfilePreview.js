@@ -1,6 +1,6 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
-import { formatter, imgPath } from 'helpers';
+import { formatter, imgPath ,toCapitalize} from 'helpers';
 import { Link } from 'react-router-dom';
 
 export class ProfilePreview extends React.Component {
@@ -25,7 +25,7 @@ export class ProfilePreview extends React.Component {
             <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id}  >
                 <div className="img">
                     <img src={imgPath(userData.profile_img)} alt="profile_img" />
-                    <h3>{userData.first_name}</h3>
+                    <h3>{toCapitalize(userData.username)}</h3>
 
                     <h5 className={userData.online === 1 ? 'online' : ' '}>
                         {userData.online === 1 ? 'Online' : <TimeAgo date={parseInt(userData.connexion, 10)} formatter={formatter} />}

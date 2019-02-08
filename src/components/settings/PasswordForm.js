@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm} from "redux-form";
 import { BwmInput } from "components/shared/form/BwmInput";
 import { required ,minLength8, checkNumber, checkUpper, checkLetter } from "components/shared/form/validators";
 

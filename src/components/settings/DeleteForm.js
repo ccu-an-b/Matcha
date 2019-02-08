@@ -13,14 +13,13 @@ let DeleteForm = props => {
   } = props;
 
     return (
-    //   <form onSubmit={handleSubmit(submitCb)}>
-    <form >
+    <form onSubmit={handleSubmit(submitCb)}>
         <h1>Delete your profile</h1>
         <h2>Are you sure you want to delete your profile ?<br/> All your matchs will be lost...</h2>
         <Field
-            name="old_password"
+            name="password"
             type="password"
-            label="old password"
+            label="password"
             component={BwmInput}
             validate={[required]}
             data-parse="lowercase"

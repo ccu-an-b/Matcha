@@ -15,9 +15,9 @@ let GeneralForm = props => {
   } = props;
 
     return (
-    //   <form onSubmit={handleSubmit(submitCb)}>
-    <form >
+      <form onSubmit={handleSubmit(submitCb)}>
        <h1>General account Settings</h1>
+       <h2>If you change your username you'll be logged out.</h2>
         <Field
             name="username"
             type="text"

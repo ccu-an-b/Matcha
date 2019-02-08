@@ -57,7 +57,9 @@ body.my-body {
     min-height: 100vh;
 }
 
-
+.App {
+    overflow:hidden
+}
 a {
     cursor: pointer;
 }

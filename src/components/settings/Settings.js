@@ -11,22 +11,62 @@ export default class Settings extends React.Component {
         this.state = {
           openTab: 0,
         };
-        this.switchTab = this.switchTab.bind(this)
       }
       
-    switchTab(index) {
+    switchTab = (index) => {
     this.setState({openTab: index})
+    }
+
+    handleLogout = () => {
+        this.props.logout();
+        this.props.history.push('/');
     }
 
     updatePassword = userData =>{
         return userService.updatePassword(userData)
-            .then(() => {
+            .then((res) => {
+                if (res.error)
+                    throw(res.error)
                 this.setState({openTab: 0})
-                this.props.addNotification(this.state.profile, 'success', 'Your password has been updated !')
+                this.props.addNotification(this.state.profile, 'success', res.success[0].detail)
+            })
+            .catch((err) => console.log(err[0].detail))
+    }
+
+    updateGeneral = userData =>{
+        return userService.updateGeneral(userData)
+            .then((res) => {
+                this.props.addNotification(this.state.profile, 'success', res.success[0].detail)
+                if (res.redirect){
+                    this.props.addNotification(this.state.profile, 'success', 'You can now log in with your new username')
+                    this.handleLogout()
+                }
             })
             .catch((err) => console.log(err))
     }
     
+    updateDelete = userData =>{
+        return userService.updateDelete(userData)
+            .then((res) => {
+                if (res.error)
+                    throw(res.error)
+                console.log(res)
+                this.props.addNotification(this.state.profile, 'success', 'You successfully deleted your Matcha account.')
+                this.handleLogout()
+            })
+            .catch((err) => console.log(err[0].detail))
+    }
+
+    updateBlocked = (e, userData) => {
+        e.preventDefault();
+        return userService.updateBlocked(userData)
+        .then((res) => {
+            this.setState({openTab: 0})
+            this.props.addNotification(this.state.profile, 'success', res.success[0].detail)
+        })
+        .catch((err) => console.log(err[0].detail))
+    }
+
     render() {
     const {openTab} = this.state;
     
@@ -34,32 +74,32 @@ export default class Settings extends React.Component {
         <div className="settings-container">
             <div className="left-column">
                 <ul>
-                <li onClick={this.switchTab.bind(this, 0)}>
+                <li onClick={() => this.switchTab(0)}>
                     <i className="fas fa-user"></i>General
                 </li>
-                <li onClick={this.switchTab.bind(this, 1)}>
+                <li onClick={() => this.switchTab(1)}>
                     <i className="fas fa-shield-alt"></i>Password
                     </li>
-                <li onClick={this.switchTab.bind(this, 2)}>
+                <li onClick={() => this.switchTab(2)}>
                     <i className="fas fa-ban"></i>Blocking
                 </li>
-                <li onClick={this.switchTab.bind(this, 3)}>
+                <li onClick={() => this.switchTab(3)}>
                     <i className="fas fa-minus-circle"></i>Delete profile
                 </li>
                 </ul>  
             </div>
             <div className="settings-tab">
             {openTab === 0 &&
-                <GeneralForm />
+                <GeneralForm submitCb={this.updateGeneral} />
             }
             {openTab === 1 &&
                 <PasswordForm submitCb={this.updatePassword}/>
             }
             {openTab === 2 &&
-                <BlockingForm />
+                <BlockingForm submitCb={this.updateBlocked} />
             }
             {openTab === 3 &&
-                <DeleteForm />
+                <DeleteForm submitCb={this.updateDelete}/>
             }
             </div>
         </div>

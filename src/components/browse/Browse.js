@@ -99,12 +99,21 @@ export class Browse extends React.Component {
   }
 
   profileBlock = event =>{
-    if (event.target.className === 'fas fa-ban')
-    {
       const username = event.target.id;
       return profileService.setProfileBlock(username)
-        .then (() => this.setState({redirect: true}))
-    }
+        .then ((res) => {
+          this.updateSuggestedProfiles()
+          this.setState({oneProfile: []})
+          this.props.addNotification([res.data.success[0].detail], 'flag', 'You blocked ')
+        })
+  }
+
+  profileReport = event =>{
+    const username = event.target.id;
+    return profileService.setProfileReport(username)
+      .then ((res) => {
+        this.props.addNotification([res.data.success[0].detail], 'flag', 'You reported ')
+      })
   }
 
   filterProfiles(form){
@@ -149,7 +158,7 @@ export class Browse extends React.Component {
             </div>
           }
             <div ref={this.profileRef} className="one-profile-more">
-             {oneProfile.length > 1 &&  <ProfileInfo userData={oneProfile}  user={user[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock}/>}
+             {oneProfile.length > 1 &&  <ProfileInfo userData={oneProfile}  user={user[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock} handleReport={this.profileReport}/>}
             </div>
         </div>
       )

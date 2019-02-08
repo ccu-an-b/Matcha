@@ -77,7 +77,7 @@ class App extends Component {
               <Switch>
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} addNotification={this.addNotification}/>
                 <ProtectedRoute exact path="/browse" component={Browse} addNotification={this.addNotification}/>
-                <ProtectedRoute exact path="/settings" component={Settings} addNotification={this.addNotification}/>
+                <ProtectedRoute exact path="/settings" component={Settings} addNotification={this.addNotification} logout={this.logout}/>
                 <ProtectedRoute exact path="/:key" component={Landing} />
                 <ProtectedRoute exact path="/profile/:username" component={Profile} addNotification={this.addNotification} />
               </Switch>

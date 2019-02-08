@@ -6,7 +6,8 @@ import profileService from 'services/profile-service';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { ProfileActions } from './ProfileActions';
 
-export class Profile extends React.Component {
+class Profile extends React.Component {
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -17,10 +18,16 @@ export class Profile extends React.Component {
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    this._isMounted = true;
     const username = this.props.match.params.username;
-    this.updateProfile(username)
-    this.setState({username})
+    if(this._isMounted){
+      this.updateProfile(username)
+      this.setState({username})
+    }
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   updateProfile(username){
@@ -28,15 +35,21 @@ export class Profile extends React.Component {
       if(!profile.data || profile.data[0].complete === 0|| profile.data[0].match < 0){
         throw profile
       }
-      this.setState({profile: profile.data})
+      if(this._isMounted)
+        this.setState({profile: profile.data})
       if(this.state.isLoading){
         profileService.setProfileView(username)
       }
     })
     .then(() => profileService.getUserInfo(username))
-    .then((userInfo) => this.setState({userInfo: userInfo.data, isLoading: false}))
-    .catch(() => {this.setState({notFound: true,  isLoading: false})})
-
+    .then((userInfo) =>{
+      if(this._isMounted)
+        this.setState({userInfo: userInfo.data, isLoading: false})
+    })
+    .catch(() => {
+      if(this._isMounted)
+        this.setState({notFound: true,  isLoading: false})
+    })
   }
 
   profileLike = () => {
@@ -51,7 +64,6 @@ export class Profile extends React.Component {
         })
   }
   profileReport = () =>{
-      // const username = event.target.id;
       return profileService.setProfileReport(this.state.username)
         .then (() => {
           this.props.addNotification(this.state.profile, 'flag', 'You reported ')
@@ -63,7 +75,7 @@ export class Profile extends React.Component {
     const userData = this.props.user
     const {profile, userInfo, notFound, isLoading} = this.state
     
-    if (this.state.redirect) {
+    if (this.state.redirect || (userData.length > 0 && userData[0].complete === 0)) {
         return <Redirect to={{pathname:'/'}}/>
     }
     else if(notFound){

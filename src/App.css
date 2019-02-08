@@ -1907,7 +1907,7 @@ header {
   background-color: white;
   border-radius: 0.25rem;
   display: flex;
-  min-height: 330px;
+  min-height: 370px;
   overflow: hidden;
   box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1); }
   .settings-container .left-column {
@@ -2054,6 +2054,9 @@ body.my-body {
   margin-top: -250px;
   height: auto;
   min-height: 100vh; }
+
+.App {
+  overflow: hidden; }
 
 a {
   cursor: pointer; }

@@ -9,7 +9,9 @@ const   bcrypt = require('bcrypt'),
 function user_select(key, value) {
 
     const query = {
-        text: `SELECT mail, id, username,active, first_name, last_name, complete, key FROM users WHERE ${key}=$1 `,
+        text: `SELECT mail, id, username,active, first_name, last_name, complete, key, profile_img FROM users 
+        JOIN profiles ON user_id = id
+        WHERE ${key}=$1 `,
         values: [value]
     }
     return db.get_database(query)
@@ -299,7 +301,6 @@ function user_get_profile(req, res) {
     return db.get_database(query)
         .then((result) => {
             userData.push(result[0])
-            // console.log(userId)
             return user_get_tags(userData[0].id)
         })
         .then ((result) => {

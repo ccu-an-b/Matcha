@@ -4,12 +4,14 @@ import * as actions from 'actions';
 import authService from 'services/auth-service';
 import { ProfileGrid } from './ProfileGrid';
 import ProfileForm from './ProfileForm';
+import { Redirect } from 'react-router-dom';
 
 export class Dashboard extends React.Component {
     constructor(props){
         super(props)
         this.state ={
             errors:[],
+            redirect: false,
         }
     }
 
@@ -30,6 +32,7 @@ export class Dashboard extends React.Component {
                     return actions.completeProfile(profileData)
                 })
                 .then(() => { 
+                    this.setState({redirect: true})
                     this.updateProps();
                     this.props.addNotification(this.state.profile, 'success', 'Your profile has been updated !')
                 })
@@ -39,6 +42,7 @@ export class Dashboard extends React.Component {
         {
             return actions.completeProfile(profileData)
                 .then(() =>  {
+                    this.setState({redirect: true})
                     this.updateProps()
                     this.props.addNotification(this.state.profile, 'success', 'Your profile has been updated !')
                 })
@@ -50,7 +54,10 @@ export class Dashboard extends React.Component {
         const userData = this.props.user
         const optionTags = this.props.tags
 
-        if(userData.length > 1 && userData[0].complete === 1)
+        if (this.state.redirect) {	
+            return <Redirect to={{pathname:'/'}}/>	
+        }
+        else if(userData.length > 1 && userData[0].complete === 1)
         {
             return (
                 <div className="dashboard">

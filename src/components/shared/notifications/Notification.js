@@ -5,7 +5,6 @@ export default class Notification extends React.Component  {
    render(){
 
         const {type, profile, message} = this.props
-        
         if (type === 'notification')
         {
             return(
@@ -35,5 +34,3 @@ export default class Notification extends React.Component  {
         }
    }
   }
-
-//   this.props.addNotification(this.state.profile, 'notification', 'Visited your profile.')

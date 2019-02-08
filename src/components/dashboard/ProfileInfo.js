@@ -87,7 +87,7 @@ export class ProfileInfo extends React.Component {
                             <h5 className={userData[0].online === 1 ? 'online' : ''}>{userData[0].online === 1 ? 'Online' : <TimeAgo date={parseInt(userData[0].connexion, 10)} formatter={formatter} />}</h5>
                             <div className="profile-actions">
                                 <i className="fas fa-ban" onClick={this.props.handleBlock} id={userData[0].username}></i>
-                                <i className="fas fa-flag"></i>
+                                <i className="fas fa-flag" onClick={this.props.handleReport}  id={userData[0].username}></i>
                             </div>
                         </div>
                     }

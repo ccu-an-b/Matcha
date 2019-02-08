@@ -28,5 +28,10 @@ router.get('/blocked', UserCtrl.authMiddleware, AccountMod.user_get_block)
 
 router.post('/update/password', UserCtrl.authMiddleware, AccountMod.user_update_password)
 
+router.post('/update/general', UserCtrl.authMiddleware, AccountMod.user_update_general)
+
+router.post('/update/delete', UserCtrl.authMiddleware, AccountMod.user_update_delete)
+
+router.post('/update/blocked', UserCtrl.authMiddleware, AccountMod.user_update_blocked)
 
 module.exports = router;

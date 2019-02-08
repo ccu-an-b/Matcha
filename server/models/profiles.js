@@ -149,7 +149,7 @@ function set_profile_block(req, res) {
                         update_match(result[0].id, userId, -1)
                         update_score(result[0].id, '-', 10)
                         NotifMod.delete_all_notification(userId,result[0].id)
-                        return res.status(200).send({ success: [{ title: 'Profile viewed', detail: '' }] });
+                        return res.status(200).send({ success: [{ title: 'Profile blocked', detail: result[0] }] });
                 })
 }
 
@@ -164,7 +164,7 @@ function set_profile_report(req, res){
                         values:[result[0].id]
                 }
                 db.set_database(query);
-                return res.status(200).send({ success: [{ title: 'The user has been report', detail: '' }] });
+                return res.status(200).send({ success: [{ title: 'The user has been report', detail: result[0] }] });
         })
 }
 function get_user_info(req, res){
@@ -193,5 +193,6 @@ module.exports = {
         set_profile_like,
         set_profile_block,
         get_user_info,
-        set_profile_report
+        set_profile_report,
+        update_match
 }
