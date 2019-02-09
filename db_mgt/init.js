@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS profiles
     bio character varying(128) COLLATE pg_catalog."default", 
     gender integer, 
     orientation integer DEFAULT 0, 
-    profile_img character varying(128) COLLATE character varying(128)g_catalog."default" 
+    profile_img character varying(128) COLLATE pg_catalog."default"  
 ) 
 WITH ( 
     OIDS = FALSE 
@@ -139,6 +139,8 @@ CREATE TABLE IF NOT EXISTS public.messages
     user_for_id integer,
     content character varying(254) COLLATE pg_catalog."default",
     read integer DEFAULT 0,
+    room_id character varying(128),
+    date character varying(128),
     CONSTRAINT messages_pkey PRIMARY KEY (id)
 )
 WITH (
