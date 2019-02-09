@@ -15,6 +15,7 @@ import Activation from 'components/activation/Activation' ;
 import Background from 'components/shared/Background';
 import Dashboard  from 'components/dashboard/Dashboard' ;
 import Browse from 'components/browse/Browse' ;
+import Chat from 'components/chat/Chat' ;
 import Settings from 'components/settings/Settings' ;
 import Profile  from 'components/profile/Profile' ;
 import Notification from 'components/shared/notifications/Notification' ;
@@ -77,6 +78,7 @@ class App extends Component {
               <Switch>
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} addNotification={this.addNotification}/>
                 <ProtectedRoute exact path="/browse" component={Browse} addNotification={this.addNotification}/>
+                <ProtectedRoute exact path="/chat" component={Chat} addNotification={this.addNotification}/>
                 <ProtectedRoute exact path="/settings" component={Settings} addNotification={this.addNotification} logout={this.logout}/>
                 <ProtectedRoute exact path="/:key" component={Landing} />
                 <ProtectedRoute exact path="/profile/:username" component={Profile} addNotification={this.addNotification} />

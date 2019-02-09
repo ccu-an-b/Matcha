@@ -97,8 +97,7 @@ function set_profile_like(req, res) {
                                         break;
                                 case 12:
                                         NotifMod.send_notification(profileId, userId, 2);
-                                        NotifMod.send_notification(profileId, userId, 3);
-                                        NotifMod.send_notification(userId, profileId, 3);
+                                        NotifMod.send_match_notification(profileId, userId, 3);
                                         update_score(profileId, '+', 6)
                                         update_score(userId, '+', 4)
                                         update_match(userId, profileId, 3)
