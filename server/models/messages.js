@@ -13,11 +13,13 @@ function get_room_messages(req, res) {
 }
 
 function send_message(req, res) {
-    const {roomId, userFrom, userTo, content } = req.params.type;
+    const { roomId, userId, messageTo, message } = req.body;
+
+    console.log(req.body);
 
     const query = {
-        text: `INSERT INTO messages (user_from, user_for, content, room_id, date) VALUES ($1, $2, $3, $4, $5)`,
-        values: [userFrom, userTo, content, roomId, Date.now()]
+        text: `INSERT INTO messages (user_from_id, user_for_id, content, room_id, date) VALUES ($1, $2, $3, $4, $5)`,
+        values: [userId, messageTo, message, roomId, Date.now()]
     }
     return db.get_database(query).then((result) => {
         return res.json(result)

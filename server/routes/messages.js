@@ -1,9 +1,11 @@
 const express = require('express'),
     UserCtrl = require('../controllers/user'),
-    UserMod = require('../models/user.js'),
+    messagesModule = require('../models/messages.js');
 
 const router = express.Router();
 
-router.get('/messages/:roomId', UserCtrl.authMiddleware, UserMod.user_get_profile)
+router.post('/', UserCtrl.authMiddleware, messagesModule.send_message);
+
+router.get('/:roomId', UserCtrl.authMiddleware, messagesModule.get_room_messages);
 
 module.exports = router;

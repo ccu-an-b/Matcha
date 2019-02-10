@@ -1,0 +1,66 @@
+.chat {
+  .chat-container {
+    padding: 10px;
+  }
+  .display-matchs {
+    max-height: 730px;
+    visibility: hidden;
+    overflow-y: auto;
+    padding-top: 35px;
+    &:hover {
+      visibility: visible;
+    }
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #776876;
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: $main-dark-purple;
+    }
+    h2 {
+      visibility: visible;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .one-match {
+      visibility: visible;
+      cursor: pointer;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 15px;
+      .one-match-content {
+        display: flex;
+        align-items: center;
+      }
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+      .match-info {
+        height: 100%;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        h5 {
+          position: initial;
+        }
+        h4 {
+          font-size: 18px;
+          color: $main-dark-purple;
+          margin-bottom: 5px !important;
+        }
+      }
+    }
+  }
+}

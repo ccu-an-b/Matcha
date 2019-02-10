@@ -5,7 +5,7 @@ function get_type_notifications(req, res) {
     const type = req.params.type;
 
     const query = {
-        text: `SELECT user_from_id, profile_img, username, online, age, connexion, notifications.date FROM notifications 
+        text: `SELECT user_from_id, profile_img, username, online, age, connexion, match_id, notifications.date FROM notifications 
         JOIN profiles ON profiles.user_id = notifications.user_from_id
         JOIN users ON users.id = notifications.user_from_id
         WHERE notifications.user_id = $1 AND type = $2
