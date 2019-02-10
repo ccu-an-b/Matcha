@@ -14,10 +14,10 @@ const io = require('socket.io')(server);
 
 io.set('origins', '*:*');
 io.on('connection', socket => {
-  console.log('Unknown user connected');
+  // console.log('Unknown user connected');
 
   socket.on('SEND_CHAT_MESSAGE', function (data) {
-    console.log(data);
+    // console.log(data);
     io.emit('RECEIVE_CHAT_MESSAGE', data);
   })
 
@@ -25,12 +25,12 @@ io.on('connection', socket => {
     socket.username = username;
     socket.room = roomToConnect;
     socket.join(roomToConnect);
-    console.log(data);
+    // console.log(data);
     io.emit('USER_CONNECTED', (login, room));
   })
 
   socket.on('disconnect', () => {
-    console.log('Unknown user disconnected')
+    // console.log('Unknown user disconnected')
   })
 
   socket.on('SWITCH_ROOM', function (login, newRoom) {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { imgPath, toCapitalize } from 'helpers';
 import userService from 'services/user-service';
 import messagesService from 'services/message-service';
+import Chatbox from "./Chatbox";
 
 const socket = io('localhost:3001');
 
@@ -12,49 +13,43 @@ export class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            toggle: false,
             currentRoom: 0,
             messageTo: 0,
-            username: '',
             message: '',
             messages: [],
-            connectedUsers: [],
             profiles: [],
-            isLoading: true
+            isLoading: true,
+            isRoomHistoryLoaded: false,
         };
-
     }
 
     sendMessage = (ev) => {
         const userId = this.props.user[0].id;
-        const {currentRoom, messageTo, message} = this.state;
+        const { currentRoom, messageTo, message } = this.state;
         ev.preventDefault();
-        if (this.state.message !== '') {
-            messagesService.sendMessage({
-                roomId: currentRoom, userId, messageTo, message
-            });
-            socket.emit('SEND_CHAT_MESSAGE', {
-                author: this.state.username,
-                message: this.state.message
-            });
+        if (message !== '') {
+            const fullMessage = {
+                room_id: currentRoom,
+                user_from_id: userId,
+                user_for_id: messageTo,
+                content: message
+            }
+            messagesService.sendMessage(fullMessage);
+            socket.emit('SEND_CHAT_MESSAGE', fullMessage);
         }
         this.setState({ message: '' });
     }
 
     switchRoom = (profile) => {
-        // console.log(this.props.user);
-        // console.log(profile);
-        this.setState({ messageTo: profile.user_from_id, currentRoom: profile.match_id });
         socket.emit('SWITCH_ROOM', profile.username, profile.match_id);
+        this.setState({
+            messageTo: profile.user_from_id,
+            currentRoom: profile.match_id
+        });
     }
 
-
-
     componentDidMount() {
-        socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
-            console.log(data);
-            this.setState({ messages: [...this.state.messages, data] });
-        });
+
         userService.getNotificationsType(3).then((profiles) => {
             this.setState({ profiles: profiles.data, isLoading: false });
         })
@@ -98,24 +93,18 @@ export class Chat extends React.Component {
                     </div>
                 </div>
                 {(!messageTo || !currentRoom) ? (
+                <div className="col-8 chat-container">
+                    <h1>SELECT SOMEONE TO CHAT WITH</h1>
+                </div>) : (
                     <div className="col-8 chat-container">
-                        <h1>SELECT SOMEONE TO CHAT WITH</h1>
-                    </div>) : (
-                        <div className="col-8 chat-container">
-                            <div className="chat-box" id="chat-box">
-                                {this.state.messages.map(function (message, i) {
-                                    return (
-                                        <p key={i}>{message.message}</p>
-                                    )
-                                })}
-                            </div>
-                            <div className="chat-form-group">
-                                <label>Enter message</label>
-                                <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                                <br />
-                                <button onClick={this.sendMessage} className="btn btn-primary">Send</button>
-                            </div>
-                        </div>)}
+                        <Chatbox roomId={currentRoom} />
+                        <div className="chat-form-group">
+                            <label>Enter message</label>
+                            <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
+                            <br />
+                            <button onClick={this.sendMessage} className="btn btn-primary">Send</button>
+                        </div>
+                    </div>)}
             </div>
 
         );

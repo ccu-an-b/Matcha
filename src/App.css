@@ -1713,6 +1713,31 @@ header {
 
 .chat .chat-container {
   padding: 10px; }
+  .chat .chat-container .chat-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  .chat .chat-container .chat-box ul li {
+    display: inline-block;
+    clear: both;
+    padding: 10px;
+    border-radius: 30px;
+    margin-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif; }
+  .chat .chat-container .chat-box .him {
+    background: #eee;
+    float: left; }
+  .chat .chat-container .chat-box .me {
+    float: right;
+    background: #f3aeea;
+    color: #fff; }
+  .chat .chat-container .chat-box .him + .me {
+    border-bottom-right-radius: 5px; }
+  .chat .chat-container .chat-box .me + .me {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; }
+  .chat .chat-container .chat-box .me:last-of-type {
+    border-bottom-right-radius: 30px; }
 
 .chat .display-matchs {
   max-height: 730px;

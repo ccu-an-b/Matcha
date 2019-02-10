@@ -4,12 +4,11 @@ const axiosInstance = axiosService.getInstance();
 
 class MessageService {
 
-    getRoomMessages(roomId) {
+    getRoomMessages = (roomId) => {
         return axiosInstance.get(`messages/${roomId}`)
     }
 
     sendMessage = (messageData) => {
-        console.log(messageData)
         return axiosInstance.post(`messages`, { ...messageData })
     }
 }
