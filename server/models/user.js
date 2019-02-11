@@ -70,12 +70,12 @@ function user_new(req, res) {
     return user_select('username', username)
         .then((result) => {
             if (result.length)
-                throw { errors: [{ title: 'User exists', detail: 'Username already exists' }] };
+                throw { error: [{ title: 'User exists', detail: 'Username already exists' }] };
             return user_select('mail', mail)
         })
         .then((result) => {
             if (result.length)
-                throw { errors: [{ title: 'User exists', detail: 'Email already used' }] };
+                throw { error: [{ title: 'User exists', detail: 'Email already used' }] };
 
             const hash = bcrypt.hashSync(password, 10);
             const key = base64url(crypto.randomBytes(40));
@@ -92,7 +92,7 @@ function user_new(req, res) {
             return res.status(200).send({ success: [{ title: 'User created', detail: 'You created a new user' }] });
         })
         .catch((err) => {
-            return res.status(422).send(err);
+            return res.status(200).send(err);
         })
 }
 
@@ -359,6 +359,17 @@ function user_get_images(userId) {
     return db.get_database(query)
 }
 
+function user_get_from_key(req, res) {
+    const {key} = req.body
+
+    return user_select('key', key)
+        .then((result) => {
+            if (result.length < 1)
+                throw {error: [{title: "wrongIdentification" , detail: "User doesn't exist"}] } 
+            return res.status(200).send({ success: [{ title: 'User exists', detail: 'User exists'}] })
+        })
+        .catch((err) => res.status(200).send(err))
+}
 module.exports = {
     user_select,
     user_new,
@@ -366,6 +377,7 @@ module.exports = {
     user_delete_image,
     user_get_profile,
     user_get_tags,
+    user_get_from_key,
     user_password_check,
     user_set_active,
     user_set_online,

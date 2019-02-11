@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from 'react-router-dom';
 import profileService from 'services/profile-service';
 //import { format } from "url";
-import {contains, getValues} from 'helpers'
+import {contains, getValues, distanceInKm} from 'helpers'
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { Filters } from './Filters';
@@ -21,7 +21,9 @@ export class Browse extends React.Component {
       isLoading: true,
       filtered: false,
       isUpdating: false,
-      redirect: false
+      redirect: false,
+      lat: "",
+      lon: "",
     }
     this.profileRef = React.createRef()
   }
@@ -44,7 +46,7 @@ export class Browse extends React.Component {
     }
     else if ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| this.state.isUpdating )
     {
-      this.setState({profilesFilter: this.state.profiles.data, filtered: false,  isUpdating: false})
+      this.setState({profilesFilter: this.state.profiles.data, filtered: false,  isUpdating: false, lon: "", lat: ""})
     }
   }
 
@@ -88,12 +90,12 @@ export class Browse extends React.Component {
   renderProfiles(profiles) {
     return profiles.map((profile, index) => {
         return(
-          <ProfilePreview  key={index}
-                              id={index}
-                              user = {this.props.user[0].username}
-                              userData={profile}
-                              handleClick={this.profileShowMore} 
-                            />                         
+          <ProfilePreview   key={index}
+                            id={index}
+                            user = {this.props.user[0].username}
+                            userData={profile}
+                            handleClick={this.profileShowMore} 
+                          />                         
         )
     });
   }
@@ -130,6 +132,12 @@ export class Browse extends React.Component {
       if(filters.tags){
         filtered = filtered.filter(obj => contains(obj.tags, getValues(filters.tags)));
       }
+      if(filters.location)
+      {
+        const locJson = JSON.parse(filters.location.value)
+        this.setState({lat : locJson.lat, lon: locJson.lon, filtered: true})
+        filtered = filtered.filter(obj => distanceInKm(obj.latitude_user, obj.longitude_user,locJson.lat,locJson.lon ));
+      }
       return filtered
     }
   }
@@ -149,7 +157,9 @@ export class Browse extends React.Component {
           <Filters tags={tags}/>
 
           {showMap &&
-            <div id="leaflet-map" className="my-map"><MapView publicUserData={profilesFilter} showMore={this.profileShowMore} /></div>
+            <div id="leaflet-map" className="my-map">
+              <MapView publicUserData={profilesFilter} showMore={this.profileShowMore} lat={this.state.lat} lon={this.state.lon} filtered={this.state.filtered}/>
+            </div>
           }
 
           {!showMap && 

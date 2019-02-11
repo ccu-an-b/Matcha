@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm} from "redux-form";
-import { BwmInput } from "components/shared/form/BwmInput";
+import { BwmInput} from "components/shared/form/BwmInput";
+import { BwmResError } from 'components/shared/form/BwmResError';
 import { required ,minLength8, checkNumber, checkUpper, checkLetter } from "components/shared/form/validators";
 
 let PasswordForm = props => {
@@ -9,12 +10,14 @@ let PasswordForm = props => {
     pristine,
     submitting,
     submitCb,
-    valid
+    valid,
+    errors
   } = props;
 
     return (
     <form onSubmit={handleSubmit(submitCb)}>
         <h1>Change password</h1>
+        <BwmResError errors={errors} />
         <Field
             name="old_password"
             type="password"

@@ -10,11 +10,12 @@ export default class Settings extends React.Component {
         super(props);
         this.state = {
           openTab: 0,
+          errors: [],
         };
       }
       
     switchTab = (index) => {
-    this.setState({openTab: index})
+    this.setState({openTab: index, errors:[]})
     }
 
     handleLogout = () => {
@@ -23,6 +24,7 @@ export default class Settings extends React.Component {
     }
 
     updatePassword = userData =>{
+        this.setState({errors:[]})
         return userService.updatePassword(userData)
             .then((res) => {
                 if (res.error)
@@ -30,22 +32,26 @@ export default class Settings extends React.Component {
                 this.setState({openTab: 0})
                 this.props.addNotification(this.state.profile, 'success', res.success[0].detail)
             })
-            .catch((err) => console.log(err[0].detail))
+            .catch((err) => this.setState({errors: [err[0]]}))
     }
 
     updateGeneral = userData =>{
+        this.setState({errors:[]})
         return userService.updateGeneral(userData)
             .then((res) => {
+                if (res.error)
+                    throw(res.error)
                 this.props.addNotification(this.state.profile, 'success', res.success[0].detail)
                 if (res.redirect){
                     this.props.addNotification(this.state.profile, 'success', 'You can now log in with your new username')
                     this.handleLogout()
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => this.setState({errors: [err[0]]}))
     }
     
     updateDelete = userData =>{
+        this.setState({errors:[]})
         return userService.updateDelete(userData)
             .then((res) => {
                 if (res.error)
@@ -54,11 +60,12 @@ export default class Settings extends React.Component {
                 this.props.addNotification(this.state.profile, 'success', 'You successfully deleted your Matcha account.')
                 this.handleLogout()
             })
-            .catch((err) => console.log(err[0].detail))
+            .catch((err) => this.setState({errors: [err[0]]}))
     }
 
     updateBlocked = (e, userData) => {
         e.preventDefault();
+        this.setState({errors:[]})
         return userService.updateBlocked(userData)
         .then((res) => {
             this.setState({openTab: 0})
@@ -68,7 +75,7 @@ export default class Settings extends React.Component {
     }
 
     render() {
-    const {openTab} = this.state;
+    const {openTab, errors} = this.state;
     
     return( 
         <div className="settings-container">
@@ -90,16 +97,16 @@ export default class Settings extends React.Component {
             </div>
             <div className="settings-tab">
             {openTab === 0 &&
-                <GeneralForm submitCb={this.updateGeneral} />
+                <GeneralForm submitCb={this.updateGeneral} errors={errors} />
             }
             {openTab === 1 &&
-                <PasswordForm submitCb={this.updatePassword}/>
+                <PasswordForm submitCb={this.updatePassword} errors={errors} />
             }
             {openTab === 2 &&
                 <BlockingForm submitCb={this.updateBlocked} />
             }
             {openTab === 3 &&
-                <DeleteForm submitCb={this.updateDelete}/>
+                <DeleteForm submitCb={this.updateDelete} errors={errors} />
             }
             </div>
         </div>

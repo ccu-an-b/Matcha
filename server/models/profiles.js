@@ -158,7 +158,7 @@ function set_profile_report(req, res){
 
         return UserMod.user_select("username", username)
         .then((result) =>{
-                Mail.report_mail(username, result[0].mail, result[0].key)
+                Mail.report_mail(result[0].mail, result[0].key)
                 const query = {
                         text:`UPDATE users SET active = 0 WHERE id= $1`,
                         values:[result[0].id]

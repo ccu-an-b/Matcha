@@ -47,7 +47,7 @@ export class Activation extends React.Component {
                         <div className="button sign_up full" >Sign up</div>
                     </div>
     
-                   <Modal show={true} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} activate={true}/>} modalType={"form"}/>
+                   <Modal show={true} handleClose={this.hideModal} children={<LoginForm submitCb={this.logInUser} errors={errors} success={this.state.success} activate={true}/>} modalType={"form"} close={true}/>
                 </div>
                 
             )

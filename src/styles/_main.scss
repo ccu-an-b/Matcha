@@ -57,9 +57,6 @@ body.my-body {
     min-height: 100vh;
 }
 
-.App {
-    overflow:hidden
-}
 a {
     cursor: pointer;
 }
@@ -153,5 +150,13 @@ h1,h2, h3,h4 {
 {
     .app-container {
         width:100%;
+    }
+}
+
+
+@media screen and (max-width: 700px)
+{
+    .App {
+        overflow:hidden;
     }
 }

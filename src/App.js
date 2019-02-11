@@ -12,6 +12,7 @@ import authService from 'services/auth-service';
 import Header  from 'components/shared/Header' ;
 import Landing  from 'components/landing/Landing' ;
 import Activation from 'components/activation/Activation' ;
+import Password from 'components/password/Password' ;
 import Background from 'components/shared/Background';
 import Dashboard  from 'components/dashboard/Dashboard' ;
 import Browse from 'components/browse/Browse' ;
@@ -70,6 +71,7 @@ class App extends Component {
           <div className="App">
           <LoggedInRoute exact path="/" component={Landing} />
           <Route exact path="/activation/:key" component={Activation} />
+          <Route exact path="/password/:key" component={Password} />
           <Background/>
           <div className="app-container">
             <Header logout={this.logout}/>

@@ -92,13 +92,17 @@ export const checkAuthState = () => {
 export const login = (userData) => {
   return dispatch => {
     return axios.post('/api/v1/user/auth', { ...userData })
-      .then(res => res.data)
+      .then((res)=> {
+        if (res.data.errors)
+          throw (res.data.errors)
+        return res.data
+      })
       .then(token => {
         authService.saveToken(token);
         dispatch(loginSuccess(token));
       })
-      .catch(({response}) => {
-        dispatch(loginFailure(response.data.errors))
+      .catch((response) => {
+        return dispatch(loginFailure([response[0]]))
       })
   }
 }
@@ -236,5 +240,3 @@ export const fetchTags = () => {
   }
 }
 
-//USER ACTIONS ON PROFILE
-// export const setProfileView = (user) =>

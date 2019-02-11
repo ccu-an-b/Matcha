@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { BwmInput } from "components/shared/form/BwmInput";
+import { BwmResError } from 'components/shared/form/BwmResError';
 import { required } from "components/shared/form/validators";
 import { connect } from "react-redux";
 
@@ -11,13 +12,15 @@ let GeneralForm = props => {
     pristine,
     submitting,
     submitCb,
-    valid
+    valid,
+    errors
   } = props;
 
     return (
       <form onSubmit={handleSubmit(submitCb)}>
        <h1>General account Settings</h1>
        <h2>If you change your username you'll be logged out.</h2>
+       <BwmResError errors={errors} />
         <Field
             name="username"
             type="text"

@@ -34,4 +34,10 @@ router.post('/update/delete', UserCtrl.authMiddleware, AccountMod.user_update_de
 
 router.post('/update/blocked', UserCtrl.authMiddleware, AccountMod.user_update_blocked)
 
+router.post('/forgotten_pass',  AccountMod.user_forgotten_password)
+
+router.post('/change_pass',  AccountMod.user_change_password)
+
+router.post('/get_from_key',  UserMod.user_get_from_key)
+
 module.exports = router;

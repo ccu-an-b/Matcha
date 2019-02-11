@@ -32,13 +32,13 @@ exports.auth = function (req, res) {
     const username = req.body.username.toLowerCase() ;
 
     if (!password || !username) {
-        return res.status(422).send({ errors: errorMessages.dataMissing });
+        return res.status(200).send({ errors: errorMessages.dataMissing });
     }
 
     return User.user_select('username', username)
         .then((result) => {
             if (result[0].active == '0') 
-                return res.status(422).send({ errors: errorMessages.accountNotActive });
+                return res.status(200).send({ errors: errorMessages.accountNotActive });
             return result
         })
         .then((result) => {
@@ -52,15 +52,16 @@ exports.auth = function (req, res) {
                     User.user_set_online('1', result[0].username)
                     return res.json(jwt.sign({
                         userId: userId,
-                        username: result[0].username
+                        username: result[0].username,
+                        mail: result[0].mail,
                     }, config.SECRET, { expiresIn: '3h' }));
             })
             .catch(() => {
-                return res.status(422).send({ errors: errorMessages.wrongPassword });
+                return res.status(200).send({ errors: errorMessages.wrongPassword });
             })
         })
         .catch(() => {
-            return res.status(422).send({ errors: errorMessages.wrongIdentification });
+            return res.status(200).send({ errors: errorMessages.wrongIdentification });
         })
 }
 

@@ -1,5 +1,5 @@
 import axiosService from './axios-service';
-
+import axios from 'axios';
 const axiosInstance = axiosService.getInstance();
 
 class UserService {
@@ -11,6 +11,14 @@ class UserService {
     getBlockedProfiles(){
         return axiosInstance.get(`user/blocked`)
     }
+
+    getFromKey = (userData) => {
+        return axios.post(`/api/v1/user/get_from_key`, {...userData}).then(
+            res => res.data,
+            err => Promise.reject(err.response.data.errors)
+        )
+    }
+
     updatePassword = (userData) => {
         return axiosInstance.post(`user/update/password`, { ...userData }).then(
           res => res.data,
@@ -34,6 +42,20 @@ class UserService {
             res => res.data,
             err => Promise.reject(err.response.data.errors)
         );
+    }
+
+    forgottenPassword = (userData) => {
+        return axios.post(`/api/v1/user/forgotten_pass`, { ...userData }).then(
+            res => res.data,
+            err => Promise.reject(err.response.data.errors)
+        );
+    }
+
+    changePassword = (userData) => {
+        return axios.post(`/api/v1/user/change_pass`, {...userData}).then(
+            res => res.data,
+            err => Promise.reject(err.response.data.errors)
+        )
     }
 }
 

@@ -1155,7 +1155,7 @@ header {
     letter-spacing: 0.5px; }
   .form .alert-success-matcha {
     margin-bottom: 0px;
-    color: #E83114 !important;
+    color: #72C17C !important;
     letter-spacing: 0.5px; }
   .form .btn {
     border: none; }
@@ -1686,7 +1686,6 @@ header {
     .filters-container .my-card .my-select.no-border .css-10nd86i {
       margin-bottom: 0; }
     .filters-container .my-card .my-select.no-border .css-1hwfws3 {
-      padding-top: 20px;
       display: flex;
       padding-right: 0; }
     .filters-container .my-card .css-15k3avv {
@@ -2001,6 +2000,8 @@ header {
     .settings-container .settings-tab .alert-input {
       font-size: 13px;
       color: #E83114; }
+    .settings-container .settings-tab .alert {
+      color: #E83114; }
 
 @media screen and (max-width: 1000px) {
   #root {
@@ -2054,9 +2055,6 @@ body.my-body {
   margin-top: -250px;
   height: auto;
   min-height: 100vh; }
-
-.App {
-  overflow: hidden; }
 
 a {
   cursor: pointer; }
@@ -2131,3 +2129,7 @@ h1, h2, h3, h4 {
 @media screen and (max-width: 1000px) {
   .app-container {
     width: 100%; } }
+
+@media screen and (max-width: 700px) {
+  .App {
+    overflow: hidden; } }
