@@ -1,14 +1,14 @@
-const   express         = require('express'),
-        UserCtrl        = require('../controllers/user'),
-        AccountMod      = require ('../models/account.js'),
-        UserMod         = require ('../models/user.js'),
-        NotifMod        = require("../models/notifications");
+const express = require('express'),
+    UserCtrl = require('../controllers/user'),
+    AccountMod = require('../models/account.js'),
+    UserMod = require('../models/user.js'),
+    NotifMod = require("../models/notifications");
 
 const router = express.Router();
 
-router.post('/auth',  UserCtrl.auth)
+router.post('/auth', UserCtrl.auth)
 
-router.get('/logout/:user',  UserMod.user_set_offline)
+router.get('/logout/:user', UserMod.user_set_offline)
 
 router.post('/register', UserCtrl.register)
 
