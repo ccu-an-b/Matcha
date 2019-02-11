@@ -4,7 +4,8 @@ const   db = require('./db'),
         base64url = require('base64url'),
         ProfileMod = require('./profiles'),
         UserMod = require ('./user'),
-        MailMod = require ('./mail');
+        MailMod = require ('./mail'),
+        MessagesMod = require('./messages');
 
 function user_get_block(req, res){
     const userId = res.locals.user.userId
@@ -125,6 +126,10 @@ function user_update_delete(req, res){
                     values: [userId]
                 }, {
                     text: `DELETE from notifications WHERE user_id = $1 OR user_from_id = $1`,
+                    values: [userId]
+                },
+                {
+                    text: `DELETE from messages WHERE user_from_id = $1 OR user_for_id = $1)`,
                     values: [userId]
                 }]
                 for (var i = 0; i < query.length; i++)

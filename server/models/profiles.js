@@ -1,7 +1,8 @@
 const db = require('./db'),
         UserMod = require('./user'), 
         Mail = require('./mail'),
-        NotifMod = require('./notifications');
+        NotifMod = require('./notifications'),
+        MessagesMod = require('./messages');
 
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
@@ -147,6 +148,7 @@ function set_profile_block(req, res) {
                         update_match(userId, result[0].id, -11)
                         update_match(result[0].id, userId, -1)
                         update_score(result[0].id, '-', 10)
+                        MessagesMod.delete_all_messages_match(result[0].id, userId)
                         NotifMod.delete_all_notification(userId,result[0].id)
                         return res.status(200).send({ success: [{ title: 'Profile blocked', detail: result[0] }] });
                 })

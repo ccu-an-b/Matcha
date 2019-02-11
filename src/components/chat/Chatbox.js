@@ -39,6 +39,8 @@ class Chatbox extends React.Component {
 
     render() {
         const { isLoading, roomHistory, socketMessages } = this.state;
+        console.log(this.state)
+
         return (
             <div className="chat-box" id="chat-box">
                 <ul>
