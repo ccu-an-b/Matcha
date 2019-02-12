@@ -83,48 +83,53 @@ export class Chat extends React.Component {
 
     render() {
 
-        const { messageTo, messageToProfile, currentRoom, profiles, isLoading} = this.state;
-        console.log(this.state)
+        const { messageTo, messageToProfile, currentRoom, profiles, isLoading, message} = this.state;
+
         return (
-            <div className="row chat">
-                <div className="col-4 matchs">
-                <div className="header">
-                    <h1>Chat with your matchs !</h1>
-                </div>
-                    <div className="display-matchs">
-                        {!isLoading && profiles.length > 0 &&
-                            this.renderProfiles(profiles)
-                        }
-                        {!isLoading && !profiles.length &&
-                            <h2>You don't have any matchs </h2>
-                        }
+            <div id="chat-container">
+                <div className="row chat">
+                    <div className="col-4 matchs">
+                    <div className="header">
+                        <h1>Chat with your matchs !</h1>
                     </div>
-                </div>
-                {(!messageTo || !currentRoom) ? (
-                <div className="col-8 chat-container">
-                    <h1>SELECT SOMEONE TO CHAT WITH</h1>
-                </div>) : (
-                    <div className="col-8 chat-container">
-                        <div className="message-to">
-                            {messageToProfile.length &&
-                            <Link to={`./profile/${messageToProfile[0].username}`}>
-                                <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo"/>
-                                <div className="message-to-info">
-                                    <h1>{messageToProfile[0].username}</h1>
-                                    <h5 className={messageToProfile[0].online ? 'online': ""}>
-                                        {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
-                                    </h5>
-                                </div>
-                            </Link>
+                    <div className="chat-left">
+                        <div className="display-matchs">
+                            {!isLoading && profiles.length > 0 &&
+                                this.renderProfiles(profiles)
+                            }
+                            {!isLoading && !profiles.length &&
+                                <h2>You don't have any matchs </h2>
                             }
                         </div>
-                        <Chatbox roomId={currentRoom} />
-                        <div className="chat-form-group">
-                            <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                            <br />
-                            <button onClick={this.sendMessage} className="btn btn-primary">Send</button>
-                        </div>
-                    </div>)}
+                    </div>
+                    </div>
+                    {(!messageTo || !currentRoom) ? (
+                    <div className="col-8 chat-container">
+                        <h1>SELECT SOMEONE TO CHAT WITH</h1>
+                    </div>) : (
+                        <div className="col-8 chat-container">
+                            <div className="message-to">
+                                {messageToProfile.length &&
+                                <Link to={`./profile/${messageToProfile[0].username}`}>
+                                    <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo"/>
+                                    <div className="message-to-info">
+                                        <h1>{messageToProfile[0].username}</h1>
+                                        <h5 className={messageToProfile[0].online ? 'online': ""}>
+                                            {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
+                                        </h5>
+                                    </div>
+                                </Link>
+                                }
+                            </div>
+                            <Chatbox roomId={currentRoom} />
+                            <div className="chat-form-group">
+                                <div className="chat-send">
+                                    <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
+                                    <button onClick={this.sendMessage} className={message.length ? "btn  active": "btn"}>Send</button>
+                                </div>
+                            </div>
+                        </div>)}
+                </div>
             </div>
 
         );

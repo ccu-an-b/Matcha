@@ -532,10 +532,8 @@
       &:after{
         z-index: 2;
         background-color:$main-orange;
-        //background-color:transparent;
         width: 110%;
         transform: rotate(10deg) skewX(0deg);
-        opacity: 0.8;
         content: "";
         position: absolute;
         top: -105px;
@@ -546,7 +544,6 @@
       &:before{
         z-index: 2;
         background-color:white;
-        //background-color:transparent;
         width: 110%;
         transform: rotate(10deg) skewX(0deg);
         opacity: 1;
@@ -562,7 +559,7 @@
        max-height:730px;
        margin: 70px 20px 20px 20px;
        visibility:hidden;
-       overflow-y: auto;
+       overflow-y: scroll;
         padding-top:35px;
  
         &:hover{
