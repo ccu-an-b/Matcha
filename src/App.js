@@ -9,7 +9,7 @@ import ReactNotification from "react-notifications-component";
 
 import * as actions from 'actions';
 import authService from 'services/auth-service';
-import Header  from 'components/shared/Header' ;
+import Header  from 'components/header/Header' ;
 import Landing  from 'components/landing/Landing' ;
 import Activation from 'components/activation/Activation' ;
 import Password from 'components/password/Password' ;

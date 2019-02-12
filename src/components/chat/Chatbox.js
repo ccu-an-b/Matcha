@@ -47,7 +47,7 @@ class Chatbox extends React.Component {
     componentDidUpdate(prevProps, prevState){
         if (prevProps.roomId !== this.props.roomId)
         {
-            this.setState({isLoading: true, socketMessages: [], roomHistory: []})
+            this.setState({isLoading: true, socketMessages: []})
             this.updateConversation(this.props.roomId)
         }
         if(prevState.socketMessages.length !== this.state.socketMessages.length && !this.state.isLoading)

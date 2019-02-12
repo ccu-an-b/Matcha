@@ -2,7 +2,8 @@ const db = require('./db'),
         UserMod = require('./user'), 
         Mail = require('./mail'),
         NotifMod = require('./notifications'),
-        MessagesMod = require('./messages');
+        MessagesMod = require('./messages'),
+        MatchMod = require('./matching');
 
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
@@ -22,12 +23,34 @@ function get_suggested_profiles(req, res) {
                         let promises = response.map((profile) =>{
                                 return UserMod.user_get_tags(profile.id)
                                         .then((res) => {
-                                                 profile.tags = res;
+                                                profile.sort = 0;
+                                                profile.tags = res;
+                                                return MatchMod.match_distance(userId, profile);
+                                                
+                                        })
+                                        .then ((res) => {
+                                                profile.distance = res;
+                                                return MatchMod.match_tags(userId, profile);
+                                        })
+                                        .then ((res) => {
+                                                profile.tagsCount = res.length;
                                                 return profile;  
                                         })
                                 
                          })
                         Promise.all(promises).then(function(results) {
+                                return MatchMod.sort_by_distance(results);
+                        })
+                        .then((results)=>{
+                                return MatchMod.sort_by_tags(results)
+                        })
+                        .then((results)=>{
+                                return MatchMod.sort_by_score(results)
+                        })
+                        .then((results)=>{
+                                return MatchMod.sort_final(results)
+                        })
+                        .then((results)=>{
                                 return res.json(results)
                         })
                 })

@@ -1,5 +1,5 @@
 const express = require('express'),
-  bodyParser = require('body-parser');
+      bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/users');
 const imageUploadRoutes = require('./routes/image-upload');
@@ -14,10 +14,8 @@ const io = require('socket.io')(server);
 
 io.set('origins', '*:*');
 io.on('connection', socket => {
-  // console.log('Unknown user connected');
 
   socket.on('SEND_CHAT_MESSAGE', function (data) {
-    // console.log(data);
     io.emit('RECEIVE_CHAT_MESSAGE', data);
   })
 
@@ -25,12 +23,11 @@ io.on('connection', socket => {
     socket.username = username;
     socket.room = roomToConnect;
     socket.join(roomToConnect);
-    // console.log(data);
     io.emit('USER_CONNECTED', (login, room));
   })
 
   socket.on('disconnect', () => {
-    // console.log('Unknown user disconnected')
+    socket.disconnect(); 
   })
 
   socket.on('SWITCH_ROOM', function (login, newRoom) {
@@ -44,8 +41,6 @@ io.on('connection', socket => {
   });
 
 })
-
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

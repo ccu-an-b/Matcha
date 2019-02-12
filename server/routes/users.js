@@ -24,6 +24,8 @@ router.get('/deleteImage/:image', UserCtrl.authMiddleware, UserMod.user_delete_i
 
 router.get('/notifications/:type', UserCtrl.authMiddleware, NotifMod.get_type_notifications )
 
+router.post('/notifications/all', UserCtrl.authMiddleware, NotifMod.get_all_notifications )
+
 router.get('/blocked', UserCtrl.authMiddleware, AccountMod.user_get_block)
 
 router.post('/update/password', UserCtrl.authMiddleware, AccountMod.user_update_password)

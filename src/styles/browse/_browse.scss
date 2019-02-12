@@ -228,39 +228,41 @@
 
 @media screen and (max-width: 900px){
    
-    .profile{
-        width: 250px;
-        height: 400px;
-        .img{
-            height: 100%;
-            img {
-                height: 400px;
-            }
-            &:before{
-                top:290px;
-            }
-            &:after{
-                top:320px;
-            }
-            .button{
-                bottom:10px;
-                &:hover{
-                    bottom:20px;
+    .browse{
+        .profile{
+            width: 250px;
+            height: 400px;
+            .img{
+                height: 100%;
+                img {
+                    height: 400px;
                 }
-            }
-            h3{
-                bottom: 15px;
-            }
-            h5{
-                bottom: 5px;
-                time{
+                &:before{
+                    top:290px;
+                }
+                &:after{
+                    top:320px;
+                }
+                .button{
+                    bottom:10px;
+                    &:hover{
+                        bottom:20px;
+                    }
+                }
+                h3{
+                    bottom: 15px;
+                }
+                h5{
                     bottom: 5px;
+                    time{
+                        bottom: 5px;
+                    }
                 }
+    
             }
-
-        }
-        .profile-data{
-            display: none;
+            .profile-data{
+                display: none;
+            }
         }
     }
 }
@@ -325,18 +327,20 @@
 }
 
 @media screen and (max-width: 350px){
-    .profile{
-        width: 220px;
-        height: 360px;
-        .img{
-            img{
-                height: 360px;
-            }
-            &:before{
-                top:260px;
-            }
-            &:after{
-                top:290px;
+    .browse{
+        .profile{
+            width: 220px;
+            height: 360px;
+            .img{
+                img{
+                    height: 360px;
+                }
+                &:before{
+                    top:260px;
+                }
+                &:after{
+                    top:290px;
+                }
             }
         }
     }

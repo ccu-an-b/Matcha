@@ -17,6 +17,22 @@ function get_type_notifications(req, res) {
     })
 }
 
+function get_all_notifications(req, res) {
+    const userId = res.locals.user.userId;
+
+    const query = {
+        text: `SELECT user_from_id, profile_img, username, online, age, connexion, match_id, notifications.date ,  notifications.type FROM notifications 
+        JOIN profiles ON profiles.user_id = notifications.user_from_id
+        JOIN users ON users.id = notifications.user_from_id
+        WHERE notifications.user_id = $1 
+        ORDER by notifications.date DESC`,
+        values: [userId]
+    }
+    return db.get_database(query).then((result) => {
+        return res.json(result)
+    })
+}
+
 function get_matchs(req, res) {
     const userId = res.locals.user.userId;
     console.log(userId);
@@ -74,6 +90,7 @@ function delete_all_notification(user, userfrom) {
 
 module.exports = {
     get_type_notifications,
+    get_all_notifications,
     delete_notification,
     get_matchs,
     send_notification,

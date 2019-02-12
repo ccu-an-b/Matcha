@@ -4,6 +4,10 @@ const axiosInstance = axiosService.getInstance();
 
 class UserService {
 
+    getNotifcationsAll(){
+        return axiosInstance.post(`user/notifications/all`)
+    }
+
     getNotificationsType(type){
         return axiosInstance.get(`user/notifications/${type}`)
     }

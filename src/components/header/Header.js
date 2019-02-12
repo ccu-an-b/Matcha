@@ -1,13 +1,31 @@
 import React from 'react';
+import io from "socket.io-client";
 import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize, imgPath } from 'helpers';
 import * as actions from 'actions';
+import Notifications from './Notifications';
 // import { isBuffer } from 'util';
+
+const socket = io('localhost:3001');
 
 class Header extends React.Component {
 
+    constructor(){
+        super();
+        this.state = {
+            newMessages: 0,
+            unreadMessages: [],
+        }
+    }
+
+    componentDidMount() {
+        socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
+            if (data.user_for_id === this.props.auth.userId)
+                this.setState({ newMessages: this.state.newMessages+1 , unreadMessages: [...this.state.unreadMessages, data] });
+        });
+    }
     handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();
@@ -22,9 +40,9 @@ class Header extends React.Component {
     }
 
     render() {
-
         const { username } = this.props.auth;
-        const userData = this.props.user
+        const userData = this.props.user;
+        const {newMessages} = this.state;
 
         if (authService.isAuthentificated()) {
             return (
@@ -45,10 +63,13 @@ class Header extends React.Component {
                                     <Link className="nav-link active" to="/browse">Browse <span className="sr-only">(current)</span></Link>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <a className="nav-link">Notifications</a>
+                                    <Notifications />
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Link className="nav-link active" to="/chat">Messages</Link>
+                                    <Link className="nav-link notification" to="/chat">
+                                        Messages
+                                        {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}
+                                    </Link>
                                 </li>
                                 <li className="nav-item my-li">
                                     <a className="nav-link" onClick={this.handleLogout}>Logout</a>
