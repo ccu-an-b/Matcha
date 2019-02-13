@@ -10,13 +10,19 @@ const messagesRoutes = require('./routes/messages')
 const app = express();
 
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  pingTimeout: 60000,
+});
 
 io.set('origins', '*:*');
 io.on('connection', socket => {
 
   socket.on('SEND_CHAT_MESSAGE', function (data) {
     io.emit('RECEIVE_CHAT_MESSAGE', data);
+  })
+
+  socket.on('SEND_NOTIFICATION', function (data) {
+    io.emit('RECEIVE_NOTIFICATION', data)
   })
 
   socket.on('USER_CONNECTION', (login, roomToConnect) => {

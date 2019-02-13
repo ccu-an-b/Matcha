@@ -3,13 +3,14 @@ import MapView from './Map';
 import { connect } from "react-redux";
 import { Link, Redirect } from 'react-router-dom';
 import profileService from 'services/profile-service';
-//import { format } from "url";
 import {contains, getValues, distanceInKm} from 'helpers'
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { Filters } from './Filters';
 import { MySlider } from './Sliders';
-//import thunk from "redux-thunk";
+import io from "socket.io-client";
+
+const socket = io('localhost:3001');
 
 export class Browse extends React.Component {
 
@@ -65,6 +66,7 @@ export class Browse extends React.Component {
     {
       const username = event.target.id;
       return profileService.setProfileView(username)
+        .then((res) => socket.emit('SEND_NOTIFICATION', res.data))
         .then (() => this.updateSuggestedProfiles())
         .then(() =>  profileService.getOneProfile(username))
         .then((oneProfile) => {
@@ -79,6 +81,12 @@ export class Browse extends React.Component {
     {
       const username = event.target.id;
       return profileService.setProfileLike(username)
+        .then((res) =>{
+          res.data.map((notification) => {
+            socket.emit('SEND_NOTIFICATION', [notification])
+            return true
+          })
+        })
         .then(() => this.updateSuggestedProfiles())
         .then(() => profileService.getOneProfile(username) )
         .then((oneProfile) => {

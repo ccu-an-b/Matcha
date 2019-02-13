@@ -60,7 +60,7 @@ function sort_by_distance(profiles){
         return b.distance - a.distance;
     })
     return res.map((profile, index) =>{
-        profile.sort +=(index*3);
+        profile.sort +=(index*4);
         return profile
     })
 

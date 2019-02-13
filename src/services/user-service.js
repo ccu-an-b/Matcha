@@ -61,6 +61,10 @@ class UserService {
             err => Promise.reject(err.response.data.errors)
         )
     }
+
+    readNotification = () => {
+        return axiosInstance.post(`user/read/notification`)
+    }
 }
 
 export default new UserService();

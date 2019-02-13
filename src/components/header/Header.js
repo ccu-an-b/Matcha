@@ -63,7 +63,7 @@ class Header extends React.Component {
                                     <Link className="nav-link active" to="/browse">Browse <span className="sr-only">(current)</span></Link>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Notifications />
+                                    <Notifications addNotification={this.props.addNotification} />
                                 </li>
                                 <li className="nav-item my-li">
                                     <Link className="nav-link notification" to="/chat">

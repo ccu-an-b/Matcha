@@ -88,7 +88,8 @@ function set_profile_like(req, res) {
                         let valueUser = result[0].valueprofile;
                         let valueProfile = result[1].valueuser;
                         let profileId = result[1].user_id
-
+                        let type 
+                        
                         if (result[1].user_id === userId) {
                                 valueUser = result[1].valueprofile;
                                 valueProfile = result[0].valueuser;
@@ -99,18 +100,21 @@ function set_profile_like(req, res) {
                        
                         switch (valueUser) {
                                 case 1:
-                                        NotifMod.send_notification(profileId, userId, 2);
+                                        type = 2;
+                                        // NotifMod.send_notification(profileId, userId, 2);
                                         update_score(profileId, '+', 2)
                                         update_match(userId, profileId, 2)
                                         break;
                                 case 2:
-                                        NotifMod.send_notification(profileId, userId, -2);
+                                        type = -2;
+                                        // NotifMod.send_notification(profileId, userId, -2);
                                         NotifMod.delete_notification(profileId, userId, 2);
                                         update_score(profileId, '-', 2)
                                         update_match(userId, profileId, 1)
                                         break;
                                 case 3:
-                                        NotifMod.send_notification(profileId, userId, -3);
+                                        type = -3;
+                                        // NotifMod.send_notification(profileId, userId, -3);
                                         NotifMod.delete_notification(profileId, userId, 2);
                                         NotifMod.delete_notification(profileId, userId, 3);
                                         NotifMod.delete_notification(userId, profileId, 3);
@@ -120,8 +124,9 @@ function set_profile_like(req, res) {
                                         update_match(profileId, userId, 2)
                                         break;
                                 case 12:
-                                        NotifMod.send_notification(profileId, userId, 2);
-                                        NotifMod.send_match_notification(profileId, userId, 3);
+                                        type = 2;
+                                        // NotifMod.send_notification(profileId, userId, 2);
+                                        // NotifMod.send_match_notification(profileId, userId, 3);
                                         update_score(profileId, '+', 6)
                                         update_score(userId, '+', 4)
                                         update_match(userId, profileId, 3)
@@ -131,7 +136,20 @@ function set_profile_like(req, res) {
                                         console.log("error")
 
                         }
-                        return res.status(200).send({ success: [{ title: 'Profile liked/unliked', detail: '' }] });
+                        if (valueUser === 12)
+                        { 
+                                return  NotifMod.send_match_notification(profileId, userId, 3)
+                                        .then((result) => {
+                                                console.log(result)
+                                                return res.json(result)
+                                        }) 
+                        }
+                        else {
+                                return NotifMod.send_notification(profileId, userId, type)
+                                        .then((result) => {
+                                                return res.json(result)
+                                        })  
+                        }
                 })
 }
 
@@ -154,11 +172,11 @@ function set_profile_view(req, res) {
                         if (result[0].value === 0) {
                                 update_match(userId, result[0].id, 1)
                         }
-
-                        NotifMod.send_notification(result[0].id, userId, 1)
                         update_score(result[0].id, '+', 1)
-
-                        return res.status(200).send({ success: [{ title: 'Profile viewed', detail: '' }] });
+                        return NotifMod.send_notification(result[0].id, userId, 1)
+                         .then((result) => {
+                                return res.json(result)
+                        })
                 })
 }
 

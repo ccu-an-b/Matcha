@@ -117,6 +117,7 @@ header {
     .nav-link.notification{
       display: flex;
       align-items: center;
+      justify-content: center;
     }
     .notification-bubble{
       margin-left:5px;
@@ -171,10 +172,8 @@ header {
     overflow:auto;
     font-family: "Roboto";
     max-height: 300px;
-    visibility: hidden;
-    &:hover{
-      visibility: visible;
-    }
+    background-color: white;
+    
     &::-webkit-scrollbar {
       width: 8px;
     }
@@ -196,8 +195,11 @@ header {
       visibility: visible;
       background-color: white;
       cursor:pointer;
-      &:focus, &:active{
-        background-color: white;
+      &:focus, &:active, &:hover{
+        background-color: rgba(50, 54, 100, 0.3);
+      }
+      * {
+        cursor:pointer;
       }
       img {
         width: 40px;

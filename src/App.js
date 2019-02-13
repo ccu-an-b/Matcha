@@ -44,7 +44,7 @@ class App extends Component {
       container: "bottom-right",
       animationIn: ["animated", "fadeIn"],
       animationOut: ["animated", "fadeOut"],
-      dismiss: { duration: 3000 },
+      dismiss: { duration: 4000 },
       dismissable: { click: true },
       content: <Notification username="chloe" type={type} profile={profile} message={message}/>,
     });
@@ -75,7 +75,7 @@ class App extends Component {
           <Route exact path="/password/:key" component={Password} />
           <Background/>
           <div className="app-container">
-            <Header logout={this.logout}/>
+            <Header logout={this.logout} addNotification={this.addNotification}/>
             <ReactNotification ref={this.notificationDOMRef} />
               <Switch>
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} addNotification={this.addNotification}/>

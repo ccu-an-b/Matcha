@@ -96,7 +96,8 @@ header {
         color: white; }
     header nav.my-nav .nav-link.notification {
       display: flex;
-      align-items: center; }
+      align-items: center;
+      justify-content: center; }
     header nav.my-nav .notification-bubble {
       margin-left: 5px;
       color: white;
@@ -139,9 +140,7 @@ header {
     overflow: auto;
     font-family: "Roboto";
     max-height: 300px;
-    visibility: hidden; }
-    header .my-dropdown:hover {
-      visibility: visible; }
+    background-color: white; }
     header .my-dropdown::-webkit-scrollbar {
       width: 8px; }
     header .my-dropdown::-webkit-scrollbar-track {
@@ -159,8 +158,10 @@ header {
       visibility: visible;
       background-color: white;
       cursor: pointer; }
-      header .my-dropdown a:focus, header .my-dropdown a:active {
-        background-color: white; }
+      header .my-dropdown a:focus, header .my-dropdown a:active, header .my-dropdown a:hover {
+        background-color: rgba(50, 54, 100, 0.3); }
+      header .my-dropdown a * {
+        cursor: pointer; }
       header .my-dropdown a img {
         width: 40px;
         height: 40px;
@@ -732,7 +733,8 @@ header {
         .edit-profile .edit-infos .profile-data .data-details h4 {
           font-size: 20px;
           color: #363B6D;
-          font-weight: normal; }
+          font-weight: normal;
+          text-align: center; }
   .edit-profile .edit-picture {
     display: flex;
     width: 100%;
@@ -1658,7 +1660,9 @@ header {
       margin-top: 10px; }
     .one-profile-more .edit-profile h1.profile-score.like, .one-profile-more .edit-profile h1.profile-score.match {
       height: auto;
-      min-height: 35px; } }
+      min-height: 35px; }
+  .browse #leaflet-map .leaflet-container {
+    height: 90vh; } }
 
 @media screen and (max-width: 350px) {
   .browse .profile {
@@ -1807,6 +1811,11 @@ header {
       border-radius: 0.25rem; }
     .chat .matchs .display-matchs::-webkit-scrollbar-thumb:hover {
       background: rgba(50, 54, 100, 0.7); }
+    .chat .matchs .display-matchs h2 {
+      color: #363B6D;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      margin-right: 20px; }
   .chat h5 {
     bottom: 0;
     right: 20px;

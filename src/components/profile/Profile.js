@@ -2,9 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link , Redirect} from 'react-router-dom';
 import profileService from 'services/profile-service';
-
+import io from "socket.io-client";
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { ProfileActions } from './ProfileActions';
+
+const socket = io('localhost:3001');
 
 class Profile extends React.Component {
   _isMounted = false;
@@ -38,7 +40,10 @@ class Profile extends React.Component {
       if(this._isMounted)
         this.setState({profile: profile.data})
       if(this.state.isLoading){
-        profileService.setProfileView(username)
+        return profileService.setProfileView(username)
+          .then((res) => {
+            socket.emit('SEND_NOTIFICATION', res.data)
+          })
       }
     })
     .then(() => profileService.getUserInfo(username))
@@ -54,7 +59,13 @@ class Profile extends React.Component {
 
   profileLike = () => {
       return profileService.setProfileLike(this.state.username)
-        .then (() => this.updateProfile(this.state.username))
+        .then ((res) =>{
+          this.updateProfile(this.state.username)
+          res.data.map((notification) => {
+            socket.emit('SEND_NOTIFICATION', [notification])
+            return true
+          })
+        })
   }
   profileBlock = () => {
       return profileService.setProfileBlock(this.state.username)

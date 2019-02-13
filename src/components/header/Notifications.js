@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom';
 import userService from 'services/user-service';
 import TimeAgo from 'react-timeago';
 import { formatter, imgPath, toCapitalize } from 'helpers';
+import io from "socket.io-client";
+import { connect } from "react-redux";
+
+
+const socket = io('localhost:3001');
 
 const type = {
     "1": "visited your profile",
@@ -11,18 +16,42 @@ const type = {
     "-2": "unliked you",
     "-3": "unmatched you"
 }
-export default class Notifications extends React.Component{
+class Notifications extends React.Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            notifications: []
+            unread: 0,
+            notifications: [],
+            show: false,
         }
     }
 
     componentWillMount(){
+        this.updateNotifications()
+    }
+
+    componentDidMount(){
+        socket.on('RECEIVE_NOTIFICATION', (data) => {
+            if (data[0].user_id === this.props.auth.userId){
+                this.props.addNotification(data, 'notification', '')
+                this.updateNotifications();
+            }
+        });
+    }
+
+    updateNotifications(){
         userService.getNotifcationsAll()
-            .then((notifications) => {this.setState({notifications: notifications.data})})
+            .then((notifications) => {
+                this.setState({notifications: notifications.data})
+                let unread = 0;
+                notifications.data.map((notification) => {
+                    if(notification.read === 0)
+                        unread+=1
+                    return true
+                })
+                this.setState({unread})
+            })
     }
 
     renderNotifications(notifications){
@@ -38,17 +67,35 @@ export default class Notifications extends React.Component{
             )
         })
     }
+
+    readNotification = () =>{
+        this.setState({unread: 0, show: !this.state.show})
+        userService.readNotification()
+    }
+
     render(){
-        const {notifications} = this.state
+        const {notifications, unread, show} = this.state
 
         return (
             <div className="dropdown">
-                <a className="nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Notifications</a>
-                <div className="dropdown-menu my-dropdown" aria-labelledby="dropdownMenuButton">
-                    {notifications.length ? this.renderNotifications(notifications) : "You have no notifications"}
-                </div>
+                <a className="nav-link notification" onClick={() => this.readNotification()}>
+                    Notifications
+                    {unread !== 0 ? <div className="notification-bubble">{unread}</div> : ""}
+                </a>
+
+                {show &&
+                    <div className="dropdown-menu my-dropdown show" aria-labelledby="dropdownMenuButton">
+                        {notifications.length ? this.renderNotifications(notifications) : "You have no notifications"}
+                    </div>
+                }
             </div>
         )
     }
-
 }
+
+function mapStateToProps(state) {
+    return {
+        auth: state.auth,
+    }
+}
+export default connect(mapStateToProps)(Notifications);

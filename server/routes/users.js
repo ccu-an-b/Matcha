@@ -42,4 +42,6 @@ router.post('/change_pass',  AccountMod.user_change_password)
 
 router.post('/get_from_key',  UserMod.user_get_from_key)
 
+router.post('/read/notification', UserCtrl.authMiddleware, NotifMod.read_notifications)
+
 module.exports = router;

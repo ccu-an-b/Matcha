@@ -324,6 +324,9 @@
             }
         }
     }
+    .browse #leaflet-map .leaflet-container {
+        height: 90vh;
+    }
 }
 
 @media screen and (max-width: 350px){
