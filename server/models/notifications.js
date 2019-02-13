@@ -1,5 +1,5 @@
-const db = require('./db'),
-UserMod = require('./user');
+const   db = require('./db'),
+        UserMod = require('./user');
 
 function get_type_notifications(req, res) {
     const userId = res.locals.user.userId;

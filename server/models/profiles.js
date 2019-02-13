@@ -7,54 +7,88 @@ const db = require('./db'),
 
 function get_suggested_profiles(req, res) {
         const userId = res.locals.user.userId;
-        const query = {
-                text: `SELECT users.id, first_name, last_name , username, online, connexion,age, profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user , "${userId}" as match from users 
-                JOIN matchs ON matchs.user_id =users.id AND "${userId}" >= 0
-                JOIN profiles ON profiles.user_id = users.id  
-                JOIN scores ON scores.user_id = users.id  
-                JOIN geoloc ON geoloc.user_id = users.id
-                WHERE users.complete = 1 AND users.id != $1
-                GROUP BY users.id, profiles.age,profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, "${userId}"`,
-                values: [userId],
-        };
 
-        return db.get_database(query)
-                .then((response) => { 
-                        let promises = response.map((profile) =>{
-                                return UserMod.user_get_tags(profile.id)
-                                        .then((res) => {
-                                                profile.sort = 0;
-                                                profile.tags = res;
-                                                return MatchMod.match_distance(userId, profile);
-                                                
-                                        })
-                                        .then ((res) => {
-                                                profile.distance = res;
-                                                return MatchMod.match_tags(userId, profile);
-                                        })
-                                        .then ((res) => {
-                                                profile.tagsCount = res.length;
-                                                return profile;  
-                                        })
-                                
-                         })
-                        Promise.all(promises).then(function(results) {
-                                return MatchMod.sort_by_distance(results);
+        return UserMod.user_select('id', userId)
+        .then((result) => {
+                let orientation1;
+                let orientation2;
+                let sex1 = 0;
+                let sex2 = 1;
+
+                if (result[0].gender === 0){
+                        orientation1 = 0;
+                        orientation2 = 1;
+                        if (result[0].orientation == 1){
+                                sex1 = 0;
+                                sex2 = 0;
+                        }
+                        if (result[0].orientation == 2){
+                                sex1 = 1;
+                                sex2 = 1;
+                        }
+                }
+                if (result[0].gender === 1){
+                        orientation1 = 0;
+                        orientation2 = 2;
+                        if (result[0].orientation == 1){
+                                sex1 = 0;
+                                sex2 = 0;
+                        }
+                        if (result[0].orientation == 2){
+                                sex1 = 1;
+                                sex2 = 1;
+                        }
+                }
+               
+                const query = {
+                        text: `SELECT users.id, first_name, last_name , username, online, connexion,age, profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user , "${userId}" as match from users 
+                        JOIN matchs ON matchs.user_id =users.id AND "${userId}" >= 0
+                        JOIN profiles ON profiles.user_id = users.id  
+                        JOIN scores ON scores.user_id = users.id  
+                        JOIN geoloc ON geoloc.user_id = users.id
+                        WHERE users.complete = 1 AND users.id != $1 AND (profiles.orientation = $2 OR profiles.orientation = $3) AND (profiles.gender = $4 OR profiles.gender = $5)
+                        GROUP BY users.id, profiles.age,profile_img, total, latitude_ip, longitude_ip, latitude_user, longitude_user, city_ip, country_ip, city_user, country_user, "${userId}"`,
+                        values: [userId,orientation1, orientation2, sex1, sex2],
+                };
+        
+                return db.get_database(query)
+                        .then((response) => { 
+                                let promises = response.map((profile) =>{
+                                        return UserMod.user_get_tags(profile.id)
+                                                .then((res) => {
+                                                        profile.sort = 0;
+                                                        profile.tags = res;
+                                                        return MatchMod.match_distance(userId, profile);
+                                                        
+                                                })
+                                                .then ((res) => {
+                                                        profile.distance = res;
+                                                        return MatchMod.match_tags(userId, profile);
+                                                })
+                                                .then ((res) => {
+                                                        profile.tagsCount = res.length;
+                                                        return profile;  
+                                                })
+                                        
+                                 })
+                                Promise.all(promises).then(function(results) {
+                                        return MatchMod.sort_by_distance(results);
+                                })
+                                .then((results)=>{
+                                        return MatchMod.sort_by_tags(results)
+                                })
+                                .then((results)=>{
+                                        return MatchMod.sort_by_score(results)
+                                })
+                                .then((results)=>{
+                                        return MatchMod.sort_final(results)
+                                })
+                                .then((results)=>{
+                                        return res.json(results)
+                                })
                         })
-                        .then((results)=>{
-                                return MatchMod.sort_by_tags(results)
-                        })
-                        .then((results)=>{
-                                return MatchMod.sort_by_score(results)
-                        })
-                        .then((results)=>{
-                                return MatchMod.sort_final(results)
-                        })
-                        .then((results)=>{
-                                return res.json(results)
-                        })
-                })
-                .catch((e) => console.log(e));
+                        .catch((e) => console.log(e));
+        })
 }
 function update_match(userFromId, profileId, value) {
         const query = {
@@ -101,20 +135,17 @@ function set_profile_like(req, res) {
                         switch (valueUser) {
                                 case 1:
                                         type = 2;
-                                        // NotifMod.send_notification(profileId, userId, 2);
                                         update_score(profileId, '+', 2)
                                         update_match(userId, profileId, 2)
                                         break;
                                 case 2:
                                         type = -2;
-                                        // NotifMod.send_notification(profileId, userId, -2);
                                         NotifMod.delete_notification(profileId, userId, 2);
                                         update_score(profileId, '-', 2)
                                         update_match(userId, profileId, 1)
                                         break;
                                 case 3:
                                         type = -3;
-                                        // NotifMod.send_notification(profileId, userId, -3);
                                         NotifMod.delete_notification(profileId, userId, 2);
                                         NotifMod.delete_notification(profileId, userId, 3);
                                         NotifMod.delete_notification(userId, profileId, 3);
@@ -125,8 +156,6 @@ function set_profile_like(req, res) {
                                         break;
                                 case 12:
                                         type = 2;
-                                        // NotifMod.send_notification(profileId, userId, 2);
-                                        // NotifMod.send_match_notification(profileId, userId, 3);
                                         update_score(profileId, '+', 6)
                                         update_score(userId, '+', 4)
                                         update_match(userId, profileId, 3)

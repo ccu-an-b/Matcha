@@ -4,8 +4,7 @@ const   db = require('./db'),
         base64url = require('base64url'),
         ProfileMod = require('./profiles'),
         UserMod = require ('./user'),
-        MailMod = require ('./mail'),
-        MessagesMod = require('./messages');
+        MailMod = require ('./mail');
 
 function user_get_block(req, res){
     const userId = res.locals.user.userId

@@ -5,7 +5,7 @@ const userRoutes = require('./routes/users');
 const imageUploadRoutes = require('./routes/image-upload');
 const toolsRoutes = require('./routes/tools');
 const profilesRoutes = require('./routes/profiles');
-const messagesRoutes = require('./routes/messages')
+const messagesRoutes = require('./routes/messages');
 
 const app = express();
 

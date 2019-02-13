@@ -9,7 +9,7 @@ const   bcrypt = require('bcrypt'),
 function user_select(key, value) {
 
     const query = {
-        text: `SELECT mail, id, username,active, first_name, last_name, complete, key, profile_img FROM users 
+        text: `SELECT mail, id, username,active, first_name, last_name, complete, key, profile_img, orientation , gender FROM users 
         JOIN profiles ON user_id = id
         WHERE ${key}=$1 `,
         values: [value]
