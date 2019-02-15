@@ -1,5 +1,6 @@
 const   pg = require('pg'),
-        config = require('../config/dev');
+        config = require('../config/dev'),
+        setup = require('../config/create_db');
 
 const   pool = new pg.Pool(config.db);
 
@@ -14,7 +15,23 @@ function set_database(query){
         .catch(e => console.error(e.stack))
 }
 
+function create_database(dbname){
+    pool_create = new pg.Pool(config.db_create)
+
+    return pool_create.query(`CREATE DATABASE ${dbname}
+        WITH 
+        OWNER = "ccu-an-b"
+        ENCODING = 'UTF8'
+        CONNECTION LIMIT = -1;`)
+        .then(() => {
+            pool_create.end()
+            return setup.create_tables()
+        })
+        .catch(e => console.error(e.stack))
+}
+
 module.exports = {
     get_database,
-    set_database
+    set_database,
+    create_database
 }

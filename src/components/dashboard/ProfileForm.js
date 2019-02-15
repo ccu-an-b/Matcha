@@ -7,7 +7,7 @@ import { BwmImageUpload } from "components/shared/form/BwmImageUpload";
 import { BwmSelectLocation } from "components/shared/form/BwmSelectLocation";
 import { BwmSelect } from "components/shared/form/BwmSelect";
 import { BwmSelectCreatable } from "components/shared/form/BwmSelectCreatable";
-import { required } from "components/shared/form/validators";
+import { required , notMinor} from "components/shared/form/validators";
 import { connect } from "react-redux";
 
 var optionsGender = [
@@ -87,7 +87,7 @@ let ProfileForm = props => {
             placeholder="99"
             className="form-control"
             component={BwmInput}
-            validate={[required]}
+            validate={[required, notMinor]}
             data-parse="lowercase"
           />
           <Field

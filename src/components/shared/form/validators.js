@@ -12,3 +12,5 @@ export const checkNumber = value => (/\d/i.test(value) ? undefined : 'Must conta
 export const checkUpper = value => (/[A-Z]/g.test(value) ? undefined : 'Must contain at least one uppercase')
 
 export const checkLetter = value => (/[a-z]/g.test(value) ? undefined : 'Must contain at least one letter')
+
+export const notMinor = value => (value >= 18 ? undefined : '* Must be over 18')

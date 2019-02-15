@@ -98,11 +98,3 @@ export default class Notifications extends React.Component{
         }
     }
 }
-
-// function mapStateToProps(state) {
-//     return {
-//         auth: state.auth,
-//         notifications: state.notifications
-//     }
-// }
-// export default connect(mapStateToProps)(Notifications);

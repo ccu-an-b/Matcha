@@ -130,9 +130,10 @@ function user_profile_update(req, res) {
     }
     if (location) {
         const locJson = JSON.parse(location.value);
+        const city = locJson.address.city ||locJson.address.town || locJson.address.city_district || locJson.address.village
         query.push({
             text: `UPDATE geoloc SET latitude_user = $1, longitude_user = $2, display_adress_user = $3, city_user = $4, country_user = $5 WHERE user_id = $6`,
-            values: [locJson.lat, locJson.lon, locJson.display_name, locJson.address.city, locJson.address.country, user.userId]
+            values: [locJson.lat, locJson.lon, locJson.display_name, city, locJson.address.country, user.userId]
         })
     }
     if (image) {
