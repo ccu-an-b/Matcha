@@ -150,6 +150,12 @@ header {
       border-radius: 3px; }
     header .my-dropdown::-webkit-scrollbar-thumb:hover {
       background: #363B6D; }
+    header .my-dropdown h2 {
+      color: #363B6D;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin: 10px 0; }
     header .my-dropdown a {
       height: 50px;
       display: flex;
@@ -1744,6 +1750,8 @@ header {
     .filters-container .my-card .my-select.no-border .css-1hwfws3 {
       display: flex;
       padding-right: 0; }
+    .filters-container .my-card .my-select.no-border.multi .css-1hwfws3 {
+      margin-top: 10px; }
     .filters-container .my-card .css-15k3avv {
       font-size: 16px !important;
       position: absolute;

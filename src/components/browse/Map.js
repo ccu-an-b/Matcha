@@ -6,10 +6,10 @@ import { imgPath } from 'helpers';
 const defaultLocation = [48.896755, 2.318565];
 const defaultZoom = 13;
 
-const openStreetMapTile = (<TileLayer
-  attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
-/>);
+// const openStreetMapTile = (<TileLayer
+//   attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+//   url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+// />);
 
 const mapBoxTile = (<TileLayer
   url="https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}"

@@ -39,10 +39,10 @@ export class BwmSelectLocation extends Component {
 
   initializeValue(){
     const {defaultValue, defaultLat } = this.props
+
     if (defaultValue){
-      const address = defaultValue.split(',');
+      const address = defaultValue.normalize('NFD').replace(/[\u0300-\u036f]/g, "").split(',');
       return this.fetchOptions(address[0]).then((res)=> {
-     
         for(var i=0; i<res.length; i++) {
             if(res[i].value.indexOf(defaultLat)!==-1) {
               this.onChange(res[0])

@@ -30,7 +30,7 @@ let FiltersForm = props => {
                             <Field BwmIntervalSlider 
                                 name="score"
                                 min={0}
-                                max={300}
+                                max={500}
                                 component={BwmIntervalSlider}
                             />
                         </div>

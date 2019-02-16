@@ -26,6 +26,9 @@ class Header extends React.Component {
                 this.setState({ newMessages: this.state.newMessages+1 , unreadMessages: [...this.state.unreadMessages, data] });
         });
     }
+    componentWillUnmount(){
+        socket.off('RECEIVE_CHAT_MESSAGE')
+    }
     handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();

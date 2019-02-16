@@ -71,7 +71,7 @@ export class Browse extends React.Component {
         .then(() =>  profileService.getOneProfile(username))
         .then((oneProfile) => {
           this.setState({oneProfile: oneProfile.data})
-          this.profileRef.current.scrollIntoView({behavior: 'smooth'})
+          setTimeout(() => this.profileRef.current.scrollIntoView({behavior: 'smooth'}),200)
         })
     }
   }

@@ -30,7 +30,7 @@ class App extends Component {
     this.notificationDOMRef = React.createRef();
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.checkAuthState();
     if (authService.isAuthentificated()){
       this.initStore()
@@ -38,16 +38,17 @@ class App extends Component {
   }
 
   addNotification = (profile, type, message) => {
-    this.notificationDOMRef.current.addNotification({
-      message: message,
-      insert: "top",
-      container: "bottom-right",
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],
-      dismiss: { duration: 4000 },
-      dismissable: { click: true },
-      content: <Notification username="chloe" type={type} profile={profile} message={message}/>,
-    });
+      this.notificationDOMRef.current.addNotification({
+        message: message,
+        insert: "top",
+        container: "bottom-right",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: { duration: 4000 },
+        dismissable: { click: true },
+        content: <Notification username="chloe" type={type} profile={profile} message={message}/>,
+      });
+
   }
   checkAuthState(){
     store.dispatch(actions.checkAuthState());

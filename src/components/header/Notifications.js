@@ -38,7 +38,9 @@ export default class Notifications extends React.Component{
             }
         });
     }
-
+    componentWillUnmount(){
+        socket.off('RECEIVE_NOTIFICATION')
+    }
     updateNotifications(){
         userService.getNotifcationsAll()
             .then((notifications) => {
@@ -49,8 +51,9 @@ export default class Notifications extends React.Component{
                         unread+=1
                     return true
                 })
-                this.setState({unread, isLoading: false})
+                return unread;
             })
+            .then((unread) => this.setState({unread, isLoading: false}))
     }
 
     renderNotifications(notifications){
@@ -74,7 +77,6 @@ export default class Notifications extends React.Component{
 
     render(){
         const {notifications, unread, show} = this.state
-
         if (notifications){
             return (
                 <div className="dropdown">
@@ -85,7 +87,7 @@ export default class Notifications extends React.Component{
     
                     {show &&
                         <div className="dropdown-menu my-dropdown show" aria-labelledby="dropdownMenuButton">
-                            {notifications.length ? this.renderNotifications(notifications) : "You have no notifications"}
+                            {notifications.length ? this.renderNotifications(notifications) : <h2>You have no notifications</h2>}
                         </div>
                     }
                 </div>

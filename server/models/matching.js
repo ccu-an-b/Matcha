@@ -49,7 +49,7 @@ function sort_by_tags(profiles){
         return a.tagsCount - b.tagsCount;
     })
     return res.map((profile, index) =>{
-        profile.sort +=(index*2);
+        profile.sort +=(index*4);
         return profile
     })
 
@@ -60,7 +60,7 @@ function sort_by_distance(profiles){
         return b.distance - a.distance;
     })
     return res.map((profile, index) =>{
-        profile.sort +=(index*4);
+        profile.sort +=(index*40);
         return profile
     })
 
