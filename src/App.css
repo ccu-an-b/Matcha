@@ -66,6 +66,8 @@ header {
   header img {
     height: 50px;
     margin-top: 30px; }
+  header .navbar-light .navbar-brand:active, header .navbar-light .navbar-brand:focus, header .navbar-light .navbar-brand:visited, header .navbar-light .navbar-brand:hover {
+    color: white; }
   header nav.my-nav {
     font-family: "Raleway";
     width: 100%;
@@ -76,7 +78,8 @@ header {
     box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.05);
     border-radius: 4px;
     padding: 0;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    position: relative; }
     header nav.my-nav .profile-tab {
       height: 65px;
       display: flex;
@@ -94,6 +97,8 @@ header {
       header nav.my-nav .profile-tab a {
         padding: 0;
         color: white; }
+        header nav.my-nav .profile-tab a:active, header nav.my-nav .profile-tab a:focus, header nav.my-nav .profile-tab a:visited {
+          color: white; }
     header nav.my-nav .nav-link.notification {
       display: flex;
       align-items: center;
@@ -105,7 +110,6 @@ header {
       padding: 0 8px;
       border-radius: 20px; }
     header nav.my-nav .my-collapse {
-      justify-content: space-between;
       background-color: white;
       height: 100%;
       border-radius: 4px; }
@@ -130,6 +134,117 @@ header {
       color: #E83114;
       margin-right: 10px;
       font-size: 22px; }
+  header .my-search {
+    position: absolute;
+    right: 0px;
+    background-color: white;
+    transition: all .3s ease-out;
+    width: 60px;
+    visibility: hidden;
+    border-radius: 0 0.25rem 0.25rem 0;
+    display: flex;
+    align-items: center;
+    height: 65px;
+    justify-content: space-between; }
+    header .my-search form {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      overflow: hidden;
+      transition: overflow 1s; }
+      header .my-search form .my-select {
+        width: auto;
+        opacity: 0;
+        transition: opacity 1s; }
+      header .my-search form .my-select.no-border .css-10nd86i {
+        margin: 0; }
+      header .my-search form .my-select.no-border .css-vj8t7z {
+        background-color: transparent; }
+      header .my-search form .start-search {
+        padding: 0 20px;
+        flex-basis: 20%;
+        opacity: 0;
+        transition: all .5s;
+        display: flex;
+        align-items: center;
+        visibility: hidden;
+        border-radius: 0 0.25rem 0.25rem 0;
+        color: white;
+        cursor: pointer;
+        overflow: hidden; }
+        header .my-search form .start-search div {
+          white-space: nowrap;
+          overflow: hidden;
+          height: 25px;
+          width: 100%;
+          text-overflow: ellipsis; }
+  header .my-search .btn {
+    visibility: visible; }
+  header .my-search.active {
+    right: 0px;
+    width: 750px;
+    visibility: visible; }
+    header .my-search.active form {
+      flex-basis: 85%;
+      overflow: initial;
+      justify-content: space-between;
+      position: relative; }
+      header .my-search.active form .my-select {
+        opacity: 1; }
+      header .my-search.active form .my-select.search {
+        flex-basis: 70%;
+        width: auto; }
+        header .my-search.active form .my-select.search .css-19bqh2r {
+          display: none; }
+      header .my-search.active form .toggle-filter {
+        color: #E83114;
+        font-size: 20px;
+        cursor: pointer; }
+        header .my-search.active form .toggle-filter:hover {
+          transform: scale(1.1); }
+      header .my-search.active form .start-search {
+        opacity: 1;
+        color: #E83114;
+        height: 100%;
+        letter-spacing: 1px;
+        visibility: visible; }
+        header .my-search.active form .start-search:hover {
+          background-color: #E83114;
+          color: white; }
+      header .my-search.active form .search-filter {
+        position: absolute;
+        width: 1000px;
+        min-height: 40px;
+        background-color: rgba(232, 49, 20, 0.5);
+        top: 75px;
+        right: 0;
+        transition: all .3s;
+        padding: 20px;
+        border-radius: 0.25rem;
+        box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1); }
+        header .my-search.active form .search-filter .search-titles {
+          font-family: "roboto";
+          display: flex;
+          justify-content: space-around; }
+          header .my-search.active form .search-filter .search-titles h2 {
+            opacity: 1;
+            cursor: pointer;
+            color: white;
+            -webkit-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+            width: 80px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 15.5px;
+            margin: 4px 0; }
+          header .my-search.active form .search-filter .search-titles h2.collapsed {
+            opacity: 0.5; }
+        header .my-search.active form .search-filter .my-card {
+          min-height: 81px; }
+        header .my-search.active form .search-filter .slider-interval {
+          margin-top: 15px; }
   header .my-dropdown {
     top: 140%;
     box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
@@ -1378,6 +1493,65 @@ header {
       outline: none; }
   .slider-interval .rc-slider-handle-click-focus {
     border-color: #E83114; }
+
+.react-autosuggest__container {
+  position: relative; }
+
+.react-autosuggest__input {
+  width: 100%;
+  border: none;
+  height: 30px;
+  padding: 10px 20px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px; }
+
+.react-autosuggest__input--focused {
+  outline: none; }
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.react-autosuggest__suggestions-container {
+  display: none; }
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  position: absolute;
+  top: 51px;
+  width: 280px;
+  border: none;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-radius: 0.25rem;
+  z-index: 2;
+  box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1); }
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; }
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px; }
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd; }
+
+.react-autosuggest__section-container {
+  border-top: 1px dashed #ccc; }
+
+.react-autosuggest__section-container--first {
+  border-top: 0; }
+
+.react-autosuggest__section-title {
+  padding: 10px 0 0 10px;
+  font-size: 12px;
+  color: #777; }
 
 @media screen and (max-width: 320px) {
   .form .form-submit .a-submit {

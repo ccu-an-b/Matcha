@@ -20,6 +20,8 @@ import Chat from 'components/chat/Chat' ;
 import Settings from 'components/settings/Settings' ;
 import Profile  from 'components/profile/Profile' ;
 import Notification from 'components/shared/notifications/Notification' ;
+
+
 const store = require('./reducers').init();
 
 

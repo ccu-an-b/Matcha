@@ -83,6 +83,11 @@ header {
     height: 50px;
     margin-top:30px;
   }
+  .navbar-light .navbar-brand {
+    &:active, &:focus, &:visited, &:hover {
+      color: white
+    }
+  }
   nav.my-nav {
     font-family: "Raleway";
     width: 100%;
@@ -94,6 +99,7 @@ header {
     border-radius: 4px;
     padding: 0;
     box-sizing: border-box;
+    position: relative;
     .profile-tab {
       height:65px;
       display: flex;
@@ -112,6 +118,9 @@ header {
       a {
         padding:0;
         color:white;
+        &:active, &:focus, &:visited {
+          color: white
+        }
       }
     }
     .nav-link.notification{
@@ -127,7 +136,7 @@ header {
       border-radius: 20px;
     }
     .my-collapse {
-      justify-content: space-between;
+      // justify-content: space-between;
       background-color:white;
       height:100%;
       border-radius:4px;        
@@ -160,6 +169,141 @@ header {
       color: $main-orange;
       margin-right:10px;
       font-size:22px
+    }
+  }
+  .my-search{
+    position: absolute;
+    right: 0px;
+    background-color: white;
+    transition: all .3s ease-out;
+    width:60px;
+    visibility:hidden;
+    border-radius: 0 0.25rem 0.25rem 0;
+    display: flex;
+    align-items: center;
+    height: 65px;
+    justify-content: space-between;
+    form{
+      display: flex;
+      align-items: center;
+      height: 100%;
+      overflow: hidden;
+      transition: overflow 1s;
+      .my-select{
+        width: auto;
+        opacity: 0;
+        transition: opacity 1s;
+      }
+      .my-select.no-border .css-10nd86i{
+        margin: 0;
+      }
+      .my-select.no-border .css-vj8t7z {
+        background-color: transparent;
+      }
+      .start-search{
+        padding:0 20px;
+        flex-basis: 20%;
+        opacity: 0;
+        transition: all .5s;
+        display: flex;
+        align-items: center;
+        visibility: hidden;
+        border-radius: 0 0.25rem 0.25rem 0;
+        color:white;
+        cursor:pointer;
+        overflow: hidden;
+        div{
+          white-space: nowrap;
+          overflow: hidden;
+          height: 25px;
+          width: 100%;
+          text-overflow: ellipsis
+        }
+      }
+    }
+  }
+  .my-search .btn{
+    visibility:visible;
+  }
+  .my-search.active{
+    right: 0px;
+    width:750px;
+    visibility:visible;
+    form{
+      flex-basis: 85%;
+      overflow: initial;
+      justify-content: space-between;
+      position: relative;
+      .my-select{
+        opacity: 1;
+      }
+      .my-select.search{
+        flex-basis: 70%;
+        width: auto;
+        .css-19bqh2r{
+          display: none;
+        }
+      }
+      .toggle-filter{
+        color: $main-orange;
+        font-size:20px;
+        cursor: pointer;
+        &:hover{
+          transform: scale(1.1)
+        }
+      }
+      .start-search{
+        opacity: 1;
+        color: $main-orange;
+        height: 100%;
+        letter-spacing: 1px;
+        visibility: visible;
+        &:hover{
+          background-color: $main-orange;
+          color:white;
+        }
+      }
+      .search-filter{
+        position: absolute;
+        width: 1000px;
+        min-height: 40px;
+        background-color:rgba(232, 49, 20, 0.5);
+        top: 75px;
+        right: 0;
+        transition: all .3s;
+        padding: 20px;
+        border-radius: 0.25rem;
+        box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
+        .search-titles {
+          font-family: "roboto";
+          display: flex;
+          justify-content: space-around;
+          h2 {
+            opacity: 1;
+            cursor: pointer;
+            color: white;
+            -webkit-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+            width: 80px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 15.5px;
+            margin: 4px 0;
+          }
+          h2.collapsed{
+            opacity:0.5;
+          }
+        }
+        .my-card{
+          min-height: 81px;
+        }
+        .slider-interval{
+          margin-top: 15px;
+        }
+      }
+      
     }
   }
   .my-dropdown{
@@ -302,6 +446,7 @@ header {
           margin-right:10px;
         }
       }
+      
       .my-collapse {
         width: 100%;
         border-radius:0px;

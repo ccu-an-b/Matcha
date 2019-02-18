@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { toCapitalize, imgPath } from 'helpers';
 import * as actions from 'actions';
 import Notifications from './Notifications';
+import SearchForm from './Search';
 // import { isBuffer } from 'util';
 
 const socket = io('localhost:3001');
@@ -17,6 +18,7 @@ class Header extends React.Component {
         this.state = {
             newMessages: 0,
             unreadMessages: [],
+            showSearch: false
         }
     }
 
@@ -42,11 +44,20 @@ class Header extends React.Component {
             return process.env.PUBLIC_URL + '/profile_default.svg';
     }
 
+    showSearch = () => {
+        this.setState({showSearch: !this.state.showSearch})
+    }
+
+    hideSearch = () => {
+        this.setState({showSearch: false})
+    }
     render() {
         const { username } = this.props.auth;
         const userData = this.props.user;
-        const {newMessages} = this.state;
+        const {newMessages, showSearch} = this.state;
 
+        console.log(this.props.form)
+        
         if (authService.isAuthentificated()) {
             return (
                 <header>
@@ -57,7 +68,7 @@ class Header extends React.Component {
                     </button>
                     <nav className="navbar navbar-expand-lg navbar-light my-nav">
                         <div className="collapse navbar-collapse my-collapse" id="navbarTogglerDemo03">
-                            <div className="profile-tab">
+                            <div className="profile-tab" onClick={() => this.hideSearch()}>
                                 <img src={this.getProfileImage(userData)} alt="profile_img" />
                                 <Link className="navbar-brand " to="/dashboard"> {toCapitalize(username)}</Link>
                             </div>
@@ -78,9 +89,17 @@ class Header extends React.Component {
                                     <a className="nav-link" onClick={this.handleLogout}>Logout</a>
                                 </li>
                             </ul>
-                            <form className="form-inline my-2 my-lg-0">
-                                <button className="btn my-2 my-sm-0 search" ><i className="fas fa-search"></i></button>
-                            </form>
+                            <div className={showSearch ? "form-inline my-2 my-lg-0 my-search active" : "form-inline my-2 my-lg-0 my-search" }>
+                                <button className="btn my-2 my-sm-0 search" onClick={() => this.showSearch()}>
+                                   {!showSearch ? <i className="fas fa-search"></i>
+                                        : <i className="fas fa-times"></i> 
+                                   } 
+                                </button>
+                                {showSearch &&
+                                    <SearchForm optionsTags={this.props.tags.data} users={this.props.publicData}/>
+                                }
+                                {/* <button onClick={this.showModal} class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button> */}
+                            </div>
                         </div>
                     </nav>
                 </header>
@@ -101,6 +120,9 @@ function mapStateToProps(state) {
     return {
         auth: state.auth,
         user: state.user.data,
+        tags: state.tags,
+        publicData: state.publicData.data,
+        form: state.form
     }
 }
 
