@@ -16,13 +16,15 @@ export class Dashboard extends React.Component {
     }
 
     componentDidMount(){
-       this.updateProps()
+        this.updateProps()
     }
 
     updateProps(){
         this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
+        this.props.dispatch(actions.fetchPublicData())
         this.props.dispatch(actions.fetchTags())
     }
+
     completeProfile = profileData =>{
         if (profileData.image)
         {
@@ -105,7 +107,7 @@ function mapStateToProps(state) {
         user: state.user.data,
         tags: state.tags.data,
         auth: state.auth,
-        form: state.form
+        form: state.form,
     }
 }
 

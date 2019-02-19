@@ -6,10 +6,9 @@ const axiosInstance = axiosService.getInstance();
 class ProfileService {
 
     getSuggestedProfiles() {
-        return axiosInstance.post(`profiles`).then(
-            res => res,
-            err => Promise.reject(err.response)
-        )
+        return axiosInstance.post(`profiles`)
+        .then((res) => res.data)
+        .catch((err) => Promise.reject(err))
     }
     getOneProfile(username) {
         return axiosInstance.get(`user/profile/${username.toLowerCase()}`).then(

@@ -76,6 +76,7 @@ export default class Notifications extends React.Component{
     }
 
     render(){
+        const {showSearch} = this.props;
         const {notifications, unread, show} = this.state
         if (notifications){
             return (
@@ -85,7 +86,7 @@ export default class Notifications extends React.Component{
                         {unread !== 0 ? <div className="notification-bubble">{unread}</div> : ""}
                     </a>
     
-                    {show &&
+                    {show && !showSearch &&
                         <div className="dropdown-menu my-dropdown show" aria-labelledby="dropdownMenuButton">
                             {notifications.length ? this.renderNotifications(notifications) : <h2>You have no notifications</h2>}
                         </div>

@@ -19,6 +19,7 @@ import Browse from 'components/browse/Browse' ;
 import Chat from 'components/chat/Chat' ;
 import Settings from 'components/settings/Settings' ;
 import Profile  from 'components/profile/Profile' ;
+import Search  from 'components/search/Search' ;
 import Notification from 'components/shared/notifications/Notification' ;
 
 
@@ -62,8 +63,8 @@ class App extends Component {
 
 
   initStore(){
-    store.dispatch(actions.fetchPublicData());
     store.dispatch(actions.fetchUserProfile(authService.getUsername()))
+    store.dispatch(actions.fetchPublicData());
     store.dispatch(actions.fetchTags())
   }
 
@@ -85,6 +86,7 @@ class App extends Component {
                 <ProtectedRoute exact path="/browse" component={Browse} addNotification={this.addNotification}/>
                 <ProtectedRoute exact path="/chat" component={Chat} addNotification={this.addNotification}/>
                 <ProtectedRoute exact path="/settings" component={Settings} addNotification={this.addNotification} logout={this.logout}/>
+                <ProtectedRoute path="/search" component={Search} />
                 <ProtectedRoute exact path="/:key" component={Landing} />
                 <ProtectedRoute exact path="/profile/:username" component={Profile} addNotification={this.addNotification} />
               </Switch>

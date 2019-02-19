@@ -32,6 +32,15 @@ class Profile extends React.Component {
     this._isMounted = false;
   }
 
+  componentDidUpdate(prevProps) {
+    const usernameNew = this.props.match.params.username;
+    const usernameOld = prevProps.match.params.username;
+    if (usernameNew !== usernameOld){
+      this.setState({isLoading: true})
+      this.updateProfile(usernameNew)
+      this.setState({usernameNew})
+    }
+  }
   updateProfile(username){
     return profileService.getOneProfile(username).then((profile) => {
       if(!profile.data || profile.data[0].complete === 0|| profile.data[0].match < 0){
@@ -39,7 +48,7 @@ class Profile extends React.Component {
       }
       if(this._isMounted)
         this.setState({profile: profile.data})
-      if(this.state.isLoading){
+      if(this.state.isLoading && username !== this.props.user[0].username){
         return profileService.setProfileView(username)
           .then((res) => {
             socket.emit('SEND_NOTIFICATION', res.data)
@@ -85,7 +94,7 @@ class Profile extends React.Component {
   render() {
     const userData = this.props.user
     const {profile, userInfo, notFound, isLoading} = this.state
-    
+
     if (this.state.redirect || (userData.length > 0 && userData[0].complete === 0)) {
         return <Redirect to={{pathname:'/'}}/>
     }

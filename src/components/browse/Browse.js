@@ -25,14 +25,16 @@ export class Browse extends React.Component {
       redirect: false,
       lat: "",
       lon: "",
+      profiles: [],
     }
     this.profileRef = React.createRef()
   }
 
   componentWillMount(){
     profileService.getSuggestedProfiles().then((profiles) => {
-      this.setState({profiles , profilesFilter: profiles.data, isLoading: false})
+      this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
     })
+    .catch((err) => console.log(err))
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,9 +47,9 @@ export class Browse extends React.Component {
       if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
         this.setState({profilesFilter, filtered:true, isUpdating: false})
     }
-    else if ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| this.state.isUpdating )
+    else if (!prevState.isLoading && ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| this.state.isUpdating ))
     {
-      this.setState({profilesFilter: this.state.profiles.data, filtered: false,  isUpdating: false, lon: "", lat: ""})
+      this.setState({profilesFilter: this.state.profiles, filtered: false,  isUpdating: false, lon: "", lat: ""})
     }
   }
 

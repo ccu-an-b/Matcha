@@ -1,5 +1,7 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
+import {imgPath} from 'helpers';
+import {Link} from 'react-router-dom';
 
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -10,9 +12,19 @@ function getSuggestionValue(suggestion) {
 }
 
 function renderSuggestion(suggestion) {
-  return (
-    <span>{suggestion.label}</span>
-  );
+  if (suggestion.profile_img){
+    return (
+      <Link to={`/profile/${suggestion.label}`}>
+        <img src={imgPath(suggestion.profile_img)} alt="profile_img" />
+        <span>{suggestion.label}</span>
+      </Link>
+    );
+  }
+  else{
+    return (
+        <span>{suggestion.label}</span>
+    );
+  }
 }
 
 function renderSectionTitle(section) {

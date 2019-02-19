@@ -8,8 +8,8 @@ import {
   LOGOUT,
   FETCH_USER_BY_KEY_INIT,
   FETCH_USER_BY_KEY_SUCCESS,
-  FETCH_USER_PUBLIC_INFO_INIT,
-  FETCH_USER_PUBLIC_INFO_SUCCESS,
+  FETCH_USER_PUBLIC_DATA_INIT,
+  FETCH_USER_PUBLIC_DATA_SUCCESS,
   FETCH_USER_PROFILE_INIT,
   FETCH_USER_PROFILE_SUCCESS,
   FETCH_USER_PROFILE_FAIL,
@@ -64,8 +64,8 @@ export const completeProfile = (profileData) => {
 const loginSuccess = () => {
   const username = authService.getUsername();
   const userId = authService.getUserId();
-  store.dispatch(fetchUserProfile(username));
-  store.dispatch(fetchAllPublicData());
+  store.dispatch(fetchUserProfile(username))
+  store.dispatch(fetchPublicData())
   store.dispatch(fetchTags())
   return {
     type: LOGIN_SUCCESS,
@@ -145,40 +145,7 @@ export const uploadImage = image => {
 export const deleteImage = image =>{
   return axiosInstance.get(`user/deleteImage/${image}`)
 }
-// FETCH ALL PUBLIC DATA
 
-const fetchPublicInfoInit = () => {
-
-  return {
-    type: FETCH_USER_PUBLIC_INFO_INIT,
-  }
-}
-
-const fetchPublicInfoSuccess = (publicData) => {
-  return {
-    type: FETCH_USER_PUBLIC_INFO_SUCCESS,
-    publicData
-  }
-}
-
-export const fetchPublicData = () => {
-  return dispatch => {
-    if (authService.isAuthentificated()) {
-      dispatch(fetchAllPublicData());
-    }
-  }
-}
-
-
-const fetchAllPublicData = () => {
-  return function (dispatch) {
-    dispatch(fetchPublicInfoInit());
-
-    axios.post('/api/v1/user/fetch-users').then((res) => {
-      dispatch(fetchPublicInfoSuccess(res.data));
-    }).catch(({ response }) => Promise.reject(response.data))
-  }
-}
 
 //FETCH USER PROFILE
 const fetchUserProfileInit = () => {
@@ -210,6 +177,32 @@ export const fetchUserProfile = (username) => {
       axiosInstance.get(`user/profile/${username.toLowerCase()}`)
         .then((user) => dispatch(fetchUserProfileSuccess(user.data)))
         .catch(({response}) => dispatch(fetchUserProfileFail(response.data.errors)));
+  }
+}
+// FETCH ALL PUBLIC DATA
+
+const fetchPublicDataInit = () => {
+
+  return {
+    type: FETCH_USER_PUBLIC_DATA_INIT,
+  }
+}
+
+const fetchPublicDataSuccess = (publicData) => {
+
+  return {
+    type: FETCH_USER_PUBLIC_DATA_SUCCESS,
+    publicData
+  }
+}
+
+export const fetchPublicData = () => {
+  return function (dispatch) {
+    dispatch(fetchPublicDataInit());
+
+    axios.post('/api/v1/user/fetch-users').then((res) => {
+      dispatch(fetchPublicDataSuccess(res.data));
+    }).catch(({ response }) => Promise.reject(response.data))
   }
 }
 

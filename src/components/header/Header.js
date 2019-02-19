@@ -1,13 +1,12 @@
 import React from 'react';
 import io from "socket.io-client";
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link , Redirect} from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
-import { toCapitalize, imgPath } from 'helpers';
+import { toCapitalize, imgPath , getSearchUrl} from 'helpers';
 import * as actions from 'actions';
 import Notifications from './Notifications';
 import SearchForm from './Search';
-// import { isBuffer } from 'util';
 
 const socket = io('localhost:3001');
 
@@ -18,11 +17,17 @@ class Header extends React.Component {
         this.state = {
             newMessages: 0,
             unreadMessages: [],
-            showSearch: false
+            showSearch: false,
+            redirect: false
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        if (authService.isAuthentificated()){
+            this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
+            this.props.dispatch(actions.fetchPublicData())
+            this.props.dispatch(actions.fetchTags())
+        }
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             if (data.user_for_id === this.props.auth.userId)
                 this.setState({ newMessages: this.state.newMessages+1 , unreadMessages: [...this.state.unreadMessages, data] });
@@ -31,6 +36,7 @@ class Header extends React.Component {
     componentWillUnmount(){
         socket.off('RECEIVE_CHAT_MESSAGE')
     }
+    
     handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();
@@ -51,12 +57,21 @@ class Header extends React.Component {
     hideSearch = () => {
         this.setState({showSearch: false})
     }
+    sendSearch = () => {
+        let url
+
+        if (this.props.form.searchForm.values)
+        {
+            url = getSearchUrl(this.props.form.searchForm.values)
+            this.props.history.push(url);
+            this.setState({ showSearch: false})
+        }
+    }
+
     render() {
         const { username } = this.props.auth;
         const userData = this.props.user;
-        const {newMessages, showSearch} = this.state;
-
-        console.log(this.props.form)
+        const {newMessages, showSearch, redirect} = this.state;
         
         if (authService.isAuthentificated()) {
             return (
@@ -77,7 +92,7 @@ class Header extends React.Component {
                                     <Link className="nav-link active" to="/browse">Browse <span className="sr-only">(current)</span></Link>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Notifications addNotification={this.props.addNotification} userId={this.props.auth.userId}/>
+                                    <Notifications addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch}/>
                                 </li>
                                 <li className="nav-item my-li">
                                     <Link className="nav-link notification" to="/chat">
@@ -96,9 +111,8 @@ class Header extends React.Component {
                                    } 
                                 </button>
                                 {showSearch &&
-                                    <SearchForm optionsTags={this.props.tags.data} users={this.props.publicData}/>
+                                    <SearchForm optionsTags={this.props.tags.data} users={this.props.publicData.data} submitCb={this.sendSearch}/>
                                 }
-                                {/* <button onClick={this.showModal} class="btn my-2 my-sm-0 search" ><i class="fas fa-search"></i></button> */}
                             </div>
                         </div>
                     </nav>
@@ -121,7 +135,7 @@ function mapStateToProps(state) {
         auth: state.auth,
         user: state.user.data,
         tags: state.tags,
-        publicData: state.publicData.data,
+        publicData: state.publicData,
         form: state.form
     }
 }

@@ -55,3 +55,42 @@ export const distanceInKm = (lat1, lon1, lat2, lon2) => {
     else 
         return false
 }
+
+export const getSearchUrl = (values) => {
+    const {age, location, score, tags, search} = values
+    let locJson = "";
+
+    let url = "/search?"
+        let before = false
+        if (age || location || score || tags || search)
+        {
+            if (search)
+            {
+                url += `search=${escape(search)}`;
+                before = true;
+            }
+            if (age)
+            {
+                before ? url += `&age=${age[0]}+${age[1]}` : url += `age=${age[0]}+${age[1]}` ;
+                before = true;
+            }   
+            if (score)
+            {
+                before ? url += `&score=${score[0]}+${score[1]}` : url += `score=${score[0]}+${score[1]}` ;
+                before = true;
+            }
+            if (tags && tags.length)
+            {
+                before ? url += `&tags=${escape(tags[0].value)}` : url += `tags=${escape(tags[0].value)}` ;
+                for (var i = 1; i < tags.length ; i++ )
+                    url +=`+${escape(tags[i].value)}`;
+                before = true;
+            }
+            if(location)
+            {
+                locJson = JSON.parse(location.value)
+                before ? url += `&lat=${locJson.lat}&lon=${locJson.lon}` : url += `lat=${locJson.lat}&lon=${locJson.lon}` ;
+            }
+            return url
+        }  
+}

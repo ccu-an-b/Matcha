@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import Select from 'react-select';
+// import {Link} from 'react-router-dom';
 import { Field, reduxForm } from "redux-form";
 import { BwmSelectLocation } from "components/shared/form/BwmSelectLocation";
 import { BwmIntervalSlider } from "components/shared/form/BwmIntervalSlider";
@@ -19,10 +18,12 @@ class SearchForm extends React.Component{
     showFilters = () => {
         this.setState({showFilter: !this.state.showFilter})
     }  
+    
     render(){
         const tags = this.props.optionsTags; 
         const users = this.props.users;
         const {showFilter} = this.state;
+        const { handleSubmit, submitCb} = this.props
 
         const groupedOptions = [
             {
@@ -34,38 +35,35 @@ class SearchForm extends React.Component{
                 options: users,
             },
         ];
-        
 
         return (
-            <form>
+            <form onSubmit={handleSubmit((submitCb))}>
                 <div className="my-select no-border search">
-                <Field
+                {users.length && tags.length &&
+                    <Field
                     name="search"
                     component={BwmAutocomplete}
                     groupedOptions={groupedOptions}
                 />
-                    {/* <Select 
-                        placeholder="Search..."
-                        options={groupedOptions}
-                    /> */}
+                }
                 </div>
                 <div className="toggle-filter" onClick={() => this.showFilters()}>
                     <i className="fas fa-sliders-h"></i>
                 </div>
-                <div className="start-search">
+                <div className="start-search" onClick={submitCb}>
                     <div>Let's go !</div>
                 </div>
                 {showFilter && 
                 <div className="search-filter">
                      <div className="search-titles">
-                            <h2 className="collapsed" data-toggle="collapse" href="#multiCollapseAge" role="button" aria-expanded="false" aria-controls="multiCollapseAge">age</h2>
-                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseScore" aria-expanded="false" aria-controls="multiCollapseScore">score</h2>
-                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseLocation" aria-expanded="false" aria-controls="multiCollapseLocation">location</h2>
-                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseTags" aria-expanded="false" aria-controls="multiCollapseTags">tags</h2>
+                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseAgeSearch" role="button" aria-expanded="false" aria-controls="multiCollapseAgeSearch">age</h2>
+                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseScoreSearch" aria-expanded="false" aria-controls="multiCollapseScoreSearch">score</h2>
+                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseLocationSearch" aria-expanded="false" aria-controls="multiCollapseLocationSearch">location</h2>
+                            <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseTagsSearch" aria-expanded="false" aria-controls="multiCollapseTagsSearch">tags</h2>
                      </div>
                       <div className="row">
                       <div className="col">
-                          <div className="collapse multi-collapse" id="multiCollapseAge">
+                          <div className="collapse multi-collapse" id="multiCollapseAgeSearch">
                               <div className="my-card card card-body">
                                   <Field 
                                       name="age"
@@ -78,7 +76,7 @@ class SearchForm extends React.Component{
                           </div>
                       </div>
                       <div className="col">
-                          <div className="collapse multi-collapse" id="multiCollapseScore">
+                          <div className="collapse multi-collapse" id="multiCollapseScoreSearch">
                               <div className="my-card card card-body">
                                   <Field  
                                       name="score"
@@ -90,7 +88,7 @@ class SearchForm extends React.Component{
                           </div>
                       </div>
                       <div className="col">
-                          <div className="collapse multi-collapse" id="multiCollapseLocation">
+                          <div className="collapse multi-collapse" id="multiCollapseLocationSearch">
                               <div className="my-card card card-body">
                               <Field
                                   name="location"
@@ -103,7 +101,7 @@ class SearchForm extends React.Component{
                           </div>
                       </div>
                       <div className="col">
-                          <div className="collapse multi-collapse" id="multiCollapseTags">
+                          <div className="collapse multi-collapse" id="multiCollapseTagsSearch">
                               <div className="my-card card card-body">
                                   <Field 
                                       name="tags"

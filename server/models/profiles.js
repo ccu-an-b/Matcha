@@ -5,9 +5,7 @@ const db = require('./db'),
         MessagesMod = require('./messages'),
         MatchMod = require('./matching');
 
-function get_suggested_profiles(req, res) {
-        const userId = res.locals.user.userId;
-
+function get_profiles(userId) {
         return UserMod.user_select('id', userId)
         .then((result) => {
                 let orientation1;
@@ -51,45 +49,38 @@ function get_suggested_profiles(req, res) {
                         values: [userId,orientation1, orientation2, sex1, sex2],
                 };
         
-                return db.get_database(query)
-                        .then((response) => { 
-                                let promises = response.map((profile) =>{
-                                        return UserMod.user_get_tags(profile.id)
-                                                .then((res) => {
-                                                        profile.sort = 0;
-                                                        profile.tags = res;
-                                                        return MatchMod.match_distance(userId, profile);
-                                                        
-                                                })
-                                                .then ((res) => {
-                                                        profile.distance = res;
-                                                        return MatchMod.match_tags(userId, profile);
-                                                })
-                                                .then ((res) => {
-                                                        profile.tagsCount = res.length;
-                                                        return profile;  
-                                                })
-                                        
-                                 })
-                                Promise.all(promises).then(function(results) {
-                                        return MatchMod.sort_by_distance(results);
-                                })
-                                .then((results)=>{
-                                        return MatchMod.sort_by_tags(results)
-                                })
-                                .then((results)=>{
-                                        return MatchMod.sort_by_score(results)
-                                })
-                                .then((results)=>{
-                                        return MatchMod.sort_final(results)
-                                })
-                                .then((results)=>{
-                                        return res.json(results)
-                                })
-                        })
-                        .catch((e) => console.log(e));
+                return db.get_database(query) 
+                        .then((res) => res)
+                        .catch((err) => console.log(err))
         })
+        .catch((err) => console.log(err))
 }
+
+const get_suggested_profiles = async (req, res) => {
+
+        const userId = res.locals.user.userId;
+
+        const response = await get_profiles(userId)
+        let i = 0;
+        do {
+                const tags = await UserMod.user_get_tags(response[i].id);
+                response[i].sort = 0;
+                response[i].tags = tags;
+                const distance =  await MatchMod.match_distance(userId, response[i]);
+                response[i].distance = distance;
+                const tagsCount = await MatchMod.match_tags(userId, response[i]);
+                response[i].tagsCount = tagsCount.length;
+                i += 1;
+        } while (i < response.length)
+
+        const sort1 = await MatchMod.sort_by_distance(response);
+        const sort2 = await MatchMod.sort_by_tags(sort1);
+        const sort3 = await MatchMod.sort_by_score(sort2);
+        const sortFinal = await MatchMod.sort_final(sort3);
+
+        return res.json(sortFinal);
+}
+
 function update_match(userFromId, profileId, value) {
         const query = {
                 text: `UPDATE matchs SET "${profileId}" =  $1  WHERE user_id = $2`,

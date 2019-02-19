@@ -21,7 +21,7 @@ const LoginForm = props => {
             <BwmResSuccess success={success} />                                  
             <Field
                 name="username"
-                type="text"
+                type="text" 
                 placeholder="Username"
                 className='form-control'
                 component={BwmInput}
