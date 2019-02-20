@@ -6,7 +6,10 @@ import { BwmMultiSelect } from "components/shared/form/BwmMultiSelect";
 
 let FiltersForm = props => { 
 
-    const {tags} = props;
+    const {tags,defaultLat, defaultLocation,defaultAge,defaultScore} = props;
+    
+    console.log(props)
+
         return (
             <div className='filters-container active' >
                 <h1 className='trigger-filters active'>Filter </h1>
@@ -35,7 +38,7 @@ let FiltersForm = props => {
                                     min={18}
                                     max={120}
                                     component={BwmIntervalSlider}
-                                    value="ok"
+                                    defaultValue={defaultAge}
                                 />
                             </div>
                         </div>
@@ -49,6 +52,7 @@ let FiltersForm = props => {
                                     min={0}
                                     max={500}
                                     component={BwmIntervalSlider}
+                                    defaultValue={defaultScore}
                                 />
                             </div>
                         </div>
@@ -63,6 +67,8 @@ let FiltersForm = props => {
                                 placeholder="Where to ..."
                                 className="my-select no-border location"
                                 component={BwmSelectLocation}
+                                defaultValue={defaultLocation}
+                                defaultLat={defaultLat}
                             />
                             </div>
                         </div>

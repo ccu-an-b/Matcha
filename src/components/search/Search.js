@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import queryString from 'query-string'
-import { imgPath , contains, distanceInKm, getValues} from "../../helpers";
+import { imgPath , contains, distanceInKm, getValues, string_to_array} from "../../helpers";
 import * as actions from 'actions';
 import FiltersForm from "./Filters";
 
@@ -57,12 +57,6 @@ class Search extends React.Component {
             suggestions = this.getSuggestions(queryString.parse(urlNew).search)
             if (!suggestions.length)
                 suggestions= undefined;
-            // console.log(queryString.parse(urlNew).age) 
-            // console.log(queryString.parse(urlNew).search) 
-            // console.log(queryString.parse(urlNew).score) 
-            // console.log(queryString.parse(urlNew).tags) 
-            // console.log(queryString.parse(urlNew).lat) 
-            // console.log(queryString.parse(urlNew).lon) 
             this.setState({
                 profiles: suggestions, 
                 filtered: suggestions
@@ -116,13 +110,20 @@ class Search extends React.Component {
 
     }
     render() {
-        const {filtered} = this.state
-
+        const {filtered} = this.state;
+        const values = queryString.parse(this.props.location.search);
         return(
             <div className="search-page">
                 <div className="left">
                 {this.props.tags &&
-                    <FiltersForm tags={this.props.tags}/>
+                    <FiltersForm 
+                        tags={this.props.tags}
+                        defaultAge={string_to_array(values.age)} 
+                        defaultScore={string_to_array(values.score)} 
+                        defaultTags={string_to_array(values.tags)} 
+                        defaultLat={values.lat} 
+                        defaultLocation={values.location} 
+                    />
                 }
                 </div>
                 <div className="right">

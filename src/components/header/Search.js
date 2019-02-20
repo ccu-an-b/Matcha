@@ -66,7 +66,6 @@ class SearchForm extends React.Component{
                                       min={18}
                                       max={120}
                                       component={BwmIntervalSlider}
-                                      value="ok"
                                   />
                               </div>
                           </div>

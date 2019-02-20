@@ -30,3 +30,4 @@ export class BwmMultiSelect extends React.Component {
         )
     }
 };
+
