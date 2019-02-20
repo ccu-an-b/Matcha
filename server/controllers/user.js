@@ -1,4 +1,5 @@
 const   User = require('../models/user'),
+        Profile = require("../models/profiles"),
         config = require('../config/dev'),
         jwt = require('jsonwebtoken'),
         axios = require('axios');
@@ -88,13 +89,4 @@ function parseToken(token) {
 
 function notAuthorized(res) {
     return res.status(401).send({ errors: errorMessages.notAuthorized });
-}
-
-exports.fetchAllUsersData = function (req, res) {
-    // Public Data to be defined
-    return User.user_select_all_public_data()
-        .then((result) => {
-            return res.status(200).send(result);
-        })
-        .catch(() => {return res.status(422).send({ errors: errorMessages.dataMissing })})
 }

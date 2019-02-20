@@ -5,6 +5,32 @@ const db = require('./db'),
         MessagesMod = require('./messages'),
         MatchMod = require('./matching');
 
+function fetch_public_data() {
+
+        const query = {
+                text: `SELECT id, age, total, username, first_name, last_name, city_user, country_user,latitude_user, longitude_user, profile_img, username as value, username as label FROM users
+                JOIN geoloc ON geoloc.user_id = users.id
+                JOIN scores ON scores.user_id = users.id
+                JOIN profiles ON profiles.user_id = users.id`,
+        }
+        return db.get_database(query)
+        .then((response) => response)
+}
+
+const get_public_data = async (req, res) => {
+
+        const all_profiles = await fetch_public_data();
+        let i = 0
+        do {
+                const tags = await UserMod.user_get_tags(all_profiles[i].id);
+                all_profiles[i].tags = tags;
+                i += 1;
+        }while (i < all_profiles.length)
+
+        return res.status(200).send(all_profiles);
+
+}
+
 function get_profiles(userId) {
         return UserMod.user_select('id', userId)
         .then((result) => {
@@ -250,6 +276,7 @@ function get_user_info(req, res){
 }
 
 module.exports = {
+        get_public_data,
         get_suggested_profiles,
         set_profile_view,
         set_profile_like,

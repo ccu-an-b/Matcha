@@ -2468,10 +2468,27 @@ header {
   margin-bottom: 20px; }
   .search-page .left {
     flex-basis: 25%;
-    height: 100px;
     background-color: rgba(50, 54, 100, 0.05);
     border-radius: 0.25rem;
     padding: 20px; }
+    .search-page .left .filters-container.active {
+      background-color: transparent;
+      padding: 0; }
+      .search-page .left .filters-container.active h1 {
+        cursor: default;
+        margin: 0; }
+        .search-page .left .filters-container.active h1:hover {
+          opacity: 0.5; }
+      .search-page .left .filters-container.active .filters.active {
+        flex-direction: column;
+        align-items: center; }
+        .search-page .left .filters-container.active .filters.active h2 {
+          font-family: "Roboto";
+          margin: 20px 0 0px 0; }
+        .search-page .left .filters-container.active .filters.active form {
+          display: flex;
+          flex-direction: column;
+          align-items: center; }
   .search-page .right {
     flex-basis: 75%;
     margin-left: 20px;
@@ -2479,6 +2496,12 @@ header {
     border-radius: 0.25rem;
     box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.1);
     padding: 20px; }
+    .search-page .right h2 {
+      color: #363B6D;
+      margin: 20px 0;
+      text-align: center;
+      letter-spacing: 1.5px;
+      font-size: 15.5px; }
     .search-page .right .one-profile {
       display: flex;
       margin: 0px 20px;
@@ -2497,7 +2520,10 @@ header {
       .search-page .right .one-profile .one-profile-info {
         display: flex;
         flex-direction: column;
-        justify-content: center; }
+        justify-content: center;
+        cursor: pointer; }
+        .search-page .right .one-profile .one-profile-info * {
+          cursor: pointer; }
         .search-page .right .one-profile .one-profile-info h4 {
           font-size: 18px;
           color: #363B6D;

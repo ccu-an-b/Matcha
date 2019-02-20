@@ -17,19 +17,6 @@ function user_select(key, value) {
     return db.get_database(query)
 }
 
-// PUBLIC DATA
-// TO BE UPDATED WITH: TAGS / USER POSITION
-function user_select_all_public_data() {
-
-    const query = {
-        text: `SELECT id, age, total, username, first_name, last_name, city_user, country_user,latitude_user, longitude_user, profile_img, username as value, username as label FROM users
-        JOIN geoloc ON geoloc.user_id = users.id
-        JOIN scores ON scores.user_id = users.id
-        JOIN profiles ON profiles.user_id = users.id`,
-    }
-    return db.get_database(query)
-}
-
 // REGISTER FUNCTIONS
 function user_new_tables(user_id) {
 
@@ -385,6 +372,4 @@ module.exports = {
     user_set_online,
     user_set_ip,
     user_set_offline,
-    user_select_all_public_data,
-
 }

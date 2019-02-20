@@ -27,10 +27,6 @@ class SearchForm extends React.Component{
 
         const groupedOptions = [
             {
-                title: 'Tags',
-                options: tags,
-            },
-            {
                 title: 'Username',
                 options: users,
             },

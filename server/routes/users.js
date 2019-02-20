@@ -16,8 +16,6 @@ router.post('/profileComplete', UserCtrl.authMiddleware, UserMod.user_profile_up
 
 router.get('/activate/:key', UserCtrl.activate)
 
-router.post('/fetch-users', UserCtrl.fetchAllUsersData)
-
 router.get('/profile/:username', UserCtrl.authMiddleware, UserMod.user_get_profile)
 
 router.get('/deleteImage/:image', UserCtrl.authMiddleware, UserMod.user_delete_image)

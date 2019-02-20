@@ -1,19 +1,21 @@
 const   express         = require('express'),
         UserCtrl        = require('../controllers/user'),
-        profilesMod     = require('../models/profiles.js');
+        ProfilesMod     = require('../models/profiles.js');
         
 const router = express.Router();
 
-router.post('/', UserCtrl.authMiddleware, profilesMod.get_suggested_profiles);
+router.post('/', UserCtrl.authMiddleware, ProfilesMod.get_suggested_profiles);
 
-router.get('/like/:username', UserCtrl.authMiddleware, profilesMod.set_profile_like)
+router.post('/public-data', ProfilesMod.get_public_data);
 
-router.get('/view/:username', UserCtrl.authMiddleware, profilesMod.set_profile_view)
+router.get('/like/:username', UserCtrl.authMiddleware, ProfilesMod.set_profile_like);
 
-router.get('/block/:username', UserCtrl.authMiddleware, profilesMod.set_profile_block)
+router.get('/view/:username', UserCtrl.authMiddleware, ProfilesMod.set_profile_view);
 
-router.get('/report/:username', profilesMod.set_profile_report)
+router.get('/block/:username', UserCtrl.authMiddleware, ProfilesMod.set_profile_block);
 
-router.get('/user-info/:username', UserCtrl.authMiddleware, profilesMod.get_user_info)
+router.get('/report/:username', ProfilesMod.set_profile_report);
+
+router.get('/user-info/:username', UserCtrl.authMiddleware, ProfilesMod.get_user_info);
 
 module.exports = router;

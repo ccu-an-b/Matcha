@@ -1,6 +1,6 @@
 import React from 'react';
 import io from "socket.io-client";
-import { withRouter, Link , Redirect} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
 import { toCapitalize, imgPath , getSearchUrl} from 'helpers';
@@ -18,7 +18,6 @@ class Header extends React.Component {
             newMessages: 0,
             unreadMessages: [],
             showSearch: false,
-            redirect: false
         }
     }
 
@@ -71,7 +70,7 @@ class Header extends React.Component {
     render() {
         const { username } = this.props.auth;
         const userData = this.props.user;
-        const {newMessages, showSearch, redirect} = this.state;
+        const {newMessages, showSearch} = this.state;
         
         if (authService.isAuthentificated()) {
             return (

@@ -131,7 +131,7 @@ export class Browse extends React.Component {
   filterProfiles(form){
     if (form.filtersForm && form.filtersForm.values){
       const filters = form.filtersForm.values;
-      let filtered = this.state.profiles.data;
+      let filtered = this.state.profiles;
 
       if (filters.age){
         filtered = filtered.filter(obj => obj.age >= filters.age[0] && obj.age <= filters.age[1])
