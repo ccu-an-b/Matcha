@@ -6,9 +6,7 @@ import { BwmMultiSelect } from "components/shared/form/BwmMultiSelect";
 
 let FiltersForm = props => { 
 
-    const {tags,defaultLat, defaultLocation,defaultAge,defaultScore} = props;
-    
-    console.log(props)
+    const {tags,defaultLat, defaultLocation,defaultAge,defaultScore, defaultTags} = props;
 
         return (
             <div className='filters-container active' >
@@ -25,6 +23,7 @@ let FiltersForm = props => {
                                     className="my-select no-border multi"
                                     options={tags.data}
                                     component={BwmMultiSelect }
+                                    defaultValue={defaultTags}
                                 />
                             </div>
                         </div>

@@ -30,6 +30,17 @@ const handle = (props) => {
 
 export class BwmIntervalSlider extends React.Component {
     
+  componentDidMount(){
+    this.initializeValue()
+  }
+
+  initializeValue(){
+    const {defaultValue } = this.props
+
+    if (defaultValue ){
+        this.onChange([parseInt(defaultValue[0],10),parseInt(defaultValue[1],10)])
+      }
+  }
   onSliderChange = (value) => {
     log(value);
   }
