@@ -100,3 +100,79 @@ export const getSearchUrl = (values) => {
         return url
     }  
 }
+
+
+export const sort_by_tags = (profiles, order) =>{
+    const res =  profiles.sort(function(a,b){
+        if (order === 'desc')
+            return a.tagsCount - b.tagsCount;
+        else
+            return b.tagsCount - a.tagsCount;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=(index*4);
+        return profile
+    })
+}
+
+export const sort_by_age = (profiles, order) =>{
+    const res =  profiles.sort(function(a,b){
+        if (order === 'desc')
+            return a.age - b.age;
+        else
+            return b.age - a.age;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=(index*4);
+        return profile
+    })
+}
+
+export const sort_by_distance = (profiles, order) => {
+    const res =  profiles.sort(function(a,b){
+        if (order === 'desc')
+            return a.distance - b.distance;
+        else
+            return b.distance - a.distance;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=(index*40);
+        return profile
+    })
+
+}
+
+export const sort_by_score = (profiles, order) =>{
+    const res =  profiles.sort(function(a,b){
+        if (order === 'desc')
+            return a.score - b.score;
+        else
+            return b.score - a.score;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=index;
+        return profile
+    })
+}
+
+export const sort_profiles = (profiles, category, order) =>{
+    let result = [];
+
+    switch (category) {
+        case "age":
+            result = sort_by_age(profiles, order)
+            break;
+        case "score":
+            result = sort_by_score(profiles, order)
+            break;
+        case "tags":
+            result = sort_by_tags(profiles, order)
+            break;
+        case "distance":
+            result = sort_by_distance(profiles, order)
+            break;
+        default:
+            console.log("test");
+    }
+    return result;
+}

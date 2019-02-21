@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
-import queryString from 'query-string'
-import { imgPath , contains, distanceInKm, getValues, string_to_array} from "../../helpers";
+import queryString from 'query-string';
+import { imgPath , contains, distanceInKm, getValues, string_to_array, sort_profiles} from "../../helpers";
 import * as actions from 'actions';
 import FiltersForm from "./Filters";
+import SortForm from "./Sort";
 
 class Search extends React.Component {
     _isMounted = false;
@@ -49,8 +50,9 @@ class Search extends React.Component {
                 suggestions= undefined;
             this.setState({
                 profiles: suggestions, 
-                filtered: suggestions
+                filtered: suggestions,
             })
+            
            this._isMounted =true;
         }
         if (urlNew !== urlOld && this.props.publicData && this._isMounted){
@@ -59,15 +61,20 @@ class Search extends React.Component {
                 suggestions= undefined;
             this.setState({
                 profiles: suggestions, 
-                filtered: suggestions
+                filtered: suggestions,
             })
         }
-        if (this._isMounted && form.filterSearch && form.filterSearch.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles)) 
+        if (this._isMounted && form.filterSearch && form.filterSearch.values && (form.filterSearch !== prevProps.form.filterSearch || this.state.profiles !== prevState.profiles)) 
         {
             const profilesFilter = this.filterProfiles(form)
 
             if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
                 this.setState({filtered:profilesFilter})
+        }
+        if (this._isMounted && form.sortSearch && form.sortSearch.values && (form.sortSearch !== prevProps.form.sortSearch || this.state.profiles !== prevState.profiles)) 
+        {
+            this.setState({filtered: sort_profiles(this.state.filtered,form.sortSearch.values.sort.value , 'asc')})
+            // console.log(form.sortSearch.values)
         }
     }
 
@@ -76,7 +83,7 @@ class Search extends React.Component {
           const filters = form.filterSearch.values;
           let filtered = this.state.profiles;
     
-            if (filters.age){
+        if (filters.age){
             filtered = filtered.filter(obj => obj.age >= filters.age[0] && obj.age <= filters.age[1])
           }
           if (filters.score){
@@ -93,8 +100,7 @@ class Search extends React.Component {
           return filtered
         }
       }
-
-    
+      
     renderProfiles(profiles){
         return profiles.map((profile, index) => {
             return(
@@ -115,6 +121,7 @@ class Search extends React.Component {
         return(
             <div className="search-page">
                 <div className="left">
+                <SortForm/>
                 {this.props.tags &&
                     <FiltersForm 
                         tags={this.props.tags}

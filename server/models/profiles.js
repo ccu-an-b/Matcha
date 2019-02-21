@@ -18,16 +18,20 @@ function fetch_public_data() {
 }
 
 const get_public_data = async (req, res) => {
-
-        const all_profiles = await fetch_public_data();
+        const userId = res.locals.user.userId;
+        const response = await fetch_public_data();
         let i = 0
         do {
-                const tags = await UserMod.user_get_tags(all_profiles[i].id);
-                all_profiles[i].tags = tags;
+                const tags = await UserMod.user_get_tags(response[i].id);
+                response[i].tags = tags;
+                const distance =  await MatchMod.match_distance(userId, response[i]);
+                response[i].distance = distance;
+                const tagsCount = await MatchMod.match_tags(userId, response[i]);
+                response[i].tagsCount = tagsCount.length;
                 i += 1;
-        }while (i < all_profiles.length)
+        }while (i < response.length)
 
-        return res.status(200).send(all_profiles);
+        return res.status(200).send(response);
 
 }
 

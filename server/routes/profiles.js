@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', UserCtrl.authMiddleware, ProfilesMod.get_suggested_profiles);
 
-router.post('/public-data', ProfilesMod.get_public_data);
+router.post('/public-data', UserCtrl.authMiddleware, ProfilesMod.get_public_data);
 
 router.get('/like/:username', UserCtrl.authMiddleware, ProfilesMod.set_profile_like);
 

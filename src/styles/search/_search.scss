@@ -18,17 +18,36 @@
                     opacity: 0.5;
                 }
             }
+            .my-card{
+                margin-bottom: 20px;
+            }
             .filters.active{
                 flex-direction: column;
                 align-items: center;
                 h2{
                     font-family: "Roboto";
-                    margin: 20px 0 0px 0;
+                    margin: 10px 0 0px 0;
+                    cursor: default;
+                    &:hover{
+                        opacity: 0.5;
+                    }
                 }
                 form{
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                }
+            }
+            .sort{
+                margin-bottom: 20px;
+                .my-card{
+                    padding: 0 20px;
+                    min-height: 60px;
+
+                    .my-select.no-border.multi .css-1wy0on6{
+                        top: 8px;
+                        right: -15px;
+                    }
                 }
             }
         }
@@ -40,12 +59,19 @@
         border-radius: 0.25rem;
         box-shadow: 0px 2px 12px -4px rgba(0,0,0,0.1);
         padding:20px;
-        h2{
+        h2, h3{
             color: #363B6D;
             margin: 20px 0;
             text-align: center;
             letter-spacing: 1.5px;
             font-size: 15.5px;
+        }
+        h3{
+            opacity: 0.5;
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+            }
         }
         .one-profile{
             display: flex;

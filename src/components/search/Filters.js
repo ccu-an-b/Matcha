@@ -14,7 +14,7 @@ let FiltersForm = props => {
 
                 <div className='filters active'>
                 <form className="form" >
-                    <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseTags" aria-expanded="false" aria-controls="multiCollapseTags">tags</h2>
+                    <h2 className="collapsed">tags</h2>
                     <div className="col">
                         <div className="collapse multi-collapse show" id="multiCollapseTags">
                             <div className="my-card card card-body">
@@ -28,7 +28,7 @@ let FiltersForm = props => {
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed" data-toggle="collapse" href="#multiCollapseAge" role="button" aria-expanded="false" aria-controls="multiCollapseAge">age</h2>
+                    <h2 className="collapsed">age</h2>
                     <div className="col">
                         <div className="collapse multi-collapse show" id="multiCollapseAge">
                             <div className="my-card card card-body">
@@ -42,7 +42,7 @@ let FiltersForm = props => {
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseScore" aria-expanded="false" aria-controls="multiCollapseScore">score</h2>
+                    <h2 className="collapsed">score</h2>
                     <div className="col">
                         <div className="collapse multi-collapse show" id="multiCollapseScore">
                             <div className="my-card card card-body">
@@ -56,7 +56,7 @@ let FiltersForm = props => {
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed" data-toggle="collapse" data-target="#multiCollapseLocation" aria-expanded="false" aria-controls="multiCollapseLocation">location</h2>
+                    <h2 className="collapsed">location</h2>
                     <div className="col">
                         <div className="collapse multi-collapse show" id="multiCollapseLocation">
                             <div className="my-card card card-body">
