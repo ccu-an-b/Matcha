@@ -16,24 +16,16 @@ function set_database(query){
 }
 
 function create_database(dbname){
-    // pool_create = new pg.Pool(config.db_create)
-
-    pool_create = new pg.Pool({
-        user: 'ccu-an-b',
-        database: 'postgres',
-        password: '',
-        port: '5432'
-    })
+    pool_create = new pg.Pool(config.db_create)
 
     return pool_create.query(`CREATE DATABASE ${dbname}
         WITH 
-        OWNER = "ccu-an-b"
+        OWNER = "${config.db_create.user}"
         ENCODING = 'UTF8'
         CONNECTION LIMIT = -1;`)
         .then(() => {
             pool_create.end()
-            return setup.create_tables()
-
+            return setup.create_tables();
         })
         .catch(e => console.error(e.stack))
 }

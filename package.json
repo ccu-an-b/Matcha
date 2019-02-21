@@ -65,11 +65,27 @@
   "scripts": {
     "build-css": "node-sass-chokidar ./src -o ./src",
     "watch-css": "npm run build-css && node-sass-chokidar ./src -o ./src --watch --recursive",
+    "init": "node ./server/setup.js",
+    "db-setup": "node server/setup.js",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
-    "build": "npm-run-all builc-css build-js",
+    "build": "npm-run-all builc-css build-js ; ",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "description": "Dating website",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccu-an-b/Matcha.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ccu-an-b/Matcha/issues"
+  },
+  "homepage": "https://github.com/ccu-an-b/Matcha#readme",
+  "keywords": []
 }
