@@ -155,6 +155,19 @@ export const sort_by_score = (profiles, order) =>{
     })
 }
 
+export const sort_by_suggestion = (profiles, order) =>{
+    const res =  profiles.sort(function(a,b){
+        if (order === 'desc')
+            return a.sort - b.sort;
+        else
+            return b.sort - a.sort;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=index;
+        return profile
+    })
+}
+
 export const sort_by_username = (profiles, order) =>{
     const res =  profiles.sort(function(a,b){
         if (order === 'asc')
@@ -194,6 +207,9 @@ export const sort_profiles = (profiles, category, order) =>{
             break;
         case "username":
             result = sort_by_username(profiles, order)
+            break;
+        case "sort":
+            result = sort_by_suggestion(profiles, order)
             break;
         default:
             console.log("test");

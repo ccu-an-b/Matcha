@@ -1903,6 +1903,66 @@ header {
     font-size: 15px; }
     .filters-container h1:hover {
       opacity: 1; }
+  .filters-container .order {
+    display: flex;
+    position: relative; }
+    .filters-container .order i {
+      font-size: 20px;
+      color: #363B6D;
+      opacity: 0.5;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all .3s;
+      margin-left: 10px;
+      height: 24px; }
+      .filters-container .order i:hover {
+        opacity: 1; }
+    .filters-container .order i.active {
+      margin-top: -8px;
+      transform: rotate(-180deg) skewX(0deg); }
+    .filters-container .order .order-input {
+      display: none;
+      margin-top: -1px;
+      transition: all .3s;
+      width: 0px; }
+      .filters-container .order .order-input .my-select.no-border {
+        width: 0px;
+        overflow: hidden; }
+    .filters-container .order h1.order {
+      width: auto;
+      margin-right: 10px; }
+    .filters-container .order .order-input.show {
+      display: flex; }
+      .filters-container .order .order-input.show .my-select.no-border {
+        width: 150px;
+        overflow: visible; }
+    .filters-container .order .my-select.no-border .css-10nd86i {
+      margin-bottom: 0;
+      width: 150px; }
+      .filters-container .order .my-select.no-border .css-10nd86i * {
+        cursor: pointer;
+        color: #363B6D;
+        opacity: 1;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-size: 15px;
+        background-color: transparent; }
+      .filters-container .order .my-select.no-border .css-10nd86i .css-15k3avv {
+        background-color: white;
+        z-index: 4; }
+      .filters-container .order .my-select.no-border .css-10nd86i .css-vj8t7z {
+        min-height: 0px; }
+      .filters-container .order .my-select.no-border .css-10nd86i .css-2o5izw {
+        min-height: 0px;
+        height: 30px; }
+        .filters-container .order .my-select.no-border .css-10nd86i .css-2o5izw * {
+          padding: 0px; }
+        .filters-container .order .my-select.no-border .css-10nd86i .css-2o5izw .css-1wy0on6 {
+          padding: 0px; }
+    .filters-container .order .my-select.no-border .css-1hwfws3 {
+      padding: 0; }
+    .filters-container .order .css-1ep9fjw {
+      padding: 0; }
   .filters-container .filters {
     width: 0;
     display: flex;
@@ -2534,6 +2594,10 @@ header {
       text-align: center;
       letter-spacing: 1.5px;
       font-size: 15.5px; }
+    .search-page .right h2 {
+      display: none; }
+    .search-page .right h2.show {
+      display: block; }
     .search-page .right h3 {
       opacity: 0.5;
       cursor: pointer; }

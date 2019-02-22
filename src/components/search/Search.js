@@ -79,7 +79,7 @@ class Search extends React.Component {
             if (form.sortSearch.values.sort)
                 this.setState({filtered: sort_profiles(filtered, form.sortSearch.values.sort.value, order ? 'asc' : 'desc')})
             else
-                this.setState({filtered: sort_profiles(filtered, "username", order ? 'asc' : 'desc')})
+                this.setState({filtered: sort_profiles(filtered, "username",'asc'), order: false})
         }
     }
 
@@ -150,9 +150,9 @@ class Search extends React.Component {
                 }
                 </div>
                 <div className="right">
-                    {filtered ? 
+                    {filtered && filtered.length ? 
                         this.renderProfiles(filtered) : 
-                        <h2>No result found</h2>
+                        <h2 className={this._isMounted ? "show" : ""}>No result found</h2>
                     }         
 
                     {!this._isMounted && 

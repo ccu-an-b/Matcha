@@ -91,6 +91,12 @@
             letter-spacing: 1.5px;
             font-size: 15.5px;
         }
+        h2{
+            display: none
+        }
+        h2.show{
+            display: block;
+        }
         h3{
             opacity: 0.5;
             cursor: pointer;

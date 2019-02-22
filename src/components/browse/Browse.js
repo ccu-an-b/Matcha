@@ -3,7 +3,7 @@ import MapView from './Map';
 import { connect } from "react-redux";
 import { Link, Redirect } from 'react-router-dom';
 import profileService from 'services/profile-service';
-import {contains, getValues, distanceInKm} from 'helpers'
+import {contains, getValues, distanceInKm, sort_profiles} from 'helpers'
 import { ProfilePreview } from '../dashboard/ProfilePreview';
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { Filters } from './Filters';
@@ -21,11 +21,13 @@ export class Browse extends React.Component {
       showMap: true,
       isLoading: true,
       filtered: false,
+      profilesFilter: [],
       isUpdating: false,
       redirect: false,
       lat: "",
       lon: "",
       profiles: [],
+      order: false,
     }
     this.profileRef = React.createRef()
   }
@@ -39,18 +41,32 @@ export class Browse extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const {form} = this.props
+    const {order, profilesFilter, isUpdating, profiles , isLoading} = this.state
 
-    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || this.state.profiles !== prevState.profiles || this.state.isUpdating )) 
+    if (form.filtersForm && form.filtersForm.values && (form !== prevProps.form || profiles !== prevState.profiles || isUpdating )) 
     {
       const profilesFilter = this.filterProfiles(form)
 
       if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
         this.setState({profilesFilter, filtered:true, isUpdating: false})
     }
-    else if (!prevState.isLoading && ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| this.state.isUpdating ))
+    if (!prevState.isLoading && ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| isUpdating ))
     {
-      this.setState({profilesFilter: this.state.profiles, filtered: false,  isUpdating: false, lon: "", lat: ""})
+      this.setState({profilesFilter: profiles, filtered: false,  isUpdating: false, lon: "", lat: ""})
     }
+    if (!isLoading && form.sortForm && form.sortForm.values && (form.sortForm !== prevProps.form.sortForm || profiles !== prevState.profiles || order !== prevState.order)) 
+    {
+      if (form.sortForm.values.sort)
+          this.setState({profilesFilter: sort_profiles(profilesFilter, form.sortForm.values.sort.value, order ? 'asc' : 'desc')})
+      else
+          this.setState({profilesFilter: sort_profiles(profilesFilter, "sort", order ? 'asc' : 'desc')})
+    }
+  }
+
+  orderProfiles = () => {
+    const {form} = this.props;
+    if (form.sortForm && form.sortForm.values)
+        this.setState({order: !this.state.order})
   }
 
   updateSuggestedProfiles(){
@@ -153,7 +169,7 @@ export class Browse extends React.Component {
   }
   render() {
     const {user, tags} = this.props
-    const {isLoading, oneProfile, showMap, profilesFilter} = this.state
+    const {order, isLoading, oneProfile, showMap, profilesFilter} = this.state
 
     if (this.state.redirect) {
       return <Redirect to={{pathname:'/'}}/>
@@ -164,7 +180,11 @@ export class Browse extends React.Component {
           <div className="type-display"> 
               <div className='btn button full' onClick={this.switchDisplay}>Show {showMap ? 'List' : 'Map'}</div>
           </div>
-          <Filters tags={tags}/>
+          <Filters 
+            tags={tags}
+            order={order}
+            triggerOrder={this.orderProfiles}
+          />
 
           {showMap &&
             <div id="leaflet-map" className="my-map">

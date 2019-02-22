@@ -1,6 +1,5 @@
 .filters-container{
     width: 100%;
-    // overflow:hidden;
     border-radius: 0.25rem;
     padding: 20px;
     background-color: transparent;
@@ -15,6 +14,85 @@
       font-size: 15px;
       &:hover{
         opacity:1;
+      }
+    }
+    .order{
+      display: flex;
+      position: relative;
+      i{
+        font-size: 20px;
+        color: $main-dark-purple;
+        opacity: 0.5;
+        margin-top: 2px;
+        cursor: pointer;
+        transition: all .3s;
+        margin-left: 10px;
+        height: 24px;
+        &:hover{
+            opacity: 1;
+        }
+      }
+      i.active{
+        margin-top: -8px;
+        transform: rotate(-180deg) skewX(0deg);
+      }
+      .order-input{
+        display: none;
+        margin-top: -1px;
+        transition: all .3s;
+        width: 0px;
+        .my-select.no-border{
+          width: 0px;
+          overflow: hidden;
+        }
+      }
+    
+      h1.order{
+        width: auto;
+        margin-right: 10px;
+      }
+      .order-input.show{
+        display: flex;
+        .my-select.no-border{
+          width: 150px;
+          overflow: visible;
+        }
+      }
+      .my-select.no-border .css-10nd86i{
+        margin-bottom: 0;
+        width: 150px;
+        *{
+          cursor: pointer;
+          color: #363B6D;
+          opacity: 1;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          font-size: 15px; 
+          background-color: transparent;
+        }
+        .css-15k3avv{
+          background-color: white;
+          z-index:4;
+        }
+        .css-vj8t7z{
+          min-height: 0px;
+        }
+        .css-2o5izw{
+          min-height:0px;
+          height: 30px;
+          *{
+            padding: 0px;
+          }
+          .css-1wy0on6{
+            padding: 0px;
+          }
+        }
+      }
+      .my-select.no-border .css-1hwfws3{
+        padding:0;
+      }
+      .css-1ep9fjw{
+        padding: 0;
       }
     }
     .filters{
@@ -39,7 +117,6 @@
       h2.collapsed {
         opacity: 0.5;
         &:hover{
-        //   color:#E83114;
         opacity: 1;
         }
       }
