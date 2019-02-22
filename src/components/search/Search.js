@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
-import { imgPath , contains, distanceInKm, getValues, string_to_array, sort_profiles} from "../../helpers";
+import { imgPath , contains, distanceInKm, getValues, string_to_array, sort_profiles, imagesLoaded} from "../../helpers";
 import * as actions from 'actions';
 import FiltersForm from "./Filters";
 import SortForm from "./Sort";
@@ -13,10 +13,11 @@ class Search extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-        profiles: [],
-        filtered: [],
-        values: [],
-        order: false,
+            profiles: [],
+            filtered: [],
+            values: [],
+            order: false,
+            loadImg:true
         }
     }
 
@@ -117,7 +118,13 @@ class Search extends React.Component {
         return profiles.map((profile, index) => {
             return(
                 <Link to={`/profile/${profile.label}`} className="one-profile" key={index}>
-                    <img src={imgPath(profile.profile_img)} alt="profile_img"/>
+                    <div className={this.state.loadImg ? "img_loading img_none": "img_loading" }>
+                    <img   src={imgPath(profile.profile_img)} 
+                            onLoad={this.handleImageChange}
+                            onError={this.handleImageChange}
+                            alt="profile_img"
+                    />
+                    </div>
                     <div className="one-profile-info">
                         <h4>{profile.label}, {profile.age}</h4>
                         <h5>{profile.city_user}, {profile.country_user}</h5>
@@ -127,12 +134,19 @@ class Search extends React.Component {
         })
 
     }
+
+    handleImageChange = () => {
+        this.setState({
+          loadImg: !imagesLoaded(this.searchElement)
+        });
+    };
+
     render() {
         const {filtered, order} = this.state;
         const values = queryString.parse(this.props.location.search);
 
         return(
-            <div className="search-page">
+            <div className="search-page" ref={element => {this.searchElement = element;}}> 
                 <div className="left">
                 <SortForm
                     order={order}
@@ -157,7 +171,7 @@ class Search extends React.Component {
 
                     {!this._isMounted && 
                         <div className="page loading">
-                            <img src={process.env.PUBLIC_URL+'/loading.gif'} alt="loading_gif"  />
+                            <img src={process.env.PUBLIC_URL+'/loading.gif'} alt="loading_gif" />
                         </div>
                     }
                 </div>

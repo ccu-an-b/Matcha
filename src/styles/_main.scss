@@ -152,6 +152,16 @@ h1,h2, h3,h4 {
     }
   }
 
+  .img_loading.img_none{
+        animation-name: pulsing ;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        transition: all .3s ease-out;
+        background-color: #D9DAE2;
+        img{
+            opacity: 0;
+        }
+  }
 @media screen and (max-width: 1000px)
 {
     .app-container {

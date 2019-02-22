@@ -6,3 +6,15 @@
 		opacity:1;
 	}
 }
+
+@keyframes pulsing {
+	0% {
+	  background-color: #D9DAE2;
+	}
+	50% {
+	  background-color: #B4B5C6;
+	}
+	100% {
+	  background-color: #D9DAE2;
+	}
+}

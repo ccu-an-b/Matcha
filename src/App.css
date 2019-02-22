@@ -960,7 +960,7 @@ header {
         align-items: center; }
         .matchs .display-matchs .one-match .one-match-content:hover {
           text-decoration: none !important; }
-      .matchs .display-matchs .one-match img {
+      .matchs .display-matchs .one-match img, .matchs .display-matchs .one-match .img_loading {
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -2067,6 +2067,8 @@ header {
     height: 100%;
     position: relative;
     padding: 0; }
+  .chat .matchs {
+    max-height: initial; }
   .chat .chat-left {
     position: absolute;
     height: 100%;
@@ -2079,7 +2081,8 @@ header {
   .chat .matchs .display-matchs {
     height: 100%;
     margin: 0;
-    padding: 0; }
+    padding: 0;
+    max-height: initial; }
     .chat .matchs .display-matchs::-webkit-scrollbar-thumb {
       background: rgba(50, 54, 100, 0.3);
       border-radius: 0.25rem; }
@@ -2262,6 +2265,14 @@ header {
     opacity: 0; }
   to {
     opacity: 1; } }
+
+@keyframes pulsing {
+  0% {
+    background-color: #D9DAE2; }
+  50% {
+    background-color: #B4B5C6; }
+  100% {
+    background-color: #D9DAE2; } }
 
 .profile-page {
   display: flex; }
@@ -2612,12 +2623,14 @@ header {
       .search-page .right .one-profile:hover {
         text-decoration: none;
         background-color: rgba(50, 54, 100, 0.05); }
-      .search-page .right .one-profile img {
+      .search-page .right .one-profile img, .search-page .right .one-profile .img_loading {
         border-radius: 50%;
         width: 70px;
         height: 70px;
         object-fit: cover;
-        margin-right: 20px; }
+        margin-right: 20px;
+        position: relative;
+        overflow: hidden; }
       .search-page .right .one-profile .one-profile-info {
         display: flex;
         flex-direction: column;
@@ -2745,6 +2758,15 @@ h1, h2, h3, h4 {
   .page.loading img {
     width: 100px;
     height: 100px; }
+
+.img_loading.img_none {
+  animation-name: pulsing;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transition: all .3s ease-out;
+  background-color: #D9DAE2; }
+  .img_loading.img_none img {
+    opacity: 0; }
 
 @media screen and (max-width: 1000px) {
   .app-container {

@@ -27,6 +27,9 @@
     position: relative;
     padding:0;
   }
+  .matchs{
+    max-height: initial;
+  }
   .chat-left{
     position: absolute;
     height: 100%;
@@ -43,6 +46,7 @@
     height: 100%;
     margin:0;
     padding:0;
+    max-height: initial;
     &::-webkit-scrollbar-thumb {
       background:rgba(50, 54, 100, 0.3); 
       border-radius:0.25rem;

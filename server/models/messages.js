@@ -15,7 +15,6 @@ function send_message(req, res) {
     // const { roomId, userId, messageTo, content } = req.body;
     const { room_id, user_from_id, user_for_id, content } = req.body;
 
-    console.log(req.body)
     const query = {
         text: `INSERT INTO messages (user_from_id, user_for_id, content, room_id, date) VALUES ($1, $2, $3, $4, $5)`,
         values: [user_from_id, user_for_id, content, room_id, Date.now()]

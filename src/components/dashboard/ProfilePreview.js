@@ -1,9 +1,22 @@
 import React from 'react';
 import TimeAgo from 'react-timeago';
-import { formatter, imgPath ,toCapitalize} from 'helpers';
+import { formatter, imgPath ,toCapitalize, imagesLoaded} from 'helpers';
 import { Link } from 'react-router-dom';
 
 export class ProfilePreview extends React.Component {
+
+    constructor(){
+        super()
+        this.state ={
+            loadImg: true,
+        }
+    }
+
+    handleImageChange = () => {
+        this.setState({
+          loadImg: !imagesLoaded(this.imgElement)
+        });
+    };
 
     getUserLocation(userData) {
         if (userData.city_user && userData.country_user) {
@@ -22,9 +35,13 @@ export class ProfilePreview extends React.Component {
 
         user === userData.username ? isUser = true : isUser = false
         return (
-            <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id}  >
-                <div className="img">
-                    <img src={imgPath(userData.profile_img)} alt="profile_img" />
+            <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id}  ref={element => {this.imgElement = element;}}>
+                <div className={this.state.loadImg ? "img_loading img_none img": "img_loading img" }>
+                    <img    src={imgPath(userData.profile_img)} 
+                            alt="profile_img" 
+                            onLoad={this.handleImageChange}
+                            onError={this.handleImageChange}
+                    />
                     <h3>{toCapitalize(userData.username)}</h3>
 
                     <h5 className={userData.online === 1 ? 'online' : ' '}>

@@ -18,16 +18,13 @@ class AxiosService {
                 const token = authService.getToken();
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`;
-                    // config.headers.
                 }
-
                 return config;
             });
         return this.axiosInstance;
     }
 
     getInstance(){
-        //return this.axiosInstance ;
         return this.axiosInstance || this.initInstance;
     }
 }
