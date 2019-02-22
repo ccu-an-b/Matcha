@@ -9,43 +9,29 @@ const sortOptions = [
     { value: "tags", label: "Sort by tags" },
 ];
 
-const orderOptions = [
-    { value: "desc", label: "order increasing" },
-    { value: "asc", label: "order decreasing" },
-];
-
 let SortForm = props => { 
 
+    const {order, triggerOrder} = props
     return (
         <div className='filters-container active' >
-            <h1 className='trigger-filters active'>Sort by</h1>
-
+            <span className="order-by">
+                <h1 className='trigger-filters active'>Sort by</h1>
+                <i className={order ? 'fas fa-sort-up active' : 'fas fa-sort-up' } onClick={triggerOrder}></i>
+            </span>
             <div className='filters active sort'>
-            <form className="form" >
-                <div className="col">
-                    <div className="collapse multi-collapse show" id="multiCollapseTags">
-                        <div className="my-card card card-body">
-                            <Field 
-                                name="sort"
-                                className="my-select no-border multi"
-                                options={sortOptions}
-                                component={BwmSelect}
-                            />
+                <form className="form" >
+                    <div className="col">
+                        <div className="collapse multi-collapse show" id="multiCollapseTags">
+                            <div className="my-card card card-body">
+                                <Field 
+                                    name="sort"
+                                    className="my-select no-border multi"
+                                    options={sortOptions}
+                                    component={BwmSelect}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-                {/* <div className="col">
-                    <div className="collapse multi-collapse show" id="multiCollapseAge">
-                        <div className="my-card card card-body">
-                        <Field 
-                                name="order"
-                                className="my-select no-border multi"
-                                options={orderOptions}
-                                component={BwmSelect}
-                            />
-                        </div>
-                    </div>
-                </div> */}
                 </form>
             </div>
         </div>

@@ -145,9 +145,30 @@ export const sort_by_distance = (profiles, order) => {
 export const sort_by_score = (profiles, order) =>{
     const res =  profiles.sort(function(a,b){
         if (order === 'desc')
-            return a.score - b.score;
+            return a.total - b.total;
         else
-            return b.score - a.score;
+            return b.total - a.total;
+    })
+    return res.map((profile, index) =>{
+        profile.sort +=index;
+        return profile
+    })
+}
+
+export const sort_by_username = (profiles, order) =>{
+    const res =  profiles.sort(function(a,b){
+        if (order === 'asc')
+        {
+            if(a.username < b.username) { return -1 }
+            if(a.username > b.username) { return 1 }
+            return 0;
+        }
+        else
+        {
+            if(a.username > b.username) { return -1 }
+            if(a.username < b.username) { return 1 }
+            return 0;
+        }
     })
     return res.map((profile, index) =>{
         profile.sort +=index;
@@ -170,6 +191,9 @@ export const sort_profiles = (profiles, category, order) =>{
             break;
         case "distance":
             result = sort_by_distance(profiles, order)
+            break;
+        case "username":
+            result = sort_by_username(profiles, order)
             break;
         default:
             console.log("test");

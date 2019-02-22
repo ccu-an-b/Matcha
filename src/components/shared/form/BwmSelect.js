@@ -7,6 +7,7 @@ export class BwmSelect extends React.Component {
         super();
         this.state = {
           value: "",
+          isClearable: true,
         }
     }
     componentDidMount(){
@@ -33,11 +34,13 @@ export class BwmSelect extends React.Component {
             this.onChange(options[valueStart])
         }
     }
+    toggleClearable = () =>
+    this.setState(state => ({ isClearable: !state.isClearable }));
 
     render() {
 
         const { options, labelUp , className } = this.props
-  
+        const {isClearable} = this.state
         return (<div  className = {className} >
 
             { labelUp &&
@@ -49,6 +52,7 @@ export class BwmSelect extends React.Component {
                 allowCreate={true}
                 options={options}
                 onChange={this.onChange}
+                isClearable={isClearable}
                 value ={this.state.value}
                 id="Element"
                 multi 

@@ -155,7 +155,6 @@ export class Browse extends React.Component {
     const {user, tags} = this.props
     const {isLoading, oneProfile, showMap, profilesFilter} = this.state
 
-    console.log(profilesFilter)
     if (this.state.redirect) {
       return <Redirect to={{pathname:'/'}}/>
     }

@@ -68,7 +68,7 @@ function sort_by_distance(profiles){
 
 function sort_by_score(profiles){
     const res =  profiles.sort(function(a,b){
-        return a.score - b.score;
+        return a.total - b.total;
     })
     return res.map((profile, index) =>{
         profile.sort +=index;

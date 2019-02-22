@@ -40,14 +40,39 @@
             }
             .sort{
                 margin-bottom: 20px;
-                .my-card{
-                    padding: 0 20px;
-                    min-height: 60px;
-
-                    .my-select.no-border.multi .css-1wy0on6{
-                        top: 8px;
-                        right: -15px;
+            }
+            .my-card .my-select.no-border.multi .css-1hwfws3 {
+                padding-top: 4px;
+            }
+            .my-card .my-select.no-border.location {
+                .css-1hwfws3{
+                    margin-top: 10px;
+                }
+                .css-1wy0on6{
+                    position: absolute;
+                    top: -20px;
+                    right: -15px;
+                }
+            }
+            .order-by{
+                display: flex;
+                justify-content: space-between;
+                align-items:center;
+                height: 27px;
+                i{
+                    font-size: 20px;
+                    color: $main-dark-purple;
+                    opacity: 0.5;
+                    margin-bottom: -5px;
+                    cursor: pointer;
+                    transition: all .3s;
+                    &:hover{
+                        opacity: 1;
                     }
+                }
+                i.active{
+                    margin-bottom: 5px;
+                    transform: rotate(-180deg) skewX(0deg);
                 }
             }
         }

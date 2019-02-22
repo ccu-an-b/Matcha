@@ -10,14 +10,15 @@ import SortForm from "./Sort";
 class Search extends React.Component {
     _isMounted = false;
 
-  constructor(props){
-    super(props);
-    this.state = {
-      profiles: [],
-      filtered: [],
-      values: [],
+    constructor(props){
+        super(props);
+        this.state = {
+        profiles: [],
+        filtered: [],
+        values: [],
+        order: false,
+        }
     }
-  }
 
     getSuggestions = (value) => {
         if (!value || value === '') {
@@ -29,6 +30,7 @@ class Search extends React.Component {
 
     componentWillMount() {
         const values = queryString.parse(this.props.location.search)
+
         this.props.dispatch(actions.fetchPublicData())
         this.setState({values})
     }
@@ -41,6 +43,7 @@ class Search extends React.Component {
         const urlNew =this.props.location.search;
         const urlOld = prevProps.location.search;
         const {form} = this.props;
+        const {profiles, order, filtered} = this.state;
         let suggestions ;
 
         if (this.props.publicData && this.props.publicData.length && this.props.publicData !== prevProps.publicData)
@@ -64,42 +67,51 @@ class Search extends React.Component {
                 filtered: suggestions,
             })
         }
-        if (this._isMounted && form.filterSearch && form.filterSearch.values && (form.filterSearch !== prevProps.form.filterSearch || this.state.profiles !== prevState.profiles)) 
+        if (this._isMounted && form.filterSearch && form.filterSearch.values && (form.filterSearch !== prevProps.form.filterSearch || profiles !== prevState.profiles)) 
         {
             const profilesFilter = this.filterProfiles(form)
 
             if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
                 this.setState({filtered:profilesFilter})
         }
-        if (this._isMounted && form.sortSearch && form.sortSearch.values && (form.sortSearch !== prevProps.form.sortSearch || this.state.profiles !== prevState.profiles)) 
+        if (this._isMounted && form.sortSearch && form.sortSearch.values && (form.sortSearch !== prevProps.form.sortSearch || profiles !== prevState.profiles || order !== prevState.order)) 
         {
-            this.setState({filtered: sort_profiles(this.state.filtered,form.sortSearch.values.sort.value , 'asc')})
-            // console.log(form.sortSearch.values)
+            if (form.sortSearch.values.sort)
+                this.setState({filtered: sort_profiles(filtered, form.sortSearch.values.sort.value, order ? 'asc' : 'desc')})
+            else
+                this.setState({filtered: sort_profiles(filtered, "username", order ? 'asc' : 'desc')})
         }
     }
 
     filterProfiles(form){
-        if (form.filterSearch && form.filterSearch.values){
-          const filters = form.filterSearch.values;
-          let filtered = this.state.profiles;
+        if (form.filterSearch && form.filterSearch.values)
+        {
+            const filters = form.filterSearch.values;
+            let filtered = this.state.profiles;
     
-        if (filters.age){
-            filtered = filtered.filter(obj => obj.age >= filters.age[0] && obj.age <= filters.age[1])
-          }
-          if (filters.score){
-            filtered = filtered.filter(obj => obj.total >= filters.score[0] && obj.total <= filters.score[1])
-          }
-          if(filters.tags){
-            filtered = filtered.filter(obj => contains(obj.tags, getValues(filters.tags)));
-          }
-          if(filters.location)
-          {
-            const locJson = JSON.parse(filters.location.value)
-            filtered = filtered.filter(obj => distanceInKm(obj.latitude_user, obj.longitude_user,locJson.lat,locJson.lon ));
-          }
-          return filtered
+            if (filters.age)
+                filtered = filtered.filter(obj => obj.age >= filters.age[0] && obj.age <= filters.age[1])
+            
+            if (filters.score)
+                filtered = filtered.filter(obj => obj.total >= filters.score[0] && obj.total <= filters.score[1])
+            
+            if (filters.tags)
+                filtered = filtered.filter(obj => contains(obj.tags, getValues(filters.tags)));
+            
+            if (filters.location)
+            {
+                const locJson = JSON.parse(filters.location.value)
+                filtered = filtered.filter(obj => distanceInKm(obj.latitude_user, obj.longitude_user,locJson.lat,locJson.lon ));
+            }
+            return filtered
         }
       }
+
+    orderProfiles = () => {
+        const {form} = this.props;
+        if (form.sortSearch && form.sortSearch.values)
+            this.setState({order: !this.state.order})
+    }
       
     renderProfiles(profiles){
         return profiles.map((profile, index) => {
@@ -116,12 +128,16 @@ class Search extends React.Component {
 
     }
     render() {
-        const {filtered} = this.state;
+        const {filtered, order} = this.state;
         const values = queryString.parse(this.props.location.search);
+
         return(
             <div className="search-page">
                 <div className="left">
-                <SortForm/>
+                <SortForm
+                    order={order}
+                    triggerOrder={this.orderProfiles}
+                />
                 {this.props.tags &&
                     <FiltersForm 
                         tags={this.props.tags}
