@@ -116,5 +116,12 @@
     .profile-left{
         display: none;
     }
+    .one-profile-more .edit-profile .edit-infos .profile-data {
+        width:100%;
+        justify-content: space-around;
+        .data-details{
+            margin: 0;
+        }
+    }
 }
 }

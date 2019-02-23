@@ -95,7 +95,7 @@ export class Chat extends React.Component {
         const { messageTo, messageToProfile, socketMessages, currentRoom, profiles, isLoading, message } = this.state;
 
         return (
-            <div className="chat-container">
+            <div className="chat-container" id="chat-container">
                 <div className="row chat">
                     <div className="col-4 matchs">
                         <div className="header">

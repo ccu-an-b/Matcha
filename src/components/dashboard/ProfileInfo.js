@@ -112,12 +112,12 @@ export class ProfileInfo extends React.Component {
                             <h4>{userData[0].age}</h4>
                         </div>
                         <div className="data-details">
-                            <h5>Gender</h5>
-                            <h4>{this.genderValue(userData[0].gender)}</h4>
-                        </div>
-                        <div className="data-details">
                             <h5>Location</h5>
                             <h4>{this.getUserLocation(userData[0])}</h4>
+                        </div>
+                        <div className="data-details">
+                            <h5>Gender</h5>
+                            <h4>{this.genderValue(userData[0].gender)}</h4>
                         </div>
                     </div>
                 </div>
