@@ -47,7 +47,8 @@ class SearchForm extends React.Component{
                     <i className="fas fa-sliders-h"></i>
                 </div>
                 <div className="start-search" onClick={submitCb}>
-                    <div>Let's go !</div>
+                    <div className="full_screen">Let's go !</div>
+                    <div className="small_screen"><i className="fas fa-search"></i></div>
                 </div>
                 {showFilter && 
                 <div className="search-filter">

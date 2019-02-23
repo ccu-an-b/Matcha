@@ -14,61 +14,69 @@ let FiltersForm = props => {
 
                 <div className='filters active'>
                 <form className="form" >
-                    <h2 className="collapsed">tags</h2>
-                    <div className="col">
-                        <div className="collapse multi-collapse show" id="multiCollapseTags">
-                            <div className="my-card card card-body">
-                                <Field 
-                                    name="tags"
-                                    className="my-select no-border multi"
-                                    options={tags.data}
-                                    component={BwmMultiSelect }
-                                    defaultValue={defaultTags}
-                                />
+                    <div className="filter-div">
+                        <h2 className="collapsed">tags</h2>
+                        <div className="col">
+                            <div className="collapse multi-collapse show" id="multiCollapseTags">
+                                <div className="my-card card card-body">
+                                    <Field 
+                                        name="tags"
+                                        className="my-select no-border multi"
+                                        options={tags.data}
+                                        component={BwmMultiSelect }
+                                        defaultValue={defaultTags}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed">age</h2>
-                    <div className="col">
-                        <div className="collapse multi-collapse show" id="multiCollapseAge">
-                            <div className="my-card card card-body">
-                                <Field 
-                                    name="age"
-                                    min={18}
-                                    max={120}
-                                    component={BwmIntervalSlider}
-                                    defaultValue={defaultAge}
-                                />
+                    <div className="filter-div">
+                        <h2 className="collapsed">age</h2>
+                        <div className="col">
+                            <div className="collapse multi-collapse show" id="multiCollapseAge">
+                                <div className="my-card card card-body">
+                                    <Field 
+                                        name="age"
+                                        min={18}
+                                        max={120}
+                                        component={BwmIntervalSlider}
+                                        defaultValue={defaultAge}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed">score</h2>
-                    <div className="col">
-                        <div className="collapse multi-collapse show" id="multiCollapseScore">
-                            <div className="my-card card card-body">
-                                <Field BwmIntervalSlider 
-                                    name="score"
-                                    min={0}
-                                    max={500}
-                                    component={BwmIntervalSlider}
-                                    defaultValue={defaultScore}
-                                />
+                    <div className="filter-div">
+                        <h2 className="collapsed">score</h2>
+                        <div className="col">
+                            <div className="collapse multi-collapse show" id="multiCollapseScore">
+                                <div className="my-card card card-body">
+                                    <Field BwmIntervalSlider 
+                                        name="score"
+                                        min={0}
+                                        max={500}
+                                        component={BwmIntervalSlider}
+                                        defaultValue={defaultScore}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <h2 className="collapsed">location</h2>
-                    <div className="col">
-                        <div className="collapse multi-collapse show" id="multiCollapseLocation">
-                            <div className="my-card card card-body">
-                            <Field
-                                name="location"
-                                type="text"
-                                placeholder="Where to ..."
-                                className="my-select no-border location"
-                                component={BwmSelectLocation}
-                                defaultValue={defaultLocation}
-                                defaultLat={defaultLat}
-                            />
+                    <div className="filter-div">
+                        <h2 className="collapsed">location</h2>
+                        <div className="col">
+                            <div className="collapse multi-collapse show" id="multiCollapseLocation">
+                                <div className="my-card card card-body">
+                                <Field
+                                    name="location"
+                                    type="text"
+                                    placeholder="Where to ..."
+                                    className="my-select no-border location"
+                                    component={BwmSelectLocation}
+                                    defaultValue={defaultLocation}
+                                    defaultLat={defaultLat}
+                                />
+                                </div>
                             </div>
                         </div>
                     </div>

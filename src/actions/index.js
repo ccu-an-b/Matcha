@@ -202,7 +202,7 @@ export const fetchPublicData = () => {
 
     axiosInstance.post('profiles/public-data').then((res) => {
       dispatch(fetchPublicDataSuccess(res.data));
-    }).catch(({ response }) => Promise.reject(response.data))
+    }).catch(( response ) => console.log(response))
   }
 }
 
