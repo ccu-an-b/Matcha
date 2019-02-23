@@ -18,7 +18,7 @@ io.set('origins', '*:*');
 io.on('connection', socket => {
 
   socket.on('SEND_CHAT_MESSAGE', function (data) {
-    io.emit('RECEIVE_CHAT_MESSAGE', data);
+    io.sockets.in(data.room_id).emit('RECEIVE_CHAT_MESSAGE', data);
   })
 
   socket.on('SEND_NOTIFICATION', function (data) {
@@ -36,14 +36,20 @@ io.on('connection', socket => {
     socket.disconnect(); 
   })
 
-  socket.on('SWITCH_ROOM', function (login, newRoom) {
+  socket.on('CONNECT_TO_ROOM', function (userId, room) {
+    socket.room = room;
+    socket.join(room);
+    // console.log("user id " + userId + " joined " + socket.room);
+  });
+
+  socket.on('SWITCH_ROOM', function (userId, newRoom) {
     if (socket.room) {
       socket.leave(socket.room);
-      console.log(login + " left " + socket.room);
+      // console.log("user id " + userId + " left " + socket.room);
     }
     socket.join(newRoom);
     socket.room = newRoom;
-    console.log(login + " joined " + newRoom);
+    // console.log("user id " + userId + " joined " + socket.room);
   });
 
 })

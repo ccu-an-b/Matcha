@@ -19,11 +19,16 @@ export class Chat extends React.Component {
             messageTo: 0,
             messageToProfile: [],
             message: '',
-            messages: [],
             profiles: [],
             isLoading: true,
+            socketMessages: [],
             isRoomHistoryLoaded: false,
         };
+        socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
+            if (data.room_id === this.state.currentRoom) {
+                this.setState({ socketMessages: [...this.state.socketMessages, data] });
+            }
+        });
     }
 
     sendMessage = (ev) => {
@@ -43,34 +48,38 @@ export class Chat extends React.Component {
         this.setState({ message: '' });
     }
 
-    switchRoom = (profile) => {
-        socket.emit('SWITCH_ROOM', profile.username, profile.match_id);
+    selectRoom = (profile) => {
         this.setState({
             messageTo: profile.user_from_id,
-            currentRoom: profile.match_id
+            currentRoom: profile.match_id,
+            socketMessages: [],
         });
-        profileService.getOneProfile(profile.username).then((profile) => this.setState({messageToProfile: profile.data}))
+        profileService.getOneProfile(profile.username).then((profile) => this.setState({ messageToProfile: profile.data }))
     }
 
     componentDidMount() {
-
         userService.getNotificationsType(3).then((profiles) => {
             this.setState({ profiles: profiles.data, isLoading: false });
+            profiles.data.forEach((profile) => {
+                socket.emit('CONNECT_TO_ROOM', "", profile.match_id);
+            })
         })
             .catch((err) => { console.log(err) })
+        
     }
+
 
     renderProfiles = (profiles) => {
         return profiles.map((profile, index) => {
             return (
-                <Link to={"#"} onClick={() => this.switchRoom(profile)} key={index}>
+                <Link to={"#"} onClick={() => this.selectRoom(profile)} key={index}>
                     <div className="one-match" id={profile.username}>
                         <div className="one-match-content">
                             <img src={imgPath(profile.profile_img)} alt="profile_img" />
                             <div className="match-info">
                                 <h4>{toCapitalize(profile.username)}</h4>
-                                <h5 className={profile.online ? 'online': ""}>
-                                {profile.online ? 'Online' : <TimeAgo date={parseInt(profile.connexion, 10)} formatter={formatter} />}
+                                <h5 className={profile.online ? 'online' : ""}>
+                                    {profile.online ? 'Online' : <TimeAgo date={parseInt(profile.connexion, 10)} formatter={formatter} />}
                                 </h5>
                             </div>
                         </div>
@@ -83,52 +92,52 @@ export class Chat extends React.Component {
 
     render() {
 
-        const { messageTo, messageToProfile, currentRoom, profiles, isLoading, message} = this.state;
+        const { messageTo, messageToProfile, socketMessages, currentRoom, profiles, isLoading, message } = this.state;
 
         return (
-            <div id="chat-container">
+            <div className="chat-container">
                 <div className="row chat">
                     <div className="col-4 matchs">
-                    <div className="header">
-                        <h1>Chat with your matchs !</h1>
-                    </div>
-                    <div className="chat-left">
-                        <div className="display-matchs">
-                            {!isLoading && profiles.length > 0 &&
-                                this.renderProfiles(profiles)
-                            }
-                            {!isLoading && !profiles.length &&
-                                <h2>You don't have any matchs </h2>
-                            }
+                        <div className="header">
+                            <h1>Chat with your matchs !</h1>
                         </div>
-                    </div>
-                    </div>
-                    {(!messageTo || !currentRoom) ? (
-                    <div className="col-8 chat-container">
-                        <h1>SELECT SOMEONE TO CHAT WITH</h1>
-                    </div>) : (
-                        <div className="col-8 chat-container">
-                            <div className="message-to">
-                                {messageToProfile.length &&
-                                <Link to={`./profile/${messageToProfile[0].username}`}>
-                                    <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo"/>
-                                    <div className="message-to-info">
-                                        <h1>{messageToProfile[0].username}</h1>
-                                        <h5 className={messageToProfile[0].online ? 'online': ""}>
-                                            {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
-                                        </h5>
-                                    </div>
-                                </Link>
+                        <div className="chat-left">
+                            <div className="display-matchs">
+                                {!isLoading && profiles.length > 0 &&
+                                    this.renderProfiles(profiles)
+                                }
+                                {!isLoading && !profiles.length &&
+                                    <h2>You don't have any matchs </h2>
                                 }
                             </div>
-                            <Chatbox roomId={currentRoom} />
-                            <div className="chat-form-group">
-                                <div className="chat-send">
-                                    <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                                    <button onClick={this.sendMessage} className={message.length ? "btn  active": "btn"}>Send</button>
+                        </div>
+                    </div>
+                    {(!messageTo || !currentRoom) ? (
+                        <div className="col-8 chat-container">
+                            <h1>SELECT SOMEONE TO CHAT WITH</h1>
+                        </div>) : (
+                            <div className="col-8 chat-container">
+                                <div className="message-to">
+                                    {messageToProfile.length &&
+                                        <Link to={`./profile/${messageToProfile[0].username}`}>
+                                            <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo" />
+                                            <div className="message-to-info">
+                                                <h1>{messageToProfile[0].username}</h1>
+                                                <h5 className={messageToProfile[0].online ? 'online' : ""}>
+                                                    {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
+                                                </h5>
+                                            </div>
+                                        </Link>
+                                    }
                                 </div>
-                            </div>
-                        </div>)}
+                                <Chatbox roomId={currentRoom} socketMessages={socketMessages} />
+                                <div className="chat-form-group">
+                                    <div className="chat-send">
+                                        <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
+                                        <button onClick={this.sendMessage} className={message.length ? "btn  active" : "btn"}>Send</button>
+                                    </div>
+                                </div>
+                            </div>)}
                 </div>
             </div>
 
