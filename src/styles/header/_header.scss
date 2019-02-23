@@ -263,6 +263,10 @@ header {
           color:white;
         }
       }
+      .small_screen{
+        display: none;
+      }
+
       .search-filter{
         position: absolute;
         width: 1000px;
@@ -457,6 +461,7 @@ header {
         margin-right: -50px;
         padding: 0 50px;
         transition: all .4s;
+        padding-bottom: 20px;
         ul.my-ul {
           width:200px;
           margin:auto !important;
@@ -473,6 +478,66 @@ header {
           color:white;  
         }    
       } 
+
+      .my-search{
+        position: relative;
+        border-radius: 0.25rem;
+        i.fa-times{
+          color: $main-orange
+        }
+      }
+      .my-search.active{
+        width: 90%;
+        margin: auto;
+        flex-wrap: nowrap;
+        display: flex;
+        max-width: 500px;
+        form{
+          position: relative;
+          padding-left: 20px;
+          flex-basis:100%;
+          margin-bottom: 0 !important;
+          .search-filter{
+            width: 110%;
+            right: -5%;
+            .search-titles{
+              flex-wrap: wrap;
+              h2{
+                flex-basis: 50%;
+              }
+            }
+            .col{
+                padding-right: 5px; 
+                padding-left: 5px;
+                flex-basis: 50%;
+              .collapse.show, .collapsing{
+                flex-basis: 50%;
+                margin-top:10px;
+              }
+            }
+          }
+        }
+        .start-search{
+          padding: 0;
+          padding-bottom:5px;
+        }
+        .full_screen{
+          display: none;
+        }
+        .small_screen{
+          display: block;
+          color: $main-orange;
+          font-size: 20px;
+        }
+        button.search{
+          top: 0;
+          position: absolute;
+          z-index: 2;
+          height: 100%;
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+        }
+      }
     }
   }
   #background-header {
@@ -488,5 +553,18 @@ header {
     margin-left:-65px;
     visibility: visible;
     max-height: 250px;
+  }
+}
+@media screen and (max-width: 540px){
+  header nav.my-nav .my-search.active form .search-filter
+  {
+    width: 120%;
+    right: -10%;
+    top:65px;
+    background-color: $main-orange;
+    .col{
+      padding-right: 15px; 
+      padding-left:15px;
+    }
   }
 }
