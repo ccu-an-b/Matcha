@@ -18,6 +18,7 @@ class Header extends React.Component {
             newMessages: 0,
             unreadMessages: [],
             showSearch: false,
+            showNavBar: false,
         }
     }
 
@@ -32,6 +33,7 @@ class Header extends React.Component {
                 this.setState({ newMessages: this.state.newMessages+1 , unreadMessages: [...this.state.unreadMessages, data] });
         });
     }
+
     componentWillUnmount(){
         socket.off('RECEIVE_CHAT_MESSAGE')
     }
@@ -55,7 +57,9 @@ class Header extends React.Component {
 
     hideSearch = () => {
         this.setState({showSearch: false})
+        this.buttonElement.click();
     }
+
     sendSearch = () => {
         let url
 
@@ -63,7 +67,8 @@ class Header extends React.Component {
         {
             url = getSearchUrl(this.props.form.searchForm.values)
             this.props.history.push(url);
-            this.setState({ showSearch: false})
+            this.setState({ showSearch: false});
+            this.buttonElement.click();
         }
     }
 
@@ -76,7 +81,12 @@ class Header extends React.Component {
             return (
                 <header>
                     <img src={process.env.PUBLIC_URL + '/matcha_logo_white.svg'} alt="logo" />
-                    <button className="navbar-toggler my-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <button className="navbar-toggler my-toggler collapsed" type="button" 
+                            data-toggle="collapse" data-target="#navbarTogglerDemo03" 
+                            aria-controls="navbarTogglerDemo03" aria-expanded="false" 
+                            aria-label="Toggle navigation"
+                            ref={button => this.buttonElement = button}
+                    >
                         <i className="fas fa-grip-lines"></i>
                         <i className="fas fa-grip-lines"></i>
                     </button>
@@ -88,13 +98,13 @@ class Header extends React.Component {
                             </div>
                             <ul className="navbar-nav mr-auto mt-2 mt-lg-0 my-ul">
                                 <li className="nav-item my-li">
-                                    <Link className="nav-link active" to="/browse">Browse <span className="sr-only">(current)</span></Link>
+                                    <Link className="nav-link active" to="/browse" onClick={() => this.hideSearch()}>Browse <span className="sr-only">(current)</span></Link>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Notifications addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch}/>
+                                    <Notifications  addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch}/>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Link className="nav-link notification" to="/chat">
+                                    <Link className="nav-link notification" to="/chat" onClick={() => this.hideSearch()}>
                                         Messages
                                         {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}
                                     </Link>
@@ -117,7 +127,6 @@ class Header extends React.Component {
                     </nav>
                 </header>
             )
-
         }
         else {
             return (

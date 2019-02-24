@@ -419,6 +419,8 @@ header {
         header nav.my-nav .my-search.active .start-search {
           padding: 0;
           padding-bottom: 5px; }
+          header nav.my-nav .my-search.active .start-search:hover {
+            background-color: white; }
         header nav.my-nav .my-search.active .full_screen {
           display: none; }
         header nav.my-nav .my-search.active .small_screen {
@@ -1072,7 +1074,21 @@ header {
       display: none; }
     .dashboard .profile .img {
       width: 100%;
-      height: 80px; } }
+      height: 80px; }
+  .profile .profile-data .data-details {
+    margin-left: 10px;
+    max-width: 100px; }
+  .profile .profile-data {
+    justify-content: space-around; }
+  .edit-profile .edit-infos .profile-data {
+    width: 100%;
+    justify-content: space-around; }
+  .edit-profile .edit-infos .profile-data .data-details {
+    margin-right: 0;
+    max-width: 100px; }
+  .edit-profile .edit-infos {
+    margin: 20px 0;
+    padding: 0 20px; } }
 
 .profile-form {
   width: 100%;
@@ -1937,7 +1953,7 @@ header {
 
 @media screen and (max-width: 350px) {
   .browse .profile {
-    width: 220px;
+    width: 200px;
     height: 360px; }
     .browse .profile .img img {
       height: 360px; }
@@ -2419,7 +2435,12 @@ header {
     height: auto;
     min-height: 35px; }
   .profile-page .profile-left {
-    display: none; } }
+    display: none; }
+  .profile-page .one-profile-more .edit-profile .edit-infos .profile-data {
+    width: 100%;
+    justify-content: space-around; }
+    .profile-page .one-profile-more .edit-profile .edit-infos .profile-data .data-details {
+      margin: 0; } }
 
 .app-container .notification-item {
   border-radius: 50px 4px 4px 50px;
@@ -2558,18 +2579,23 @@ header {
       font-weight: normal;
       text-align: center;
       margin: -10px 0 40px 0; }
-    .settings-container .settings-tab img {
+    .settings-container .settings-tab img, .settings-container .settings-tab .img_loading {
       width: 80px;
       height: 80px;
       object-fit: cover;
       border-radius: 50%;
-      cursor: pointer;
+      cursor: pointer; }
+    .settings-container .settings-tab .img_loading {
       margin: 10px; }
     .settings-container .settings-tab img.select {
       padding: 3px;
       background: #E83114; }
     .settings-container .settings-tab .profiles {
-      margin-bottom: 20px; }
+      margin-bottom: 20px;
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center; }
     .settings-container .settings-tab .alert-input {
       font-size: 13px;
       color: #E83114; }

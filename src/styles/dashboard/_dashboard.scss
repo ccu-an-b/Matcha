@@ -680,5 +680,24 @@
         height: 80px;
       }
     }
+    .profile .profile-data .data-details{
+      margin-left: 10px;
+      max-width: 100px;
+    }
+    .profile .profile-data{
+      justify-content: space-around;
+    }
+    .edit-profile .edit-infos .profile-data{
+      width: 100%;
+      justify-content: space-around;
+    }
+    .edit-profile .edit-infos .profile-data .data-details{
+      margin-right: 0;
+      max-width: 100px;
+    }
+    .edit-profile .edit-infos{
+      margin: 20px 0;
+      padding: 0 20px;
+    }
   }
   

@@ -520,6 +520,9 @@ header {
         .start-search{
           padding: 0;
           padding-bottom:5px;
+          &:hover{
+            background-color: white;
+          }
         }
         .full_screen{
           display: none;

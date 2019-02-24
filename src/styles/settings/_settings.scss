@@ -93,13 +93,16 @@
         text-align:center;
         margin: -10px 0 40px 0;
       }
-      img{
+      img, .img_loading{
         width:80px;
         height:80px;
         object-fit:cover;
         border-radius:50%;
         cursor: pointer;
-        margin:10px;
+       
+      }
+      .img_loading{
+        margin: 10px;
       }
       img.select{
         padding:3px;
@@ -107,6 +110,10 @@
       }
       .profiles{
           margin-bottom:20px;
+          display: flex; 
+          width: 100%;
+          flex-wrap: wrap;
+          justify-content: center;
       }
       .alert-input{
         font-size: 13px;
