@@ -13,13 +13,14 @@ class Chatbox extends React.Component {
     }
 
     componentDidMount() {
+        messagesService.setRoomMessagesRead(this.props.roomId, { readerUserId: this.props.auth.userId });
         this.updateConversation(this.props.roomId)
     }
 
     printMessage = (messageList) => {
         const userId = this.props.auth.userId;
         return (messageList.map((message, index) => {
-            
+
             if (message.roomId === this.props.roomId || message.room_id === this.props.roomId) {
                 const himOrMe = (message.user_from_id === userId) ? "me" : "him";
                 return (
@@ -39,7 +40,6 @@ class Chatbox extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
         if (prevProps.roomId !== this.props.roomId) {
             this.setState({ isLoading: true })
             this.updateConversation(this.props.roomId);
@@ -55,10 +55,10 @@ class Chatbox extends React.Component {
         return (
             <div className="chat-box" id="chat-box">
                 <ul>
-                    { isLoading && "LOADING" }
-                    { !isLoading && this.printMessage(roomHistory) }
-                    { socketMessages.length && this.printMessage(socketMessages) }
-                    { !isLoading && <span ref={this.endMessageRef} className="him"></span> }
+                    {isLoading && "LOADING"}
+                    {!isLoading && this.printMessage(roomHistory)}
+                    {socketMessages.length && this.printMessage(socketMessages)}
+                    {!isLoading && <span ref={this.endMessageRef} className="him"></span>}
                 </ul>
             </div>
         );

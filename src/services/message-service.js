@@ -8,6 +8,14 @@ class MessageService {
         return axiosInstance.get(`messages/${roomId}`)
     }
 
+    countUnreadRoomMessages() {
+        return axiosInstance.get(`messages`)
+    }
+
+    setRoomMessagesRead = (roomId, readerUserId) => {
+        return axiosInstance.post(`messages/${roomId}`, readerUserId)
+    }
+
     sendMessage = (messageData) => {
         return axiosInstance.post(`messages`, { ...messageData })
     }

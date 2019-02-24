@@ -1,8 +1,8 @@
-const   User = require('../models/user'),
-        Profile = require("../models/profiles"),
-        config = require('../config/dev'),
-        jwt = require('jsonwebtoken'),
-        axios = require('axios');
+const User = require('../models/user'),
+    Profile = require("../models/profiles"),
+    config = require('../config/dev'),
+    jwt = require('jsonwebtoken'),
+    axios = require('axios');
 
 exports.register = function (req, res) {
     return User.user_new(req, res);
@@ -14,7 +14,7 @@ const errorMessages = {
     "accountNotActive": [{ title: 'Account non active', detail: 'Your account hasn\'t been activated yet. Please check your email.' }],
     "wrongPassword": [{ title: 'Wrong identification', detail: 'Wrong password' }],
     "notAuthorized": [{ title: 'Not authorized', detail: 'You need to log in' }],
-    "linkInvalid": [{title: 'Invalid Link', detail: 'Oops it seems like this link is no longer valid...'}]
+    "linkInvalid": [{ title: 'Invalid Link', detail: 'Oops it seems like this link is no longer valid...' }]
 }
 
 exports.activate = function (req, res) {
@@ -25,12 +25,12 @@ exports.activate = function (req, res) {
             User.user_set_active(result[0].id)
             return res.json(result)
         })
-        .catch(() => {return res.status(422).send({ errors: errorMessages.wrongIdentification })})
+        .catch(() => { return res.status(422).send({ errors: errorMessages.wrongIdentification }) })
 }
 
 exports.auth = function (req, res) {
-    const {  password } = req.body;
-    const username = req.body.username.toLowerCase() ;
+    const { password } = req.body;
+    const username = req.body.username.toLowerCase();
 
     if (!password || !username) {
         return res.status(200).send({ errors: errorMessages.dataMissing });
@@ -38,7 +38,7 @@ exports.auth = function (req, res) {
 
     return User.user_select('username', username)
         .then((result) => {
-            if (result[0].active == '0') 
+            if (result[0].active == '0')
                 return res.status(200).send({ errors: errorMessages.accountNotActive });
             return result
         })
@@ -56,10 +56,10 @@ exports.auth = function (req, res) {
                         username: result[0].username,
                         mail: result[0].mail,
                     }, config.SECRET, { expiresIn: '3h' }));
-            })
-            .catch(() => {
-                return res.status(200).send({ errors: errorMessages.wrongPassword });
-            })
+                })
+                .catch(() => {
+                    return res.status(200).send({ errors: errorMessages.wrongPassword });
+                })
         })
         .catch(() => {
             return res.status(200).send({ errors: errorMessages.wrongIdentification });
@@ -77,7 +77,7 @@ exports.authMiddleware = function (req, res, next) {
                 res.locals.user = user;
                 next();
             })
-            .catch(() => {return notAuthorized(res)})
+            .catch(() => { return notAuthorized(res) })
     }
     else
         return notAuthorized(res);

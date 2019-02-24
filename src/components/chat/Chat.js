@@ -19,6 +19,7 @@ export class Chat extends React.Component {
             messageTo: 0,
             messageToProfile: [],
             message: '',
+            unreadMessages: [],
             profiles: [],
             isLoading: true,
             socketMessages: [],
@@ -27,6 +28,14 @@ export class Chat extends React.Component {
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             if (data.room_id === this.state.currentRoom) {
                 this.setState({ socketMessages: [...this.state.socketMessages, data] });
+            }
+            if (data.room_id !== this.state.currentRoom) {
+                const newUnreadMessages = this.state.unreadMessages.map((room) => {
+                    if (room.room_id === data.room_id) {
+                        return { room_id: room.room_id, count: Number(room.count) + 1 }
+                    } return room ;
+                })
+                this.setState({ unreadMessages: newUnreadMessages });
             }
         });
     }
@@ -49,28 +58,41 @@ export class Chat extends React.Component {
     }
 
     selectRoom = (profile) => {
+        const resetUnreadMessages = this.state.unreadMessages.map((room) => {
+            if (room.room_id === profile.match_id) {
+                return { room_id: room.room_id, count: 0 }
+            } return room;
+        })
         this.setState({
             messageTo: profile.user_from_id,
             currentRoom: profile.match_id,
             socketMessages: [],
+            unreadMessages: resetUnreadMessages,
         });
         profileService.getOneProfile(profile.username).then((profile) => this.setState({ messageToProfile: profile.data }))
     }
 
     componentDidMount() {
-        userService.getNotificationsType(3).then((profiles) => {
-            this.setState({ profiles: profiles.data, isLoading: false });
-            profiles.data.forEach((profile) => {
-                socket.emit('CONNECT_TO_ROOM', "", profile.match_id);
+        messagesService.countUnreadRoomMessages()
+            .then((result) => this.setState({ unreadMessages: result.data, }))
+            .catch((err) => console.log(err));
+
+        userService.getNotificationsType(3)
+            .then((profiles) => {
+                this.setState({ profiles: profiles.data, isLoading: false });
+                profiles.data.forEach((profile) => {
+                    socket.emit('CONNECT_TO_ROOM', "", profile.match_id);
+                })
             })
-        })
             .catch((err) => { console.log(err) })
-        
+
     }
 
 
     renderProfiles = (profiles) => {
+        const { unreadMessages } = this.state;
         return profiles.map((profile, index) => {
+            const unreadMessagesForUser = unreadMessages.find((message) => message.room_id === profile.match_id)
             return (
                 <Link to={"#"} onClick={() => this.selectRoom(profile)} key={index}>
                     <div className="one-match" id={profile.username}>
@@ -80,6 +102,9 @@ export class Chat extends React.Component {
                                 <h4>{toCapitalize(profile.username)}</h4>
                                 <h5 className={profile.online ? 'online' : ""}>
                                     {profile.online ? 'Online' : <TimeAgo date={parseInt(profile.connexion, 10)} formatter={formatter} />}
+                                </h5>
+                                {unreadMessagesForUser ? unreadMessagesForUser.count : 0} unread messages
+                                <h5>
                                 </h5>
                             </div>
                         </div>
