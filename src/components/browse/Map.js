@@ -59,9 +59,11 @@ export class MapView extends Component {
     }
   }
   createMarker(position, index, content) {
-    return (<Marker key={index} position={position}>
+    return (
+    <Marker key={index} position={position}>
       <Popup>{content}</Popup>
-    </Marker>);
+    </Marker>
+    );
   }
 
   popupContent = (user) => {

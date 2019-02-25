@@ -16,6 +16,8 @@ export class Chat extends React.Component {
         super(props);
         this.state = {
             currentRoom: 0,
+            heIsTyping: false,
+            iAmTyping: false,
             messageTo: 0,
             messageToProfile: [],
             message: '',
@@ -27,27 +29,42 @@ export class Chat extends React.Component {
         };
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             const { unreadMessages, currentRoom, socketMessages } = this.state;
-            const {userId } = this.props.auth;
+            const { userId } = this.props.auth;
             if (data.room_id === currentRoom) {
                 this.setState({ socketMessages: [...socketMessages, data] });
                 if (userId !== data.user_from_id) {
-                messagesService.setRoomMessagesRead(currentRoom, { readerUserId: data.user_for_id });
+                    messagesService.setRoomMessagesRead(currentRoom, { readerUserId: data.user_for_id });
                 }
             }
             else {
-                let newUnreadMessages = unreadMessages;
-                if (unreadMessages.find((message) => message.room_id === data.room_id)) {
-                    newUnreadMessages = unreadMessages.map((room) => {
-                        if (room.room_id === data.room_id) {
-                            return { room_id: room.room_id, count: Number(room.count) + 1 }
-                        } return room;
-                    })
-                } else {
-                    newUnreadMessages.push({ room_id: data.room_id, count: 1 })
-                }
-                this.setState({ unreadMessages: newUnreadMessages });
+                this.setState({ unreadMessages: this.getUnreadMessages(unreadMessages, data) });
             }
         });
+
+        socket.on('RECEIVE_MESSAGE_TYPING_NOTIFICATION', (data) => {
+            const { userId } = this.props.auth;
+            if (data.typingUserId !== userId) {
+                if (data.isTyping) {
+                    this.setState({ heIsTyping: true })
+                } else {
+                    this.setState({ heIsTyping: false })
+                }
+            }
+        })
+    }
+
+    getUnreadMessages = (unreadMessages, data) => {
+        let newUnreadMessages = unreadMessages;
+        if (unreadMessages.find((message) => message.room_id === data.room_id)) {
+            newUnreadMessages = unreadMessages.map((room) => {
+                if (room.room_id === data.room_id) {
+                    return { room_id: room.room_id, count: Number(room.count) + 1 }
+                } return room;
+            })
+        } else {
+            newUnreadMessages.push({ room_id: data.room_id, count: 1 })
+        }
+        return newUnreadMessages;
     }
 
     sendMessage = (ev) => {
@@ -65,6 +82,13 @@ export class Chat extends React.Component {
             socket.emit('SEND_CHAT_MESSAGE', fullMessage);
         }
         this.setState({ message: '' });
+        const typingNotification = {
+            room_id: this.state.currentRoom,
+            typingUserId: this.props.auth.userId,
+            isTyping: false,
+        }
+        this.setState({ iAmTyping: false });
+        socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
     }
 
     selectRoom = (profile) => {
@@ -92,7 +116,7 @@ export class Chat extends React.Component {
             .then((profiles) => {
                 this.setState({ profiles: profiles.data, isLoading: false });
                 profiles.data.forEach((profile) => {
-                    socket.emit('CONNECT_TO_ROOM', "", profile.match_id);
+                    socket.emit('CONNECT_TO_ROOM', profile.match_id);
                 })
             })
             .catch((err) => { console.log(err) })
@@ -100,6 +124,19 @@ export class Chat extends React.Component {
 
     componentWillUnmount() {
         socket.off('RECEIVE_CHAT_MESSAGE')
+    }
+
+    iAmTyping = (event) => {
+        this.setState({ message: event.target.value });
+        if (!this.state.iAmTyping) {
+            const typingNotification = {
+                room_id: this.state.currentRoom,
+                typingUserId: this.props.auth.userId,
+                isTyping: true,
+            }
+            this.setState({ iAmTyping: true });
+            socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
+        }
     }
 
     renderProfiles = (profiles) => {
@@ -129,9 +166,15 @@ export class Chat extends React.Component {
 
 
     render() {
-
-        const { messageTo, messageToProfile, socketMessages, currentRoom, profiles, isLoading, message } = this.state;
-
+        const {
+            messageTo,
+            messageToProfile,
+            socketMessages,
+            heIsTyping,
+            currentRoom,
+            profiles,
+            isLoading,
+            message } = this.state;
         return (
             <div className="chat-container" id="chat-container">
                 <div className="row chat">
@@ -168,11 +211,24 @@ export class Chat extends React.Component {
                                         </Link>
                                     }
                                 </div>
-                                <Chatbox roomId={currentRoom} socketMessages={socketMessages} />
+                                <Chatbox
+                                    roomId={currentRoom}
+                                    socketMessages={socketMessages}
+                                    isTyping={heIsTyping}
+                                />
                                 <div className="chat-form-group">
                                     <div className="chat-send">
-                                        <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                                        <button onClick={this.sendMessage} className={message.length ? "btn  active" : "btn"}>Send</button>
+                                        <input
+                                            type="text"
+                                            placeholder="Message"
+                                            className="form-control"
+                                            value={message}
+                                            onChange={this.iAmTyping}
+                                        />
+                                        <button
+                                            onClick={this.sendMessage}
+                                            className={message.length ? "btn active" : "btn"}
+                                        >Send</button>
                                     </div>
                                 </div>
                             </div>)}
