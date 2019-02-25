@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmResError } from 'components/shared/form/BwmResError';
-import { required, isEmail, minLength8, checkNumber, checkUpper, checkLetter } from 'components/shared/form/validators';
+import { required, isEmail, minLength8,minLength5, checkNumber, checkUpper, checkLetter, checkSpecialChar } from 'components/shared/form/validators';
 
 
 const RegisterForm = props => {
@@ -47,7 +47,7 @@ const RegisterForm = props => {
                 placeholder="Username"
                 className='form-control'
                 component={BwmInput}
-                validate={[required]}
+                validate={[required, checkSpecialChar, minLength5]}
                 data-parse='lowercase'
             />
             <Field

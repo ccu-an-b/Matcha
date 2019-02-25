@@ -52,8 +52,8 @@ function user_new(req, res) {
 
     const name = req.body.name.capitalize();
     const last_name = req.body.last_name.capitalize();
-    const mail = req.body.mail.toLowerCase();
-    const username = req.body.username.toLowerCase();
+    const mail = req.body.mail.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const username = req.body.username.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
     return user_select('username', username)
         .then((result) => {
@@ -74,7 +74,6 @@ function user_new(req, res) {
             return db.get_database(query)
         })
         .then((result) => {
-            console.log(result[0])
             Mail.activation_mail(username, mail, result[0].key)
             user_new_tables(result[0].id)
             return res.status(200).send({ success: [{ title: 'User created', detail: 'You created a new user' }] });
@@ -304,6 +303,7 @@ function user_get_profile(req, res) {
             userData.push(result)
             return res.json(userData)
         })
+        .catch(() => res.status(200).send({ error: [{ title: 'error', detail: `Can't display profile` }] }))
 }
 
 function user_get_match(userId, profileId) {

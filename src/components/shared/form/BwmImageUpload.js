@@ -35,12 +35,18 @@ export class BwmImageUpload extends React.Component {
     onChange = event => {
     
         const selectedFile = event.target.files[0];
-        if (selectedFile){
-            this.updateArraySelectedFiles(this.state.img_nb, selectedFile);
-            this.setState({
-                selectedFile
-            });
-            this.reader.readAsDataURL(selectedFile);
+        if(selectedFile.type === 'image/jpeg' || selectedFile.type === 'image/png' || selectedFile.type=== 'image/jpg' || selectedFile.type === 'image/gif'  )
+        {
+            if(/^[A-Z0-9._%+-]+\.[A-Z]+\.[A-Z]{2,4}$/i.test(selectedFile.name) === false)            
+            {
+                if (selectedFile){
+                    this.updateArraySelectedFiles(this.state.img_nb, selectedFile);
+                    this.setState({
+                        selectedFile
+                    });
+                    this.reader.readAsDataURL(selectedFile);
+                }
+            }
         }
     }
 

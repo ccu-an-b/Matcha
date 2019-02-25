@@ -25,14 +25,17 @@ export class BwmProfileUpload extends React.Component {
     onChange = event => {
     
         const selectedFile = event.target.files[0];
-        if (selectedFile){
-            this.setState({
-                selectedFile
-            });
-            this.reader.readAsDataURL(selectedFile);
-            actions.uploadProfile(selectedFile).then(
-                (uploadedImage) => { this.onSucces(uploadedImage)},
-                (error) => { this.onError(error)})
+        if(selectedFile.type === 'image/jpeg' || selectedFile.type === 'image/png' || selectedFile.type=== 'image/jpg' || selectedFile.type === 'image/gif'  )
+        {
+            if (selectedFile && /^[A-Z0-9._%+-]+\.[A-Z]+\.[A-Z]{2,4}$/i.test(selectedFile.name) === false ){
+                this.setState({
+                    selectedFile
+                });
+                this.reader.readAsDataURL(selectedFile);
+                actions.uploadProfile(selectedFile).then(
+                    (uploadedImage) => { this.onSucces(uploadedImage)},
+                    (error) => { this.onError(error)})
+            }   
         }
     }
 
