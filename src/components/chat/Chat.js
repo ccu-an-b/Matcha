@@ -26,15 +26,25 @@ export class Chat extends React.Component {
             isRoomHistoryLoaded: false,
         };
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
-            if (data.room_id === this.state.currentRoom) {
-                this.setState({ socketMessages: [...this.state.socketMessages, data] });
+            const { unreadMessages, currentRoom, socketMessages } = this.state;
+            const {userId } = this.props.auth;
+            if (data.room_id === currentRoom) {
+                this.setState({ socketMessages: [...socketMessages, data] });
+                if (userId !== data.user_from_id) {
+                messagesService.setRoomMessagesRead(currentRoom, { readerUserId: data.user_for_id });
+                }
             }
-            if (data.room_id !== this.state.currentRoom) {
-                const newUnreadMessages = this.state.unreadMessages.map((room) => {
-                    if (room.room_id === data.room_id) {
-                        return { room_id: room.room_id, count: Number(room.count) + 1 }
-                    } return room ;
-                })
+            else {
+                let newUnreadMessages = unreadMessages;
+                if (unreadMessages.find((message) => message.room_id === data.room_id)) {
+                    newUnreadMessages = unreadMessages.map((room) => {
+                        if (room.room_id === data.room_id) {
+                            return { room_id: room.room_id, count: Number(room.count) + 1 }
+                        } return room;
+                    })
+                } else {
+                    newUnreadMessages.push({ room_id: data.room_id, count: 1 })
+                }
                 this.setState({ unreadMessages: newUnreadMessages });
             }
         });
@@ -44,7 +54,7 @@ export class Chat extends React.Component {
         const userId = this.props.user[0].id;
         const { currentRoom, messageTo, message } = this.state;
         ev.preventDefault();
-        if (message !== '') {
+        if (message && currentRoom && userId && messageTo) {
             const fullMessage = {
                 room_id: currentRoom,
                 user_from_id: userId,
@@ -74,9 +84,10 @@ export class Chat extends React.Component {
 
     componentDidMount() {
         messagesService.countUnreadRoomMessages()
-            .then((result) => this.setState({ unreadMessages: result.data, }))
+            .then((result) => {
+                this.setState({ unreadMessages: result.data, });
+            })
             .catch((err) => console.log(err));
-
         userService.getNotificationsType(3)
             .then((profiles) => {
                 this.setState({ profiles: profiles.data, isLoading: false });
@@ -85,9 +96,11 @@ export class Chat extends React.Component {
                 })
             })
             .catch((err) => { console.log(err) })
-
     }
 
+    componentWillUnmount() {
+        socket.off('RECEIVE_CHAT_MESSAGE')
+    }
 
     renderProfiles = (profiles) => {
         const { unreadMessages } = this.state;
