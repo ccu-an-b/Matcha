@@ -33,10 +33,15 @@ export class Browse extends React.Component {
   }
 
   componentWillMount(){
-    profileService.getSuggestedProfiles().then((profiles) => {
-      this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
-    })
-    .catch((err) => console.log(err))
+    if (this.props.user.length > 1 && this.props.user[0].complete === 0 ){
+      this.setState({isLoading: false})
+    }
+    else {
+      profileService.getSuggestedProfiles().then((profiles) => {
+        this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
+      })
+      .catch((err) => console.log(err))
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

@@ -56,7 +56,6 @@ export default class Settings extends React.Component {
             .then((res) => {
                 if (res.error)
                     throw(res.error)
-                console.log(res)
                 this.props.addNotification(this.state.profile, 'success', 'You successfully deleted your Matcha account.')
                 this.handleLogout()
             })

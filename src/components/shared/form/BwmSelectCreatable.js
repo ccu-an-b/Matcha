@@ -20,14 +20,11 @@ export class BwmSelectCreatable extends React.Component {
     onChange = (value) => {
         let newVal = value
         let stateVal = this.state.value
-
+      
         if (value){
-            if (value.value[0] === '#')
-            {
-                newVal.value = newVal.value.replace("#", "") ; 
-                newVal.label = newVal.label.replace("#", "")
-            } 
-
+            newVal.value = newVal.value.normalize('NFD').replace(/[&/\\#\s,+()$~%'":*?<>{}\s]/g, "");
+            newVal.label = newVal.label.normalize('NFD').replace(/[&/\\#\s,+()$~%'":*?<>{}\s]/g, "");
+        
             stateVal.indexOf(newVal) === -1
             ? stateVal.push(newVal)
             : stateVal.length === 1
@@ -35,8 +32,10 @@ export class BwmSelectCreatable extends React.Component {
                 : stateVal.splice(stateVal.indexOf(newVal), 1)
 
             this.setState({ value: stateVal })
-            this.onSuccess(stateVal)   
-            
+            if (stateVal.length)
+                this.onSuccess(stateVal) 
+            else 
+                this.onSuccess(null) 
         }
     }
 

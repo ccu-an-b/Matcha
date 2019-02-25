@@ -2,7 +2,7 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { BwmInput } from "components/shared/form/BwmInput";
 import { BwmResError } from 'components/shared/form/BwmResError';
-import { required } from "components/shared/form/validators";
+import { required,minLength5, checkSpecialChar,isEmail } from "components/shared/form/validators";
 import { connect } from "react-redux";
 
 
@@ -26,7 +26,7 @@ let GeneralForm = props => {
             type="text"
             label="username"
             component={BwmInput}
-            validate={[required]}
+            validate={[required, minLength5, checkSpecialChar]}
             data-parse="lowercase"
         />
         <Field
@@ -34,7 +34,7 @@ let GeneralForm = props => {
             type="text"
             label="mail"
             component={BwmInput}
-            validate={[required]}
+            validate={[required, isEmail]}
             data-parse="lowercase"
         />
        <div className="form-submit">

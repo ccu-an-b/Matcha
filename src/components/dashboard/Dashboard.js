@@ -20,9 +20,9 @@ export class Dashboard extends React.Component {
     }
 
     updateProps(){
+        this.props.dispatch(actions.fetchTags())
         this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
         this.props.dispatch(actions.fetchPublicData())
-        this.props.dispatch(actions.fetchTags())
     }
 
     completeProfile = profileData =>{

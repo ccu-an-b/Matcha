@@ -75,8 +75,13 @@ class Header extends React.Component {
     render() {
         const { username } = this.props.auth;
         const userData = this.props.user;
+<<<<<<< HEAD
         const { newMessages, showSearch } = this.state;
 
+=======
+        const {newMessages, showSearch} = this.state;
+    
+>>>>>>> b5a1705d9985620ae307f0484a0b080442ba9907
         if (authService.isAuthentificated()) {
             return (
                 <header>

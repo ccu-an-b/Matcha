@@ -6,7 +6,7 @@ const   pool = new pg.Pool(config.db);
 function create_tables() {
 
     return pool.query(
-    `CREATE SEQUENCE IF NOT EXISTS users_id_seq; 
+    `CREATE SEQUENCE IF NOT EXISTS users_id_seq RESTART 600; 
       CREATE SEQUENCE IF NOT EXISTS id_notif_seq; 
       CREATE SEQUENCE IF NOT EXISTS id_notif_msg_seq; 
       CREATE SEQUENCE IF NOT EXISTS id_msg_seq; 
