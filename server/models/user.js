@@ -168,7 +168,7 @@ function user_tags_update(res, tags, userId, username) {
             for (var i = 0; i < res.length; i++) {
                 const value = helpers.isInArray(res[i].value, arrTagsExist)
                 query.push({
-                    text: `UPDATE tags SET ${res[i].value} =  $1 WHERE user_id = $2`,
+                    text: `UPDATE tags SET "${res[i].value}" =  $1 WHERE user_id = $2`,
                     values: [value, userId]
                 })
             }
@@ -179,10 +179,10 @@ function user_tags_update(res, tags, userId, username) {
             let query = [];
             for (var i = 0; i < arrTagsNew.length; i++) {
                 query.push({
-                    text: `ALTER TABLE tags ADD COLUMN ${arrTagsNew[i]} integer DEFAULT 0`
+                    text: `ALTER TABLE tags ADD COLUMN  IF NOT EXISTS "${arrTagsNew[i]}" integer DEFAULT 0`
                 })
                 query.push({
-                    text: `UPDATE tags SET ${arrTagsNew[i]} = 1 WHERE user_id = $1`,
+                    text: `UPDATE tags SET "${arrTagsNew[i]}" = 1 WHERE user_id = $1`,
                     values: [userId]
                 })
             }
