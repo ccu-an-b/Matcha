@@ -2126,7 +2126,8 @@ header {
     margin-right: 0;
     margin-left: 0;
     min-height: 350px;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    transition: all .3s; }
 
 .chat {
   background-color: white;
@@ -2183,11 +2184,23 @@ header {
     border-left: 3px solid rgba(50, 54, 100, 0.3);
     position: relative; }
     .chat .chat-container .message-to {
-      padding: 10px 0;
-      border-bottom: 3px solid rgba(50, 54, 100, 0.3); }
+      position: absolute;
+      width: 100%;
+      left: 0;
+      padding: 10px 15px; }
+      .chat .chat-container .message-to .message-to-container {
+        width: 100%;
+        display: flex;
+        padding-bottom: 10px;
+        border-bottom: 3px solid rgba(50, 54, 100, 0.3); }
       .chat .chat-container .message-to a {
         display: flex;
         align-items: center; }
+        .chat .chat-container .message-to a:hover {
+          text-decoration: none; }
+        .chat .chat-container .message-to a:hover h1 {
+          text-decoration: underline;
+          color: #363B6D; }
       .chat .chat-container .message-to img {
         width: 80px;
         height: 80px;
@@ -2199,7 +2212,11 @@ header {
         opacity: 1;
         margin: 0;
         font-size: 20px;
-        letter-spacing: 1px; }
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all .2s; }
+      .chat .chat-container .message-to .back {
+        display: none; }
     .chat .chat-container .chat-box {
       padding: 103px 4px 61px 15px;
       height: 100%;
@@ -2293,7 +2310,22 @@ header {
 
 @media screen and (max-width: 1000px) {
   #chat-container {
-    padding-top: 220px; } }
+    padding-top: 220px; }
+    #chat-container .row.active {
+      margin-left: -100%; }
+  .chat .chat-container {
+    border: 0px; }
+    .chat .chat-container .message-to .back {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      font-size: 20px;
+      color: rgba(50, 54, 100, 0.3);
+      transition: all .3s; }
+      .chat .chat-container .message-to .back i {
+        cursor: pointer; }
+        .chat .chat-container .message-to .back i:hover {
+          color: #323664; } }
 
 @media screen and (max-width: 800px) {
   .chat {
@@ -2305,6 +2337,12 @@ header {
     .chat .col-4, .chat .col-8 {
       flex: initial;
       max-width: 50%; } }
+
+@media screen and (max-width: 500px) {
+  #chat-container {
+    padding-bottom: 0; }
+  #chat-container .row {
+    margin-bottom: 0px; } }
 
 .my-map {
   width: 100%;

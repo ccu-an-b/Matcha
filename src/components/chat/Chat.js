@@ -26,6 +26,7 @@ export class Chat extends React.Component {
             isLoading: true,
             socketMessages: [],
             isRoomHistoryLoaded: false,
+            showLeft:false
         };
         this.convRef = React.createRef()
         this.profilRef = React.createRef()
@@ -70,8 +71,14 @@ export class Chat extends React.Component {
         return newUnreadMessages;
     }
 
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+    
     componentWillUnmount(){
         socket.off('RECEIVE_CHAT_MESSAGE')
+        socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
+        window.removeEventListener("resize", this.updateWindowDimensions);
     }
     
     sendMessage = (ev) => {
@@ -99,6 +106,9 @@ export class Chat extends React.Component {
     }
 
     selectRoom = (profile) => {
+        if (window.innerWidth < 1000)
+            this.setState({showLeft: true})
+        
         const resetUnreadMessages = this.state.unreadMessages.map((room) => {
             if (room.room_id === profile.match_id) {
                 return { room_id: room.room_id, count: 0 }
@@ -114,6 +124,8 @@ export class Chat extends React.Component {
     }
 
     componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
         messagesService.countUnreadRoomMessages()
             .then((result) => {
                 this.setState({ unreadMessages: result.data, });
@@ -129,10 +141,6 @@ export class Chat extends React.Component {
             .catch((err) => { console.log(err) })
     }
 
-    componentWillUnmount() {
-        socket.off('RECEIVE_CHAT_MESSAGE')
-    }
-
     iAmTyping = (event) => {
         this.setState({ message: event.target.value });
         if (!this.state.iAmTyping) {
@@ -144,6 +152,10 @@ export class Chat extends React.Component {
             this.setState({ iAmTyping: true });
             socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
         }
+    }
+
+    backToProfiles = () =>{
+        this.setState({showLeft: false})
     }
 
     renderProfiles = (profiles) => {
@@ -181,10 +193,11 @@ export class Chat extends React.Component {
             currentRoom,
             profiles,
             isLoading,
-            message } = this.state;
+            message,
+            showLeft } = this.state;
         return (
             <div className="chat-container" id="chat-container">
-                <div className="row chat">
+                <div className={showLeft ? "row chat active" : "row chat"}>
                     <div className="col-4 matchs" ref={this.profileRef}>
                         <div className="header">
                             <h1>Chat with your matchs !</h1>
@@ -200,13 +213,22 @@ export class Chat extends React.Component {
                             </div>
                         </div>
                     </div>
-                    {(!messageTo || !currentRoom) ? (
+                    {(!messageTo || !currentRoom) ? 
                         <div className="col-8 chat-container">
                             <h1>SELECT SOMEONE TO CHAT WITH</h1>
-                        </div>) : (
+                        </div> : 
                             <div className="col-8 chat-container" ref={this.convRef}>
+                                <Chatbox
+                                    roomId={currentRoom}
+                                    socketMessages={socketMessages}
+                                    isTyping={heIsTyping}
+                                />
                                 <div className="message-to">
-                                    {messageToProfile.length &&
+                                    <div className="message-to-container">
+                                    <div className="back">
+                                        <i className="fas fa-chevron-left" onClick={() => this.backToProfiles()}></i>
+                                    </div>
+                                    {messageToProfile.length ? 
                                         <Link to={`./profile/${messageToProfile[0].username}`}>
                                             <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo" />
                                             <div className="message-to-info">
@@ -216,13 +238,9 @@ export class Chat extends React.Component {
                                                 </h5>
                                             </div>
                                         </Link>
-                                    }
+                                    : ""}
+                                    </div>
                                 </div>
-                                <Chatbox
-                                    roomId={currentRoom}
-                                    socketMessages={socketMessages}
-                                    isTyping={heIsTyping}
-                                />
                                 <div className="chat-form-group">
                                     <div className="chat-send">
                                         <input
@@ -238,7 +256,7 @@ export class Chat extends React.Component {
                                         >Send</button>
                                     </div>
                                 </div>
-                            </div>)}
+                            </div>}
                 </div>
             </div>
 
