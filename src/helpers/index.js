@@ -10,6 +10,14 @@ export const formatter = (nb,item ,ago) =>{
     return nb+item[0]+" "+ago
 }
 
+export const formatterChat = (nb,item ,ago) =>{
+    if (item === "month")
+        return nb+"mth"
+    if (item === "second")
+        return "just now"
+    return nb+item[0]
+}
+
 export const string_to_array = (str) => {
     if (str)
         return str.trim().split(" ");

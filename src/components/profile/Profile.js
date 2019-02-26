@@ -28,6 +28,7 @@ class Profile extends React.Component {
       this.setState({username})
     }
   }
+  
   componentWillUnmount() {
     this._isMounted = false;
   }

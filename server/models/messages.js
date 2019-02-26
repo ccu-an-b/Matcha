@@ -69,7 +69,7 @@ function get_all_conversations(req, res) {
     const { userId } = res.locals.user;
 
     const query = {
-        text: ` SELECT user_from_id, room_id as match_id, read, notifications_messages.date, last_msg, profile_img, username, connexion
+        text: ` SELECT user_from_id, room_id as match_id, read, notifications_messages.date, last_msg, profile_img, username, connexion, online
                 FROM notifications_messages 
                 JOIN profiles ON profiles.user_id = notifications_messages.user_from_id
                 JOIN users ON users.id = notifications_messages.user_from_id

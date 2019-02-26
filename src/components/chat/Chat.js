@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import io from "socket.io-client";
 import TimeAgo from 'react-timeago';
 import { Link } from 'react-router-dom';
-import { formatter, imgPath, toCapitalize } from 'helpers';
-import userService from 'services/user-service';
+import { formatter, formatterChat,imgPath, toCapitalize,imagesLoaded } from 'helpers';
 import messagesService from 'services/message-service';
 import profileService from 'services/profile-service';
 import Chatbox from "./Chatbox";
@@ -26,7 +25,8 @@ export class Chat extends React.Component {
             isLoading: true,
             socketMessages: [],
             isRoomHistoryLoaded: false,
-            showLeft:false
+            showLeft:false,
+            loadImg: true,
         };
         this.convRef = React.createRef()
         this.profilRef = React.createRef()
@@ -39,6 +39,8 @@ export class Chat extends React.Component {
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             const { unreadMessages, currentRoom, socketMessages } = this.state;
             const { userId } = this.props.auth;
+
+            this.updateComponent();
             if (data.room_id === currentRoom) {
                 this.setState({ socketMessages: [...socketMessages, data] });
                 if (userId !== data.user_from_id) {
@@ -61,7 +63,10 @@ export class Chat extends React.Component {
                 }
             }
         })
-        
+        this.updateComponent();
+    }
+
+    updateComponent = () =>{
         messagesService.countUnreadRoomMessages()
             .then((result) => {
                 this.setState({ unreadMessages: result.data, });
@@ -77,7 +82,6 @@ export class Chat extends React.Component {
             })
             .catch((err) => { console.log(err) })
     }
-
     componentWillUnmount(){
         socket.off('RECEIVE_CHAT_MESSAGE')
         socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
@@ -124,6 +128,7 @@ export class Chat extends React.Component {
         }
         this.setState({ iAmTyping: false });
         socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
+        this.updateComponent()
     }
 
     selectRoom = (profile) => {
@@ -161,6 +166,12 @@ export class Chat extends React.Component {
         this.setState({showLeft: false})
     }
 
+    handleImageChange = () => {
+        this.setState({
+          loadImg: !imagesLoaded(this.imgElement)
+        });
+    };
+
     renderProfiles = (profiles) => {
         const { unreadMessages } = this.state;
         return profiles.map((profile, index) => {
@@ -168,16 +179,26 @@ export class Chat extends React.Component {
             return (
                 <Link to={"#"} onClick={() => this.selectRoom(profile)} key={index}>
                     <div className="one-match" id={profile.username}>
-                        <div className="one-match-content">
-                            <img src={imgPath(profile.profile_img)} alt="profile_img" />
+                        <div className= {profile.online ? "one-match-content online" : "one-match-content"}>
+                            <div className={this.state.loadImg ? "img_loading img_none": "img_loading" }>
+                                <img    src={imgPath(profile.profile_img)}
+                                        alt="profile_img" 
+                                        onLoad={this.handleImageChange}
+                                        onError={this.handleImageChange}/>
+                            </div>
                             <div className="match-info">
-                                <h4>{toCapitalize(profile.username)}</h4>
-                                <h5 className={profile.online ? 'online' : ""}>
-                                    {profile.online ? 'Online' : <TimeAgo date={parseInt(profile.connexion, 10)} formatter={formatter} />}
-                                </h5>
-                                {unreadMessagesForUser ? unreadMessagesForUser.count : 0} unread messages
-                                <h5>
-                                </h5>
+                                <div className="username">
+                                    <h4>{toCapitalize(profile.username)}</h4>
+                                    <h5>
+                                       <TimeAgo date={parseInt(profile.date, 10)} formatter={formatterChat} />
+                                    </h5>
+                                </div>
+                                <div className='preview'>
+                                    <h5>
+                                        {profile.last_msg}
+                                    </h5>
+                                    {unreadMessagesForUser ?<div className="unread">{unreadMessagesForUser.count }</div> : "" }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,7 +227,7 @@ export class Chat extends React.Component {
                             <h1>Chat with your matchs !</h1>
                         </div>
                         <div className="chat-left">
-                            <div className="display-matchs">
+                            <div className="display-matchs" ref={element => {this.imgElement = element;}}>
                                 {!isLoading && profiles.length > 0 &&
                                     this.renderProfiles(profiles)
                                 }

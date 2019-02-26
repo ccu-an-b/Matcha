@@ -13,6 +13,7 @@ import io from "socket.io-client";
 const socket = io(window.location.hostname + ':3001');
 
 export class Browse extends React.Component {
+  _isMounted = false;
 
   constructor(props){
     super(props);
@@ -32,11 +33,16 @@ export class Browse extends React.Component {
     this.profileRef = React.createRef()
   }
 
-  componentWillMount(){
-    if (this.props.user.length > 1 && this.props.user[0].complete === 0 ){
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  componentDidMount(){
+    this._isMounted = true;
+    if (this.props.user.length > 1 && this.props.user[0].complete === 0 && this._isMounted){
       this.setState({isLoading: false})
     }
-    else {
+    else if (this._isMounted){
       profileService.getSuggestedProfiles().then((profiles) => {
         this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
       })
@@ -44,6 +50,9 @@ export class Browse extends React.Component {
     }
   }
 
+  // componentDidMount(){
+  //   this._isMounted = true;
+  // }
   componentDidUpdate(prevProps, prevState) {
     const {form} = this.props
     const {order, profilesFilter, isUpdating, profiles , isLoading} = this.state
