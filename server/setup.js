@@ -58,7 +58,6 @@ const getFullAddress = () => {
         }
         if (country.includes("Suisse"))
             country = "Suisse";
-
         userLoc = {
             lat : address.lat,
             lon: address.lon,

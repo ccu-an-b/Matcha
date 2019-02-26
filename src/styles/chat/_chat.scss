@@ -225,3 +225,28 @@
     }
   }
 }
+
+@media screen and(max-width: 1000px){
+  #chat-container {
+    padding-top: 220px;
+
+  }
+}
+
+@media screen and(max-width: 800px){
+  .chat{
+    width: 200%;
+    .matchs{
+      .header:after{
+        transform: rotate(2deg) skewX(0deg);
+      }
+      .header:before{
+        transform: rotate(2deg) skewX(0deg);
+      }
+    }
+    .col-4, .col-8{
+      flex: initial;
+      max-width: 50%;
+    }
+  }
+}

@@ -25,6 +25,9 @@ export class Chat extends React.Component {
             socketMessages: [],
             isRoomHistoryLoaded: false,
         };
+        this.convRef = React.createRef()
+        this.profilRef = React.createRef()
+
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             if (data.room_id === this.state.currentRoom) {
                 this.setState({ socketMessages: [...this.state.socketMessages, data] });
@@ -40,6 +43,10 @@ export class Chat extends React.Component {
         });
     }
 
+    componentWillUnmount(){
+        socket.off('RECEIVE_CHAT_MESSAGE')
+    }
+    
     sendMessage = (ev) => {
         const userId = this.props.user[0].id;
         const { currentRoom, messageTo, message } = this.state;
@@ -122,7 +129,7 @@ export class Chat extends React.Component {
         return (
             <div className="chat-container" id="chat-container">
                 <div className="row chat">
-                    <div className="col-4 matchs">
+                    <div className="col-4 matchs" ref={this.profileRef}>
                         <div className="header">
                             <h1>Chat with your matchs !</h1>
                         </div>
@@ -141,7 +148,7 @@ export class Chat extends React.Component {
                         <div className="col-8 chat-container">
                             <h1>SELECT SOMEONE TO CHAT WITH</h1>
                         </div>) : (
-                            <div className="col-8 chat-container">
+                            <div className="col-8 chat-container" ref={this.convRef}>
                                 <div className="message-to">
                                     {messageToProfile.length &&
                                         <Link to={`./profile/${messageToProfile[0].username}`}>
@@ -155,7 +162,7 @@ export class Chat extends React.Component {
                                         </Link>
                                     }
                                 </div>
-                                <Chatbox roomId={currentRoom} socketMessages={socketMessages} />
+                                <Chatbox roomId={currentRoom} socketMessages={socketMessages}  />
                                 <div className="chat-form-group">
                                     <div className="chat-send">
                                         <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />

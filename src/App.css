@@ -2291,6 +2291,21 @@ header {
       opacity: 0.5;
       text-align: center; }
 
+@media screen and (max-width: 1000px) {
+  #chat-container {
+    padding-top: 220px; } }
+
+@media screen and (max-width: 800px) {
+  .chat {
+    width: 200%; }
+    .chat .matchs .header:after {
+      transform: rotate(2deg) skewX(0deg); }
+    .chat .matchs .header:before {
+      transform: rotate(2deg) skewX(0deg); }
+    .chat .col-4, .chat .col-8 {
+      flex: initial;
+      max-width: 50%; } }
+
 .my-map {
   width: 100%;
   margin-bottom: 40px; }
@@ -2823,7 +2838,8 @@ h1, h2, h3, h4 {
   .app-container {
     margin-top: -200px; }
   .App {
-    overflow-x: hidden; } }
+    overflow-x: hidden;
+    min-height: 100vh; } }
 
 .leaflet-container {
   height: 600px;
@@ -2891,7 +2907,3 @@ h1, h2, h3, h4 {
 @media screen and (max-width: 1000px) {
   .app-container {
     width: 100%; } }
-
-@media screen and (max-width: 700px) {
-  .App {
-    overflow: hidden; } }

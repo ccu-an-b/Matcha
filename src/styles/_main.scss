@@ -82,7 +82,8 @@ h1,h2, h3,h4 {
         margin-top:-200px;
     }
     .App {
-        overflow-x:hidden
+        overflow-x:hidden;
+        min-height: 100vh;
     }
 
 }
@@ -172,7 +173,7 @@ h1,h2, h3,h4 {
 
 @media screen and (max-width: 700px)
 {
-    .App {
-        overflow:hidden;
-    }
+    // .App {
+    //     overflow:hidden;
+    // }
 }
