@@ -20,15 +20,10 @@ class Chatbox extends React.Component {
     printMessage = (messageList) => {
         const userId = this.props.auth.userId;
         return (messageList.map((message, index) => {
-
-            if (message.roomId === this.props.roomId || message.room_id === this.props.roomId) {
-                const himOrMe = (message.user_from_id === userId) ? "me" : "him";
-                return (
-                    <li key={index} className={himOrMe}>{message.content}</li>
-                )
-            }
-            else
-                return ("")
+            const himOrMe = (message.user_from_id === userId) ? "me" : "him";
+            return (
+                <li key={index} className={himOrMe}>{message.content}</li>
+            )
         }))
     }
 
@@ -50,16 +45,21 @@ class Chatbox extends React.Component {
 
     render() {
         const { isLoading, roomHistory } = this.state;
-        const { socketMessages } = this.props;
+        const { socketMessages, isTyping } = this.props;
 
         return (
             <div className="chat-box" id="chat-box">
-                <ul>
-                    {isLoading && "LOADING"}
-                    {!isLoading && this.printMessage(roomHistory)}
-                    {socketMessages.length && this.printMessage(socketMessages)}
-                    {!isLoading && <span ref={this.endMessageRef} className="him"></span>}
-                </ul>
+                {isLoading ? <ul>LOADING</ul> : (
+                    <ul>
+                        {this.printMessage(roomHistory)}
+                        {socketMessages.length && this.printMessage(socketMessages)}
+                        {isTyping ? (
+                            <span ref={this.endMessageRef} className="him" >
+                                <li className="him">...</li>
+                            </span>
+                        ) : <span ref={this.endMessageRef} className="him" />}
+                    </ul>
+                )}
             </div>
         );
     }

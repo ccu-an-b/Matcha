@@ -3,7 +3,7 @@ const db = require('./db');
 function get_room_messages(req, res) {
     const roomId = req.params.roomId;
     const query = {
-        text: `SELECT user_from_id, user_for_id, content, room_id, date FROM messages WHERE room_id = $1`,
+        text: `SELECT user_from_id, user_for_id, content, room_id, date FROM messages WHERE room_id = $1 ORDER BY id ASC`,
         values: [roomId]
     }
     return db.get_database(query).then((result) => {
@@ -38,7 +38,7 @@ function set_message_to_read(req, res) {
     const { roomId } = req.params;
     const { readerUserId } = req.body;
     const query = {
-        text: `UPDATE messages SET read = 1 WHERE user_for_id = $1 AND room_id = $2`,
+        text: `UPDATE messages SET read = 1 WHERE read = 0 AND user_for_id = $1 AND room_id = $2`,
         values: [readerUserId, roomId]
     }
     return db.get_database(query).then((result) => {
@@ -59,5 +59,5 @@ module.exports = {
     send_message,
     delete_all_messages_match,
     count_unread_room_messages,
-    set_message_to_read,
+    set_message_to_read
 }

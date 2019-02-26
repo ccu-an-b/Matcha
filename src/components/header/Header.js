@@ -1,43 +1,34 @@
 import React from 'react';
-import io from "socket.io-client";
 import { withRouter, Link } from 'react-router-dom';
 import authService from 'services/auth-service';
 import { connect } from 'react-redux';
-import { toCapitalize, imgPath , getSearchUrl} from 'helpers';
+import { toCapitalize, imgPath, getSearchUrl } from 'helpers';
 import * as actions from 'actions';
 import Notifications from './Notifications';
+import messagesService from 'services/message-service';
 import SearchForm from './Search';
-
-const socket = io('localhost:3001');
 
 class Header extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             newMessages: 0,
-            unreadMessages: [],
             showSearch: false,
             showNavBar: false,
         }
     }
 
     componentWillMount() {
-        if (authService.isAuthentificated()){
+        if (authService.isAuthentificated()) {
             this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
             this.props.dispatch(actions.fetchPublicData())
             this.props.dispatch(actions.fetchTags())
         }
-        socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
-            if (data.user_for_id === this.props.auth.userId)
-                this.setState({ newMessages: this.state.newMessages+1 , unreadMessages: [...this.state.unreadMessages, data] });
-        });
     }
 
-    componentWillUnmount(){
-        socket.off('RECEIVE_CHAT_MESSAGE')
-    }
-    
+
+
     handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();
@@ -52,40 +43,49 @@ class Header extends React.Component {
     }
 
     showSearch = () => {
-        this.setState({showSearch: !this.state.showSearch})
+        this.setState({ showSearch: !this.state.showSearch })
     }
 
     hideSearch = () => {
-        this.setState({showSearch: false})
+        this.setState({ showSearch: false })
         this.buttonElement.click();
     }
 
     sendSearch = () => {
-        let url
+        let url;
 
-        if (this.props.form.searchForm.values)
-        {
+        if (this.props.form.searchForm.values) {
             url = getSearchUrl(this.props.form.searchForm.values)
             this.props.history.push(url);
-            this.setState({ showSearch: false});
+            this.setState({ showSearch: false });
             this.buttonElement.click();
         }
+    }
+
+    componentDidMount() {
+        messagesService.countUnreadRoomMessages()
+            .then((result) => {
+                let total = 0;
+                result.data.forEach((unread) => total += Number(unread.count));
+                this.setState({ newMessages: total })
+            })
+            .catch((err) => console.log(err));
     }
 
     render() {
         const { username } = this.props.auth;
         const userData = this.props.user;
-        const {newMessages, showSearch} = this.state;
-    
+        const { newMessages, showSearch } = this.state;
+
         if (authService.isAuthentificated()) {
             return (
                 <header>
                     <img src={process.env.PUBLIC_URL + '/matcha_logo_white.svg'} alt="logo" />
-                    <button className="navbar-toggler my-toggler collapsed" type="button" 
-                            data-toggle="collapse" data-target="#navbarTogglerDemo03" 
-                            aria-controls="navbarTogglerDemo03" aria-expanded="false" 
-                            aria-label="Toggle navigation"
-                            ref={button => this.buttonElement = button}
+                    <button className="navbar-toggler my-toggler collapsed" type="button"
+                        data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                        aria-controls="navbarTogglerDemo03" aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        ref={button => this.buttonElement = button}
                     >
                         <i className="fas fa-grip-lines"></i>
                         <i className="fas fa-grip-lines"></i>
@@ -101,10 +101,13 @@ class Header extends React.Component {
                                     <Link className="nav-link active" to="/browse" onClick={() => this.hideSearch()}>Browse <span className="sr-only">(current)</span></Link>
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Notifications  addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch}/>
+                                    <Notifications addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch} />
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Link className="nav-link notification" to="/chat" onClick={() => this.hideSearch()}>
+                                    <Link className="nav-link notification" to="/chat" onClick={() => {
+                                        this.hideSearch();
+                                        this.setState({ newMessages: 0 });
+                                    }}>
                                         Messages
                                         {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}
                                     </Link>
@@ -113,14 +116,14 @@ class Header extends React.Component {
                                     <a className="nav-link" onClick={this.handleLogout}>Logout</a>
                                 </li>
                             </ul>
-                            <div className={showSearch ? "form-inline my-2 my-lg-0 my-search active" : "form-inline my-2 my-lg-0 my-search" }>
+                            <div className={showSearch ? "form-inline my-2 my-lg-0 my-search active" : "form-inline my-2 my-lg-0 my-search"}>
                                 <button className="btn my-2 my-sm-0 search" onClick={() => this.showSearch()}>
-                                   {!showSearch ? <i className="fas fa-search"></i>
-                                        : <i className="fas fa-times"></i> 
-                                   } 
+                                    {!showSearch ? <i className="fas fa-search"></i>
+                                        : <i className="fas fa-times"></i>
+                                    }
                                 </button>
                                 {showSearch &&
-                                    <SearchForm optionsTags={this.props.tags.data} users={this.props.publicData.data} submitCb={this.sendSearch}/>
+                                    <SearchForm optionsTags={this.props.tags.data} users={this.props.publicData.data} submitCb={this.sendSearch} />
                                 }
                             </div>
                         </div>

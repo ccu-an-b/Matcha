@@ -21,6 +21,10 @@ io.on('connection', socket => {
     io.sockets.in(data.room_id).emit('RECEIVE_CHAT_MESSAGE', data);
   })
 
+  socket.on('SEND_MESSAGE_TYPING_NOTIFICATION', function (data) {
+    io.sockets.in(data.room_id).emit('RECEIVE_MESSAGE_TYPING_NOTIFICATION', data);
+  })
+
   socket.on('SEND_NOTIFICATION', function (data) {
     io.emit('RECEIVE_NOTIFICATION', data)
   })
@@ -36,19 +40,9 @@ io.on('connection', socket => {
     socket.disconnect(); 
   })
 
-  socket.on('CONNECT_TO_ROOM', function (userId, room) {
+  socket.on('CONNECT_TO_ROOM', function (room) {
     socket.room = room;
     socket.join(room);
-    // console.log("user id " + userId + " joined " + socket.room);
-  });
-
-  socket.on('SWITCH_ROOM', function (userId, newRoom) {
-    if (socket.room) {
-      socket.leave(socket.room);
-      // console.log("user id " + userId + " left " + socket.room);
-    }
-    socket.join(newRoom);
-    socket.room = newRoom;
     // console.log("user id " + userId + " joined " + socket.room);
   });
 
