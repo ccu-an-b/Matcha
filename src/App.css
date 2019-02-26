@@ -435,11 +435,19 @@ header {
           margin-top: 0 !important;
           margin-bottom: 0 !important; }
   #background-header {
-    height: 200px; }
+    height: 200px;
+    border-bottom-left-radius: 75% 75px;
+    border-bottom-right-radius: 75% 75px;
+    width: 100%;
+    margin-left: 0; }
     #background-header:before {
-      top: -150px; }
+      top: -150px;
+      width: 160%;
+      left: -30%; }
     #background-header:after {
-      top: 150px; }
+      top: 150px;
+      width: 160%;
+      left: -30%; }
   header .my-dropdown {
     margin-left: -65px;
     visibility: visible;

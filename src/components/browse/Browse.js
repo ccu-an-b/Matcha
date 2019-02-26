@@ -44,15 +44,13 @@ export class Browse extends React.Component {
     }
     else if (this._isMounted){
       profileService.getSuggestedProfiles().then((profiles) => {
-        this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
+        if (this._isMounted)
+          this.setState({profiles : profiles, profilesFilter: profiles, isLoading: false})
       })
       .catch((err) => console.log(err))
     }
   }
 
-  // componentDidMount(){
-  //   this._isMounted = true;
-  // }
   componentDidUpdate(prevProps, prevState) {
     const {form} = this.props
     const {order, profilesFilter, isUpdating, profiles , isLoading} = this.state

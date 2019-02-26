@@ -197,7 +197,7 @@ export class Chat extends React.Component {
                                     <h5>
                                         {profile.last_msg}
                                     </h5>
-                                    {unreadMessagesForUser ?<div className="unread">{unreadMessagesForUser.count }</div> : "" }
+                                    {unreadMessagesForUser && unreadMessagesForUser.count > 0 ?<div className="unread">{unreadMessagesForUser.count }</div> : "" }
                                 </div>
                             </div>
                         </div>
