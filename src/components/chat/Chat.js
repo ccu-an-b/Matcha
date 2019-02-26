@@ -30,6 +30,11 @@ export class Chat extends React.Component {
         };
         this.convRef = React.createRef()
         this.profilRef = React.createRef()
+    }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
 
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
             const { unreadMessages, currentRoom, socketMessages } = this.state;
@@ -55,6 +60,27 @@ export class Chat extends React.Component {
                 }
             }
         })
+        
+        messagesService.countUnreadRoomMessages()
+            .then((result) => {
+                this.setState({ unreadMessages: result.data, });
+            })
+            .catch((err) => console.log(err));
+
+        messagesService.getConversations()
+            .then((profiles) => {
+                this.setState({ profiles: profiles.data, isLoading: false });
+                profiles.data.forEach((profile) => {
+                    socket.emit('CONNECT_TO_ROOM', profile.match_id);
+                })
+            })
+            .catch((err) => { console.log(err) })
+    }
+
+    componentWillUnmount(){
+        socket.off('RECEIVE_CHAT_MESSAGE')
+        socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
+        window.removeEventListener("resize", this.updateWindowDimensions);
     }
 
     getUnreadMessages = (unreadMessages, data) => {
@@ -74,12 +100,6 @@ export class Chat extends React.Component {
     updateWindowDimensions = () => {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     };
-    
-    componentWillUnmount(){
-        socket.off('RECEIVE_CHAT_MESSAGE')
-        socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
-        window.removeEventListener("resize", this.updateWindowDimensions);
-    }
     
     sendMessage = (ev) => {
         const userId = this.props.user[0].id;
@@ -121,24 +141,6 @@ export class Chat extends React.Component {
             unreadMessages: resetUnreadMessages,
         });
         profileService.getOneProfile(profile.username).then((profile) => this.setState({ messageToProfile: profile.data }))
-    }
-
-    componentDidMount() {
-        this.updateWindowDimensions();
-        window.addEventListener("resize", this.updateWindowDimensions);
-        messagesService.countUnreadRoomMessages()
-            .then((result) => {
-                this.setState({ unreadMessages: result.data, });
-            })
-            .catch((err) => console.log(err));
-        userService.getNotificationsType(3)
-            .then((profiles) => {
-                this.setState({ profiles: profiles.data, isLoading: false });
-                profiles.data.forEach((profile) => {
-                    socket.emit('CONNECT_TO_ROOM', profile.match_id);
-                })
-            })
-            .catch((err) => { console.log(err) })
     }
 
     iAmTyping = (event) => {

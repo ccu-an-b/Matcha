@@ -5,13 +5,15 @@ const db = require('./db'),
         MessagesMod = require('./messages'),
         MatchMod = require('./matching');
 
-function fetch_public_data() {
+function fetch_public_data(userId) {
 
         const query = {
                 text: `SELECT id, age, total, username, first_name, last_name, city_user, country_user,latitude_user, longitude_user, profile_img, username as value, username as label FROM users
                 JOIN geoloc ON geoloc.user_id = users.id
                 JOIN scores ON scores.user_id = users.id
-                JOIN profiles ON profiles.user_id = users.id`,
+                JOIN profiles ON profiles.user_id = users.id
+                JOIN matchs ON matchs.user_id = users.id
+                WHERE "${userId}" != -1`,
         }
         return db.get_database(query)
         .then((response) => response)
@@ -19,7 +21,7 @@ function fetch_public_data() {
 
 const get_public_data = async (req, res) => {
         const userId = res.locals.user.userId;
-        const response = await fetch_public_data();
+        const response = await fetch_public_data(userId);
         let i = 0
         do {
                 const tags = await UserMod.user_get_tags(response[i].id);
@@ -170,6 +172,8 @@ function set_profile_like(req, res) {
                                         NotifMod.delete_notification(profileId, userId, 2);
                                         NotifMod.delete_notification(profileId, userId, 3);
                                         NotifMod.delete_notification(userId, profileId, 3);
+                                        NotifMod.delete_notification_message(profileId, userId);
+                                        NotifMod.delete_notification_message(userId, profileId);
                                         update_score(profileId, '-', 6)
                                         update_score(userId, '-', 4)
                                         update_match(userId, profileId, 1)
@@ -190,7 +194,6 @@ function set_profile_like(req, res) {
                         { 
                                 return  NotifMod.send_match_notification(profileId, userId, 3)
                                         .then((result) => {
-                                                console.log(result)
                                                 return res.json(result)
                                         }) 
                         }
@@ -241,6 +244,8 @@ function set_profile_block(req, res) {
                         update_score(result[0].id, '-', 10)
                         MessagesMod.delete_all_messages_match(result[0].id, userId)
                         NotifMod.delete_all_notification(userId,result[0].id)
+                        NotifMod.delete_notification_message(result[0].id, userId);
+                        NotifMod.delete_notification_message(userId,result[0].id);
                         return res.status(200).send({ success: [{ title: 'Profile blocked', detail: result[0] }] });
                 })
 }

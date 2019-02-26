@@ -27,8 +27,6 @@ class Header extends React.Component {
         }
     }
 
-
-
     handleLogout = () => {
         actions.logoutOffline(authService.getUsername())
         this.props.logout();
@@ -63,13 +61,15 @@ class Header extends React.Component {
     }
 
     componentDidMount() {
-        messagesService.countUnreadRoomMessages()
+        if (authService.isAuthentificated()){
+            messagesService.countUnreadRoomMessages()
             .then((result) => {
                 let total = 0;
                 result.data.forEach((unread) => total += Number(unread.count));
                 this.setState({ newMessages: total })
             })
             .catch((err) => console.log(err));
+        }
     }
 
     render() {

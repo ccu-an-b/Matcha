@@ -30,7 +30,7 @@ export class ProfilePreview extends React.Component {
 
     render() {
         const { userData, user, onClick, onKeyDown, id } = this.props;
-
+   
         let isUser;
 
         user === userData.username ? isUser = true : isUser = false
@@ -44,8 +44,8 @@ export class ProfilePreview extends React.Component {
                     />
                     <h3>{toCapitalize(userData.username)}</h3>
 
-                    <h5 className={userData.online === 1 ? 'online' : ' '}>
-                        {userData.online === 1 ? 'Online' : <TimeAgo date={parseInt(userData.connexion, 10)} formatter={formatter} />}
+                    <h5 className={userData.online === 1 || isUser ? 'online' : ' '}>
+                        {userData.online === 1 || isUser? 'Online' : <TimeAgo date={parseInt(userData.connexion, 10)} formatter={formatter} />}
                     </h5>
                   
                         {isUser &&
