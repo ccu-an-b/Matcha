@@ -9,7 +9,7 @@ import messagesService from 'services/message-service';
 import profileService from 'services/profile-service';
 import Chatbox from "./Chatbox";
 
-const socket = io('localhost:3001');
+const socket = io(window.location.hostname + ':3001');
 
 export class Chat extends React.Component {
     constructor(props) {
@@ -47,8 +47,9 @@ export class Chat extends React.Component {
 
         socket.on('RECEIVE_MESSAGE_TYPING_NOTIFICATION', (data) => {
             const { userId } = this.props.auth;
+            const { currentRoom } = this.state;
             if (data.typingUserId !== userId) {
-                if (data.isTyping) {
+                if (data.isTyping && data.room_id === currentRoom) {
                     this.setState({ heIsTyping: true })
                 } else {
                     this.setState({ heIsTyping: false })

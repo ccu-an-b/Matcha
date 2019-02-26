@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import { ProfileInfo } from '../dashboard/ProfileInfo';
 import { ProfileActions } from './ProfileActions';
 
-const socket = io('localhost:3001');
+const socket = io(window.location.hostname + ':3001');
 
 class Profile extends React.Component {
   _isMounted = false;

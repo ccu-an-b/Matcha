@@ -10,7 +10,7 @@ import { Filters } from './Filters';
 import { MySlider } from './Sliders';
 import io from "socket.io-client";
 
-const socket = io('localhost:3001');
+const socket = io(window.location.hostname + ':3001');
 
 export class Browse extends React.Component {
 
