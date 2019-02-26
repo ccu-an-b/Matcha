@@ -5,7 +5,7 @@ import TimeAgo from 'react-timeago';
 import { formatter, imgPath, toCapitalize } from 'helpers';
 import io from "socket.io-client";
 
-const socket = io('localhost:3001');
+const socket = io(window.location.hostname + ':3001');
 
 const type = {
     "1": "visited your profile",
