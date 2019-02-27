@@ -53,11 +53,9 @@ class Chatbox extends React.Component {
                     <ul>
                         {this.printMessage(roomHistory)}
                         {socketMessages.length ? this.printMessage(socketMessages) : ""}
-                        {isTyping ? (
-                            <span ref={this.endMessageRef} className="him" >
-                                <li className="him">...</li>
-                            </span>
-                        ) : <span ref={this.endMessageRef} className="him" />}
+                        {isTyping ? 
+                            <li className="him" ref={this.endMessageRef}>...</li>
+                            : <span ref={this.endMessageRef} className="him" />}
                     </ul>
                 )}
             </div>

@@ -151,16 +151,20 @@ export class Chat extends React.Component {
     }
 
     iAmTyping = (event) => {
-        this.setState({ message: event.target.value });
-        if (!this.state.iAmTyping) {
-            const typingNotification = {
-                room_id: this.state.currentRoom,
-                typingUserId: this.props.auth.userId,
-                isTyping: true,
-            }
-            this.setState({ iAmTyping: true });
-            socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
+        let isTyping = true;
+
+        if (event.target.value === "")
+            isTyping = false
+       
+        const typingNotification = {
+            room_id: this.state.currentRoom,
+            typingUserId: this.props.auth.userId,
+            isTyping: isTyping,
         }
+        
+        this.setState({ message: event.target.value });
+        this.setState({ iAmTyping:  isTyping });
+        socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
     }
 
     backToProfiles = () =>{
