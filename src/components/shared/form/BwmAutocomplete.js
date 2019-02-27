@@ -1,6 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-// import {imgPath} from 'helpers';
+// import {imgPath, imagesLoaded} from 'helpers';
 import {Link} from 'react-router-dom';
 
 function escapeRegexCharacters(str) {
@@ -9,22 +9,6 @@ function escapeRegexCharacters(str) {
 
 function getSuggestionValue(suggestion) {
   return suggestion.label;
-}
-
-function renderSuggestion(suggestion) {
-  if (suggestion.profile_img){
-    return (
-      <Link to={`/profile/${suggestion.label}`}>
-        {/* <img src={imgPath(suggestion.profile_img)} alt="profile_img" /> */}
-        <span>{suggestion.label}</span>
-      </Link>
-    );
-  }
-  else{
-    return (
-        <span>{suggestion.label}</span>
-    );
-  }
 }
 
 function renderSectionTitle(section) {
@@ -44,7 +28,7 @@ export class BwmAutocomplete extends React.Component {
 
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
     };    
   }
 
@@ -91,6 +75,22 @@ export class BwmAutocomplete extends React.Component {
       .filter(section => section.options.length > 0);
   }
 
+  renderSuggestion = (suggestion) =>{
+    if (suggestion.profile_img){
+      return (
+        <Link to={`/profile/${suggestion.label}`}>
+            {/* <img  src={imgPath(suggestion.profile_img)} alt="profile_img" /> */}
+          <span>{suggestion.label}</span>
+        </Link>
+      );
+    }
+    else{
+      return (
+          <span>{suggestion.label}</span>
+      );
+    }
+  }
+
   render() {
     const { value, suggestions } = this.state;
 
@@ -107,7 +107,7 @@ export class BwmAutocomplete extends React.Component {
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
+        renderSuggestion={this.renderSuggestion}
         renderSectionTitle={renderSectionTitle}
         getSectionSuggestions={getSectionSuggestions}
         inputProps={inputProps} />

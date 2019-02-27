@@ -285,7 +285,7 @@ header {
         background-color: rgba(50, 54, 100, 0.3); }
       header .my-dropdown a * {
         cursor: pointer; }
-      header .my-dropdown a img {
+      header .my-dropdown a img, header .my-dropdown a .img_loading {
         width: 40px;
         height: 40px;
         object-fit: cover;
@@ -1643,7 +1643,7 @@ header {
     .react-autosuggest__suggestion a:hover {
       text-decoration: none;
       color: #363B6D; }
-    .react-autosuggest__suggestion a img {
+    .react-autosuggest__suggestion a img, .react-autosuggest__suggestion a .img_loading {
       margin: 0;
       object-fit: cover;
       width: 40px;
@@ -2203,6 +2203,11 @@ header {
             padding: 0 8px;
             border-radius: 20px;
             font-size: 13px; }
+        .chat .matchs .display-matchs .one-match .match-info h5 {
+          max-height: 36px;
+          text-overflow: ellipsis;
+          max-width: 150px;
+          overflow: hidden; }
     .chat .matchs .display-matchs .one-match-content {
       padding-right: 10px; }
       .chat .matchs .display-matchs .one-match-content .img_loading {
@@ -2587,6 +2592,11 @@ header {
     margin: 0;
     font-size: 15px;
     letter-spacing: 0.5px; }
+  .app-container .notification-box p.message {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 22px;
+    max-width: 175px; }
   .app-container .notification-box h2 {
     color: #363B6D;
     margin: 0;

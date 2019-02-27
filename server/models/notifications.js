@@ -1,6 +1,6 @@
 const   db = require('./db'),
         UserMod = require('./user');
-
+ 
 function get_type_notifications(req, res) {
     const userId = res.locals.user.userId;
     const type = req.params.type;
@@ -36,7 +36,6 @@ function get_all_notifications(req, res) {
 
 function get_matchs(req, res) {
     const userId = res.locals.user.userId;
-    console.log(userId);
 
     const query = {
         text: `SELECT * FROM notifications 

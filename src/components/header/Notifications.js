@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import userService from 'services/user-service';
 import TimeAgo from 'react-timeago';
-import { formatter, imgPath, toCapitalize } from 'helpers';
+import { formatter, imgPath, toCapitalize, imagesLoaded } from 'helpers';
 import io from "socket.io-client";
 
 const socket = io(window.location.hostname + ':3001');
@@ -22,7 +22,8 @@ export default class Notifications extends React.Component{
             unread: 0,
             notifications: [],
             show: false,
-            isLoading: true
+            isLoading: true,
+            loadImg: true
         }
     }
 
@@ -35,6 +36,10 @@ export default class Notifications extends React.Component{
             if (data[0].user_id === this.props.userId && !this.state.isLoading ){
                 this.props.addNotification(data, 'notification', '')
                 this.updateNotifications();
+            }
+            else if (data[0].user_for_id === this.props.userId && !this.state.isLoading)
+            {
+                this.props.addNotification(data, 'message', '')
             }
         });
     }
@@ -56,11 +61,22 @@ export default class Notifications extends React.Component{
             .then((unread) => this.setState({unread, isLoading: false}))
     }
 
+    handleImageChange = () => {
+        this.setState({
+          loadImg: !imagesLoaded(this.imgElement)
+        });
+    };
+
     renderNotifications(notifications){
         return notifications.map((notification, index) => {
             return (
                 <Link className="dropdown-item" to={`/profile/${notification.username}`} key={index}>
-                    <img src={imgPath(notification.profile_img)} alt="notification-img"/>
+                    <div className={this.state.loadImg ? "img_loading img_none": "img_loading" }>
+                        <img    src={imgPath(notification.profile_img)} 
+                                alt="notification-img"
+                                onLoad={this.handleImageChange}
+                                onError={this.handleImageChange}/>
+                    </div>
                     <div className="notif-content">
                         <h3>{toCapitalize(notification.username)} {type[notification.type]}</h3>
                         <h4><TimeAgo date={parseInt(notification.date, 10)} formatter={formatter} /></h4>
@@ -87,7 +103,7 @@ export default class Notifications extends React.Component{
                     </a>
     
                     {show && !showSearch &&
-                        <div className="dropdown-menu my-dropdown show" aria-labelledby="dropdownMenuButton">
+                        <div className="dropdown-menu my-dropdown show" aria-labelledby="dropdownMenuButton" ref={element => {this.imgElement = element;}}>
                             {notifications.length ? this.renderNotifications(notifications) : <h2>You have no notifications</h2>}
                         </div>
                     }

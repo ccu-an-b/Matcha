@@ -95,6 +95,12 @@
             font-size: 13px;
           }
         }
+        h5{
+          max-height: 36px;
+          text-overflow: ellipsis;
+          max-width: 150px;
+          overflow: hidden;
+        }
       }
     }
     .one-match-content{

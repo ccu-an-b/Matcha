@@ -1,4 +1,5 @@
-const db = require('./db');
+const   db = require('./db'),
+        UserMod = require('./user');
 
 function get_room_messages(req, res) {
     const roomId = req.params.roomId;
@@ -37,12 +38,18 @@ function send_message(req, res) {
     }
 
     const query = {
-        text: `INSERT INTO messages (user_from_id, user_for_id, content, room_id, date) VALUES ($1, $2, $3, $4, $5)`,
+        text: `INSERT INTO messages (user_from_id, user_for_id, content, room_id, date) VALUES ($1, $2, $3, $4, $5)
+        RETURNING user_from_id, user_for_id, content, room_id, date`,
         values: [user_from_id, user_for_id, content, room_id, Date.now()]
     }
-    return db.get_database(query).then((result) => {
-        return res.json(result)
-    })
+
+    let promise1 = Promise.resolve(db.get_database(query))
+    let promise2 = Promise.resolve(UserMod.user_select('id', user_from_id))
+    return Promise.all([promise1, promise2])
+    .then((result) => {
+            let final = result[0].concat(result[1])
+            return res.json([Object.assign(final[0], final[1])])
+        })
 }
 
 function set_message_to_read(req, res) {

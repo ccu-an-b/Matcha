@@ -356,7 +356,7 @@ header {
       * {
         cursor:pointer;
       }
-      img {
+      img, .img_loading {
         width: 40px;
         height:40px;
         object-fit:cover;

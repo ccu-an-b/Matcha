@@ -18,9 +18,15 @@
         padding-left:90px;
         box-shadow: 1px 3px 4px rgba(0,0,0,.2);
         p {
-            margin:0;
-            font-size:15px;
-            letter-spacing: 0.5px
+            margin: 0;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        p.message {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 22px;
+            max-width: 175px;
         }
         h2{
             color:$main-dark-purple;

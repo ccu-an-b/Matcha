@@ -106,7 +106,7 @@ export class Chat extends React.Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     };
     
-    sendMessage = (ev) => {
+    sendMessage = async (ev) => {
         const userId = this.props.user[0].id;
         const { currentRoom, messageTo, message } = this.state;
         ev.preventDefault();
@@ -117,8 +117,9 @@ export class Chat extends React.Component {
                 user_for_id: messageTo,
                 content: message
             }
-            messagesService.sendMessage(fullMessage);
-            socket.emit('SEND_CHAT_MESSAGE', fullMessage);
+            const data = await messagesService.sendMessage(fullMessage);
+            socket.emit('SEND_CHAT_MESSAGE', data.data[0]);
+            socket.emit('SEND_NOTIFICATION', data.data);
         }
         this.setState({ message: '' });
         const typingNotification = {

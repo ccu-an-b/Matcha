@@ -23,6 +23,16 @@ export default class Notification extends React.Component  {
                 </div>
             )
         }
+        if (type === 'message')
+        {
+            return(
+                <div className="notification-box">
+                    <img src={imgPath(profile[0].profile_img)} alt="profile_img"/>
+                    <h2>{toCapitalize(profile[0].username)}</h2>
+                    <p className="message">{profile[0].content}</p>
+                </div>
+            )
+        }
         if (type === 'flag')
         {
             return(
