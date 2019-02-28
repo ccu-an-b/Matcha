@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import messagesService from 'services/message-service';
+import io from "socket.io-client";
+
+const socket = io(window.location.hostname + ':3001');
 
 class Chatbox extends React.Component {
     constructor(props) {
@@ -14,7 +17,8 @@ class Chatbox extends React.Component {
 
     componentDidMount() {
         messagesService.setRoomMessagesRead(this.props.roomId, { readerUserId: this.props.auth.userId });
-        this.updateConversation(this.props.roomId)
+        this.updateConversation(this.props.roomId);
+        setTimeout(() => socket.emit('SEND_NOTIFICATION', undefined), 100);
     }
 
     printMessage = (messageList) => {
@@ -34,7 +38,7 @@ class Chatbox extends React.Component {
         }).catch(error => console.log(error));
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.roomId !== this.props.roomId) {
             this.setState({ isLoading: true })
             this.updateConversation(this.props.roomId);
@@ -54,7 +58,7 @@ class Chatbox extends React.Component {
                         {this.printMessage(roomHistory)}
                         {socketMessages.length ? this.printMessage(socketMessages) : ""}
                         {isTyping ? 
-                            <li className="him" ref={this.endMessageRef}>...</li>
+                            <li className="him typing" ref={this.endMessageRef}>...</li>
                             : <span ref={this.endMessageRef} className="him" />}
                     </ul>
                 )}

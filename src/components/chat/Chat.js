@@ -20,7 +20,6 @@ export class Chat extends React.Component {
             messageTo: 0,
             messageToProfile: [],
             message: '',
-            unreadMessages: [],
             profiles: [],
             isLoading: true,
             socketMessages: [],
@@ -34,27 +33,24 @@ export class Chat extends React.Component {
 
     componentDidMount() {
         this.updateWindowDimensions();
+        this.updateComponent();
+
         window.addEventListener("resize", this.updateWindowDimensions);
 
         socket.on('RECEIVE_CHAT_MESSAGE', (data) => {
-            const { unreadMessages, currentRoom, socketMessages } = this.state;
-            const { userId } = this.props.auth;
+            const {currentRoom, socketMessages } = this.state;
 
-            this.updateComponent();
             if (data.room_id === currentRoom) {
                 this.setState({ socketMessages: [...socketMessages, data] });
-                if (userId !== data.user_from_id) {
-                    messagesService.setRoomMessagesRead(currentRoom, { readerUserId: data.user_for_id });
-                }
             }
-            else {
-                this.setState({ unreadMessages: this.getUnreadMessages(unreadMessages, data) });
-            }
+            socket.emit('SEND_NOTIFICATION', undefined);
+            this.updateComponent();
         });
 
         socket.on('RECEIVE_MESSAGE_TYPING_NOTIFICATION', (data) => {
             const { userId } = this.props.auth;
             const { currentRoom } = this.state;
+
             if (data.typingUserId !== userId) {
                 if (data.isTyping && data.room_id === currentRoom) {
                     this.setState({ heIsTyping: true })
@@ -63,16 +59,15 @@ export class Chat extends React.Component {
                 }
             }
         })
-        this.updateComponent();
     }
 
-    updateComponent = () =>{
-        messagesService.countUnreadRoomMessages()
-            .then((result) => {
-                this.setState({ unreadMessages: result.data, });
-            })
-            .catch((err) => console.log(err));
+    componentWillUnmount(){
+        socket.off('RECEIVE_CHAT_MESSAGE')
+        socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
+        window.removeEventListener("resize", this.updateWindowDimensions);
+    }
 
+    updateComponent = () => {
         messagesService.getConversations()
             .then((profiles) => {
                 this.setState({ profiles: profiles.data, isLoading: false });
@@ -80,34 +75,10 @@ export class Chat extends React.Component {
                     socket.emit('CONNECT_TO_ROOM', profile.match_id);
                 })
             })
-            .catch((err) => { console.log(err) })
-    }
-    componentWillUnmount(){
-        socket.off('RECEIVE_CHAT_MESSAGE')
-        socket.off('RECEIVE_MESSAGE_TYPING_NOTIFICATION')
-        window.removeEventListener("resize", this.updateWindowDimensions);
     }
 
-    getUnreadMessages = (unreadMessages, data) => {
-        let newUnreadMessages = unreadMessages;
-        if (unreadMessages.find((message) => message.room_id === data.room_id)) {
-            newUnreadMessages = unreadMessages.map((room) => {
-                if (room.room_id === data.room_id) {
-                    return { room_id: room.room_id, count: Number(room.count) + 1 }
-                } return room;
-            })
-        } else {
-            newUnreadMessages.push({ room_id: data.room_id, count: 1 })
-        }
-        return newUnreadMessages;
-    }
-
-    updateWindowDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
-    };
-    
     sendMessage = async (ev) => {
-        const userId = this.props.user[0].id;
+        const { userId } = this.props.auth;
         const { currentRoom, messageTo, message } = this.state;
         ev.preventDefault();
         if (message && currentRoom && userId && messageTo) {
@@ -126,28 +97,40 @@ export class Chat extends React.Component {
             room_id: this.state.currentRoom,
             typingUserId: this.props.auth.userId,
             isTyping: false,
+            iAmTyping: false 
         }
-        this.setState({ iAmTyping: false });
         socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
         this.updateComponent()
     }
 
     selectRoom = (profile) => {
-        if (window.innerWidth < 1000)
+        let {socketMessages, currentRoom} = this.state;
+
+        if (window.innerWidth < 800)
             this.setState({showLeft: true})
         
-        const resetUnreadMessages = this.state.unreadMessages.map((room) => {
-            if (room.room_id === profile.match_id) {
-                return { room_id: room.room_id, count: 0 }
-            } return room;
-        })
         this.setState({
             messageTo: profile.user_from_id,
             currentRoom: profile.match_id,
-            socketMessages: [],
-            unreadMessages: resetUnreadMessages,
+            socketMessages: profile.match_id === currentRoom ? socketMessages : [],
         });
-        profileService.getOneProfile(profile.username).then((profile) => this.setState({ messageToProfile: profile.data }))
+
+        this.resetUnreadMessages(profile.match_id)
+
+        profileService.getOneProfile(profile.username)
+            .then((profile) => {
+                this.setState({ messageToProfile: profile.data })
+                this.updateComponent();
+            })
+    }
+
+    resetUnreadMessages = async (currentRoom) => {
+        const { userId } = this.props.auth;
+
+        await messagesService.setRoomMessagesRead(currentRoom, { readerUserId: userId });
+        socket.emit('SEND_NOTIFICATION', undefined);
+        this.updateComponent();
+
     }
 
     iAmTyping = (event) => {
@@ -162,25 +145,28 @@ export class Chat extends React.Component {
             isTyping: isTyping,
         }
         
-        this.setState({ message: event.target.value });
-        this.setState({ iAmTyping:  isTyping });
+        this.setState({ 
+            message: event.target.value ,
+            iAmTyping:  isTyping 
+        });
+
         socket.emit('SEND_MESSAGE_TYPING_NOTIFICATION', typingNotification);
     }
 
-    backToProfiles = () =>{
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    backToProfiles = () => {
         this.setState({showLeft: false})
     }
 
     handleImageChange = () => {
-        this.setState({
-          loadImg: !imagesLoaded(this.imgElement)
-        });
+        this.setState({loadImg: !imagesLoaded(this.imgElement)});
     };
 
     renderProfiles = (profiles) => {
-        const { unreadMessages } = this.state;
         return profiles.map((profile, index) => {
-            const unreadMessagesForUser = unreadMessages.find((message) => message.room_id === profile.match_id)
             return (
                 <Link to={"#"} onClick={() => this.selectRoom(profile)} key={index}>
                     <div className="one-match" id={profile.username}>
@@ -202,7 +188,7 @@ export class Chat extends React.Component {
                                     <h5>
                                         {profile.last_msg}
                                     </h5>
-                                    {unreadMessagesForUser && unreadMessagesForUser.count > 0 ?<div className="unread">{unreadMessagesForUser.count }</div> : "" }
+                                    {profile.read > 0 ?<div className="unread">{profile.read }</div> : "" }
                                 </div>
                             </div>
                         </div>
@@ -211,7 +197,6 @@ export class Chat extends React.Component {
             )
         });
     }
-
 
     render() {
         const {
@@ -224,6 +209,7 @@ export class Chat extends React.Component {
             isLoading,
             message,
             showLeft } = this.state;
+
         return (
             <div className="chat-container" id="chat-container">
                 <div className={showLeft ? "row chat active" : "row chat"}>
@@ -242,53 +228,52 @@ export class Chat extends React.Component {
                             </div>
                         </div>
                     </div>
-                    {(!messageTo || !currentRoom) ? 
-                        <div className="col-8 chat-container">
-                            <h1>SELECT SOMEONE TO CHAT WITH</h1>
-                        </div> : 
-                            <div className="col-8 chat-container" ref={this.convRef}>
-                                <Chatbox
-                                    roomId={currentRoom}
-                                    socketMessages={socketMessages}
-                                    isTyping={heIsTyping}
-                                />
-                                <div className="message-to">
-                                    <div className="message-to-container">
+                {(!messageTo || !currentRoom) ? 
+                    <div className="col-8 chat-container">
+                        <h1>SELECT SOMEONE TO CHAT WITH</h1>
+                    </div> : 
+                        <div className="col-8 chat-container" ref={this.convRef} onFocus={() => this.resetUnreadMessages(currentRoom)}>
+                            <Chatbox 
+                                roomId={currentRoom}
+                                socketMessages={socketMessages}
+                                isTyping={heIsTyping}
+                            />
+                            <div className="message-to">
+                                <div className="message-to-container">
                                     <div className="back">
                                         <i className="fas fa-chevron-left" onClick={() => this.backToProfiles()}></i>
                                     </div>
-                                    {messageToProfile.length ? 
-                                        <Link to={`./profile/${messageToProfile[0].username}`}>
-                                            <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo" />
-                                            <div className="message-to-info">
-                                                <h1>{messageToProfile[0].username}</h1>
-                                                <h5 className={messageToProfile[0].online ? 'online' : ""}>
-                                                    {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
-                                                </h5>
-                                            </div>
-                                        </Link>
-                                    : ""}
-                                    </div>
+                                {messageToProfile.length ? 
+                                    <Link to={`./profile/${messageToProfile[0].username}`}>
+                                        <img src={imgPath(messageToProfile[0].profile_img)} alt="messageTo" />
+                                        <div className="message-to-info">
+                                            <h1>{messageToProfile[0].username}</h1>
+                                            <h5 className={messageToProfile[0].online ? 'online' : ""}>
+                                                {messageToProfile[0].online ? 'Online' : <TimeAgo date={parseInt(messageToProfile[0].connexion, 10)} formatter={formatter} />}
+                                            </h5>
+                                        </div>
+                                    </Link>
+                                : ""}
                                 </div>
-                                <div className="chat-form-group">
-                                    <div className="chat-send">
-                                        <input
-                                            type="text"
-                                            placeholder="Message"
-                                            className="form-control"
-                                            value={message}
-                                            onChange={this.iAmTyping}
-                                        />
-                                        <button
-                                            onClick={this.sendMessage}
-                                            className={message.length ? "btn active" : "btn"}
-                                        >Send</button>
-                                    </div>
+                            </div>
+                            <div className="chat-form-group">
+                                <div className="chat-send">
+                                    <input
+                                        type="text"
+                                        placeholder="Message"
+                                        className="form-control"
+                                        value={message}
+                                        onChange={this.iAmTyping}
+                                    />
+                                    <button
+                                        onClick={this.sendMessage}
+                                        className={message.length ? "btn active" : "btn"}
+                                    >Send</button>
                                 </div>
-                            </div>}
+                            </div>
+                        </div>}
                 </div>
             </div>
-
         );
     }
 }

@@ -7,6 +7,9 @@ import * as actions from 'actions';
 import Notifications from './Notifications';
 import messagesService from 'services/message-service';
 import SearchForm from './Search';
+import io from "socket.io-client";
+
+const socket = io(window.location.hostname + ':3001');
 
 class Header extends React.Component {
 
@@ -25,6 +28,10 @@ class Header extends React.Component {
             this.props.dispatch(actions.fetchPublicData())
             this.props.dispatch(actions.fetchTags())
         }
+    }
+
+    componentWillUnmount(){
+        socket.off('RECEIVE_NOTIFICATION')
     }
 
     handleLogout = () => {
@@ -60,15 +67,22 @@ class Header extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if (authService.isAuthentificated()){
-            messagesService.countUnreadRoomMessages()
+    upDateMessageRead(){
+        messagesService.countUnreadRoomMessages()
             .then((result) => {
                 let total = 0;
                 result.data.forEach((unread) => total += Number(unread.count));
                 this.setState({ newMessages: total })
             })
             .catch((err) => console.log(err));
+    }
+
+    componentDidMount() {
+        if (authService.isAuthentificated()){
+            this.upDateMessageRead();
+            socket.on('RECEIVE_NOTIFICATION', () => {
+                    this.upDateMessageRead()
+            });
         }
     }
 
@@ -106,7 +120,7 @@ class Header extends React.Component {
                                 <li className="nav-item my-li">
                                     <Link className="nav-link notification" to="/chat" onClick={() => {
                                         this.hideSearch();
-                                        this.setState({ newMessages: 0 });
+                                        // this.setState({ newMessages: 0 });
                                     }}>
                                         Messages
                                         {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}

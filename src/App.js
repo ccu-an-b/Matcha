@@ -49,10 +49,10 @@ class App extends Component {
         animationOut: ["animated", "fadeOut"],
         dismiss: { duration: 4000 },
         dismissable: { click: true },
-        content: <Notification username="chloe" type={type} profile={profile} message={message}/>,
+        content: <Notification type={type} profile={profile} message={message}/>,
       });
-
   }
+  
   checkAuthState(){
     store.dispatch(actions.checkAuthState());
   }

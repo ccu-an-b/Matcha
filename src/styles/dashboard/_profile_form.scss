@@ -343,3 +343,23 @@
         .img-upload-display{margin-left: 10px}
     }
 } 
+
+@media screen and (max-width:1000px){
+    .profile-form .profile-name 
+    {
+        margin-top: 100px;
+        flex-direction: column;
+        .form-group {
+            margin-top: 0px;
+        }
+    }
+    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container{
+        margin-top: -80px;
+    }
+}
+
+@media screen and (max-width:355px){
+    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container{
+        margin-top: 60px;
+    }
+}

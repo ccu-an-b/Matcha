@@ -234,4 +234,4 @@ export const imagesLoaded = (parentNode) => {
       }
     }
     return true;
-  }
+}

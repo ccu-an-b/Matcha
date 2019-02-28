@@ -1384,6 +1384,19 @@ header {
     .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-display {
       margin-left: 10px; }
 
+@media screen and (max-width: 1000px) {
+  .profile-form .profile-name {
+    margin-top: 100px;
+    flex-direction: column; }
+    .profile-form .profile-name .form-group {
+      margin-top: 0px; }
+  .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container {
+    margin-top: -80px; } }
+
+@media screen and (max-width: 355px) {
+  .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container {
+    margin-top: 60px; } }
+
 .form {
   width: 100%;
   font-family: "Abel" !important; }
@@ -2269,6 +2282,7 @@ header {
         width: 100%;
         display: flex;
         padding-bottom: 10px;
+        background-color: white;
         border-bottom: 3px solid rgba(50, 54, 100, 0.3); }
       .chat .chat-container .message-to a {
         display: flex;
@@ -2334,6 +2348,12 @@ header {
         background: rgba(50, 54, 100, 0.1);
         float: left;
         border-bottom-left-radius: 5px; }
+      .chat .chat-container .chat-box .him.typing {
+        animation-name: pulsing;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        transition: all .3s ease-out;
+        background-color: #D9DAE2; }
       .chat .chat-container .chat-box .me {
         float: right;
         background: #F4A194;

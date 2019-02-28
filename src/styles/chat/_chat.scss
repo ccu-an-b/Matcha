@@ -181,6 +181,7 @@
         width: 100%;
         display: flex;
         padding-bottom: 10px;
+        background-color: white;
         border-bottom: 3px solid rgba(50, 54, 100, 0.3);
       }
       a{
@@ -269,6 +270,13 @@
         border-bottom-left-radius: 5px;
       }
 
+      .him.typing{
+        animation-name: pulsing ;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        transition: all .3s ease-out;
+        background-color: #D9DAE2;
+      }
       .me {
         float: right;
         background: #F4A194;;

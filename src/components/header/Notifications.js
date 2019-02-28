@@ -33,11 +33,11 @@ export default class Notifications extends React.Component{
 
     componentDidMount(){
         socket.on('RECEIVE_NOTIFICATION', (data) => {
-            if (data[0].user_id === this.props.userId && !this.state.isLoading ){
+            if (data && data[0].user_id === this.props.userId && !this.state.isLoading ){
                 this.props.addNotification(data, 'notification', '')
                 this.updateNotifications();
             }
-            else if (data[0].user_for_id === this.props.userId && !this.state.isLoading)
+            else if (data && data[0].user_for_id === this.props.userId && !this.state.isLoading && window.location.pathname !== '/chat')
             {
                 this.props.addNotification(data, 'message', '')
             }
