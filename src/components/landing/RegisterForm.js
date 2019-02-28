@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { BwmInput } from 'components/shared/form/BwmInput';
 import { BwmResError } from 'components/shared/form/BwmResError';
-import { required, isEmail, minLength8,minLength5, checkNumber, checkUpper, checkLetter, checkSpecialChar } from 'components/shared/form/validators';
+import { required, isEmail, minLength8,minLength5, checkNumber, checkUpper, checkLetter, checkSpecialChar, maxLength128 } from 'components/shared/form/validators';
 
 
 const RegisterForm = props => {
@@ -20,7 +20,7 @@ const RegisterForm = props => {
                 placeholder="Name"
                 className='form-control'
                 component={BwmInput}
-                validate={[required]}
+                validate={[required, maxLength128]}
                 data-parse='lowercase'
             />
             <Field
@@ -29,7 +29,7 @@ const RegisterForm = props => {
                 placeholder="Last Name"
                 className='form-control'
                 component={BwmInput}
-                validate={[required]}
+                validate={[required, maxLength128]}
                 data-parse='lowercase'
             />
             <Field
@@ -38,7 +38,7 @@ const RegisterForm = props => {
                 placeholder="Email"
                 className='form-control'
                 component={BwmInput}
-                validate={[required, isEmail]}
+                validate={[required, isEmail, maxLength128]}
                 data-parse='lowercase'
             />
             <Field
@@ -47,7 +47,7 @@ const RegisterForm = props => {
                 placeholder="Username"
                 className='form-control'
                 component={BwmInput}
-                validate={[required, checkSpecialChar, minLength5]}
+                validate={[required, checkSpecialChar, minLength5, maxLength128]}
                 data-parse='lowercase'
             />
             <Field
@@ -56,7 +56,7 @@ const RegisterForm = props => {
                 placeholder="Password"
                 className='form-control'
                 component={BwmInput}
-                validate={[required, minLength8, checkNumber,checkLetter, checkUpper]}
+                validate={[required, minLength8, checkNumber,checkLetter, checkUpper, maxLength128]}
             />
             {/* <Field
                 name="password_conf"

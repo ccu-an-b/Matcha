@@ -53,7 +53,7 @@ export class BwmProfileUpload extends React.Component {
         const { imageBase64 } = this.state;
 
         return (
-            <div className='img-upload-container' >
+            <div className='img-upload-container profile-upload' >
                 <label className="img-upload btn btn-bwm">
                     <span className='upload-text'>Add a profile picture</span>
                     <input type='file'

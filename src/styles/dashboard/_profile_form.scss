@@ -353,13 +353,23 @@
             margin-top: 0px;
         }
     }
-    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container{
+    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container.profile-upload{
         margin-top: -80px;
     }
 }
-
+@media screen and (max-width:700px){
+    .profile-form .form-group {
+        width: 100%;
+    }
+    .dashboard .grid-container .edit-profile.edit .profile-form textarea {
+        margin-right: 20px;
+    }
+    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-display .img-preview-container {
+        margin-bottom: 10px;
+    }
+}
 @media screen and (max-width:355px){
-    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container{
+    .dashboard .grid-container .edit-profile.edit .profile-form .img-upload-container.profile-upload{
         margin-top: 60px;
     }
 }

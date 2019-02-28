@@ -1,0 +1,16 @@
+{
+    "short_name": "Matcha",
+    "name": "Matcha",
+    "theme_color": "#E83114",
+    "background_color": "#E83114",
+    "display": "standalone",
+    "scope": "/",
+    "icons": [
+      {
+        "src": "matcha_icon.svg",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+    ],
+    "start_url": "/"
+}

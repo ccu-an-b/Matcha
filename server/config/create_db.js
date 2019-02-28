@@ -33,7 +33,7 @@ function create_tables() {
       ( 
           user_id integer NOT NULL, 
           age integer, 
-          bio text COLLATE pg_catalog."default", 
+          bio character varying(254) COLLATE pg_catalog."default", 
           gender integer, 
           orientation integer DEFAULT 0, 
           profile_img character varying(254) COLLATE pg_catalog."default"  
@@ -170,7 +170,7 @@ function create_tables() {
             id integer NOT NULL DEFAULT nextval('id_msg_seq'::regclass),
             user_from_id integer,
             user_for_id integer,
-            content character varying(254) COLLATE pg_catalog."default",
+            content text,
             read integer DEFAULT 0,
             room_id character varying(128),
             date character varying(128),

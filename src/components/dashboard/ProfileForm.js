@@ -7,7 +7,7 @@ import { BwmImageUpload } from "components/shared/form/BwmImageUpload";
 import { BwmSelectLocation } from "components/shared/form/BwmSelectLocation";
 import { BwmSelect } from "components/shared/form/BwmSelect";
 import { BwmSelectCreatable } from "components/shared/form/BwmSelectCreatable";
-import { required , notMinor} from "components/shared/form/validators";
+import { required , notMinor, maxLength128, maxLength254} from "components/shared/form/validators";
 import { connect } from "react-redux";
 
 var optionsGender = [
@@ -65,7 +65,7 @@ let ProfileForm = props => {
             label="First Name"
             className="form-control"
             component={BwmInput}
-            validate={[required]}
+            validate={[required, maxLength128]}
             data-parse="lowercase"
           />
           <Field
@@ -74,7 +74,7 @@ let ProfileForm = props => {
             label="Last Name"
             className="form-control"
             component={BwmInput}
-            validate={[required]}
+            validate={[required, maxLength128]}
             data-parse="lowercase"
           />
         </div>
@@ -131,7 +131,7 @@ let ProfileForm = props => {
           placeholder="Tell us more about you ..."
           className="form-control"
           component={BwmTextarea}
-          validate={[required]}
+          validate={[required, maxLength254]}
           data-parse="lowercase"
         />
         <h3>Your interests</h3>
