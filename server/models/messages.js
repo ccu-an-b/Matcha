@@ -72,11 +72,16 @@ function set_message_to_read(req, res) {
 }
 
 function delete_all_messages_match(user1, user2) {
-    const query = {
+    const query = [{
         text: `DELETE from messages WHERE (user_from_id = $1 AND user_for_id = $2) OR (user_from_id = $2 AND user_for_id = $1)`,
         values: [user1, user2]
+    },{
+        text: `DELETE from notifications_messages WHERE (user_from_id = $1 AND user_id = $2) OR (user_from_id = $2 AND user_id = $1)`,
+        values: [user1, user2]
+    }]
+    for (var i = 0; i < query.length; i++){
+        db.set_database(query[i])
     }
-    return db.set_database(query)
 }
 
 function get_all_conversations(req, res) {

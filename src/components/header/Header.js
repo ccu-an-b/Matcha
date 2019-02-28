@@ -71,8 +71,10 @@ class Header extends React.Component {
         messagesService.countUnreadRoomMessages()
             .then((result) => {
                 let total = 0;
-                result.data.forEach((unread) => total += Number(unread.count));
-                this.setState({ newMessages: total })
+                if (result && result.data){
+                    result.data.forEach((unread) => total += Number(unread.count));
+                    this.setState({ newMessages: total })
+                }
             })
             .catch((err) => console.log(err));
     }
@@ -118,13 +120,14 @@ class Header extends React.Component {
                                     <Notifications addNotification={this.props.addNotification} userId={this.props.auth.userId} showSearch={showSearch} />
                                 </li>
                                 <li className="nav-item my-li">
-                                    <Link className="nav-link notification" to="/chat" onClick={() => {
-                                        this.hideSearch();
-                                        // this.setState({ newMessages: 0 });
-                                    }}>
-                                        Messages
-                                        {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}
-                                    </Link>
+                                    {userData.length > 1 && userData[0].complete === 0 ?  <a className="nav-link">Messages</a> :
+                                         <Link className="nav-link notification" to="/chat" onClick={() => {
+                                            this.hideSearch();
+                                        }}>
+                                            Messages
+                                            {newMessages !== 0 ? <div className="notification-bubble">{newMessages}</div> : ""}
+                                        </Link>
+                                    }
                                 </li>
                                 <li className="nav-item my-li">
                                     <a className="nav-link" onClick={this.handleLogout}>Logout</a>

@@ -158,6 +158,7 @@ function create_tables() {
             last_msg character varying(254) COLLATE pg_catalog."default",
             date  character varying(128) DEFAULT 0,
             read integer DEFAULT 0,
+            room_id text,
             CONSTRAINT notifications_messages_pkey PRIMARY KEY (id)
         )
         WITH (

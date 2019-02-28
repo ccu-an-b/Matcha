@@ -82,7 +82,8 @@ function send_notification(user, userfrom, type) {
 
 function send_match_notification(user, userfrom, type) {
     const match_id = Math.random().toString(36).replace('0.', '') 
-    
+    let promise = [[],[]];
+
     const query = [{
         text: `INSERT INTO notifications (user_id, user_from_id, type, date) VALUES ($1, $2, $3, $4)
                 RETURNING notifications.id, user_from_id, user_id, type, date, read `,
@@ -96,11 +97,6 @@ function send_match_notification(user, userfrom, type) {
         RETURNING notifications.id, user_from_id, user_id, type, date, read `,
         values: [user, userfrom, type, Date.now(), match_id]
     }]
-    let promise = [[],[]]
-    for (var i = 0; i < query.length; i++){
-        promise[i] = Promise.resolve( db.get_database(query[i]))
-    }
-
     const query2 = [{
         text: `INSERT INTO notifications_messages (user_id, user_from_id, last_msg, date, room_id) VALUES ($1, $2, $3, $4, $5)`,
         values: [user, userfrom, "", Date.now(), match_id]
@@ -111,6 +107,10 @@ function send_match_notification(user, userfrom, type) {
     for (var i = 0; i < query2.length; i++){
         db.set_database(query2[i])
     }
+    for (var j = 0; j < query.length; j++){
+        promise[j] = Promise.resolve( db.get_database(query[j]))
+    }
+
     return Promise.all([promise[0], promise[1], promise[2]])
         .then((result) => {
             let promises = result.map((notification) => {
