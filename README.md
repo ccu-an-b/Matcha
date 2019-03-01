@@ -22,9 +22,9 @@ You need to have installed [NodeJS](https://nodejs.org/en/) and [PostgreSQL](htt
 ```
 const db = {
     user: 'yourPgUsername',
-    database: 'yourDatabseName',
-    password: 'yourPgPassord',
-    port: 'yourPgport'
+    database: 'yourDatabaseName',
+    password: 'yourPgPassword',
+    port: 'yourPgPort'
 };
 ```
 
