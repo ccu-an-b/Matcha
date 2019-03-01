@@ -35,7 +35,7 @@ export class ProfilePreview extends React.Component {
 
         user === userData.username ? isUser = true : isUser = false
         return (
-            <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id}  ref={element => {this.imgElement = element;}}>
+            <div className="profile grid-area" onClick={onClick} onKeyDown={onKeyDown} id={id} onDragStart={event => event.preventDefault()} ref={element => {this.imgElement = element;}}>
                 <div className={this.state.loadImg ? "img_loading img_none img": "img_loading img" }>
                     <img    src={imgPath(userData.profile_img)} 
                             alt="profile_img" 

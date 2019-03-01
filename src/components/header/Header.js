@@ -27,6 +27,19 @@ class Header extends React.Component {
             this.props.dispatch(actions.fetchUserProfile(authService.getUsername()))
             this.props.dispatch(actions.fetchPublicData())
             this.props.dispatch(actions.fetchTags())
+            socket.on('RECEIVE_NOTIFICATION', () => {
+                    this.upDateMessageRead()
+            });
+        }
+    }
+
+    componentDidUpdate(PrevProps){
+        if (this.props !== PrevProps && authService.isAuthentificated())
+        {
+            this.upDateMessageRead();
+            socket.on('RECEIVE_NOTIFICATION', () => {
+                this.upDateMessageRead()
+            });
         }
     }
 
@@ -79,14 +92,14 @@ class Header extends React.Component {
             .catch((err) => console.log(err));
     }
 
-    componentDidMount() {
-        if (authService.isAuthentificated()){
-            this.upDateMessageRead();
-            socket.on('RECEIVE_NOTIFICATION', () => {
-                    this.upDateMessageRead()
-            });
-        }
-    }
+    // componentDidMount() {
+    //     if (authService.isAuthentificated()){
+    //         this.upDateMessageRead();
+    //         socket.on('RECEIVE_NOTIFICATION', () => {
+    //                 this.upDateMessageRead()
+    //         });
+    //     }
+    // }
 
     render() {
         const { username } = this.props.auth;

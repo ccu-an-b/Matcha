@@ -76,7 +76,8 @@ export class Chat extends React.Component {
     updateComponent = () => {
         messagesService.getConversations()
             .then((profiles) => {
-                this.setState({ profiles: profiles.data, isLoading: false });
+                if (this._isMounted)
+                    this.setState({ profiles: profiles.data, isLoading: false });
                 if (profiles.data.length){
                     profiles.data.forEach((profile) => {
                         socket.emit('CONNECT_TO_ROOM', profile.match_id);

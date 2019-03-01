@@ -629,6 +629,7 @@ header {
       height: 180px;
       display: flex;
       overflow-x: auto;
+      overflow-y: hidden;
       visibility: hidden; }
       .dashboard .grid-container .profiles-display h2 {
         visibility: visible;
@@ -1753,6 +1754,31 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around; }
+  .browse .browse-listing.not-chrome {
+    height: 600px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+    padding-bottom: 20px; }
+    .browse .browse-listing.not-chrome .browse-container {
+      width: 100%;
+      display: flex;
+      overflow: hidden;
+      overflow-x: hidden;
+      overflow-x: auto;
+      flex: 1; }
+      .browse .browse-listing.not-chrome .browse-container::-webkit-scrollbar {
+        height: 8px; }
+      .browse .browse-listing.not-chrome .browse-container::-webkit-scrollbar-track {
+        background: transparent; }
+      .browse .browse-listing.not-chrome .browse-container::-webkit-scrollbar-thumb {
+        background: #776876;
+        border-radius: 3px; }
+      .browse .browse-listing.not-chrome .browse-container::-webkit-scrollbar-thumb:hover {
+        background: #363B6D; }
+      .browse .browse-listing.not-chrome .browse-container .profile {
+        flex: none;
+        margin-left: 40px; }
   .browse #leaflet-map {
     margin-top: 20px; }
     .browse #leaflet-map .leaflet-container {
@@ -1935,7 +1961,9 @@ header {
         .browse .profile .img h5 time {
           bottom: 5px; }
     .browse .profile .profile-data {
-      display: none; } }
+      display: none; }
+  .browse-listing.not-chrome {
+    height: 420px; } }
 
 @media screen and (max-width: 550px) {
   .one-profile-more .edit-profile {
@@ -1989,7 +2017,9 @@ header {
     .browse .profile .img:before {
       top: 260px; }
     .browse .profile .img:after {
-      top: 290px; } }
+      top: 290px; }
+  .browse-listing.not-chrome {
+    height: 380px; } }
 
 .filters-container {
   width: 100%;

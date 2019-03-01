@@ -59,12 +59,14 @@ export class Browse extends React.Component {
     {
       const profilesFilter = this.filterProfiles(form)
 
-      if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading)
-        this.setState({profilesFilter, filtered:true, isUpdating: false})
+      if (prevState.profilesFilter !== profilesFilter && !prevState.isLoading){
+          this.setState({profilesFilter, filtered:true, isUpdating: false})
+      }
     }
     if (!prevState.isLoading && ((form.filtersForm && !form.filtersForm.values &&  prevState.filtered )|| isUpdating ))
     {
-      this.setState({profilesFilter: profiles, filtered: false,  isUpdating: false, lon: "", lat: ""})
+      if (!form.filtersForm.values)
+        this.setState({profilesFilter: profiles, filtered: false,  isUpdating: false, lon: "", lat: ""})
     }
     if (!isLoading && form.sortForm && form.sortForm.values && (form.sortForm !== prevProps.form.sortForm || profiles !== prevState.profiles || order !== prevState.order)) 
     {
@@ -133,6 +135,7 @@ export class Browse extends React.Component {
                             user = {this.props.user[0].username}
                             userData={profile}
                             handleClick={this.profileShowMore} 
+                            onDragStart={event => event.preventDefault()}
                           />                         
         )
     });
@@ -204,11 +207,10 @@ export class Browse extends React.Component {
             </div>
           }
 
-          {!showMap && 
-            <div className="browse-listing"> 
+          {!showMap &&
                 <MySlider profiles={this.renderProfiles(profilesFilter) } />
-            </div>
           }
+
             <div ref={this.profileRef} className="one-profile-more">
              {oneProfile.length > 1 &&  <ProfileInfo userData={oneProfile}  user={user[0].username} handleClick={this.profileLike} handleBlock={this.profileBlock} handleReport={this.profileReport}/>}
             </div>

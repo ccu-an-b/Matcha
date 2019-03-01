@@ -50,7 +50,7 @@ export class BlockingForm extends React.Component {
 
     render() {
         const {profiles, selectProfile} = this.state
-    
+
         if (profiles){
             return (
                 <form ref={element => {this.searchElement = element;}}>
@@ -58,7 +58,7 @@ export class BlockingForm extends React.Component {
                     <div className="profiles">
                     {profiles.data.length ? this.renderProfiles(profiles.data) :  <p>You didn't blocked anyone.</p>}
                     </div>
-                    <button className="button full" disabled={Object.values(selectProfile).length? "" :"disabled" } onClick={(e) => this.props.submitCb(e, selectProfile)}>
+                    <button className="button full" disabled={selectProfile !==[] && Object.values(selectProfile).length? "" :"disabled" } onClick={(e) => this.props.submitCb(e, selectProfile)}>
                         Unblock
                     </button>     
                 </form>

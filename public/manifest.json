@@ -7,7 +7,7 @@
     "scope": "/",
     "icons": [
       {
-        "src": "matcha_icon.svg",
+        "src": "app_logo.png",
         "type": "image/png",
         "sizes": "192x192"
       }

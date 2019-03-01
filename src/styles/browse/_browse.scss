@@ -26,6 +26,38 @@
         justify-content: space-around;
 
     }
+    .browse-listing.not-chrome{
+        height: 600px;
+        overflow: hidden;
+        width: 100%;
+        margin-top:20px;
+        padding-bottom: 20px;
+        .browse-container{
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-x: auto;
+            flex: 1;
+            &::-webkit-scrollbar {
+                height: 8px;
+            }
+            &::-webkit-scrollbar-track {
+            background: transparent; 
+            }
+            &::-webkit-scrollbar-thumb {
+            background:#776876; 
+            border-radius:3px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+            background: $main-dark-purple;
+            }
+            .profile{
+                flex :none;
+                margin-left:40px;
+            }
+        }
+    }
     #leaflet-map{
         margin-top:20px;
         .leaflet-container{
@@ -265,6 +297,9 @@
             }
         }
     }
+    .browse-listing.not-chrome{
+        height: 420px;
+    }
 }
 
 @media screen and (max-width: 550px){
@@ -346,5 +381,8 @@
                 }
             }
         }
+    }
+    .browse-listing.not-chrome{
+        height: 380px;
     }
 }

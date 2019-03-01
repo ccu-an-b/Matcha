@@ -109,6 +109,7 @@
             height: 180px;
             display: flex;
             overflow-x: auto;
+            overflow-y: hidden;
             visibility:hidden;
             h2 {
               visibility: visible;
