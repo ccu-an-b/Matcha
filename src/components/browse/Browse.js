@@ -97,7 +97,8 @@ export class Browse extends React.Component {
     if (event.target.className === 'fas fa-plus' || event.target.className === 'button' || event.target.className === 'show-more' )
     {
       const username = event.target.id;
-      return profileService.setProfileView(username)
+      if (this._isMounted){
+        return profileService.setProfileView(username)
         .then((res) => socket.emit('SEND_NOTIFICATION', res.data))
         .then (() => this.updateSuggestedProfiles())
         .then(() =>  profileService.getOneProfile(username))
@@ -105,6 +106,7 @@ export class Browse extends React.Component {
           this.setState({oneProfile: oneProfile.data})
           setTimeout(() => this.profileRef.current.scrollIntoView({behavior: 'smooth'}),200)
         })
+      }
     }
   }
 

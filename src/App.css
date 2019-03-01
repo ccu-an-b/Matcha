@@ -1581,7 +1581,12 @@ header {
   .img-upload-container input {
     display: none; }
   .img-upload-container .alert {
-    margin-top: 10px; }
+    margin-top: 10px;
+    position: absolute;
+    bottom: 0px;
+    background-color: transparent;
+    border: 0;
+    color: #E83114; }
 
 .slider-interval {
   width: 100%; }

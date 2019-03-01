@@ -59,7 +59,6 @@
             margin-left: 20px;
             opacity: 0.5;
             color: $main-dark-purple  !important;
-            // text-decoration: underline !important;
             padding-bottom: 0.5px;
             border-bottom: 1px solid;
 
@@ -226,6 +225,11 @@
 
     .alert {
         margin-top: 10px;
+        position: absolute;
+        bottom: 0px;
+        background-color: transparent;
+        border: 0;
+        color: #E83114;
     }
 }
 

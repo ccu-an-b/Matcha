@@ -13,7 +13,7 @@ function fetch_public_data(userId) {
                 JOIN scores ON scores.user_id = users.id
                 JOIN profiles ON profiles.user_id = users.id
                 JOIN matchs ON matchs.user_id = users.id
-                WHERE "${userId}" != -1`,
+                WHERE "${userId}" != -1 AND complete != 0`,
         }
         return db.get_database(query)
         .then((response) => response)
