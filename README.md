@@ -1,13 +1,9 @@
 # Matcha
 Welcome to Matcha, a simple yet great dating website ! 
-<<<<<<< HEAD
 Create your profile, browse through a customized suggestion of profile, like, match, chat in just few clicks. 
 
-
 ![alt text](public/preview_readme.png?raw=true "Title")
-=======
-Create your profile, browse through a customized suggestion of profiles, like, match, chat in just few clicks. 
->>>>>>> dbb49f8618c95918060d5fe179fcf7c9e0b4ac2f
+
 
 ### Build with
 * [NodeJS](https://nodejs.org/en/) - Backend
