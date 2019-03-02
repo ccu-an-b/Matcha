@@ -298,7 +298,9 @@
         }
     }
     .browse-listing.not-chrome{
-        height: 420px;
+        .browse-container{
+            height: 420px;
+        }
     }
 }
 
@@ -383,6 +385,8 @@
         }
     }
     .browse-listing.not-chrome{
-        height: 380px;
+        .browse-container{
+            height: 380px;
+        }
     }
 }

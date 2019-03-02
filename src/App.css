@@ -1967,7 +1967,7 @@ header {
           bottom: 5px; }
     .browse .profile .profile-data {
       display: none; }
-  .browse-listing.not-chrome {
+  .browse-listing.not-chrome .browse-container {
     height: 420px; } }
 
 @media screen and (max-width: 550px) {
@@ -2023,7 +2023,7 @@ header {
       top: 260px; }
     .browse .profile .img:after {
       top: 290px; }
-  .browse-listing.not-chrome {
+  .browse-listing.not-chrome .browse-container {
     height: 380px; } }
 
 .filters-container {
@@ -2475,7 +2475,7 @@ header {
     .chat .matchs .header:before {
       transform: rotate(2deg) skewX(0deg); }
     .chat .col-4, .chat .col-8 {
-      flex: initial;
+      flex: 1;
       max-width: 50%; } }
 
 @media screen and (max-width: 500px) {
