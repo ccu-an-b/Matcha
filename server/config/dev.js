@@ -1,6 +1,6 @@
 const db = {
     user: 'ccu-an-b',
-    database: 'basics',
+    database: 'matcha',
     password: '',
     port: '5432'
 };

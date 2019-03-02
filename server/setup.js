@@ -9,7 +9,7 @@ const   faker = require('faker'),
         db = require('./models/db'),
         config = require("./config/dev");
 
-db.create_database('matcha')
+db.create_database(config.db.database)
     .then(() => {
         console.log("Database created")
         return save_user();
