@@ -53,6 +53,8 @@ npm start
 ## Ready Set Match !
 Congrats you have successfully set up your Matcha ! You can now create a new profile or sign in with one of the 600 created (password: *Matcha2019*).
 
+![alt text](public/model_readme.png?raw=true "Title")
+
 ## Authors
 * **Trestan** - *Back* - [check his profile](https://github.com/trndlz)
 * **Chloe** - *Front/Back* - [check her profile](https://github.com/ccu-an-b)
