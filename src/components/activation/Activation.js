@@ -29,7 +29,7 @@ export class Activation extends React.Component {
         const { isAuth, errors} = this.props.auth;
         const userActivate = this.props.userActivate;
 
-        if (isAuth){
+        if (isAuth || this.state.errors){
             return <Redirect to={{pathname: '/dashboard'}} />
         }
     

@@ -29,7 +29,8 @@ router.post('/profile-upload', UserCtrl.authMiddleware, function(req, res){
     singleUpload(req, res, function(err){
     if (err)
     {
-        return res.status(422).send({errors: [{title: 'Invalid file type', detail: err.message}]})
+        console.log(err)
+        return res.status(200).send({errors: [{title: 'Invalid file type', detail: err.message}]})
     }
     return res.json({'imageUrl': req.file.filename});
     });

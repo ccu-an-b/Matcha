@@ -45,10 +45,15 @@ export const fetchUserByKey = (userKey) => {
 
   return function (dispatch) {
     dispatch(fetchUserByKeyInit());
-
-    axios.get(`/api/v1/user/activate/${userKey}`).then((user) => {
-      dispatch(fetchUserByKeySuccess(user.data[0]));
-    });
+    axiosInstance.get(`user/activate/${userKey}`)
+    .then((res) => {
+      if (res.data.errors)
+          throw (res.data.errors)
+      dispatch(fetchUserByKeySuccess(res.data[0]));
+    })
+    .catch((response) => {
+      return dispatch(loginFailure([response[0]]))
+    })
   }
 }
 

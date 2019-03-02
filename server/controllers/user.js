@@ -19,13 +19,13 @@ const errorMessages = {
 
 exports.activate = function (req, res) {
     const userKey = req.params.key;
-
+    
     return User.user_select('key', userKey)
         .then((result) => {
             User.user_set_active(result[0].id)
             return res.json(result)
         })
-        .catch(() => { return res.status(422).send({ errors: errorMessages.wrongIdentification }) })
+        .catch(() => { return res.status(200).send({ errors: errorMessages.wrongIdentification }) })
 }
 
 exports.auth = function (req, res) {
