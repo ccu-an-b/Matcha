@@ -8,7 +8,7 @@ import * as actions from 'actions';
 import userService from 'services/user-service';
 
 export class Password extends React.Component {
-
+    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -18,15 +18,25 @@ export class Password extends React.Component {
             keyExist: true
         }
     }
-    componentWillMount(){
+    componentDidMount(){
+        const { isAuth } = this.props.auth;
         const activationKey = this.props.match.params.key;
-        if (activationKey){
+        this._isMounted = true;
+        
+        if (activationKey && this._isMounted && !isAuth ){
             return userService.getFromKey({key : activationKey })
                 .then((res) => {
                     if (res.error)
-                        this.setState({keyExist: false})
+                    {
+                        if (this._isMounted)
+                            this.setState({keyExist: false})
+                    }
                 })
         }
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
     
     changePassword = (userData) =>{

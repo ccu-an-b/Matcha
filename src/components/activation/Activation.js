@@ -7,7 +7,7 @@ import * as actions from 'actions';
 import userService from 'services/user-service';
 
 export class Activation extends React.Component {
-
+    _isMounted = false;
     constructor() {
         super();
         this.state = {
@@ -18,7 +18,8 @@ export class Activation extends React.Component {
     }
     componentWillMount(){
         const activationKey = this.props.match.params.key;
-
+        this._isMounted = true;
+        
         if (activationKey){
             return userService.getFromKey({key : activationKey })
                 .then((res) => {
@@ -26,10 +27,17 @@ export class Activation extends React.Component {
                         throw res.error
                     this.props.dispatch(actions.fetchUserByKey(activationKey));
                 })
-                .catch(() => this.setState({keyExist: false}))
+                .catch(() => {
+                    if (this._isMounted)
+                            this.setState({keyExist: false})
+                })
         }
     }
     
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+
     logInUser = userData =>{
         this.props.dispatch(actions.login(userData));
     }
