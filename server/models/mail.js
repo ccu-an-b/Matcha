@@ -1,8 +1,8 @@
 const   nodemailer = require('nodemailer');
 
-function activation_mail(username, email, key){
+function activation_mail(host, username, email, key){
 
-    var link = "http://localhost:3000/activation/"+key;
+    var link = `http://${host}/activation/${key}`;
     var subject = "Welcome to Matcha";
     var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
                     '<tr><td align="center" valign="top">' +
@@ -18,9 +18,9 @@ function activation_mail(username, email, key){
     send_mail(email, subject,body);
 }
 
-function report_mail( email, key){
+function report_mail( host, email, key){
 
-    var link = "http://localhost:3000/activation/"+key;
+    var link = `http://${host}/activation/${key}`;
     var subject = "Matcha: you've been report";
     var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
                     '<tr><td align="center" valign="top">' +
@@ -36,9 +36,9 @@ function report_mail( email, key){
     send_mail(email, subject,body);
 }
 
-function password_mail(username, email, key){
+function password_mail(host,username, email, key){
 
-    var link = "http://localhost:3000/password/"+key;
+    var link = `http://${host}/password/${key}`;
     var subject = "Matcha: forgotten password";
     var body = '<table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>' +
                     '<tr><td align="center" valign="top">' +
@@ -55,6 +55,7 @@ function password_mail(username, email, key){
 }
 
 function send_mail(email, subject, body){
+
     let transporter = nodemailer.createTransport();
     var mailOptions = {
     from: 'matcha@no-reply.com',

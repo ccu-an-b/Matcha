@@ -74,7 +74,7 @@ function user_new(req, res) {
             return db.get_database(query)
         })
         .then((result) => {
-            Mail.activation_mail(username, mail, result[0].key)
+            Mail.activation_mail(req.headers.host,username, mail, result[0].key)
             user_new_tables(result[0].id)
             return res.status(200).send({ success: [{ title: 'User created', detail: 'You created a new user' }] });
         })

@@ -166,7 +166,7 @@ function user_forgotten_password(req, res){
         .then((result) =>{
             if (result.length < 1)
                 throw {error: [{title: "wrongIdentification" , detail: "Mail provided doesn't exist"}] } 
-            MailMod.password_mail(result[0].username, mail, result[0].key)
+            MailMod.password_mail(req.headers.host, result[0].username, mail, result[0].key)
             return res.status(200).send({success: [{title: "emailSent" , detail: "Cool"}]})
         })
         .catch((err) => res.status(200).send(err))
