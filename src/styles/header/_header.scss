@@ -565,6 +565,10 @@ header {
     visibility: visible;
     max-height: 250px;
   }
+  header nav.my-nav .notification-bubble {
+    color: $main-orange;
+    background-color: white;
+  }
 }
 @media screen and (max-width: 540px){
   header nav.my-nav .my-search.active form .search-filter

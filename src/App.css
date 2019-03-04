@@ -451,7 +451,10 @@ header {
   header .my-dropdown {
     margin-left: -65px;
     visibility: visible;
-    max-height: 250px; } }
+    max-height: 250px; }
+  header nav.my-nav .notification-bubble {
+    color: #E83114;
+    background-color: white; } }
 
 @media screen and (max-width: 540px) {
   header nav.my-nav .my-search.active form .search-filter {

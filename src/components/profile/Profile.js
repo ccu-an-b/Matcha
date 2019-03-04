@@ -39,7 +39,7 @@ class Profile extends React.Component {
     if (usernameNew !== usernameOld){
       this.setState({isLoading: true})
       this.updateProfile(usernameNew)
-      this.setState({usernameNew})
+      this.setState({username: usernameNew})
     }
   }
   updateProfile(username){
