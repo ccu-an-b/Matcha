@@ -89,17 +89,7 @@ class Header extends React.Component {
                     this.setState({ newMessages: total })
                 }
             })
-            .catch((err) => console.log(err));
     }
-
-    // componentDidMount() {
-    //     if (authService.isAuthentificated()){
-    //         this.upDateMessageRead();
-    //         socket.on('RECEIVE_NOTIFICATION', () => {
-    //                 this.upDateMessageRead()
-    //         });
-    //     }
-    // }
 
     render() {
         const { username } = this.props.auth;

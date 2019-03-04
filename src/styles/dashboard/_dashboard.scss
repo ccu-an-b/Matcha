@@ -77,7 +77,6 @@
           box-shadow: 0px 2px 12px -4px rgba(0, 0, 0, 0.5);
           &:after{
             background-color: $main-dark-purple;
-            //background-color:transparent;
             width: 130px;
             transform: rotate(-8deg) skewX(0deg);
             opacity: 0.6;
@@ -90,7 +89,6 @@
           }
           &:before{
             background-color:$main-orange;
-            //background-color:transparent;
             width: 130px;
             transform: rotate(-14deg) skewX(0deg);
             opacity: 0.6;
@@ -293,7 +291,6 @@
     }
     &:before{
       background-color:$main-orange;
-      //background-color:transparent;
       width: 450px;
       transform: rotate(-14deg) skewX(0deg);
       opacity: 0.6;

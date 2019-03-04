@@ -15,7 +15,6 @@ function get_room_messages(req, res) {
 function count_unread_room_messages(req, res) {
     const { userId } = res.locals.user;
     const query = {
-        // text: `SELECT room_id, COUNT(*) FROM messages WHERE read = 0 AND user_for_id = $1 GROUP BY room_id;`,
         text: `SELECT room_id, read as count FROM notifications_messages WHERE read != 0 AND user_id = $1 `,       
         values: [userId]
     }

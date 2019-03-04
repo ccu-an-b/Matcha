@@ -220,7 +220,7 @@ export const sort_profiles = (profiles, category, order) =>{
             result = sort_by_suggestion(profiles, order)
             break;
         default:
-            console.log("test");
+            result = sort_by_username(profiles, order)
     }
     return result;
 }

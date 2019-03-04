@@ -1,6 +1,5 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-// import {imgPath, imagesLoaded} from 'helpers';
 import {Link} from 'react-router-dom';
 
 function escapeRegexCharacters(str) {
@@ -13,7 +12,6 @@ function getSuggestionValue(suggestion) {
 
 function renderSectionTitle(section) {
   return (
-    // <strong>{section.title}</strong>
     <strong></strong>
   );
 }

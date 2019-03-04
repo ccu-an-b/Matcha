@@ -43,7 +43,6 @@ io.on('connection', socket => {
   socket.on('CONNECT_TO_ROOM', function (room) {
     socket.room = room;
     socket.join(room);
-    // console.log("user id " + userId + " joined " + socket.room);
   });
 
 })
