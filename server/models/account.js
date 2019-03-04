@@ -126,9 +126,12 @@ function user_update_delete(req, res){
                 }, {
                     text: `DELETE from notifications WHERE user_id = $1 OR user_from_id = $1`,
                     values: [userId]
+                }, {
+                    text: `DELETE from notifications_messages WHERE user_id = $1 OR user_from_id = $1`,
+                    values: [userId]
                 },
                 {
-                    text: `DELETE from messages WHERE user_from_id = $1 OR user_for_id = $1)`,
+                    text: `DELETE from messages WHERE user_from_id = $1 OR user_for_id = $1`,
                     values: [userId]
                 }]
                 for (var i = 0; i < query.length; i++)
