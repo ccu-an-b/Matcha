@@ -4,7 +4,7 @@ import Modal from '../shared/modal/Modal';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from 'actions';
-
+import userService from 'services/user-service';
 
 export class Activation extends React.Component {
 
@@ -13,12 +13,21 @@ export class Activation extends React.Component {
         this.state = {
             errors:[],
             success: [],   
+            keyExist: true
         }
     }
     componentWillMount(){
         const activationKey = this.props.match.params.key;
-        if (activationKey)
-            this.props.dispatch(actions.fetchUserByKey(activationKey));
+
+        if (activationKey){
+            return userService.getFromKey({key : activationKey })
+                .then((res) => {
+                    if (res.error)
+                        throw res.error
+                    this.props.dispatch(actions.fetchUserByKey(activationKey));
+                })
+                .catch(() => this.setState({keyExist: false}))
+        }
     }
     
     logInUser = userData =>{
@@ -29,11 +38,11 @@ export class Activation extends React.Component {
         const { isAuth, errors} = this.props.auth;
         const userActivate = this.props.userActivate;
 
-        if (isAuth || this.state.errors){
+        if (isAuth)
+        {
             return <Redirect to={{pathname: '/dashboard'}} />
         }
-    
-        else if(userActivate && this.props.match.params.key ) 
+        else if(userActivate && this.props.match.params.key && this.state.keyExist) 
         {
             return (
                 <div className="landing-body">
@@ -52,7 +61,7 @@ export class Activation extends React.Component {
                 
             )
         }
-        else if(this.props.match.params.key )
+        else if(!this.props.match.params.key || !this.state.keyExist)
         {
             return <Redirect to={{pathname: '/'}} />
         }  

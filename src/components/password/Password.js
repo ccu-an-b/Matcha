@@ -21,7 +21,7 @@ export class Password extends React.Component {
     componentWillMount(){
         const activationKey = this.props.match.params.key;
         if (activationKey){
-            return userService.getFromKey({key : this.props.match.params.key })
+            return userService.getFromKey({key : activationKey })
                 .then((res) => {
                     if (res.error)
                         this.setState({keyExist: false})

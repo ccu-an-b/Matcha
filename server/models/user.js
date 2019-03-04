@@ -354,7 +354,7 @@ function user_get_from_key(req, res) {
     return user_select('key', key)
         .then((result) => {
             if (result.length < 1)
-                throw {error: [{title: "wrongIdentification" , detail: "User doesn't exist"}] } 
+                throw {error: [{title: "wrongKey" , detail: "The link you provided is deprecated"}] } 
             return res.status(200).send({ success: [{ title: 'User exists', detail: 'User exists'}] })
         })
         .catch((err) => res.status(200).send(err))
